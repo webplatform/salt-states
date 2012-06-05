@@ -16,4 +16,4 @@
     - source: salt://sudo/sudoers
     - user: root
     - group: root
-    - mode: 0400
+    - mode: 0256
