@@ -1,0 +1,28 @@
+<VirtualHost *:80>
+        ServerAdmin noc@webplatform.org
+
+        DocumentRoot /var/www
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+        <Directory /var/www/>
+                Options FollowSymLinks
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        ErrorLog /var/log/apache2/error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog /var/log/apache2/access.log combined
+
+	# MediaWiki
+	Alias /d /srv/webplatform/wiki/current
+	Alias /docs /srv/webplatform/wiki/current/index.php
+
+</VirtualHost>
