@@ -5,6 +5,7 @@ laner:
   user:
     - present
     - home: /home/laner
+    - shell: /bin/bash
     - uid: 1001
     - gid: 1001
     - groups:
@@ -31,6 +32,7 @@ shepazu:
   user:
     - present
     - home: /home/shepazu
+    - shell: /bin/bash
     - uid: 1002
     - gid: 1002
     - groups:
