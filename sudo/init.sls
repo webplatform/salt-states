@@ -8,4 +8,4 @@
     - template: jinja
     - context:
       groupname: "ops"
-      privileges: "ALL=(ALL) ALL"
+      privileges: "ALL = NOPASSWD: ALL"
