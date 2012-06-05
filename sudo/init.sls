@@ -4,7 +4,7 @@
     - source: salt://sudo/group
     - user: root
     - group: root
-    - mode: 0400
+    - mode: 440
     - template: jinja
     - context:
       groupname: "ops"
@@ -16,4 +16,4 @@
     - source: salt://sudo/sudoers
     - user: root
     - group: root
-    - mode: 0256
+    - mode: 440 
