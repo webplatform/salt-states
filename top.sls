@@ -4,6 +4,7 @@ base:
     - groups
     - sudo
     - git
+    - network
     - dhcp
     - dns
   'app*':
