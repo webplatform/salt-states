@@ -27,6 +27,7 @@ $wgSitename      = "WebPlatform Docs";
 ## http://www.mediawiki.org/wiki/Manual:Short_URL
 $wgScriptPath       = "/d";
 $wgScriptExtension  = ".php";
+$wgArticlePath = '/docs/$1';
 
 ## The protocol and server name to use in fully-qualified URLs
 $wgServer           = "http://15.185.104.231";

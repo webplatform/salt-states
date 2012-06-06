@@ -4,6 +4,8 @@ base:
     - groups
     - sudo
     - git
+    - dhcp
+    - dns
   'app*':
     - mediawiki
     - mediawiki.scaler
