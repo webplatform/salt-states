@@ -21,6 +21,8 @@
 
         CustomLog /var/log/apache2/access.log combined
 
+	RedirectMatch ^/$ http://webplatform.org/docs/
+
 	# MediaWiki
 	Alias /d /srv/webplatform/wiki/current
 	Alias /docs /srv/webplatform/wiki/current/index.php

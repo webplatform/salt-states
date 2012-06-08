@@ -30,7 +30,7 @@ $wgScriptExtension  = ".php";
 $wgArticlePath = '/docs/$1';
 
 ## The protocol and server name to use in fully-qualified URLs
-$wgServer           = "http://15.185.104.231";
+$wgServer           = "http://webplatform.org";
 
 ## The relative URL path to the skins directory
 $wgStylePath        = "$wgScriptPath/skins";
@@ -127,7 +127,7 @@ $wgGroupPermissions['*']['createaccount'] = false;
 $wgGroupPermissions['*']['edit'] = false;
 
 ## Shared memory settings
-$wgMemCachedServers = array( '10.4.207.64:11211' );
+$wgMemCachedServers = array( '10.4.207.64:11211', '10.4.207.63:11211' );
 $wgMainCacheType    = CACHE_MEMCACHED;
 $wgParserCacheType = CACHE_MEMCACHED;
 $wgMessageCacheType = CACHE_MEMCACHED;
