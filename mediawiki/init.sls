@@ -1,17 +1,20 @@
 include:
   - apache
-  - apache.rewrite
-  - apache.ssl
   - php.mediawiki
   - fonts
   - mysql
 
+{% from "apache/module.sls" import a2mod %}
+{{ a2mod('ssl', true) }}
+{{ a2mod('rewrite', true) }}
+
 # Initial install of MediaWiki via states
 {% for slot in ['current','test'] %}
-salt-call cp.get_dir salt://code/docs/{{ slot }} /srv/webplatform/wiki
+install-mediawiki-{{ slot }}:
   cmd:
     - run
-    - unless: [ -d "/srv/webplatform/wiki/{{ slot }}" ]
+    - name: salt-call state.sls mediawiki.docs_{{ slot }}
+    - unless: test -d /srv/webplatform/wiki/{{ slot }}
 
 /srv/webplatform/wiki/{{ slot }}/cache:
   file.directory:
@@ -19,7 +22,7 @@ salt-call cp.get_dir salt://code/docs/{{ slot }} /srv/webplatform/wiki
     - user: www-data
     - group: www-data
     - require:
-      - file: /srv/webplatform/wiki/{{ slot }}
+      - cmd: install-mediawiki-{{ slot }}
 {% endfor %}
 
 # Always manage Settings file via states
