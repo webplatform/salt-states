@@ -5,8 +5,8 @@ include:
   - mysql
 
 {% from "apache/module.sls" import a2mod %}
-{{ a2mod('ssl', true) }}
-{{ a2mod('rewrite', true) }}
+{{ a2mod('ssl') }}
+{{ a2mod('rewrite') }}
 
 # Initial install of MediaWiki via states
 {% for slot in ['current','test'] %}
@@ -24,14 +24,6 @@ install-mediawiki-{{ slot }}:
     - require:
       - cmd: install-mediawiki-{{ slot }}
 {% endfor %}
-
-# Always manage Settings file via states
-/srv/webplatform/wiki/Settings.php:
-  file.managed:
-    - source: salt://mediawiki/Settings.php
-    - user: root
-    - group: www-data
-    - mode: 440
 
 ## We can manage MediaWiki via git and branches, or tags, if we'd like
 #{% for slot,branch in {'current': 'wmf/1.20wmf3','test': 'wmf/1.20wmf3' }.items() %}
