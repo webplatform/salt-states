@@ -13,6 +13,12 @@
                 allow from all
         </Directory>
 
+	<Directorymatch "^/.*/\.git/">
+		Order deny,allow
+		deny from all
+	</Directorymatch>
+
+
         ErrorLog /var/log/apache2/error.log
 
         # Possible values include: debug, info, notice, warn, error, crit,
