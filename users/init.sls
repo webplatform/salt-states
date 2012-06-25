@@ -45,9 +45,17 @@ shepazu:
 
 AAAAB3NzaC1yc2EAAAABIwAAAQEAs9jNBiTGPRAwaJV+XDlPU2AI+B8Z0JXVXFVKDorgdBdGHJdedVVqT3lBIoATNhOCKGZX4xNWcO1NVK7demguHBem7uDfPFASBER6ZKF7EauXf9axMM/nk5x6vgZtejFjeZbwrpxFIkiESlvDdwXNbKI7rT5vYybrhY3YCLCwRo9HLSLdANH5P4XvVcMenyEFG6HXEf9n7jqXOJoPgPetW26sJlBp0tRXvpPgpiLuE/lLJzMxKI8t0+87JOYyb0ARHD8dCQRpBSkR3KsyLhivlMI1ZAXQ5ctwZnuyytjYDDaxDo9t0JSpq6XwsxcNQBZhnHam1BkkuKM2tzYKr+WIyw==:
   ssh_auth:
+    - absent
+    - user: shepazu
+    - enc: ssh-rsa
+    - require:
+      - user: shepazu
+
+AAAAB3NzaC1yc2EAAAADAQABAAABAQDhull02mfjHWnCJjzBcDH25odEYue0a6bkKM1woyFWvl8KdUSzlLbhD3/8itxXcDC185e+rKBgIza1lMgB0dMhc+dv5Ph0OshX4QaYeQHSWsa4dwIdZP41NoHTppFcPJNLg/CreJC0no/TQmXQ/i6P3Ne7QQYJh/YKu9kM1UB0+LuNhnB9UDslDIZyEGKynqeVqdLgu7rRCqcBG/ldY439nwDI4QKxGw10qafKYyN196volv5BD5K6GAvHRv5FGf+yWDJ2vWsZWqvXraoZP/gEaWawVC5ddp4eg/o+bx91mIkHJTy4uGquCy/vTE3ZZAf1XX6ZZovpNaoCh17TtU63:
+  ssh_auth:
     - present
     - user: shepazu
     - enc: ssh-rsa
-    - comment: schepers@dhcp-guest-sjc17-128-107-24-134.cisco.com
+    - comment: shepazu@unknown109adde84c2e
     - require:
       - user: shepazu
