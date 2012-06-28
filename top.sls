@@ -7,6 +7,7 @@ base:
     - network
     - dhcp
     - dns
+    - mail
   'app*':
     - mediawiki
     - mediawiki.scaler
