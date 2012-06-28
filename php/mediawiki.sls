@@ -10,7 +10,6 @@ php-mediawiki:
       - php5-mysql
       - php5-xmlrpc
       - php5-intl
-      - php5-memcache
 
 /etc/php5/conf.d/apc.ini:
   file.managed:

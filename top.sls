@@ -15,3 +15,5 @@ base:
     - apache.webplatform
   'db*':
     - mysql.server
+  'deployment*':
+    - mediawiki.deployment
