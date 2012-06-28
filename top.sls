@@ -18,3 +18,4 @@ base:
     - mysql.server
   'deployment*':
     - mediawiki
+    - rsyncd
