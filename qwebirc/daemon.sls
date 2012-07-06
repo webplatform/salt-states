@@ -1,3 +1,6 @@
+include:
+  - apache.proxy
+
 /etc/init.d/qwebirc:
   file.managed:
     - source: salt://qwebirc/qwebirc.init

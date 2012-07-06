@@ -31,4 +31,9 @@
 	Alias /d /srv/webplatform/wiki/current
 	Alias /docs /srv/webplatform/wiki/current/index.php
 
+	RedirectMatch ^/talk$ http://webplatform.org/talk/
+
+	ProxyPass /talk http://localhost:9090 retry=0
+	ProxyPass /talk/ http://localhost:9090/ retry=0
+
 </VirtualHost>
