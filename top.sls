@@ -9,6 +9,7 @@ base:
     - dns
     - mail
     - mercurial
+    - svn
   'app*':
     - mediawiki
     - mediawiki.appserver
