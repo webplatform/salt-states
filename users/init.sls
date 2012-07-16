@@ -81,3 +81,30 @@ yaron_keys:
       - user: yaron
     - names:
       - AAAAB3NzaC1kc3MAAACBANKwx1cjjw732LqBBokF3eQQ5jUaMWKPw0j8wQdY3FeoFekQweTV9QKWlpncJXoS5Z9tAFYxC4vCNtJ5kx00WJIlGZtXNdRcNwYZ7eWLPcOydXzAVJI98YxYH4sHf51m4Aegs2Vi23fYnuyfasSXWPoZYBk5l3XyKruaKYDjzEg3AAAAFQD4iNRsG3OGs79mDwcNlJkjKtfHfQAAAIBsmsIa3EOgKIqIFyrysBJFbAx2zcG24v5vv137WncpKHC9FLxclai+/lMxLWllLgVQilddqr7ZGJh6HompHyfSDx+neCIbEll/jhaNmyB023Ujy/CbtX6Wx1Eru0nOSLbJAE38XmyA2jjoMVK3cZxgpQsQNqftQmPK5tobU13NlQAAAIBNkQA1QGhD2JPcd62UlALy4/Qb1yikz1EuuDrI6TXmaZ81ixW4WM8oG0uKrjCjyrAV2uKgDzRvsV8AqYBD6Er79O6XbQL5fFam+OGqiliEVml+2lGEJqNMwORlJhQvjCa61Z5puR2SeEm7QQbv+O/UU6eF/COEyEhTznjAuZIofA== ngrandy@server.discoursedb.org
+
+cjgammon:
+  group:
+    - present
+    - gid: 1004
+  user:
+    - present
+    - home: /home/cjgammon
+    - shell: /bin/bash
+    - uid: 1004
+    - gid: 1004
+    - groups:
+      - ops
+      - deployment
+    - require:
+      - group: cjgammon
+      - group: ops
+      - group: deployment
+
+AAAAB3NzaC1yc2EAAAADAQABAAABAQC0jpRjfJ7/gjbLijYnKOt7/oTZDw+LeRg7wVejdUfVH+vS8U5Q+hOhR7wMZGFFwBqPNHTMOJRbiTPE5ng+jIsgkNy9O4y7yMGIGJqGQjVtpzDWnvbaki/K8Vbx/+k0xhEelZDipS2n0w0pcOBiJUrfmqeksQUvEyySfpQ1JdwNLwQtLghh68C923EeG3SZlGxRwnSmYQeVJPTl5gBXNKm4U/lnS0AcwbtCU1qp3ziz57s6OF6m+i/kfcmgM2Nmk914Q//kgmSjb5imfMxhH0Dfa1k6FCgpF94+pdprOSNVD7lLcacuDQP5yOw/fDmDi/QWmsPY/QTFzKOtNPwuG5Y5:
+  ssh_auth:
+    - present
+    - user: cjgammon
+    - enc: ssh-rsa
+    - comment: GitHub@cjgammon
+    - require:
+      - user: cjgammon
