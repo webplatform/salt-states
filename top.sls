@@ -18,9 +18,13 @@ base:
     - apache.webplatform
     - qwebirc
     - qwebirc.daemon
+    - glusterfs
   'db*':
     - mysql.server
   'deployment*':
     - mediawiki
     - rsyncd
     - qwebirc
+  'storage*':
+    - glusterfs
+    - glusterfs.server

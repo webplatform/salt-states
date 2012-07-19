@@ -1,10 +1,7 @@
 laner:
-  group:
-    - present
+  group.present:
     - gid: 1001
-  user:
-    - present
-    - home: /home/laner
+  user.present:
     - shell: /bin/bash
     - uid: 1001
     - gid: 1001
@@ -26,12 +23,9 @@ AAAAB3NzaC1yc2EAAAADAQABAAABAQD6lKom1wW/TQzxv2t8xOezDhR/imfMKge35SiHDnau/L+Dtl6H
       - user: laner
 
 shepazu:
-  group:
-    - present
+  group.present:
     - gid: 1002
-  user:
-    - present
-    - home: /home/shepazu
+  user.present:
     - shell: /bin/bash
     - uid: 1002
     - gid: 1002
@@ -55,12 +49,9 @@ shepazu_keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDhull02mfjHWnCJjzBcDH25odEYue0a6bkKM1woyFWvl8KdUSzlLbhD3/8itxXcDC185e+rKBgIza1lMgB0dMhc+dv5Ph0OshX4QaYeQHSWsa4dwIdZP41NoHTppFcPJNLg/CreJC0no/TQmXQ/i6P3Ne7QQYJh/YKu9kM1UB0+LuNhnB9UDslDIZyEGKynqeVqdLgu7rRCqcBG/ldY439nwDI4QKxGw10qafKYyN196volv5BD5K6GAvHRv5FGf+yWDJ2vWsZWqvXraoZP/gEaWawVC5ddp4eg/o+bx91mIkHJTy4uGquCy/vTE3ZZAf1XX6ZZovpNaoCh17TtU63 shepazu@unknown109adde84c2e
 
 yaron:
-  group:
-    - present
+  group.present:
     - gid: 1003
-  user:
-    - present
-    - home: /home/yaron
+  user.present:
     - shell: /bin/bash
     - uid: 1003
     - gid: 1003
@@ -83,12 +74,9 @@ yaron_keys:
       - AAAAB3NzaC1kc3MAAACBANKwx1cjjw732LqBBokF3eQQ5jUaMWKPw0j8wQdY3FeoFekQweTV9QKWlpncJXoS5Z9tAFYxC4vCNtJ5kx00WJIlGZtXNdRcNwYZ7eWLPcOydXzAVJI98YxYH4sHf51m4Aegs2Vi23fYnuyfasSXWPoZYBk5l3XyKruaKYDjzEg3AAAAFQD4iNRsG3OGs79mDwcNlJkjKtfHfQAAAIBsmsIa3EOgKIqIFyrysBJFbAx2zcG24v5vv137WncpKHC9FLxclai+/lMxLWllLgVQilddqr7ZGJh6HompHyfSDx+neCIbEll/jhaNmyB023Ujy/CbtX6Wx1Eru0nOSLbJAE38XmyA2jjoMVK3cZxgpQsQNqftQmPK5tobU13NlQAAAIBNkQA1QGhD2JPcd62UlALy4/Qb1yikz1EuuDrI6TXmaZ81ixW4WM8oG0uKrjCjyrAV2uKgDzRvsV8AqYBD6Er79O6XbQL5fFam+OGqiliEVml+2lGEJqNMwORlJhQvjCa61Z5puR2SeEm7QQbv+O/UU6eF/COEyEhTznjAuZIofA== ngrandy@server.discoursedb.org
 
 cjgammon:
-  group:
-    - present
+  group.present:
     - gid: 1004
-  user:
-    - present
-    - home: /home/cjgammon
+  user.present:
     - shell: /bin/bash
     - uid: 1004
     - gid: 1004

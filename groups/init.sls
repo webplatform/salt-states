@@ -1,9 +1,7 @@
 ops:
-  group:
-    - present
+  group.present:
     - gid: 10000
 
 deployment:
-  group:
-    - present
+  group.present:
     - gid: 10001

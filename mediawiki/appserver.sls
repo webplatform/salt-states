@@ -23,6 +23,20 @@ install-mediawiki-{{ slot }}:
       - cmd: install-mediawiki-{{ slot }}
 {% endfor %}
 
+# Mount point for the glusterfs filesystem
+/srv/webplatform/wiki/images:
+  mount.mounted:
+    - device: 10.5.152.98:/images
+    - fstype: glusterfs
+    - mkmnt: True
+    - opts:
+      - defaults
+      - _netdev=eth0
+      - log-level=WARNING
+      - log-file=/var/log/gluster.log
+    - require:
+      - pkg: glusterfs-client
+
 ## We can manage MediaWiki via git and branches, or tags, if we'd like
 #{% for slot,branch in {'current': 'wmf/1.20wmf3','test': 'wmf/1.20wmf3' }.items() %}
 #git clone https://gerrit.wikimedia.org/r/p/mediawiki/core.git {{ slot }}:
