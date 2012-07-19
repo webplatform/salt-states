@@ -28,6 +28,10 @@
         CustomLog /var/log/apache2/access.log combined
 
 	# MediaWiki
+	<Directory /srv/webplatform/wiki/images>
+		Options -Indexes
+	</Directory>
+	Alias /d/images /srv/webplatform/wiki/images
 	Alias /d /srv/webplatform/wiki/current
 	Alias /docs /srv/webplatform/wiki/current/index.php
 
