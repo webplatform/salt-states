@@ -1,8 +1,10 @@
-glusterfs-server:
+glusterd:
   pkg:
     - installed
   service:
     - running
     - enable: True
-    - requires:
-      - pkg: glusterfs-server
+    - require:
+      - pkg: glusterd
+  require:
+    - cmd.run: glusterfs-ppa

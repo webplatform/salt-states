@@ -28,3 +28,4 @@ base:
   'storage*':
     - glusterfs
     - glusterfs.server
+    - xfs

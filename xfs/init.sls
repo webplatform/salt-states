@@ -1,5 +1,5 @@
 xfs-utils:
-  pkg.install:
+  pkg.installed:
     - names:
       - xfsprogs
       - xfsdump
