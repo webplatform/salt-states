@@ -36,6 +36,9 @@ install-mediawiki-{{ slot }}:
       - log-file=/var/log/gluster.log
     - require:
       - pkg: glusterfs-client
+  file.directory:
+    - user: www-data
+    - group: www-data
 
 ## We can manage MediaWiki via git and branches, or tags, if we'd like
 #{% for slot,branch in {'current': 'wmf/1.20wmf3','test': 'wmf/1.20wmf3' }.items() %}
