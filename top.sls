@@ -1,31 +1,42 @@
 base:
   '*':
-    - users
-    - groups
-    - sudo
-    - git
-    - network
     - dhcp
     - dns
+    - git
+    - groups
+    - hosts
+    - network
     - mail
     - mercurial
     - subversion
+    - sudo
+    - users
   'app*':
+    - apache.webplatform
+    - glusterfs
     - mediawiki
     - mediawiki.appserver
     - mediawiki.scaler
     - memcached
-    - apache.webplatform
     - qwebirc
     - qwebirc.daemon
-    - glusterfs
+  'backup*':
+    - backup
+    - backup.master
   'db*':
+    - backup.mediawiki_db
     - mysql.server
+    - rsync
   'deployment*':
+    - backup.mediawiki_xml
+    - backup.mediawiki_images
+    - backup.salt_master
+    - glusterfs
     - mediawiki
-    - rsyncd
     - qwebirc
+    - rsync
   'storage*':
     - glusterfs
     - glusterfs.server
+    - glusterfs.images_volume
     - xfs
