@@ -4,10 +4,10 @@ laner:
   user.present:
     - shell: /bin/bash
     - uid: 1001
-    - gid: 1001
+    - gid: 10001
     - groups:
       - ops
-      - deployment
+      - laner
     - require:
       - group: laner
       - group: ops
@@ -28,10 +28,10 @@ shepazu:
   user.present:
     - shell: /bin/bash
     - uid: 1002
-    - gid: 1002
+    - gid: 10001
     - groups:
       - ops
-      - deployment
+      - shepazu
     - require:
       - group: shepazu
       - group: ops
@@ -54,10 +54,10 @@ yaron:
   user.present:
     - shell: /bin/bash
     - uid: 1003
-    - gid: 1003
+    - gid: 10001
     - groups:
       - ops
-      - deployment
+      - yaron
     - require:
       - group: yaron
       - group: ops
@@ -79,10 +79,10 @@ cjgammon:
   user.present:
     - shell: /bin/bash
     - uid: 1004
-    - gid: 1004
+    - gid: 10001
     - groups:
       - ops
-      - deployment
+      - cjgammon
     - require:
       - group: cjgammon
       - group: ops
@@ -112,10 +112,10 @@ leaverou:
   user.present:
     - shell: /bin/bash
     - uid: 1005
-    - gid: 1005
+    - gid: 10001
     - groups:
       - ops
-      - deployment
+      - leaverou
     - require:
       - group: leaverou
       - group: ops
@@ -136,10 +136,10 @@ jkomoros:
   user.present:
     - shell: /bin/bash
     - uid: 1006
-    - gid: 1006
+    - gid: 10001
     - groups:
       - ops
-      - deployment
+      - jkomoros
     - require:
       - group: jkomoros
       - group: ops
