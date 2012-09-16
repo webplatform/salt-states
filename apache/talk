@@ -1,6 +1,6 @@
 <VirtualHost *:80>
         ServerAdmin noc@webplatform.org
-	ServerName webplatform.org
+	ServerName talk.webplatform.org
 
         DocumentRoot /var/www
         <Directory />
@@ -32,13 +32,8 @@
 	<Directory /srv/webplatform/wiki/images>
 		Options -Indexes
 	</Directory>
-	RewriteEngine on
-	RewriteRule   ^/docs/(.+)  http://docs.webplatform.org/wiki/$1  [R,L]
-	RedirectMatch ^/docs/?$ http://docs.webplatform.org/wiki/
-	RedirectMatch ^/wiki/?$ http://docs.webplatform.org/wiki/
+	RedirectMatch ^/chat$ http://talk.webplatform.org/chat/
 
-	RedirectMatch ^/talk/?$ http://webplatform.org/chat/
-	RedirectMatch ^/chat$ http://webplatform.org/chat/
 	ProxyPass /chat !
 	ProxyPass /chat/ http://localhost:9090/ retry=0
 
