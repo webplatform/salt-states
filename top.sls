@@ -13,6 +13,8 @@ base:
     - users
   'app*':
     - apache.webplatform
+    - apache.docs
+    - apache.talk
     - glusterfs
     - mediawiki
     - mediawiki.appserver
@@ -35,6 +37,7 @@ base:
     - mediawiki
     - qwebirc
     - rsync
+    - environment
   'storage*':
     - glusterfs
     - glusterfs.server
