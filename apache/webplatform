@@ -39,7 +39,6 @@
 
 	RedirectMatch ^/talk/?$ http://webplatform.org/chat/
 	RedirectMatch ^/chat$ http://webplatform.org/chat/
-	ProxyPass /chat !
 	ProxyPass /chat/ http://localhost:9090/ retry=0
 
 </VirtualHost>
