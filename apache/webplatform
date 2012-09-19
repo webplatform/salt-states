@@ -19,7 +19,6 @@
 		deny from all
 	</Directorymatch>
 
-
         ErrorLog /var/log/apache2/error.log
 
         # Possible values include: debug, info, notice, warn, error, crit,
@@ -27,6 +26,10 @@
         LogLevel warn
 
         CustomLog /var/log/apache2/access.log combined
+
+	Alias /index.html /srv/webplatform/nonshared/webplatform/index.html
+	Alias /logo /srv/webplatform/nonshared/webplatform/logo
+	Alias /stewards /srv/webplatform/nonshared/webplatform/stewards
 
 	# MediaWiki
 	<Directory /srv/webplatform/wiki/images>
