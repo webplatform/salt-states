@@ -15,6 +15,7 @@ base:
     - apache.webplatform
     - apache.docs
     - apache.talk
+    - apache.stats
     - glusterfs
     - mediawiki
     - mediawiki.appserver
@@ -22,6 +23,7 @@ base:
     - memcached
     - qwebirc
     - qwebirc.daemon
+    - piwik
   'backup*':
     - backup
     - backup.master
