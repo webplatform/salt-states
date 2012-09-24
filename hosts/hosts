@@ -1,6 +1,9 @@
 127.0.0.1 localhost
 10.4.207.64	app1.webplatform.org app1
 10.4.207.63	app2.webplatform.org app2
+10.5.7.77	app3.webplatform.org app3
+10.5.7.79	app4.webplatform.org app4
+10.5.7.43	app5.webplatform.org app5
 10.5.240.174	backup.webplatform.org backup
 10.5.240.3	deployment.webplatform.org deployment
 10.4.207.83	db1.webplatform.org db1
