@@ -1,0 +1,32 @@
+<VirtualHost *:80>
+        ServerAdmin noc@webplatform.org
+	ServerName blog.webplatform.org
+
+        DocumentRoot /var/www
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+        <Directory /var/www/>
+                Options FollowSymLinks
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+
+	<Directorymatch "^/.*/\.git/">
+		Order deny,allow
+		deny from all
+	</Directorymatch>
+
+
+        ErrorLog syslog:local1
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog /var/log/apache2/access.log combined
+
+        Alias / /srv/webplatform/blog/current/
+</VirtualHost>
