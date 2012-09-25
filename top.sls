@@ -47,4 +47,5 @@ base:
     - glusterfs
     - glusterfs.server
     - glusterfs.images_volume
+    - glusterfs.appstorage
     - xfs
