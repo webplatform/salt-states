@@ -12,6 +12,8 @@ base:
     - sudo
     - users
     - syslog
+    - lvm
+    - xfs
   'app*':
     - apache.webplatform
     - apache.docs
@@ -48,4 +50,3 @@ base:
     - glusterfs.server
     - glusterfs.images_volume
     - glusterfs.appstorage
-    - xfs
