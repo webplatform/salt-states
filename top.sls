@@ -11,11 +11,13 @@ base:
     - subversion
     - sudo
     - users
+    - syslog
   'app*':
     - apache.webplatform
     - apache.docs
     - apache.talk
     - apache.stats
+    - apache.blog
     - glusterfs
     - mediawiki
     - mediawiki.appserver
@@ -40,6 +42,7 @@ base:
     - qwebirc
     - rsync
     - environment
+    - syslog.syslog_ng
   'storage*':
     - glusterfs
     - glusterfs.server

@@ -1,17 +1,22 @@
 include:
   - rsync.secret
 
-rsync -a --no-perms --password-file=/etc/backup.secret backup@deployment.webplatform.org::backup/ /mnt/backup/:
-  cmd.run:
+backupdeployment:
+  cron.present:
     - user: root
-    - group: root
+    - minute: 1
+    - hour: 2
+    - name: 'rsync -a --no-perms --password-file=/etc/backup.secret backup@deployment.webplatform.org::backup/ /mnt/backup/'
     - require:
       - file: /etc/backup.secret
+      - file: /mnt/backup
 
-rsync -a --no-perms --password-file=/etc/backup.secret backup@db1.webplatform.org::backup/ /mnt/backup/:
-  cmd.run:
+backupdb:
+  cron.present:
     - user: root
-    - group: root
+    - minute: 1
+    - hour: 2
+    - name: 'rsync -a --no-perms --password-file=/etc/backup.secret backup@db1.webplatform.org::backup/ /mnt/backup/'
     - require:
       - file: /etc/backup.secret
-
+      - file: /mnt/backup

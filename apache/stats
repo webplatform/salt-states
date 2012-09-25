@@ -20,7 +20,7 @@
 	</Directorymatch>
 
 
-        ErrorLog /var/log/apache2/error.log
+        ErrorLog syslog:local1
 
         # Possible values include: debug, info, notice, warn, error, crit,
         # alert, emerg.
