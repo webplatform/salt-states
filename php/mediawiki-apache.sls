@@ -7,3 +7,4 @@ extend:
     service:
       - watch:
         - file: /etc/php5/conf.d/apc.ini
+        - file: /etc/php5/conf.d/memcached.ini

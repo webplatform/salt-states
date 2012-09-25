@@ -20,8 +20,8 @@ php-basic:
 /etc/php5/conf.d/memcached.ini:
   file.managed:
     - source: salt://php/memcached.ini
-	- user: root
-	- group: root
-	- mode: 644
-	- require:
-	  -pkg: php5-memcached
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      -pkg: php5-memcached
