@@ -9,6 +9,6 @@ clean_backup:
     - user: root
     - minute: 1
     - hour: 2
-    - name: find /mnt/backup -mtime +{{ pillar['backup_days'] }} -exec rm {} \;
+    - name: find /mnt/backup -type f -mtime +{{ pillar['backup_days'] }} -exec rm {} \;
     - require:
       - file: /mnt/backup
