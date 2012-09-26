@@ -24,4 +24,4 @@ php-basic:
     - group: root
     - mode: 644
     - require:
-      -pkg: php5-memcached
+      - pkg: php5-memcached
