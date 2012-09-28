@@ -11,12 +11,20 @@
     - require:
       - pkg: glusterfs-client
 
+/usr/local/sbin/mediawiki_images.sh:
+  file.managed:
+    - user: root
+    - group: root
+    - mode: 555
+    - source: salt://backup/mediawiki_images.sh
+
 backupimages:
   cron.present:
     - user: root
     - minute: 30
     - hour: 1
-    - name: "tar -czvf /mnt/backup/wiki-wpwiki-$(date '+%Y%m%d')-images.tar.gz /srv/mediawiki_images"
+    - name: "/usr/local/sbin/mediawiki_images.sh"
     - require:
       - file: /mnt/backup
+      - file: /usr/local/sbin/mediawiki_images.sh
       - mount: /srv/mediawiki_images

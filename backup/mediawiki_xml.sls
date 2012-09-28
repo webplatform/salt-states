@@ -1,11 +1,19 @@
 include:
   - backup
 
+/usr/local/sbin/mediawiki_xml.sh:
+  file.managed:
+    - user: root
+    - group: root
+    - mode: 555
+    - source: salt://backup/mediawiki_xml.sh
+
 backupxml:
   cron.present:
     - user: root
     - minute: 1
     - hour: 1
-    - name: "(cd /srv/salt/code/docs/current; php maintenance/dumpBackup.php --full --uploads | nice -n 19 gzip -9 > /mnt/backup/wiki-wpwiki-$(date '+%Y%m%d').xml.gz)"
+    - name: "/usr/local/sbin/mediawiki_xml.sh"
     - require:
       - file: /mnt/backup
+      - file: /usr/local/sbin/mediawiki_xml.sh

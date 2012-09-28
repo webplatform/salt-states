@@ -1,8 +1,15 @@
+/usr/local/sbin/salt_master.sh:
+  file.managed:
+    - user: root
+    - group: root
+    - mode: 555
+    - source: salt://backup/salt_master.sh
+
 backupsalt:
   cron.present:
     - user: root
     - minute: 30
     - hour: 1
-    - name: "tar -czvf /mnt/backup/salt-master-$(date '+%Y%m%d').tar.gz /srv/pillar /srv/runner /srv/salt"
+    - name: "/usr/local/sbin/salt_master.sh"
     - require:
       - file: /mnt/backup
