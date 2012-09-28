@@ -39,5 +39,6 @@
 	Alias /t /srv/webplatform/wiki/test
 	Alias /test /srv/webplatform/wiki/test/index.php
 	RedirectMatch ^/docs(/)$ http://docs.webplatform.org/wiki/
+	RedirectMatch ^/$ http://docs.webplatform.org/wiki/
 
 </VirtualHost>
