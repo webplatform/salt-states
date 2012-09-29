@@ -31,6 +31,6 @@
 	<Directory /srv/webplatform/wiki/images>
 		Options -Indexes
 	</Directory>
-	RedirectMatch ^/$ http://docs.webplatform.org/wiki/
+	RedirectMatch ^/$ http://webplatform.org/
 
 </VirtualHost>
