@@ -14,6 +14,7 @@ base:
     - syslog
     - lvm
     - xfs
+    - monitor
   'app*':
     - apache.webplatform
     - apache.docs
@@ -51,3 +52,6 @@ base:
     - glusterfs.server
     - glusterfs.images_volume
     - glusterfs.appstorage
+  'monitor*':
+    - monitor.gmetad
+    - monitor.web

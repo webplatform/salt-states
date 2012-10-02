@@ -1,0 +1,2 @@
+ganglia-webfrontend:
+  - pkg.installed
