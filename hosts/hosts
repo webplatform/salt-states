@@ -9,6 +9,7 @@
 10.4.207.83	db1.webplatform.org db1
 10.5.152.98	storage1.webplatform.org storage1
 10.5.152.99	storage2.webplatform.org storage2
+10.5.26.249	monitor.webplatform.org monitor
 
 # The following lines are desirable for IPv6 capable hosts
 ::1 ip6-localhost ip6-loopback
