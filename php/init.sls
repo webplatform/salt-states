@@ -7,6 +7,7 @@ php-basic:
       - php-pear
       - php-apc
       - php5-memcached
+      - php5-memcache
 
 /etc/php5/conf.d/apc.ini:
   file.managed:
