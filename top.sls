@@ -55,3 +55,4 @@ base:
   'monitor*':
     - monitor.gmetad
     - monitor.web
+    - apache
