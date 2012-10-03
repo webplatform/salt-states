@@ -56,3 +56,4 @@ base:
     - monitor.gmetad
     - monitor.web
     - apache
+    - apache.ganglia
