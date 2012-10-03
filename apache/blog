@@ -2,7 +2,7 @@
         ServerAdmin noc@webplatform.org
 	ServerName blog.webplatform.org
 
-        DocumentRoot /var/www
+        DocumentRoot /srv/webplatform/blog/current/
         <Directory />
                 Options FollowSymLinks
                 AllowOverride None
@@ -10,6 +10,12 @@
         <Directory /var/www/>
                 Options FollowSymLinks
                 AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+        <Directory /srv/webplatform/blog/current/>
+                Options FollowSymLinks
+                AllowOverride FileInfo
                 Order allow,deny
                 allow from all
         </Directory>
@@ -31,5 +37,4 @@
 	Alias /favicon.ico /var/www/favicon.ico
 	Alias /robots.txt /var/www/robots.txt
 	Alias /wpdlogo.png /var/www/wpdlogo.png
-        Alias / /srv/webplatform/blog/current/
 </VirtualHost>

@@ -31,5 +31,6 @@
 	RedirectMatch ^/chat$ http://talk.webplatform.org/chat/
 	ProxyPass /chat/ http://localhost:9090/ retry=0
 
+        Alias /index.html /srv/webplatform/nonshared/talk/index.html
         Alias /forums /srv/webplatform/talk/forums/current
 </VirtualHost>
