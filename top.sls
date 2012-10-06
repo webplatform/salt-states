@@ -11,7 +11,7 @@ base:
     - subversion
     - sudo
     - users
-    - syslog
+    - logging
     - lvm
     - xfs
     - monitor
@@ -46,7 +46,8 @@ base:
     - qwebirc
     - rsync
     - environment
-    - syslog.syslog_ng
+    - logging.syslog_ng
+    - logging.udp2log
   'storage*':
     - glusterfs
     - glusterfs.server
