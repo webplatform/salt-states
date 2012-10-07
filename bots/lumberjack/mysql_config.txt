@@ -1,0 +1,5 @@
+server: db1.webplatform.org
+port: 3306
+database: lumberjack
+user: lumberjack_user
+password: Ek7jei4ooli6aiw

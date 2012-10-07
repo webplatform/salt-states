@@ -48,6 +48,8 @@ base:
     - environment
     - logging.syslog_ng
     - logging.udp2log
+    - python
+    - python.mysqldb
   'storage*':
     - glusterfs
     - glusterfs.server
@@ -58,3 +60,5 @@ base:
     - monitor.web
     - apache
     - apache.ganglia
+  'bots*':
+    - bots
