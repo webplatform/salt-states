@@ -1,0 +1,2 @@
+# Configuration for udp2log goes here.
+flush pipe 1 python /usr/local/bin/demux.py
