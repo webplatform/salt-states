@@ -9,7 +9,7 @@ ganglia-monitor_service:
     - watch:
       - file: /etc/ganglia/gmond.conf
 
-{% if pillar['ganglia_master'] %}
+{% if pillar['ganglia_master'] is defined and pillar['ganglia_master'] %}
 {% for cluster,port in pillar['ganglia_clusters'].items() %}
 /etc/ganglia/gmond-{{ cluster }}.conf:
   file.managed:

@@ -11,6 +11,7 @@
 10.5.152.98	storage1.webplatform.org storage1
 10.5.152.99	storage2.webplatform.org storage2
 10.5.26.249	monitor.webplatform.org monitor
+10.5.48.75	bots.webplatform.org bots
 
 # The following lines are desirable for IPv6 capable hosts
 ::1 ip6-localhost ip6-loopback
