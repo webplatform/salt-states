@@ -17,3 +17,9 @@
       - file: /etc/apache2/sites-enabled/talk
     - watch_in:
       - service: apache2
+
+/srv/webplatform/bots:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: 755

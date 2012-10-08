@@ -33,4 +33,5 @@
 
         Alias /index.html /srv/webplatform/nonshared/talk/index.html
         Alias /forums /srv/webplatform/talk/forums/current
+	Alias /chatlogs /srv/webplatform/bots/lumberjack
 </VirtualHost>
