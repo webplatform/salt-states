@@ -23,8 +23,8 @@ DESC="qwebirc web gateway"
 NAME=qwebirc
 BINLOC=/srv/webplatform/qwebirc/
 DAEMON=/srv/webplatform/qwebirc/run.py
-DAEMON_ARGS="--syslog -l /srv/webplatform/qwebirc/run/twisted.log -P /srv/webplatform/qwebirc/run/$NAME.pid"
-PIDFILE=/srv/webplatform/qwebirc/run/$NAME.pid
+DAEMON_ARGS="--syslog -l /var/run/qwebirc/twisted.log -P /var/run/qwebirc/$NAME.pid"
+PIDFILE=/var/run/qwebirc/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
 # Exit if the package is not installed

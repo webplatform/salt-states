@@ -26,7 +26,8 @@
         # alert, emerg.
         LogLevel warn
 
-        CustomLog /var/log/apache2/access.log combined
+	LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\" \"%{X-Forwarded-For}i\"" xff
+        CustomLog /var/log/apache2/access.log xff
 
 	RedirectMatch ^/chat$ http://talk.webplatform.org/chat/
 	ProxyPass /chat/ http://localhost:9090/ retry=0

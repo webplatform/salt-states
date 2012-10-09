@@ -28,9 +28,9 @@
 
         CustomLog /var/log/apache2/access.log combined
 
-	RewriteCond %{HTTP_HOST} !^www1\.webplatform\.org [NC]
+	RewriteCond %{HTTP_HOST} !^www\.webplatform\.org [NC]
 	RewriteCond %{HTTP_HOST} !^$
-	RewriteRule ^/?(.*) http://www1.webplatform.org/$1 [L,R,NE]
+	RewriteRule ^/?(.*) http://www.webplatform.org/$1 [L,R,NE]
 
 	Alias /index.html /srv/webplatform/nonshared/webplatform/index.html
 	Alias /logo /srv/webplatform/nonshared/webplatform/logo
@@ -47,6 +47,6 @@
 	RedirectMatch ^/wiki/?$ http://docs.webplatform.org/wiki/
 
 	RedirectMatch ^/talk/?$ http://webplatform.org/chat/
-	RedirectMatch ^/chat$ http://talk.webplatform.org/chat/
+	RedirectMatch ^/chat/?$ http://talk.webplatform.org/chat/
 
 </VirtualHost>
