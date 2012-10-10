@@ -11,3 +11,10 @@ apache2:
   file.absent:
     - watch_in:
       - service: apache2
+
+/etc/apache2/conf.d/performance:
+  file.managed:
+    - source: salt://apache/performance
+    - user: root
+    - group: root
+    - mode: 644
