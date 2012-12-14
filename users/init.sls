@@ -1,5 +1,6 @@
 include:
   - users.cjgammon
+  - users.cmills
   - users.frozenice
   - users.jkomoros
   - users.laner
