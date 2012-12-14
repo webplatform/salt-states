@@ -21,3 +21,9 @@ manage_testimages_auth_allow:
   file.directory:
     - require:
       - mount: /srv/storage
+
+/mnt/storage/images:
+  file.directory
+
+/mnt/storage/testimages:
+  file.directory

@@ -9,3 +9,8 @@
   file.directory:
     - user: root
     - group: root
+
+/mnt/storage:
+  file.directory:
+    - user: root
+    - group: root

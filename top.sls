@@ -32,6 +32,10 @@ base:
   'backup*':
     - backup
     - backup.master
+  'bots*':
+    - bots
+  'code*':
+    - gerrit
   'db*':
     - backup.db
     - mysql.server
@@ -59,5 +63,3 @@ base:
     - monitor.web
     - apache
     - apache.ganglia
-  'bots*':
-    - bots

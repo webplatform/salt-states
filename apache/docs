@@ -40,7 +40,7 @@
 	Alias /w/images /srv/webplatform/wiki/images
 	Alias /w /srv/webplatform/wiki/current
 	Alias /wiki /srv/webplatform/wiki/current/index.php
-	Alias /t/images /srv/webplatform/wiki/images
+	Alias /t/images /srv/webplatform/wiki/testimages
 	Alias /t /srv/webplatform/wiki/test
 	Alias /test /srv/webplatform/wiki/test/index.php
 	RedirectMatch ^/docs(/)$ http://docs.webplatform.org/wiki/

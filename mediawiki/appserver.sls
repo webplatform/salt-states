@@ -26,7 +26,23 @@ install-mediawiki-{{ slot }}:
 # Mount point for the glusterfs filesystem
 /srv/webplatform/wiki/images:
   mount.mounted:
-    - device: 10.5.152.98:/images
+    - device: storage3.webplatform.org:/images
+    - fstype: glusterfs
+    - mkmnt: True
+    - opts:
+      - defaults
+      - _netdev=eth0
+      - log-level=WARNING
+      - log-file=/var/log/gluster.log
+    - require:
+      - pkg: glusterfs-client
+  file.directory:
+    - user: www-data
+    - group: www-data
+
+/srv/webplatform/wiki/localimages:
+  mount.mounted:
+    - device: storage3.webplatform.org:/localimages
     - fstype: glusterfs
     - mkmnt: True
     - opts:

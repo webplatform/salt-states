@@ -1,10 +1,12 @@
 include:
   - users.cjgammon
+  - users.frozenice
   - users.jkomoros
   - users.laner
   - users.leaverou
-  - users.shepazu
-  - users.yaron
   - users.mglaser
   - users.rvogel
+  - users.shepazu
   - users.swidmann
+  - users.tguild
+  - users.yaron
