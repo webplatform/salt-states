@@ -1,7 +1,9 @@
 include:
   - users.cjgammon
   - users.cmills
+  - users.denis
   - users.frozenice
+  - users.garbee
   - users.jkomoros
   - users.laner
   - users.leaverou
