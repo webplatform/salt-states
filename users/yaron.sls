@@ -1,7 +1,7 @@
 yaron:
-  group.present:
+  group.absent:
     - gid: 1003
-  user.present:
+  user.absent:
     - shell: /bin/bash
     - uid: 1003
     - gid: 10001
@@ -15,7 +15,7 @@ yaron:
 
 yaron_keys:
   ssh_auth:
-    - present
+    - absent
     - user: yaron
     - enc: ssh-dss
     - require:
