@@ -1,0 +1,40 @@
+<VirtualHost *:80>
+        ServerAdmin noc@webplatform.org
+	ServerName code.webplatform.org
+
+        DocumentRoot /srv/webplatform/dabblet
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+        <Directory /var/www/>
+                Options FollowSymLinks
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+        <Directory /srv/webplatform/dabblet/>
+                Options FollowSymLinks
+                AllowOverride FileInfo
+                Order allow,deny
+                allow from all
+        </Directory>
+
+	<Directorymatch "^/.*/\.git/">
+		Order deny,allow
+		deny from all
+	</Directorymatch>
+
+
+        ErrorLog syslog:local1
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog /var/log/apache2/access.log combined
+
+	Alias /favicon.ico /var/www/favicon.ico
+	Alias /robots.txt /var/www/robots.txt
+	Alias /wpdlogo.png /var/www/wpdlogo.png
+</VirtualHost>
