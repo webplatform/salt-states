@@ -21,6 +21,8 @@ base:
     - apache.talk
     - apache.stats
     - apache.blog
+    - apache.buggenie
+    - apache.dabblet
     - glusterfs
     - mediawiki
     - mediawiki.appserver
