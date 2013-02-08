@@ -16,6 +16,7 @@
 10.5.26.249	monitor.webplatform.org monitor
 10.5.48.75	bots.webplatform.org bots
 10.5.89.222	code.webplatform.org code
+10.4.178.137    project.webplatform.org project
 
 # The following lines are desirable for IPv6 capable hosts
 ::1 ip6-localhost ip6-loopback
