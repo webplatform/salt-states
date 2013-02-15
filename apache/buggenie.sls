@@ -1,3 +1,12 @@
+{% from "apache/module.sls" import a2mod %}
+{{ a2mod('rewrite') }}
+
+extend:
+  apache2:
+    service:
+      - watch:
+        - cmd: a2enmod rewrite
+
 /etc/apache2/sites-available/buggenie:
   file:
     - managed

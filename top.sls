@@ -21,7 +21,6 @@ base:
     - apache.talk
     - apache.stats
     - apache.blog
-    - apache.buggenie
     - apache.dabblet
     - glusterfs
     - mediawiki
@@ -65,3 +64,6 @@ base:
     - monitor.web
     - apache
     - apache.ganglia
+  'project*':
+    - apache
+    - apache.buggenie
