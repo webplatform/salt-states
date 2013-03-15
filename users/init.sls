@@ -5,6 +5,7 @@ include:
   - users.frozenice
   - users.garbee
   - users.jkomoros
+  - users.julee
   - users.laner
   - users.leaverou
   - users.mglaser
