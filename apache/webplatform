@@ -49,4 +49,9 @@
 	RedirectMatch ^/talk/?$ http://webplatform.org/chat/
 	RedirectMatch ^/chat/?$ http://talk.webplatform.org/chat/
 
+        # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0174.html
+        RewriteCond %{REQUEST_URI}        ^/(beginners|css|dom|concepts|accessibility|svg|html|javascript|apis)
+        RewriteRule ^(.*)$                http://docs.webplatform.org/wiki$1   [R=301,L]
+
+
 </VirtualHost>
