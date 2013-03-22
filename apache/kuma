@@ -1,0 +1,27 @@
+<VirtualHost *:80>
+        ServerAdmin noc@webplatform.org
+	ServerName kuma.webplatform.org
+
+        DocumentRoot /srv/webplatform/kuma/webroot/
+	<Directory "/srv/webplatform/kuma/webroot/">
+	    Options +FollowSymLinks
+	</Directory>
+
+	Alias /media/       "/srv/webplatform/kuma/media/"
+	Alias /admin-media/ "/srv/webplatform/vendor/src/django/django/contrib/admin/media/"
+
+	# WSGISocketPrefix /var/run/wsgi
+
+	WSGIDaemonProcess kuma processes=8 threads=1 maximum-requests=4000
+	WSGIProcessGroup kuma
+
+	WSGIScriptAlias /k "/srv/webplatform/kuma/wsgi/kuma.wsgi"
+
+        ErrorLog syslog:local1
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog /var/log/apache2/access.log combined
+</VirtualHost>

@@ -67,3 +67,7 @@ base:
   'project*':
     - apache
     - apache.buggenie
+  'kuma.webplatform.org':
+    - apache
+    - apache.kuma
+    - kuma
