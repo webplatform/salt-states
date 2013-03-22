@@ -51,5 +51,6 @@
         RewriteEngine On
         RewriteCond %{HTTP_HOST}          ^docs\.webplatform\.org$
         RewriteCond %{REQUEST_URI}        !^/(wiki|w|test|t)/
+        RewriteCond %{REQUEST_URI}        !^/favicon.ico
         RewriteRule ^(.*)$                http://docs.webplatform.org/wiki$1   [R=301,L]
 </VirtualHost>
