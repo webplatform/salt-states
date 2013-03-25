@@ -4,6 +4,8 @@ libapache2-mod-wsgi:
 
 {% from "apache/module.sls" import a2mod %}
 {{ a2mod('rewrite') }}
+{{ a2mod('expires') }}
+{{ a2mod('headers') }}
 {{ a2mod('wsgi') }}
 
 extend:
