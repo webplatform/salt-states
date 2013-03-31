@@ -36,6 +36,7 @@
 	Alias /logo /srv/webplatform/nonshared/webplatform/logo
 	Alias /stewards /srv/webplatform/nonshared/webplatform/stewards
 	Alias /assets /srv/webplatform/nonshared/webplatform/assets
+	Alias /errors /srv/webplatform/nonshared/webplatform/errors
 
 	# MediaWiki
 	<Directory /srv/webplatform/wiki/images>
