@@ -26,7 +26,6 @@ base:
     - mediawiki
     - mediawiki.appserver
     - mediawiki.scaler
-    - memcached
     - qwebirc
     - qwebirc.daemon
     - piwik
@@ -59,6 +58,8 @@ base:
     - glusterfs.server
     - glusterfs.images_volume
     - glusterfs.appstorage
+  'memcache*':
+    - memcached
   'monitor*':
     - monitor.gmetad
     - monitor.web

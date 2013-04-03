@@ -26,7 +26,7 @@ install-mediawiki-{{ slot }}:
 # Mount point for the glusterfs filesystem
 /srv/webplatform/wiki/images:
   mount.mounted:
-    - device: storage3.webplatform.org:/images
+    - device: storage3.webplatform.org:/wiki-images
     - fstype: glusterfs
     - mkmnt: True
     - opts:
@@ -39,54 +39,3 @@ install-mediawiki-{{ slot }}:
   file.directory:
     - user: www-data
     - group: www-data
-
-/srv/webplatform/wiki/localimages:
-  mount.mounted:
-    - device: storage3.webplatform.org:/localimages
-    - fstype: glusterfs
-    - mkmnt: True
-    - opts:
-      - defaults
-      - _netdev=eth0
-      - log-level=WARNING
-      - log-file=/var/log/gluster.log
-    - require:
-      - pkg: glusterfs-client
-  file.directory:
-    - user: www-data
-    - group: www-data
-
-## We can manage MediaWiki via git and branches, or tags, if we'd like
-#{% for slot,branch in {'current': 'wmf/1.20wmf3','test': 'wmf/1.20wmf3' }.items() %}
-#git clone https://gerrit.wikimedia.org/r/p/mediawiki/core.git {{ slot }}:
-#  cmd:
-#    - run
-#    - cwd: /srv/webplatform/wiki
-#    - unless: [ -d '/srv/webplatform/wiki/{{ slot }}' ]
-#    - require:
-#      - file:
-#        - /srv/webplatform/wiki
-#
-#git branch --track {{ branch }} origin/{{ branch }}:
-#  cmd:
-#    - run
-#    - cwd: /srv/webplatform/wiki/{{ slot }}
-#    - unless: git branch | grep '{{ branch }}'
-#    - require:
-#      - cmd: git clone https://gerrit.wikimedia.org/r/p/mediawiki/core.git {{ slot }}
-#
-#git checkout {{ branch }}:
-#  cmd:
-#    - run
-#    - cwd: /srv/webplatform/wiki/{{ slot }}
-#    - unless: git branch | grep '* {{ branch }}'
-#    - require:
-#      - cmd: git branch --track {{ branch }} origin/{{ branch }}
-#
-#git submodule update --init:
-#  cmd
-#    - run
-#    - cwd: /srv/webplatform/wiki/{{ slot }}
-#    - require:
-#      - cmd: git checkout {{ branch }}
-#{% endfor %}
