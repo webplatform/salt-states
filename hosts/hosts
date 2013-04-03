@@ -9,11 +9,10 @@
 10.5.240.3	deployment.webplatform.org deployment
 10.4.207.83	db1.webplatform.org db1
 10.5.33.197	db2.webplatform.org db2
-10.5.152.98	storage1.webplatform.org storage1
-10.5.152.99	storage2.webplatform.org storage2
 10.5.152.243	storage3.webplatform.org storage3
-10.5.152.245	storage4.webplatform.org storage4
 10.4.190.195	storage5.webplatform.org storage5
+10.4.193.192	memcache1.webplatform.org memcache1
+10.4.214.254	memcache2.webplatform.org memcache2
 10.5.26.249	monitor.webplatform.org monitor
 10.5.48.75	bots.webplatform.org bots
 10.5.89.222	code.webplatform.org code
