@@ -37,6 +37,8 @@
 	Alias /stewards /srv/webplatform/nonshared/webplatform/stewards
 	Alias /assets /srv/webplatform/nonshared/webplatform/assets
 	Alias /errors /srv/webplatform/nonshared/webplatform/errors
+	Alias /sitemaps /srv/webplatform/nonshared/webplatform/sitemaps
+	Alias /google1196cd49dc73743e.html /srv/webplatform/nonshared/webplatform/google1196cd49dc73743e.html
 
 	# MediaWiki
 	<Directory /srv/webplatform/wiki/images>
