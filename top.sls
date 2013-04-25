@@ -8,6 +8,7 @@ base:
     - network
     - mail
     - mercurial
+    - ntp
     - subversion
     - sudo
     - users
