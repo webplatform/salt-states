@@ -39,6 +39,7 @@
 	Alias /errors /srv/webplatform/nonshared/webplatform/errors
 	Alias /sitemaps /srv/webplatform/nonshared/webplatform/sitemaps
 	Alias /google1196cd49dc73743e.html /srv/webplatform/nonshared/webplatform/google1196cd49dc73743e.html
+        Alias /BingSiteAuth.xml /srv/webplatform/nonshared/webplatform/BingSiteAuth.xml
 
 	# MediaWiki
 	<Directory /srv/webplatform/wiki/images>

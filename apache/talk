@@ -35,4 +35,9 @@
         Alias /index.html /srv/webplatform/nonshared/talk/index.html
         Alias /forums /srv/webplatform/talk/forums/current
 	Alias /chatlogs /srv/webplatform/bots/lumberjack
+
+        # serve html as php: https://lists.w3.org/Archives/Team/team-webplatform-admin/2013Apr/0018.html
+        <FilesMatch "\.html">
+          SetHandler application/x-httpd-php
+        </FilesMatch>
 </VirtualHost>
