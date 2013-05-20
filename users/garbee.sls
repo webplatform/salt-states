@@ -21,3 +21,12 @@ AAAAB3NzaC1yc2EAAAADAQABAAABAQCsWYSKMAYmc5vH/4Q3ZTOqNMn2TcAu1nn8tbsfEFJwF4MPJlsr
     - comment: Jonathan@Jonathan-Laptop
     - require:
       - user: garbee
+
+AAAAB3NzaC1yc2EAAAADAQABAAABAQDnya0FfesKih+Xu7HbtORT4Z689TzCU9HrtR3rH3BAU2zqpGxQlFtmwKRq0fBLHK3d8lR1NzuVrSqeMOtqo36uslZf+MYNWD6vbRGBlt586OrLq8TMNo8ReR2CMmCHvQPcPxIj5Wlb5kIAaIG8Ygu4DUTmGTPk6ZtMsYZLy7RyAKvDZHb07wdCAcAKtSo4EDhXG+/gkfd8ybVmDJjGU3TUJiuH9TnjHAJkOHEPvc4R1Sa9PQ78f307ihhwTcs4ZKqitISiXRIZYLIaOmIsA1h4c2QH0fJd0TJH3j2GbmJJ4d8aT2bIPUtUj1lgwQLELZGUVDkeEyCwo+knCFcEukHP:
+  ssh_auth:
+    - present
+    - user: garbee
+    - enc: ssh-rsa
+    - comment: Jonathan@Jonathan-PC
+    - require:
+      - user: garbee
