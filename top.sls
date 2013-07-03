@@ -27,6 +27,7 @@ base:
     - mediawiki
     - mediawiki.appserver
     - mediawiki.scaler
+    - mediawiki.jobrunner
     - qwebirc
     - qwebirc.daemon
     - piwik
@@ -73,3 +74,5 @@ base:
     - apache
     - apache.kuma
     - kuma
+  'challenge*':
+    - users.renoirb

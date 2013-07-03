@@ -6,6 +6,8 @@
 10.5.7.43	app5.webplatform.org app5
 10.5.240.174	backup.webplatform.org backup
 10.5.152.248	backup2.webplatform.org backup2
+10.4.79.233     challenge-gerrit.webplatform.org challenge-gerrit
+10.4.8.157      challenge-webserver.webplatform.org challenge-webserver
 10.5.240.3	deployment.webplatform.org deployment
 10.4.207.83	db1.webplatform.org db1
 10.5.33.197	db2.webplatform.org db2
