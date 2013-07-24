@@ -1,5 +1,4 @@
-StartServers         15
-MinSpareServers      15
-MaxSpareServers      30
-MaxClients          200
-MaxRequestsPerChild   0
+MinSpareServers       10
+MaxSpareServers       20
+MaxClients            300
+MaxRequestsPerChild   20000
