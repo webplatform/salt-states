@@ -9,6 +9,7 @@ include:
   - users.laner
   - users.leaverou
   - users.mglaser
+  - users.renoirb
   - users.rvogel
   - users.shepazu
   - users.swidmann
