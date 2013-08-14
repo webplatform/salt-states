@@ -73,6 +73,8 @@ base:
     - apache
     - apache.kuma
     - kuma
+  'challenge*':
+    - users.renoirb
   'piwik*':
     - apache
     - piwik

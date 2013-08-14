@@ -1,26 +1,26 @@
 127.0.0.1 localhost
-10.4.207.64	app1.webplatform.org app1
-10.4.207.63	app2.webplatform.org app2
-10.5.7.77	app3.webplatform.org app3
-10.5.7.79	app4.webplatform.org app4
-10.5.7.43	app5.webplatform.org app5
+10.4.207.64	    app1.webplatform.org app1
+10.4.207.63	    app2.webplatform.org app2
+10.5.7.77	    app3.webplatform.org app3
+10.5.7.79	    app4.webplatform.org app4
+10.5.7.43	    app5.webplatform.org app5
 10.5.240.174	backup.webplatform.org backup
 10.5.152.248	backup2.webplatform.org backup2
 10.4.79.233     challenge-gerrit.webplatform.org challenge-gerrit
 10.4.8.157      challenge-webserver.webplatform.org challenge-webserver
-10.5.240.3	deployment.webplatform.org deployment
-10.4.207.83	db1.webplatform.org db1
-10.5.33.197	db2.webplatform.org db2
+10.5.240.3	    deployment.webplatform.org deployment
+10.4.207.83	    db1.webplatform.org db1
+10.5.33.197	    db2.webplatform.org db2
 10.5.152.243	storage3.webplatform.org storage3
 10.4.190.195	storage5.webplatform.org storage5
 10.4.193.192	memcache1.webplatform.org memcache1
 10.4.214.254	memcache2.webplatform.org memcache2
-10.5.26.249	monitor.webplatform.org monitor
-10.5.48.75	bots.webplatform.org bots
-10.5.89.222	code.webplatform.org code
+10.5.26.249	    monitor.webplatform.org monitor
+10.5.48.75	    bots.webplatform.org bots
+10.5.89.222	    code.webplatform.org code
 10.4.178.137    project.webplatform.org project
 10.5.162.230    kuma.webplatform.org kuma
-10.4.195.143	piwik.webplatform.org piwik
+10.5.33.100     piwik-test.webplatform.org 
 
 # The following lines are desirable for IPv6 capable hosts
 ::1 ip6-localhost ip6-loopback
