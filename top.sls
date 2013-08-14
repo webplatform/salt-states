@@ -30,7 +30,6 @@ base:
     - mediawiki.jobrunner
     - qwebirc
     - qwebirc.daemon
-    - piwik
   'backup*':
     - backup
     - backup.master
@@ -74,5 +73,6 @@ base:
     - apache
     - apache.kuma
     - kuma
-  'challenge*':
-    - users.renoirb
+  'piwik*':
+    - apache
+    - piwik
