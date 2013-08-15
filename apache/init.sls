@@ -1,11 +1,15 @@
 apache2:
-  pkg:
-    - installed
   service:
     - running
     - enable: True
+    - reload: true
     - require:
       - pkg: apache2
+    - watch:
+      - pkg: apache2
+  pkg:
+    - installed
+    - name: apache2-mpm-prefork
 
 /etc/apache2/sites-enabled/000-default:
   file.absent:

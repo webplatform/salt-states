@@ -1,3 +1,6 @@
+include:
+  - php
+
 php-apache:
   pkg:
     - latest

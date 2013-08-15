@@ -1,4 +1,4 @@
-{% if grains['lsb_release'] == "12.04" %}
+{% if grains['lsb_distrib_release'] == "12.04" %}
 /etc/dhcp/dhclient.conf:
 {% else %}
 /etc/dhcp3/dhclient.conf:

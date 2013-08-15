@@ -6,12 +6,9 @@ cjgammon:
     - uid: 1004
     - gid: 10001
     - groups:
-      - ops
       - cjgammon
-    - require:
-      - group: cjgammon
-      - group: ops
-      - group: deployment
+      - ops
+      - deployment
 
 AAAAB3NzaC1yc2EAAAADAQABAAABAQC0jpRjfJ7/gjbLijYnKOt7/oTZDw+LeRg7wVejdUfVH+vS8U5Q+hOhR7wMZGFFwBqPNHTMOJRbiTPE5ng+jIsgkNy9O4y7yMGIGJqGQjVtpzDWnvbaki/K8Vbx/+k0xhEelZDipS2n0w0pcOBiJUrfmqeksQUvEyySfpQ1JdwNLwQtLghh68C923EeG3SZlGxRwnSmYQeVJPTl5gBXNKm4U/lnS0AcwbtCU1qp3ziz57s6OF6m+i/kfcmgM2Nmk914Q//kgmSjb5imfMxhH0Dfa1k6FCgpF94+pdprOSNVD7lLcacuDQP5yOw/fDmDi/QWmsPY/QTFzKOtNPwuG5Y5:
   ssh_auth:

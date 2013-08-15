@@ -20,7 +20,6 @@ base:
     - apache.webplatform
     - apache.docs
     - apache.talk
-    - apache.stats
     - apache.blog
     - apache.dabblet
     - glusterfs
@@ -77,4 +76,5 @@ base:
     - users.renoirb
   'piwik*':
     - apache
+    - apache.stats
     - piwik

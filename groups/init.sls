@@ -1,7 +1,4 @@
-ops:
-  group.present:
-    - gid: 10000
-
-deployment:
-  group.present:
-    - gid: 10001
+# doc: https://salt.readthedocs.org/en/latest/ref/states/all/salt.states.group.html
+include:
+  - groups.ops
+  - groups.deployment
