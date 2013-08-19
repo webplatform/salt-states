@@ -17,7 +17,7 @@ mediawiki_jobrunner_current_cron_2:
     - name: '/usr/bin/php /srv/webplatform/wiki/current/maintenance/runJobs.php #2nd run'
 
 mediawiki_jobrunner_test_cron:
-  cron.present:
+  cron.absent:
     - minute: random
     - user: www-data
     - name: '/usr/bin/php /srv/webplatform/wiki/test/maintenance/runJobs.php'

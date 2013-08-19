@@ -26,9 +26,9 @@ base:
     - mediawiki
     - mediawiki.appserver
     - mediawiki.scaler
-    - mediawiki.jobrunner
     - qwebirc
     - qwebirc.daemon
+    - mediawiki.jobrunner
   'backup*':
     - backup
     - backup.master
@@ -78,3 +78,4 @@ base:
     - apache
     - apache.stats
     - piwik
+
