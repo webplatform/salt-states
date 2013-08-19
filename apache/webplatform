@@ -45,6 +45,7 @@
 	<Directory /srv/webplatform/wiki/images>
 		Options -Indexes
 	</Directory>
+
 	RewriteEngine on
 	RewriteRule   ^/docs/(.+)  http://docs.webplatform.org/wiki/$1  [R,L]
 	RedirectMatch ^/docs/?$ http://docs.webplatform.org/wiki/
@@ -53,17 +54,17 @@
 	RedirectMatch ^/talk/?$ http://webplatform.org/chat/
 	RedirectMatch ^/chat/?$ http://talk.webplatform.org/chat/
 
-        # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0174.html
-        RewriteCond %{REQUEST_URI}        ^/(beginners|css|dom|concepts|accessibility|svg|html|javascript|apis)
-        RewriteRule ^(.*)$                http://docs.webplatform.org/wiki$1   [R=301,L]
+    # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0174.html
+    RewriteCond %{REQUEST_URI}        ^/(beginners|css|dom|concepts|accessibility|svg|html|javascript|apis)
+    RewriteRule ^(.*)$                http://docs.webplatform.org/wiki$1   [R=301,L]
 
-        # Error pages
-        ErrorDocument 404 /errors/404.php
-        ErrorDocument 503 /errors/503.php
+    # Error pages
+    ErrorDocument 404 /errors/404.php
+    ErrorDocument 503 /errors/503.php
 
-        # serve html as php: https://lists.w3.org/Archives/Team/team-webplatform-admin/2013Apr/0018.html
-        <FilesMatch "\.html">
-          SetHandler application/x-httpd-php
-        </FilesMatch>
+    # serve html as php: https://lists.w3.org/Archives/Team/team-webplatform-admin/2013Apr/0018.html
+    <FilesMatch "\.html">
+      SetHandler application/x-httpd-php
+    </FilesMatch>
 
 </VirtualHost>

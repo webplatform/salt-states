@@ -3,6 +3,7 @@
 	ServerName docs.webplatform.org
 
         DocumentRoot /var/www
+
         <Directory />
                 Options FollowSymLinks
                 AllowOverride None
@@ -37,6 +38,7 @@
 	<Directory /srv/webplatform/wiki/images>
 		Options -Indexes
 	</Directory>
+
 	Alias /w/images /srv/webplatform/wiki/images
 	Alias /w /srv/webplatform/wiki/current
 	Alias /wiki /srv/webplatform/wiki/current/index.php
@@ -44,14 +46,15 @@
 	Alias /t /srv/webplatform/wiki/test
 	Alias /test /srv/webplatform/wiki/test/index.php
 	Alias /compat /srv/webplatform/compat
+
 	RedirectMatch ^/docs(/)$ http://docs.webplatform.org/wiki/
 	RedirectMatch ^/$ http://docs.webplatform.org/wiki/
         RedirectMatch permanent ^/wiki/(.+)/$ /wiki/$1
 
         # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0145.html
         RewriteEngine On
-        RewriteCond %{HTTP_HOST}          ^docs\.webplatform\.org$
-        RewriteCond %{REQUEST_URI}        !^/(wiki|w|test|t|compat)/
-        RewriteCond %{REQUEST_URI}        !^/favicon.ico
-        RewriteRule ^(.*)$                http://docs.webplatform.org/wiki$1   [R=301,L]
+        RewriteCond %{HTTP_HOST}                         ^docs\.webplatform\.org$
+        RewriteCond %{REQUEST_URI}                       !^/(wiki|w|test|t|compat)/
+        RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+        RewriteRule ^(.*)$                               http://docs.webplatform.org/wiki$1   [R=301,L]
 </VirtualHost>
