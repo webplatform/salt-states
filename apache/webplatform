@@ -1,45 +1,45 @@
 <VirtualHost *:80>
-        ServerAdmin noc@webplatform.org
+  ServerAdmin noc@webplatform.org
 	ServerName webplatform.org
 	ServerAlias www.webplatform.org www1.webplatform.org
 
-        DocumentRoot /var/www
-        <Directory />
-                Options FollowSymLinks
-                AllowOverride None
-        </Directory>
-        <Directory /var/www/>
-                Options FollowSymLinks
-                AllowOverride None
-                Order allow,deny
-                allow from all
-        </Directory>
+  DocumentRoot /var/www
 
-	<Directorymatch "^/.*/\.git/">
-		Order deny,allow
-		deny from all
-	</Directorymatch>
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+  </Directory>
+  <Directory /var/www/>
+    Options FollowSymLinks
+    AllowOverride None
+    Order allow,deny
+    allow from all
+  </Directory>
+  <Directorymatch "^/.*/\.git/">
+    Order deny,allow
+    deny from all
+  </Directorymatch>
 
-        ErrorLog syslog:local1
+  ErrorLog syslog:local1
 
-        # Possible values include: debug, info, notice, warn, error, crit,
-        # alert, emerg.
-        LogLevel warn
+  # Possible values include: debug, info, notice, warn, error, crit,
+  # alert, emerg.
+  LogLevel warn
 
-        CustomLog /var/log/apache2/access.log combined
+  CustomLog /var/log/apache2/access.log combined
 
 	RewriteCond %{HTTP_HOST} !^www\.webplatform\.org [NC]
 	RewriteCond %{HTTP_HOST} !^$
 	RewriteRule ^/?(.*) http://www.webplatform.org/$1 [L,R,NE]
 
-	Alias /index.html /srv/webplatform/nonshared/webplatform/index.html
-	Alias /logo /srv/webplatform/nonshared/webplatform/logo
-	Alias /stewards /srv/webplatform/nonshared/webplatform/stewards
-	Alias /assets /srv/webplatform/nonshared/webplatform/assets
-	Alias /errors /srv/webplatform/nonshared/webplatform/errors
-	Alias /sitemaps /srv/webplatform/nonshared/webplatform/sitemaps
-	Alias /google1196cd49dc73743e.html /srv/webplatform/nonshared/webplatform/google1196cd49dc73743e.html
-        Alias /BingSiteAuth.xml /srv/webplatform/nonshared/webplatform/BingSiteAuth.xml
+  Alias /index.html /srv/webplatform/nonshared/webplatform/index.html
+  Alias /logo /srv/webplatform/nonshared/webplatform/logo
+  Alias /stewards /srv/webplatform/nonshared/webplatform/stewards
+  Alias /assets /srv/webplatform/nonshared/webplatform/assets
+  Alias /errors /srv/webplatform/nonshared/webplatform/errors
+  Alias /sitemaps /srv/webplatform/nonshared/webplatform/sitemaps
+  Alias /google1196cd49dc73743e.html /srv/webplatform/nonshared/webplatform/google1196cd49dc73743e.html
+  Alias /BingSiteAuth.xml /srv/webplatform/nonshared/webplatform/BingSiteAuth.xml
 
 	# MediaWiki
 	<Directory /srv/webplatform/wiki/images>
@@ -54,17 +54,17 @@
 	RedirectMatch ^/talk/?$ http://webplatform.org/chat/
 	RedirectMatch ^/chat/?$ http://talk.webplatform.org/chat/
 
-    # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0174.html
-    RewriteCond %{REQUEST_URI}        ^/(beginners|css|dom|concepts|accessibility|svg|html|javascript|apis)
-    RewriteRule ^(.*)$                http://docs.webplatform.org/wiki$1   [R=301,L]
+  # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0174.html
+  RewriteCond %{REQUEST_URI}        ^/(beginners|css|dom|concepts|accessibility|svg|html|javascript|apis)
+  RewriteRule ^(.*)$                http://docs.webplatform.org/wiki$1   [R=301,L]
 
-    # Error pages
-    ErrorDocument 404 /errors/404.php
-    ErrorDocument 503 /errors/503.php
+  # Error pages
+  ErrorDocument 404 /errors/404.php
+  ErrorDocument 503 /errors/503.php
 
-    # serve html as php: https://lists.w3.org/Archives/Team/team-webplatform-admin/2013Apr/0018.html
-    <FilesMatch "\.html">
+  # serve html as php: https://lists.w3.org/Archives/Team/team-webplatform-admin/2013Apr/0018.html
+  <FilesMatch "\.html">
       SetHandler application/x-httpd-php
-    </FilesMatch>
+  </FilesMatch>
 
 </VirtualHost>
