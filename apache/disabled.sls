@@ -10,7 +10,7 @@
     - watch_in:
       - service: apache2
 
-/var/www/disabled.php
+/var/www/disabled.php:
   file:
     - managed
     - source: salt://apache/disabled.php
@@ -29,4 +29,3 @@
       - file: /etc/apache2/sites-enabled/disabled
     - watch_in:
       - service: apache2
-
