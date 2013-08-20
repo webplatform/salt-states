@@ -1,35 +1,33 @@
 <VirtualHost *:80>
-        ServerAdmin noc@webplatform.org
+  ServerAdmin noc@webplatform.org
 	ServerName stats.webplatform.org
 
-        DocumentRoot /var/www
-        <Directory />
-                Options FollowSymLinks
-                AllowOverride None
-        </Directory>
-        <Directory /var/www/>
-                Options FollowSymLinks
-                AllowOverride None
-                Order allow,deny
-                allow from all
-        </Directory>
+  DocumentRoot /var/www
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+  </Directory>
+  <Directory /var/www/>
+    Options FollowSymLinks
+    AllowOverride None
+    Order allow,deny
+    allow from all
+  </Directory>
 
 	<Directorymatch "^/.*/\.git/">
 		Order deny,allow
 		deny from all
 	</Directorymatch>
 
+  ErrorLog syslog:local1
 
-        ErrorLog syslog:local1
+  # Possible values include: debug, info, notice, warn, error, crit,
+  # alert, emerg.
+  LogLevel warn
+  CustomLog /var/log/apache2/access.log combined
 
-        # Possible values include: debug, info, notice, warn, error, crit,
-        # alert, emerg.
-        LogLevel warn
-
-        CustomLog /var/log/apache2/access.log combined
-
-        # Piwik
-        Alias /piwik /srv/webplatform/piwik
-        Alias /track /srv/webplatform/piwik
+  # Piwik
+  Alias /piwik /srv/webplatform/piwik
+  Alias /track /srv/webplatform/piwik
 
 </VirtualHost>
