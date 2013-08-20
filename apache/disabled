@@ -1,0 +1,27 @@
+<VirtualHost _default_:*>
+        ServerAdmin team-webplatform-systems@webplatform.org
+
+        DocumentRoot /var/www
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+        <Directory /var/www/>
+								DirectoryIndex disabled.php index.php
+                Options FollowSymLinks
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        ErrorLog syslog:local1
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog /var/log/apache2/access.log combined
+
+        ErrorDocument 404 /disabled.php
+
+</VirtualHost>
