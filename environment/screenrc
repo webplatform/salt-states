@@ -1,0 +1,26 @@
+altscreen on
+term screen-256color
+bind ',' prev
+bind '.' next
+autodetach on 
+startup_message off
+vbell off 
+altscreen on
+
+escape ^Jj
+
+screen -t log 8 sudo sh -c "tail -f /var/log/syslog /var/log/messages"
+screen -t top 9 htop
+screen -t bash 0
+
+bind T screen -t htop htop
+bind V screen -t vim vim
+#bind L screen -t sudo sh -c 'tail -f /var/log/syslog /var/log/messages /var/log/daemon.log'
+bind L screen -t 'Tail messages' sudo tail -f /var/log/messages /var/log/syslog
+bind K screen -t sudo tail -f /mnt/logs/error.log
+
+#change the hardstatus settings to give an window list at the bottom of the                                                                        
+#screen, with the time and date and with the current window highlighted                                                                            
+hardstatus alwayslastline
+#hardstatus string '%{= kG}%-Lw%{= kW}%50> %n%f* %t%{= kG}%+Lw%< %{= kG}%-=%c:%s%{-}'
+hardstatus string '%{= kG}[ %{G}%H PROD %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]'

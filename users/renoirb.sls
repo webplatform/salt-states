@@ -12,6 +12,14 @@ renoirb:
       - ops
       - deployment
 
+/home/renoirb/.screenrc:
+  file.managed:
+    - present
+    - user: renoirb
+    - group: deployment
+    - mode: 640
+    - source: salt://environment/screenrc
+
 /home/renoirb/.my.cnf:
   file.managed:
     - present
