@@ -8,4 +8,5 @@ include:
   - users.julee
   - users.frozenice
   - users.garbee
+  - users.pdsouza
 

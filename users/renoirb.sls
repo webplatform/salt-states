@@ -12,6 +12,14 @@ renoirb:
       - ops
       - deployment
 
+/home/renoirb/.my.cnf:
+  file.managed:
+    - present
+    - user: renoirb
+    - group: deployment
+    - mode: 640
+    - source: salt://environment/my.cnf
+
 renoirb_keys:
   ssh_auth:
     - present

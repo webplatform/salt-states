@@ -1,6 +1,6 @@
 <VirtualHost *:80>
   ServerAdmin noc@webplatform.org
-	ServerName blog.webplatform.org
+  ServerName blog.webplatform.org
 
   DocumentRoot /srv/webplatform/blog/current/
   <Directory />
@@ -19,11 +19,10 @@
     Order allow,deny
     allow from all
   </Directory>
-
-	<Directorymatch "^/.*/\.git/">
-		Order deny,allow
-		deny from all
-	</Directorymatch>
+  <Directorymatch "^/.*/\.git/">
+    Order deny,allow
+    deny from all
+  </Directorymatch>
 
   ErrorLog syslog:local1
 
@@ -33,7 +32,7 @@
 
   CustomLog /var/log/apache2/access.log combined
 
-	Alias /favicon.ico /var/www/favicon.ico
-	Alias /robots.txt /var/www/robots.txt
-	Alias /wpdlogo.png /var/www/wpdlogo.png
+  Alias /favicon.ico /var/www/favicon.ico
+  Alias /robots.txt /var/www/robots.txt
+  Alias /wpdlogo.png /var/www/wpdlogo.png
 </VirtualHost>
