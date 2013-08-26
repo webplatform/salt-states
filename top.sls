@@ -76,6 +76,8 @@ base:
     - users.renoirb
   'piwik*':
     - apache
-    - apache.stats
     - piwik
+    - apache.stats
+    - php.apache
+    - apache.disabled
 

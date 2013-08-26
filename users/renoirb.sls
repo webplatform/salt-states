@@ -14,19 +14,19 @@ renoirb:
 
 /home/renoirb/.screenrc:
   file.managed:
-    - present
     - user: renoirb
     - group: deployment
     - mode: 640
     - source: salt://environment/screenrc
 
+{% if grains['host'] == 'deployment' %}
 /home/renoirb/.my.cnf:
   file.managed:
-    - present
     - user: renoirb
     - group: deployment
     - mode: 640
     - source: salt://environment/my.cnf
+{% endif %}
 
 renoirb_keys:
   ssh_auth:
