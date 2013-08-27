@@ -14,7 +14,7 @@ include:
     - mode: 755
 
 qwebirc:
-  service.running:
+  service.dead:
     - enable: True
     - require:
       - file: /etc/init.d/qwebirc

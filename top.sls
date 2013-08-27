@@ -20,7 +20,6 @@ base:
     - apache.webplatform
     - apache.docs
     - apache.talk
-    - apache.blog
     - apache.dabblet
     - glusterfs
     - mediawiki
@@ -32,6 +31,8 @@ base:
   'backup*':
     - backup
     - backup.master
+  'blog*':
+    - apache.blog
   'bots*':
     - bots
   'code*':
