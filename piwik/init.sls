@@ -33,4 +33,3 @@ piwik_archive_cron:
     - minute: 5
     - user: www-data
     - name: '/usr/bin/php /srv/webplatform/piwik/misc/cron/archive.php -- url=http://tracking.webplatform.org/piwik/ > /var/log/piwik-archive.log'
-

@@ -2,18 +2,29 @@ include:
   - rsync.secret
   - code.prereq
 
-rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.webplatform.org::code/piwik/piwik/ /srv/webplatform/piwik/:
+# WARNING: rsync --delete will break piwik install with compser!
+sync-piwik:
   cmd.run:
+    - name: rsync -a --no-perms --password-file=/etc/codesync.secret codesync@deployment.webplatform.org::code/piwik/clone/ /srv/webplatform/piwik/
     - user: root
     - group: root
     - require:
       - file: /etc/codesync.secret
       - file: /srv/webplatform
+  file.managed:
+    - name: /srv/webplatform/piwik/config/config.ini.php
+    - user: www-data
+    - group: www-data
+    - mode: 644
+    - source: salt://piwik/config.ini.php
 
-rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.webplatform.org::code/piwik/config/config.ini.php /srv/webplatform/piwik/config/config.ini.php:
-  cmd.run:
-    - user: root
-    - group: root
-    - require:
-      - file: /etc/codesync.secret
-      - file: /srv/webplatform
+piwik-perms:
+  file.directory:
+    - name: /srv/webplatform/piwik
+    - user: www-data
+    - group: www-data
+    - wait:
+      - pkg: sync-piwik
+    - recurse:
+      - user
+      - group

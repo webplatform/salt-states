@@ -9,6 +9,19 @@ php-basic:
       - php5-memcached
       - php5-memcache
 
+get-composer:
+  cmd.run:
+    - name: 'CURL=`which curl`; $CURL -sS https://getcomposer.org/installer | php'
+    - unless: test -f /usr/local/bin/composer
+    - cwd: /root/
+
+install-composer:
+  cmd.wait:
+    - name: mv /root/composer.phar /usr/local/bin/composer
+    - cwd: /root/
+    - watch:
+      - cmd: get-composer
+
 /etc/php5/conf.d/apc.ini:
   file.managed:
     - source: salt://php/apc.ini
