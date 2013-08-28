@@ -32,6 +32,7 @@ base:
     - backup
     - backup.master
   'blog*':
+    - wordpress
     - apache.blog
   'bots*':
     - bots
