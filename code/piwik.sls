@@ -1,6 +1,7 @@
 include:
   - rsync.secret
   - code.prereq
+  - piwik.config
 
 sync-piwik:
   cmd.run:
@@ -10,12 +11,6 @@ sync-piwik:
     - require:
       - file: /etc/codesync.secret
       - file: /srv/webplatform
-  file.managed:
-    - name: /srv/webplatform/piwik/config/config.ini.php
-    - user: www-data
-    - group: www-data
-    - mode: 644
-    - source: salt://piwik/config.ini.php
 
 piwik-perms:
   file.directory:

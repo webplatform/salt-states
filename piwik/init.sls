@@ -1,12 +1,22 @@
 include:
   - php.apache
   - php
+  - piwik.config
+  - piwik.archive
 
 php-piwik:
   pkg:
     - latest
     - names:
       - php5-mysql
+
+php-requirements:
+  pkg:
+    - installed
+    - names:
+      - php5-gd
+      - php-image-text
+      - php5-curl
 
 /srv/webplatform/piwik/tmp:
   file.directory:
@@ -17,19 +27,3 @@ php-piwik:
     - recurse:
       - user
       - group
-
-/srv/webplatform/piwik/config:
-  file.directory:
-    - mode: 755
-    - user: www-data
-    - group: www-data
-    - makedirs: True
-    - recurse:
-      - user
-      - group
-
-piwik_archive_cron:
-  cron.present:
-    - minute: 5
-    - user: www-data
-    - name: '/usr/bin/php /srv/webplatform/piwik/misc/cron/archive.php -- url=http://tracking.webplatform.org/piwik/ > /var/log/piwik-archive.log'

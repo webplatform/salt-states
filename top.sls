@@ -16,6 +16,7 @@ base:
     - lvm
     - xfs
     - monitor
+    - cron
   'app*':
     - apache.webplatform
     - apache.docs
@@ -70,17 +71,21 @@ base:
   'project*':
     - apache
     - apache.buggenie
-    - buggenie.crontab 
+    - buggenie.crontab
   'kuma.webplatform.org':
     - apache
     - apache.kuma
     - kuma
   'challenge*':
     - users.renoirb
-  'piwik*':
+  'piwik0*':
     - apache
     - piwik
     - apache.stats
     - php.apache
     - apache.disabled
+  'piwik[1-2]*':
+    - nginx
+    - php.fpm
+    - piwik
 
