@@ -13,6 +13,7 @@ mysql-server:
     - watch:
       - file: /etc/mysql/my.cnf
 
+# https://blogs.oracle.com/jsmyth/entry/apparmor_and_mysql
 apparmor:
   pkg:
     - installed
