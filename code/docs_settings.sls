@@ -8,7 +8,7 @@ rsync -a --no-perms --password-file=/etc/codesync.secret codesync@deployment.web
     - require:
       - file: /etc/codesync.secret
 
-rsync -a --no-perms --password-file=/etc/codesync.secret codesync@deployment.webplatform.org::code/docs/JobSettings.php /srv/webplatform/wiki/JobSettings.php:
+rsync -a --no-perms --password-file=/etc/codesync.secret codesync@deployment.webplatform.org::code/docs/CurrentSettings.php /srv/webplatform/wiki/CurrentSettings.php:
   cmd.run:
     - user: root
     - group: root

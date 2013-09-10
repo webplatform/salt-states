@@ -1,6 +1,7 @@
 <VirtualHost *:80>
         ServerAdmin noc@webplatform.org
 	ServerName docs.webplatform.org
+  ServerAlias test.webplatform.org
 
         DocumentRoot /var/www
 
