@@ -9,6 +9,11 @@ memcached:
     - requires:
       - pkg: memcached
 
+memcached-dependencies:
+  pkg.installed:
+    pkgs:
+      - libmemcached-tools
+
 /etc/memcached.conf:
   file:
     - managed
