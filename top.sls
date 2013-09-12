@@ -70,6 +70,7 @@ base:
   'project*':
     - apache
     - apache.buggenie
+    - buggenie.crontab 
   'kuma.webplatform.org':
     - apache
     - apache.kuma
