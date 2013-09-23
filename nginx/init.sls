@@ -13,7 +13,6 @@ nginx:
             - file: /etc/nginx/mime.types
             - file: /etc/nginx/nginx.conf
             - file: /etc/nginx/fastcgi_params
-            - file: /etc/nginx/conf.d/*.conf
             - file: /etc/nginx/custom.d/*.conf
         - reload: True
         - require:
@@ -24,12 +23,14 @@ nginx:
     - source: salt://nginx/files/fastcgi_params
     - user: root
     - group: root
+    - require:
+      - pkg: nginx
 
 php5-fpm:
   service.running:
     - enable: True
-    - watch:
-      - file: /etc/php5/conf.d/*.ini
+    - require:
+      - pkg: nginx
   pkg:
     - installed
 
