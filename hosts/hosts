@@ -22,10 +22,10 @@
 10.5.89.222     code.webplatform.org code
 10.4.178.137    project.webplatform.org project
 10.5.162.230    kuma.webplatform.org kuma
-10.5.113.242    piwik0.webplatform.org piwik0
 10.5.116.164    piwik1.webplatform.org piwik1
 10.4.240.248    piwik2.webplatform.org piwik2
 10.5.64.194     blog0.webplatform.org blog0
+10.5.251.57     noc.webplatform.org noc
 
 # The following lines are desirable for IPv6 capable hosts
 ::1 ip6-localhost ip6-loopback

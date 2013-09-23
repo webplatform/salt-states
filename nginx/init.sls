@@ -19,6 +19,12 @@ nginx:
         - require:
             - pkg: nginx
 
+/etc/nginx/fastcgi_params:
+  file.managed:
+    - source: salt://nginx/files/fastcgi_params
+    - user: root
+    - group: root
+
 php5-fpm:
   service.running:
     - enable: True

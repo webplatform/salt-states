@@ -25,8 +25,9 @@ piwik-archive-requirements:
     - group: root
     - mode: 644
 
-/etc/nginx/fastcgi_params:
+update-fastcgi-params:
   file.append:
+    - name: /etc/nginx/fastcgi_params
     - text:
       - '# Added by salt stack on manifest piwik.archive'
       - fastcgi_param   GEOIP_ADDR              $remote_addr;
@@ -39,6 +40,8 @@ piwik-archive-requirements:
       - fastcgi_param   GEOIP_LATITUDE          $geoip_latitude;
       - fastcgi_param   GEOIP_LONGITUDE         $geoip_longitude;
       - fastcgi_param   GEOIP_POSTAL_CODE       $geoip_postal_code;
+    - require:
+      - file: /etc/nginx/fastcgi_params
 
 /usr/bin/piwik-archive.sh:
   file.managed:
@@ -52,5 +55,4 @@ piwik-archive-requirements:
     - require:
       - file: /usr/bin/piwik-archive.sh
       - file: /etc/profile.d/mailto.sh
-      - file: /etc/nginx/fastcgi_params
       - file: /etc/nginx/conf.d/geoip.conf

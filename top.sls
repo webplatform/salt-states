@@ -78,14 +78,7 @@ base:
     - kuma
   'challenge*':
     - users.renoirb
-  'piwik0*':
-    - apache
-    - piwik
-    - apache.stats
-    - php.apache
-    - apache.disabled
-  'piwik[1-2]*':
+  'piwik*':
     - nginx
     - php.fpm
     - piwik
-
