@@ -10,6 +10,9 @@ tguild:
       - tguild
       - ops
       - deployment
+    - require:
+      - group: ops
+      - group: deployment
 
 tguild_keys:
   ssh_auth:

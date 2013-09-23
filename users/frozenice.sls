@@ -9,6 +9,9 @@ frozenice:
       - frozenice
       - ops
       - deployment
+    - require:
+      - group: ops
+      - group: deployment
 
 frozenice_keys:
   ssh_auth:

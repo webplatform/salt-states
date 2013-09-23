@@ -9,6 +9,9 @@ julee:
       - julee
       - ops
       - deployment
+    - require:
+      - group: ops
+      - group: deployment
 
 julee_keys:
   ssh_auth:

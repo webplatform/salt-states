@@ -9,6 +9,9 @@ garbee:
       - garbee
       - ops
       - deployment
+    - require:
+      - group: ops
+      - group: deployment
 
 garbee_keys:
   ssh_auth:

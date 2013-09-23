@@ -11,13 +11,18 @@ renoirb:
       - renoirb
       - ops
       - deployment
+    - require:
+      - group: ops
+      - group: deployment
 
 /home/renoirb/.screenrc:
   file.managed:
     - user: renoirb
     - group: deployment
     - mode: 640
-    - source: salt://environment/screenrc
+    - source: salt://environment/files/screenrc
+    - require:
+      - user: renoirb
 
 {% if grains['host'] == 'deployment' %}
 /home/renoirb/.my.cnf:
@@ -26,6 +31,8 @@ renoirb:
     - group: deployment
     - mode: 640
     - source: salt://environment/my.cnf
+    - require:
+      - user: renoirb
 {% endif %}
 
 renoirb_keys:

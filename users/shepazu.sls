@@ -10,6 +10,9 @@ shepazu:
       - shepazu
       - ops
       - deployment
+    - require:
+      - group: ops
+      - group: deployment
 
 shepazu_keys:
   ssh_auth:

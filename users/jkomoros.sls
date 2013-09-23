@@ -9,6 +9,9 @@ jkomoros:
       - jkomoros
       - ops
       - deployment
+    - require:
+      - group: ops
+      - group: deployment
 
 jkomoros_keys:
   ssh_auth:

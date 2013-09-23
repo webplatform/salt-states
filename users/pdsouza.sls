@@ -9,6 +9,9 @@ pdsouza:
       - pdsouza
       - ops
       - deployment
+    - require:
+      - group: ops
+      - group: deployment
 
 pdsouza_keys:
   ssh_auth:

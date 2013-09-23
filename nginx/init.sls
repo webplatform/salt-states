@@ -23,8 +23,6 @@ nginx:
     - source: salt://nginx/files/fastcgi_params
     - user: root
     - group: root
-    - require:
-      - pkg: nginx
 
 php5-fpm:
   service.running:
@@ -45,8 +43,6 @@ purge-apache:
     file.managed:
         - source: salt://nginx/files/nginx.conf
         - template: jinja
-        - require:
-            - pkg: nginx
 
 /etc/nginx/mime.types:
     file.managed:
