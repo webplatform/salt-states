@@ -11,7 +11,7 @@ memcached:
 
 memcached-dependencies:
   pkg.installed:
-    pkgs:
+    - pkgs:
       - libmemcached-tools
 
 /etc/memcached.conf:
