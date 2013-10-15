@@ -15,3 +15,4 @@ tables_prefix = piwik_
 session_save_handler    = dbtable
 proxy_client_headers[]  = HTTP_X_FORWARDED_FOR
 proxy_host_headers[]    = HTTP_X_FORWARDED_HOST
+noreply_email_address   = team-webplatform-systems@w3.org
