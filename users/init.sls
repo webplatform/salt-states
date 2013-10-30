@@ -9,3 +9,4 @@ include:
   - users.frozenice
   - users.garbee
   - users.pdsouza
+  - users.jensimmons
