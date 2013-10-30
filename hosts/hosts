@@ -4,8 +4,6 @@
 10.5.7.77       app3.webplatform.org app3
 10.5.7.79       app4.webplatform.org app4
 10.5.7.43       app5.webplatform.org app5
-10.5.95.242     app6.webplatform.org app6
-10.5.95.106     app7.webplatform.org app7
 10.5.240.174    backup.webplatform.org backup
 10.5.152.248    backup2.webplatform.org backup2
 10.4.79.233     challenge-gerrit.webplatform.org challenge-gerrit
@@ -25,7 +23,10 @@
 10.5.116.164    piwik1.webplatform.org piwik1
 10.4.240.248    piwik2.webplatform.org piwik2
 10.5.64.194     blog0.webplatform.org blog0
-10.5.251.57     noc.webplatform.org noc
+
+10.5.65.65      piwik3-tests.webplatform.org piwik3-tests
+10.5.25.118     app7.webplatform.org app7
+10.5.95.242     app6.webplatform.org app6
 
 # The following lines are desirable for IPv6 capable hosts
 ::1 ip6-localhost ip6-loopback
