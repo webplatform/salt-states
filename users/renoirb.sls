@@ -20,7 +20,7 @@ renoirb:
     - user: renoirb
     - group: deployment
     - mode: 640
-    - source: salt://environment/files/screenrc
+    - source: salt://environment/screenrc
     - require:
       - user: renoirb
 
