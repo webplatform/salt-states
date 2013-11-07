@@ -1,7 +1,8 @@
 include:
   - php
+  - nginx
+  - php.fpm
   - piwik.config
-  - piwik.archive
 
 php-piwik:
   pkg:

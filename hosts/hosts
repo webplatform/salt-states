@@ -7,7 +7,6 @@
 10.5.240.174    backup.webplatform.org backup
 10.5.152.248    backup2.webplatform.org backup2
 10.4.79.233     challenge-gerrit.webplatform.org challenge-gerrit
-10.4.8.157      challenge-webserver.webplatform.org challenge-webserver
 10.5.240.3      deployment.webplatform.org deployment
 10.4.207.83     db1.webplatform.org db1
 10.5.33.197     db2.webplatform.org db2
@@ -24,8 +23,7 @@
 10.4.240.248    piwik2.webplatform.org piwik2
 10.5.64.194     blog0.webplatform.org blog0
 
-10.5.120.118    piwik4-tests.webplatform.org piwik4-tests
-10.5.25.118     app7.webplatform.org app7
+10.4.28.186     piwik-test.webplatform.org piwik-test
 10.5.95.242     app6.webplatform.org app6
 
 # The following lines are desirable for IPv6 capable hosts

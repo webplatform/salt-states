@@ -79,6 +79,5 @@ base:
   'challenge*':
     - users.renoirb
   'piwik*':
-    - nginx
-    - php.fpm
     - piwik
+    - piwik.archive

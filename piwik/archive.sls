@@ -1,5 +1,7 @@
 include:
   - cron
+  - nginx
+  - php.fpm
 
 piwik-archive-requirements:
   pkg:
@@ -24,6 +26,8 @@ piwik-archive-requirements:
     - user: root
     - group: root
     - mode: 644
+    - require:
+      - pkg: nginx
 
 update-fastcgi-params:
   file.append:
@@ -41,7 +45,7 @@ update-fastcgi-params:
       - fastcgi_param   GEOIP_LONGITUDE         $geoip_longitude;
       - fastcgi_param   GEOIP_POSTAL_CODE       $geoip_postal_code;
     - require:
-      - file: /etc/nginx/fastcgi_params
+      - sls: nginx
 
 /usr/bin/piwik-archive.sh:
   file.managed:
