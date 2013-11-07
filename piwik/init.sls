@@ -1,5 +1,4 @@
 include:
-  - php.apache
   - php
   - piwik.config
   - piwik.archive
