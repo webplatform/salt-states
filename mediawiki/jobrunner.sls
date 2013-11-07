@@ -1,3 +1,17 @@
+/usr/bin/mediawiki-runJobs.sh:
+  file.managed:
+    - mode: 755 
+    - user: www-data
+    - group: www-data
+    - source: salt://mediawiki/files/mediawiki-runJobs.sh
+
+mediawiki_jobrunner_cron_1:
+  cron.present:
+    - user: www-data
+    - minute: random
+    - require:
+      - file: /usr/bin/piwik-archive.sh
+
 mediawiki_jobrunner_current_cron:
   cron.absent:
     - minute: random

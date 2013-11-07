@@ -3,4 +3,4 @@ ntpupdate:
     - user: root
     - minute: 0
     - hour: 0
-    - name: 'ntpdate ntp.ubuntu.com'
+    - name: '/usr/sbin/ntpdate ntp.ubuntu.com'
