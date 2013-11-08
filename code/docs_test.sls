@@ -5,7 +5,7 @@ include:
   - rsync.secret
 
 ## Normal mode - test deploys from same location as current
-rsync -a --delete --no-perms --password-file=/etc/codesync.secret --exclude="LocalSettings.php" codesync@deployment.webplatform.org::code/docs/current/ /srv/webplatform/wiki/test/:
+rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/etc/codesync.secret --exclude="LocalSettings.php" codesync@deployment.webplatform.org::code/docs/current/ /srv/webplatform/wiki/test/:
   cmd.run:
     - user: root
     - group: root
@@ -14,7 +14,7 @@ rsync -a --delete --no-perms --password-file=/etc/codesync.secret --exclude="Loc
       - file: /srv/webplatform
 
 ## Upgrade mode - test runs from its own directory
-#rsync -a --delete --no-perms --password-file=/etc/codesync.secret --exclude="LocalSettings.php" codesync@deployment.webplatform.org::code/docs/test/ /srv/webplatform/wiki/test/:
+#rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/etc/codesync.secret --exclude="LocalSettings.php" codesync@deployment.webplatform.org::code/docs/test/ /srv/webplatform/wiki/test/:
 #  cmd.run:
 #    - user: root
 #    - group: root
