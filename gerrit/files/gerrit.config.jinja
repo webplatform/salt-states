@@ -1,6 +1,6 @@
 [gerrit]
-	basePath = git
-	canonicalWebUrl = <%= url %>
+	basePath = {{ pillar['gerrit_gitdir'] }}
+	canonicalWebUrl = {{ pillar['gerrit_canonical'] }}
 [core]
 	packedGitOpenFiles = 4096
 	packedGitLimit = 500m
@@ -8,15 +8,17 @@
 	streamFileThreshold = 100m
 [database]
 	type = MYSQL
-	hostname = <%= dbhost %>
-	database = <%= dbname %>
-	username = <%= dbuser %>
-	url = jdbc:mysql://<%= dbhost %>/<%= dbname %>?characterSetResults=utf8&characterEncoding=utf8&connectionCollation=utf8_unicode_ci
+	hostname = {{ pillar['gerrit_dbhost'] }}
+	database = {{ pillar['gerrit_dbname'] }}
+	username = {{ pillar['gerrit_dbuser'] }}
+	url = jdbc:mysql://{{ pillar['gerrit_dbhost'] }}/{{ pillar['gerrit_dbname'] }}?characterSetResults=utf8&characterEncoding=utf8&connectionCollation=utf8_unicode_ci
 [auth]
 	type = OPENID
 	#cookieSecure = true
 [sendemail]
 	smtpServerPort = 25
+  smtpServer = smtp.sendgrid.net
+  smtpUser = WebPlatformEmail
 	smtpServer = 127.0.0.1
 [container]
 	user = gerrit2

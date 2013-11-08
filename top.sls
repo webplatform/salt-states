@@ -38,7 +38,9 @@ base:
   'bots*':
     - bots
   'code*':
+    - apache.gerrit
     - gerrit
+    - rsync
   'db*':
     - backup.db
     - mysql.server

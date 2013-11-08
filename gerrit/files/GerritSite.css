@@ -1,0 +1,14 @@
+#gerrit_header {
+   background: transparent url(http://www.webplatform.org/logo/wplogo_pillow_widesmall_white.png) no-repeat center;
+   height: 60px;
+   width: 150px;
+   overflow: hidden;
+   text-indent: -9999px;
+   position: absolute;
+   top: 5px;
+   left: 5px;
+}
+
+#gerrit_topmenu {
+  padding-left: 150px;
+}

@@ -1,0 +1,46 @@
+<VirtualHost _default_:80>
+        ServerName gerrit.webplatform.org
+
+        ServerAdmin renoirb@w3.org
+
+        # <suggestion>
+        # ONCE WE KNOW THE HOSTNAME, WE REMOVE THIS
+        # and put it to redirect permanently/rewrite
+        # to the HTTPS version
+        # 
+        ProxyRequests Off
+        ProxyVia Off
+        ProxyPreserveHost On
+
+        <Proxy *>
+              Order deny,allow
+              Allow from all
+        </Proxy>
+        ProxyPass /r/ http://127.0.0.1:8080/r/
+        #
+        #</suggestion>
+        #
+
+        Redirect permanent / http://webplatform.org/
+
+        DocumentRoot /var/www
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+        <Directory /var/www/>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
