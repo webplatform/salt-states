@@ -1,21 +1,19 @@
 <VirtualHost *:80>
-        ServerAdmin noc@webplatform.org
-	ServerName docs.webplatform.org
+  ServerAdmin noc@webplatform.org
+  ServerName docs.webplatform.org
   ServerAlias test.webplatform.org
 
-        DocumentRoot /var/www
-
-        <Directory />
-                Options FollowSymLinks
-                AllowOverride None
-        </Directory>
-        <Directory /var/www/>
-                Options FollowSymLinks
-                AllowOverride None
-                Order allow,deny
-                allow from all
-        </Directory>
-
+  DocumentRoot /var/www
+  <Directory />
+          Options FollowSymLinks
+          AllowOverride None
+  </Directory>
+  <Directory /var/www/>
+          Options FollowSymLinks
+          AllowOverride None
+          Order allow,deny
+          allow from all
+  </Directory>
 	<Directorymatch "^/.*/\.git/">
 		Order deny,allow
 		deny from all

@@ -10,3 +10,4 @@ include:
   - users.garbee
   - users.pdsouza
   - users.jensimmons
+  - users.jean-gui
