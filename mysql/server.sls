@@ -11,6 +11,7 @@ mysql-server:
       - pkg: mysql-server
       - file: /etc/apparmor.d/usr.sbin.mysqld
     - watch:
+      - file: /etc/mysql/conf.d
       - file: /etc/mysql/my.cnf
 
 # https://blogs.oracle.com/jsmyth/entry/apparmor_and_mysql
@@ -38,3 +39,11 @@ apparmor:
     - template: jinja
     - require:
       - pkg: mysql-server
+
+/etc/mysql/conf.d:
+  file.recurse:
+    - user: root
+    - group: root
+    - dir_mode: 755
+    - include_empty: True
+    - source: salt://mysql/files/conf.d
