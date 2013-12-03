@@ -44,6 +44,7 @@ base:
   'db*':
     - backup.db
     - mysql.server
+    - mysql.ssl
     - rsync
   'deployment*':
     - backup.mediawiki_xml
