@@ -22,7 +22,8 @@
 10.4.240.248    piwik2.webplatform.org piwik2
 10.5.64.194     blog0.webplatform.org blog0
 
-10.4.96.252     db8.webplatform.org db8
+10.5.49.52      db8.webplatform.org db8
+10.5.47.127     db9.webplatform.org db9
 
 # The following lines are desirable for IPv6 capable hosts
 ::1 ip6-localhost ip6-loopback

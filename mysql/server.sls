@@ -23,7 +23,8 @@ apparmor:
 
 /etc/apparmor.d/usr.sbin.mysqld:
   file.patch:
-    - hash: md5=3d0d5311d599ab6fc48f74efdf7443e0
+    - hash: md5=3d0d5311d599ab6fc48f74efdf7443e0    # Ubuntu 10.04
+#    - hash: md5=c773199742d3eab522de1a5a95fcd2d8    # Ubuntu 10.04.4
     - source: salt://mysql/apparmor.patch
     - require:
       - pkg: apparmor
