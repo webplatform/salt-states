@@ -1,0 +1,13 @@
+/mnt/logs/caching.log
+/mnt/logs/error.log
+{
+	rotate 7
+	daily
+	missingok
+	notifempty
+	delaycompress
+	compress
+	postrotate
+		invoke-rc.d syslog-ng reload > /dev/null
+	endscript
+}

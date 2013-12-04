@@ -50,6 +50,8 @@ base:
     - backup.mediawiki_xml
     - backup.mediawiki_images
     - backup.salt_master
+    - logrotate
+    - logrotate.deployment
     - glusterfs
     - mediawiki
     - qwebirc

@@ -10,3 +10,11 @@ syslog-ng:
     - template: jinja
     - watch_in:
       - service: syslog-ng
+
+/etc/syslog-ng/conf.d/20-caching.conf:
+  file.managed:
+    - source: salt://logging/20-caching.conf
+    - user: root
+    - group: root
+    - watch_in:
+      - service: syslog-ng
