@@ -47,6 +47,7 @@ base:
     - mysql.ssl
     - rsync
   'deployment*':
+    - environment.deploy
     - backup.mediawiki_xml
     - backup.mediawiki_images
     - backup.salt_master
