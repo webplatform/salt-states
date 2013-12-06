@@ -25,6 +25,8 @@
 # Testing machines
 10.5.47.127     db9.webplatform.org db9
 10.5.108.36     db8.webplatform.org db8
+10.0.0.2	deployment deployment-template deployment.webplatform.org
+10.0.0.3	app1
 
 # The following lines are desirable for IPv6 capable hosts
 ::1 ip6-localhost ip6-loopback

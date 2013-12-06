@@ -1,5 +1,6 @@
 base:
   '*':
+    - webplatform
     - dhcp
     - dns
     - git
@@ -59,7 +60,7 @@ base:
     - rsync
     - environment
     - logging.syslog_ng
-    - logging.udp2log
+#    - logging.udp2log
     - python
     - python.mysqldb
   'storage*':
@@ -82,8 +83,6 @@ base:
     - apache
     - apache.kuma
     - kuma
-  'challenge*':
-    - users.renoirb
   'piwik*':
     - piwik
     - piwik.archive

@@ -9,3 +9,6 @@ twisted-libraries:
       - python-twisted-mail
       - python-twisted-words
       - python-twisted-web
+      - python-twisted-conch
+      - python-twisted-lore
+      - python-twisted-news
