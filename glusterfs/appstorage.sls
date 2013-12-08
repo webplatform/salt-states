@@ -1,7 +1,7 @@
 # Mount point for the glusterfs filesystems
 /srv/storage:
   mount.mounted:
-    - device: /dev/vdc
+    - device: /dev/vdb1
     - fstype: xfs
     - mkmnt: True
     - opts:
