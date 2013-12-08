@@ -24,7 +24,7 @@ openssl-client-newkey:
   file.managed:
     - name: /etc/mysql/client-req.pem
     - user: mysql
-    - group: mysql
+    - group: ops
     - mode: 640
 
 openssl-client-key:
@@ -37,7 +37,7 @@ openssl-client-key:
   file.managed:
     - name: /etc/mysql/client-key.pem
     - user: mysql
-    - group: mysql
+    - group: ops
     - mode: 640
 
 openssl-client-cert:
@@ -53,7 +53,7 @@ openssl-client-cert:
   file.managed:
     - name: /etc/mysql/client-cert.pem
     - user: mysql
-    - group: mysql
+    - group: ops
     - mode: 640
 
 openssl-newkey:

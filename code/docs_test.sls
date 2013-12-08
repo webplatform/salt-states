@@ -4,6 +4,10 @@ include:
   - code.prereq
   - rsync.secret
 
+/srv/webplatform/wiki/test:
+  file.directory:
+    - makedirs: True
+
 ## Normal mode - test deploys from same location as current
 rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/etc/codesync.secret --exclude="LocalSettings.php" codesync@deployment.webplatform.org::code/docs/current/ /srv/webplatform/wiki/test/:
   cmd.run:
@@ -12,6 +16,8 @@ rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/
     - require:
       - file: /etc/codesync.secret
       - file: /srv/webplatform
+      - file: /srv/webplatform/wiki/test
+
 
 ## Upgrade mode - test runs from its own directory
 #rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/etc/codesync.secret --exclude="LocalSettings.php" codesync@deployment.webplatform.org::code/docs/test/ /srv/webplatform/wiki/test/:

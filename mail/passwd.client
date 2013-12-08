@@ -5,4 +5,4 @@
 #
 # Example:
 ### target.mail.server.example:login:password
-smtp.sendgrid.net:WebPlatformEmail:4nEm41LP45$w0rD
+{{ salt['pillar.get']('accounts:smtp:host', 'localhost') }}:{{ salt['pillar.get']('accounts:smtp:username', 'login') }}:{{ salt['pillar.get']('accounts:smtp:password', 'ChangeMe') }}

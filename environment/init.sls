@@ -19,3 +19,8 @@
     - group: root
     - mode: 640
     - source: salt://environment/my.cnf
+
+useful-pkgs:
+  pkg.installed:
+    - pkgs:
+      - build-essential

@@ -10,6 +10,7 @@
 /etc/exim4/passwd.client:
   file.managed:
     - source: salt://mail/passwd.client
+    - template: jinja
     - user: root
     - group: Debian-exim
     - mode: 640

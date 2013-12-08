@@ -4,6 +4,10 @@ include:
   - code.prereq
   - rsync.secret
 
+/srv/webplatform/wiki/current:
+  file.directory:
+    - makedirs: True
+
 rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.webplatform.org::code/docs/current/ /srv/webplatform/wiki/current/:
   cmd.run:
     - user: root
@@ -11,3 +15,4 @@ rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/
     - require:
       - file: /etc/codesync.secret
       - file: /srv/webplatform
+      - file: /srv/webplatform/wiki/current

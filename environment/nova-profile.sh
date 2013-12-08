@@ -6,11 +6,8 @@
 #
 # @since 2013-08-20
 #
-echo "deployment.webplatform.org: You have access to 'nova' commands!"
-export NOVA_USERNAME="team-webplatform-admin@w3.org"
-export NOVA_PASSWORD="000000000000"
-#export NOVA_PROJECT_ID="team-webplatform-admin@w3.org-default-tenant"
-export NOVA_PROJECT_ID="schepers@w3.org-default-tenant"
-export NOVA_URL="https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0/"
-export NOVA_VERSION="1.1"
-export NOVA_REGION_NAME="az-1.region-a.geo-1"
+echo "deployment.dho.webplatform.org: You have access to 'nova' commands!"
+export OS_USERNAME=admin
+export OS_TENANT_NAME=admin
+export OS_AUTH_URL=https://horizon.dho.webplatform.org:35357/v2.0
+export OS_PASSWORD=0000000000000000000000000000
