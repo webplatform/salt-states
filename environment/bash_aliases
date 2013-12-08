@@ -1,0 +1,2 @@
+# Managed by salt stack
+alias service-test='nc -vz '

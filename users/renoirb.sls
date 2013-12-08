@@ -15,6 +15,15 @@ renoirb:
       - group: ops
       - group: deployment
 
+/home/renoirb/.bash_aliases:
+  file.managed:
+    - user: renoirb
+    - group: deployment
+    - require:
+      - user: renoirb
+    - source: salt://environment/bash_aliases
+
+
 /home/renoirb/.screenrc:
   file.managed:
     - user: renoirb

@@ -23,6 +23,10 @@ ganglia-monitor_service:
       port: {{ port }}
 {% endfor %}
 
+/etc/ganglia/conf.d:
+  file.directory:
+    - createdirs: True
+
 /etc/init.d/ganglia-monitor:
   file.managed:
     - user: root

@@ -1,14 +1,16 @@
+{% set list = ','.join(salt['pillar.get']('infra:storage:allow_app_servers')) %}
+
 manage_images_auth_allow:
   cmd.run:
-    - name: gluster volume set wiki-images auth.allow {{ pillar['volume_auth_allow']['wiki-images'] }}
-    - unless: "gluster volume info wiki-images | grep 'auth.allow' | grep '{{ pillar['volume_auth_allow']['wiki-images'] }}"
+    - name: gluster volume set wiki-images auth.allow {{ list }}
+    - unless: "gluster volume info wiki-images | grep 'auth.allow' | grep '{{ list }}'"
     - user: root
     - group: root
 
 manage_testimages_auth_allow:
   cmd.run:
-    - name: gluster volume set testimages auth.allow {{ pillar['volume_auth_allow']['wiki-images'] }}
-    - unless: "gluster volume info testimages | grep 'auth.allow' | grep '{{ pillar['volume_auth_allow']['wiki-images'] }}"
+    - name: gluster volume set testimages auth.allow {{ list }}
+    - unless: "gluster volume info testimages | grep 'auth.allow' | grep '{{ list }}'"
     - user: root
     - group: root
 

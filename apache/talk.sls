@@ -1,3 +1,6 @@
+include:
+  - apache.proxy
+
 /etc/apache2/sites-available/talk:
   file:
     - managed
@@ -7,6 +10,7 @@
     - mode: 444
     - requires:
       - pkg: apache2
+      - file: /etc/apache2/mods-available/proxy.conf
     - watch_in:
       - service: apache2
 

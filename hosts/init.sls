@@ -1,9 +1,5 @@
-{% for node, args in pillar.get('nodes', {}).items() -%}
-hosts-entry-{{ node }}:
-  host.present:
-    - ip: {{ args.get('private') }}
-    - names:
-      - {{ node }}
-      - {{ node }}.dho.wpdn
-      - {{ node }}.webplatform.org
-{% endfor -%}
+/etc/hosts:
+  file.managed:
+    - source: salt://hosts/files/hosts.jinja
+    - template: jinja
+    - mode: 444

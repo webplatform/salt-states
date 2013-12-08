@@ -1,6 +1,7 @@
 include:
   - apache
   - php.mediawiki-apache
+  - glusterfs
 
 {% from "apache/module.sls" import a2mod %}
 {{ a2mod('ssl') }}
@@ -26,7 +27,7 @@ install-mediawiki-{{ slot }}:
 # Mount point for the glusterfs filesystem
 /srv/webplatform/wiki/images:
   mount.mounted:
-    - device: storage3.webplatform.org:/wiki-images
+    - device: {{ salt['pillar.get']('infra:storage:master:wiki-images') }}
     - fstype: glusterfs
     - mkmnt: True
     - opts:
@@ -36,6 +37,8 @@ install-mediawiki-{{ slot }}:
       - log-file=/var/log/gluster.log
     - require:
       - pkg: glusterfs-client
+      - file: /srv/webplatform/wiki/images
   file.directory:
     - user: www-data
     - group: www-data
+    - makedirs: True
