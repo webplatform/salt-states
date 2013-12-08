@@ -1,10 +1,22 @@
 udplog:
   pkg.installed
 
+/mnt:
+  mount.mounted:
+    - name: /mnt
+    - device: /dev/vdc1
+    - fstype: xfs
+    - mkmnt: True
+    - opts:
+      - defaults
+
 /mnt/logs/mw-logs:
   file.directory:
     - user: udp2log
     - mode: 755
+    - makedirs: True
+    - require:
+      - mount: /mnt
 
 /usr/local/bin/demux.py:
   file.managed:

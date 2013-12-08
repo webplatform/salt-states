@@ -60,7 +60,7 @@ base:
     - rsync
     - environment
     - logging.syslog_ng
-#    - logging.udp2log
+    - logging.udp2log
     - python
     - python.mysqldb
   'storage*':
