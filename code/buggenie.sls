@@ -13,10 +13,18 @@ buggenie-codesync:
       - file: /etc/codesync.secret
       - file: /srv/webplatform
 
+/srv/webplatform/buggenie:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - recurse:
+      - user
+      - group
+    - require_in:
+      - file: /srv/webplatform/buggenie/core/cache
+
 /srv/webplatform/buggenie/core/cache:
   file.directory:
     - makedirs: True
-    - user: www-data
-    - group: www-data
     - require:
       - cmd: buggenie-codesync

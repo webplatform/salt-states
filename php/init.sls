@@ -32,6 +32,7 @@ install-composer:
 /etc/php5/conf.d/apc.ini:
   file.managed:
     - source: salt://php/apc.ini
+    - template: jinja
     - user: root
     - group: root
     - mode: 644

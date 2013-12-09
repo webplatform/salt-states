@@ -5,7 +5,7 @@ password  = 00000000000000000000000000000000
 email     = team-webplatform-systems@w3.org
 
 [database]
-host          = 10.4.207.83
+host          = master.db.wpdn
 username      = piwikuser
 password      = 16nP2q8kzbU3xtom711a
 dbname        = wpstats
