@@ -6,17 +6,12 @@ include:
 
 php-piwik:
   pkg:
-    - latest
-    - names:
-      - php5-mysql
-
-php-requirements:
-  pkg:
     - installed
     - names:
       - php5-gd
       - php-image-text
       - php5-curl
+      - php5-mysql
 
 /srv/webplatform/piwik/tmp:
   file.directory:
