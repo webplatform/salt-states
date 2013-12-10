@@ -26,6 +26,7 @@ useful-pkgs:
       - build-essential
       - libterm-readkey-perl
       - percona-toolkit
+      - python-novaclient
 
 /usr/local/bin/deploy.sh:
   file.managed:

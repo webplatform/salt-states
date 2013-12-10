@@ -1,4 +1,5 @@
 include:
+  - apache
   - apache.headers
 
 /etc/apache2/sites-available/docs:

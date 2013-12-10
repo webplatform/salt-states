@@ -1,3 +1,7 @@
+include:
+  - apache
+  - php
+
 {% from "apache/module.sls" import a2mod %}
 {{ a2mod('rewrite') }}
 
@@ -6,6 +10,12 @@ extend:
     service:
       - watch:
         - cmd: a2enmod rewrite
+
+buggenie-requirements:
+  pkg:
+    - installed
+    - names:
+      - php5-sqlite
 
 /etc/apache2/sites-available/buggenie:
   file:

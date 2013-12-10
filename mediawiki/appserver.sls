@@ -2,6 +2,7 @@ include:
   - apache
   - php.mediawiki-apache
   - glusterfs
+  - php
 
 {% from "apache/module.sls" import a2mod %}
 {{ a2mod('ssl') }}
@@ -20,6 +21,9 @@ install-mediawiki-{{ slot }}:
     - mode: 755
     - user: www-data
     - group: www-data
+    - recurse:
+      - user
+      - group
     - require:
       - cmd: install-mediawiki-{{ slot }}
 {% endfor %}

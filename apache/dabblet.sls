@@ -1,3 +1,6 @@
+include:
+  - apache
+
 /etc/apache2/sites-available/dabblet:
   file:
     - managed

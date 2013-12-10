@@ -19,6 +19,7 @@ base:
     - monitor
     - cron
   'app*':
+    - php
     - apache.webplatform
     - apache.docs
     - apache.talk
@@ -34,6 +35,7 @@ base:
     - backup
     - backup.master
   'blog*':
+    - php
     - wordpress
     - apache.blog
   'bots*':
@@ -49,16 +51,16 @@ base:
     - rsync
   'deployment*':
     - environment.deploy
+    - halite
     - backup.mediawiki_xml
     - backup.mediawiki_images
     - backup.salt_master
     - logrotate
     - logrotate.deployment
     - glusterfs
-    - mediawiki
     - qwebirc
     - rsync
-    - environment
+    - environment.deployment
     - logging.syslog_ng
     - logging.udp2log
     - python
@@ -73,16 +75,15 @@ base:
   'monitor*':
     - monitor.gmetad
     - monitor.web
-    - apache
     - apache.ganglia
   'project*':
-    - apache
+    - php
     - apache.buggenie
     - buggenie.crontab
   'kuma.webplatform.org':
-    - apache
     - apache.kuma
     - kuma
   'piwik*':
+    - php
     - piwik
     - piwik.archive

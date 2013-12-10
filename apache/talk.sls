@@ -1,4 +1,5 @@
 include:
+  - apache
   - apache.proxy
 
 /etc/apache2/sites-available/talk:
