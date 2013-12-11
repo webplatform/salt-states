@@ -19,13 +19,12 @@ install-mediawiki-{{ slot }}:
 /srv/webplatform/wiki/{{ slot }}/cache:
   file.directory:
     - mode: 755
+    - makedirs: True
     - user: www-data
     - group: www-data
     - recurse:
       - user
       - group
-    - require:
-      - cmd: install-mediawiki-{{ slot }}
 {% endfor %}
 
 # Mount point for the glusterfs filesystem

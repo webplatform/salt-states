@@ -9,6 +9,5 @@ include:
   - users.frozenice
   - users.garbee
   - users.pdsouza
-  - users.jensimmons
   - users.jean-gui
   - users.estheban

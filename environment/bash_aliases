@@ -1,3 +1,4 @@
 # Managed by salt stack
 alias service-test='nc -vz '
 alias besu='sudo -H bash -l'
+alias gentoken='openssl rand -base64 32'

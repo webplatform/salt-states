@@ -1,6 +1,21 @@
 include:
   - mysql
 
+salt-dependency:
+  pkg.installed:
+    - name: python-mysqldb
+    - requires:
+      - pkg: mysql-server
+      - file: /etc/mysql/debian.cnf
+
+/etc/mysql/debian.cnf:
+  file.managed:
+    - modes: 600
+    - source: salt://mysql/debian.cnf.jinja
+    - template: jinja
+    - requires:
+      - pkg: mysql-server
+
 mysql-server:
   pkg:
     - installed
