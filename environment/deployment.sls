@@ -6,7 +6,7 @@
     - group: root
     - mode: 644 
 
-/etc/profile.d/Z99-nova.sh:
+/etc/profile.d/nova.sh:
   file.managed:
     - user: root
     - group: ops
