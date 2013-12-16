@@ -1,3 +1,6 @@
+#
+# Things that are specific to deployment machine
+#
 /etc/bash.bashrc:
   file:
     - managed

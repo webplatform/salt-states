@@ -55,14 +55,14 @@ base:
     - environment.deploy
     - halite
     - backup.mediawiki_xml
-    - backup.mediawiki_images
+#    - backup.mediawiki_images
     - backup.salt_master
     - logrotate
     - logrotate.deployment
     - glusterfs
     - qwebirc
     - rsync
-    - environment.deployment
+    - specific.deployment
     - logging.syslog_ng
     - logging.udp2log
     - python
