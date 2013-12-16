@@ -49,6 +49,8 @@ base:
     - mysql.server
     - mysql.ssl
     - rsync
+  'db1*':
+    - specific.db1
   'deployment*':
     - environment.deploy
     - halite
