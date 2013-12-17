@@ -16,11 +16,15 @@ manage_testimages_auth_allow:
 
 /srv/storage/wiki-images:
   file.directory:
+    - user: www-data
+    - group: www-data
     - require:
       - mount: /srv/storage
 
 /srv/storage/testimages:
   file.directory:
+    - user: www-data
+    - group: www-data
     - require:
       - mount: /srv/storage
 

@@ -28,9 +28,11 @@ base:
     - mediawiki
     - mediawiki.appserver
     - mediawiki.scaler
-    - qwebirc
-    - qwebirc.daemon
+#    - qwebirc
+#    - qwebirc.daemon
     - mediawiki.jobrunner
+  'app-hypotesis*':
+    - hypotesis
   'backup*':
     - backup
     - backup.master
@@ -49,8 +51,8 @@ base:
     - mysql.server
     - mysql.ssl
     - rsync
-  'db1*':
-    - specific.db1
+  'db4*':
+    - specific.master-db
   'deployment*':
     - environment.deploy
     - halite
@@ -60,7 +62,7 @@ base:
     - logrotate
     - logrotate.deployment
     - glusterfs
-    - qwebirc
+#    - qwebirc
     - rsync
     - specific.deployment
     - logging.syslog_ng
@@ -72,6 +74,8 @@ base:
     - glusterfs.server
     - glusterfs.images_volume
     - glusterfs.appstorage
+  'storage1*':
+    - specific.storage1
   'memcache*':
     - memcached
   'monitor*':

@@ -29,18 +29,18 @@ install-mediawiki-{{ slot }}:
 
 # Mount point for the glusterfs filesystem
 /srv/webplatform/wiki/images:
-#  mount.mounted:
-#    - device: {{ salt['pillar.get']('infra:storage:master:wiki-images') }}
-#    - fstype: glusterfs
-#    - mkmnt: True
-#    - opts:
-#      - defaults
-#      - _netdev=eth0
-#      - log-level=WARNING
-#      - log-file=/var/log/gluster.log
-#    - require:
-#      - pkg: glusterfs-client
-#      - file: /srv/webplatform/wiki/images
+  mount.mounted:
+    - device: {{ salt['pillar.get']('infra:storage:master:wiki-images') }}
+    - fstype: glusterfs
+    - mkmnt: True
+    - opts:
+      - defaults
+      - _netdev=eth0
+      - log-level=WARNING
+      - log-file=/var/log/gluster.log
+    - require:
+      - pkg: glusterfs-client
+      - file: /srv/webplatform/wiki/images
   file.directory:
     - user: www-data
     - group: www-data

@@ -9,5 +9,10 @@ buggenie-dbconfig:
     - user: nobody
     - group: www-data
     - require:
-      - file: master.db.wpdn
       - cmd: buggenie-codesync
+
+/var/www/robots.txt:
+  file.managed:
+    - source: salt://buggenie/files/robots.txt
+    - user: www-data
+    - group: www-data

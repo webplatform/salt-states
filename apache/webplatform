@@ -1,7 +1,7 @@
 <VirtualHost *:80>
   ServerAdmin noc@webplatform.org
-	ServerName webplatform.org
-	ServerAlias www.webplatform.org www1.webplatform.org
+  ServerName webplatform.org
+  ServerAlias www.webplatform.org www1.webplatform.org
 
   DocumentRoot /var/www
 
@@ -28,9 +28,9 @@
 
   CustomLog /var/log/apache2/access.log combined
 
-	RewriteCond %{HTTP_HOST} !^www\.webplatform\.org [NC]
-	RewriteCond %{HTTP_HOST} !^$
-	RewriteRule ^/?(.*) http://www.webplatform.org/$1 [L,R,NE]
+  RewriteCond %{HTTP_HOST} !^www\.webplatform\.org [NC]
+  RewriteCond %{HTTP_HOST} !^$
+  RewriteRule ^/?(.*) http://www.webplatform.org/$1 [L,R,NE]
 
   Alias /index.html /srv/webplatform/nonshared/webplatform/index.html
   Alias /logo /srv/webplatform/nonshared/webplatform/logo
@@ -41,18 +41,19 @@
   Alias /google1196cd49dc73743e.html /srv/webplatform/nonshared/webplatform/google1196cd49dc73743e.html
   Alias /BingSiteAuth.xml /srv/webplatform/nonshared/webplatform/BingSiteAuth.xml
 
-	# MediaWiki
-	<Directory /srv/webplatform/wiki/images>
-		Options -Indexes
-	</Directory>
-
-	RewriteEngine on
-	RewriteRule   ^/docs/(.+)  http://docs.webplatform.org/wiki/$1  [R,L]
-	RedirectMatch ^/docs/?$ http://docs.webplatform.org/wiki/
-	RedirectMatch ^/wiki/?$ http://docs.webplatform.org/wiki/
-
-	RedirectMatch ^/talk/?$ http://webplatform.org/chat/
-	RedirectMatch ^/chat/?$ http://talk.webplatform.org/chat/
+  # MediaWiki
+  <Directory /srv/webplatform/wiki/images>
+  	Options -Indexes
+  </Directory>
+  
+  RewriteEngine on
+ 
+  RewriteRule   ^/docs/(.+)  http://docs.webplatform.org/wiki/$1  [R,L]
+  RedirectMatch ^/docs/?$ http://docs.webplatform.org/wiki/
+  RedirectMatch ^/wiki/?$ http://docs.webplatform.org/wiki/
+  
+  RedirectMatch ^/talk/?$ http://webplatform.org/chat/
+  RedirectMatch ^/chat/?$ http://talk.webplatform.org/chat/
 
   # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0174.html
   RewriteCond %{REQUEST_URI}        ^/(beginners|css|dom|concepts|accessibility|svg|html|javascript|apis)

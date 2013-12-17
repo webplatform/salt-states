@@ -8,5 +8,6 @@
     - group: root
     - mode: 444
     - source: salt://dhcp/dhclient.conf
+    - template: jinja
     - watch_in:
       - service: networking

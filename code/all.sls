@@ -4,6 +4,6 @@ include:
   - code.piwik
   - code.root
   - code.nonshared
-  - code.qwebirc
+#  - code.qwebirc
   - code.talk
   - code.blog

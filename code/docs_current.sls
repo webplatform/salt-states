@@ -4,6 +4,17 @@ include:
   - code.prereq
   - rsync.secret
 
+ensure-cache-writable-current:
+  file.directory:
+    - name: /srv/webplatform/wiki/current/cache
+    - mode: 755
+    - makedirs: True
+    - user: www-data
+    - group: www-data
+    - recurse:
+      - user
+      - group
+
 /srv/webplatform/wiki/current:
   file.directory:
     - makedirs: True
@@ -12,7 +23,9 @@ rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/
   cmd.run:
     - user: root
     - group: root
-    - require:
+    - require_in:
+      - file: ensure-cache-writable-current
+    - requires:
       - file: /etc/codesync.secret
       - file: /srv/webplatform
       - file: /srv/webplatform/wiki/current

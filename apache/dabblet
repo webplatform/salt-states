@@ -1,7 +1,6 @@
 <VirtualHost *:80>
         ServerAdmin noc@webplatform.org
 	ServerName code.webplatform.org
-	ServerAlias preview.webplatform.org result.webplatform.org
 
         DocumentRoot /srv/webplatform/dabblet
         <Directory />

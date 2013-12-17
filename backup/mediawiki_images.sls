@@ -1,6 +1,6 @@
 /srv/mediawiki_images:
   mount.mounted:
-    - device: storage3.webplatform.org:/wiki-images
+    - device: storage1.dho.wpdn:/wiki-images
     - fstype: glusterfs
     - mkmnt: True
     - opts:
