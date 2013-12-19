@@ -8,13 +8,6 @@ salt-dependency:
       - pkg: mysql-server
       - file: /etc/mysql/debian.cnf
 
-/etc/salt/minion.d/mysql.conf:
-  file.managed:
-    - modes: 644
-    - source: salt://mysql/minion.mysql.conf
-    - requires:
-      - file: /etc/mysql/debian.cnf
-
 /etc/mysql/debian.cnf:
   file.managed:
     - modes: 600
