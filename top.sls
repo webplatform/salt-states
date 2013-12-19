@@ -54,7 +54,6 @@ base:
   'db4*':
     - specific.master-db
   'deployment*':
-    - environment.deploy
     - halite
     - backup.mediawiki_xml
 #    - backup.mediawiki_images
