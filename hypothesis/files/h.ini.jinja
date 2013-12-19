@@ -1,0 +1,118 @@
+[app:main]
+use: egg:h
+
+api.endpoint: /api
+api.key: 00000000-0000-0000-0000-000000000000
+api.secret: f52c57f0-36ba-761e-32df-28621a1d26c1
+
+# ElasticSearch configuration
+es.host: http://elastic2.dho.wpdn:9200
+es.index: notes
+
+# User and group framework settings -- see horus documentation
+horus.login_redirect: /
+horus.logout_redirect: /
+#horus.activate_redirect: /
+#horus.register_redirect: /
+#horus.autologin: False
+#horus.allow_email_auth: False
+#horus.require_activation: True
+
+# Mail server configuration -- see the pyramid_mailer documentation
+mail.default_sender: "Annotation Daemon" <nobody@webplatform.org>
+mail.host: mail.webplatform.org
+mail.port: 25
+
+# Include any deployment-specific pyramid add-ons here
+pyramid.includes:
+   deform_bootstrap
+   pyramid_deform
+   pyramid_mailer
+
+# Change or append to override templates
+pyramid_deform.template_search_path: h:templates/deform
+
+# Session settings --  see the beaker documentation
+# Example:
+#   session.type = file
+#   session.data_dir = %(here)s/data/sessions/data
+#   session.lock_dir = %(here)s/data/sessions/lock
+#   session.secret: 535510n_53cr37
+#   session.secure: True
+#session.type: memory
+
+# SQLAlchemy configuration -- See SQLAlchemy documentation
+# http://docs.sqlalchemy.org/en/rel_0_9/core/engines.html
+#sqlalchemy.url: mysql://hypothesis:n8Kn9M420bm0zPd4@master.db.wpdn/hypothesis
+sqlalchemy.url: sqlite:///h.db
+
+# Static asset configuration -- see webassets documentation
+# Until the next pyramid_webassets, don't change these.
+# Example:
+#   webassets.base_dir: /srv/www/static
+#   webassets.base_url: https://static.example.com
+webassets.base_dir: %(here)s/h
+webassets.base_url: /assets
+webassets.coffee_no_bare: True
+
+
+[server:main]
+#use: egg:gunicorn
+#worker_class: gevent
+
+use: egg:gunicorn#main
+host: 127.0.0.1
+port: 5000
+forwarded_allow_ips: *
+worker_class: gevent
+
+
+[loggers]
+keys = root, gunicorn.access, gunicorn.error, h, sqlalchemy
+
+
+[handlers]
+keys = console
+
+
+[formatters]
+keys = generic
+
+
+[logger_root]
+level = WARN
+handlers = console
+
+
+[logger_gunicorn.error]
+level = WARN
+handlers =
+qualname = gunicorn.error
+
+
+[logger_gunicorn.access]
+level = INFO
+handlers =
+qualname = gunicorn.access
+
+
+[logger_h]
+level = WARN
+handlers =
+qualname = h
+
+
+[logger_sqlalchemy]
+level = WARN
+handlers =
+qualname = sqlalchemy.engine
+
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+formatter = generic
+
+
+[formatter_generic]
+format = %(asctime)s %(levelname)-5.5s [%(name)s] %(message)s

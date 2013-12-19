@@ -1,3 +1,6 @@
+include:
+  - groups.hypothesis
+
 renoirb:
   group.present:
     - gid: 1017
@@ -11,9 +14,11 @@ renoirb:
       - renoirb
       - ops
       - deployment
+      - hypothesis
     - require:
       - group: ops
       - group: deployment
+      - group: hypothesis
 
 /home/renoirb/.bash_aliases:
   file.managed:

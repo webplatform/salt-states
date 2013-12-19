@@ -31,10 +31,8 @@ base:
 #    - qwebirc
 #    - qwebirc.daemon
     - webplatform.swift-dreamobjects
-  'app5':
+  'app5*':
     - mediawiki.jobrunner
-  'app-hypotesis*':
-    - hypotesis
   'backup*':
     - backup
     - backup.master
@@ -104,3 +102,10 @@ base:
   'mail*':
     - logwatch
     - mail.mailhub
+  'notes*':
+    - hypothesis
+    - users.randall
+  'app-hypothesis':
+    - specific.sandbox
+  'elastic*':
+    - elasticsearch
