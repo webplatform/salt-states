@@ -31,26 +31,31 @@ base:
 #    - qwebirc
 #    - qwebirc.daemon
     - mediawiki.jobrunner
+    - webplatform.swift-dreamobjects
   'app-hypotesis*':
     - hypotesis
   'backup*':
     - backup
     - backup.master
+    - webplatform.swift-dreamobjects
   'blog*':
     - php
     - wordpress
     - apache.blog
+    - webplatform.swift-dreamobjects
   'bots*':
     - bots
   'code*':
     - apache.gerrit
     - gerrit
     - rsync
+    - webplatform.swift-dreamobjects
   'db*':
     - backup.db
     - mysql.server
     - mysql.ssl
     - rsync
+    - webplatform.swift-dreamobjects
   'db4*':
     - specific.master-db
   'deployment*':
@@ -68,11 +73,13 @@ base:
     - logging.udp2log
     - python
     - python.mysqldb
+    - webplatform.swift-dreamobjects
   'storage*':
     - glusterfs
     - glusterfs.server
     - glusterfs.images_volume
     - glusterfs.appstorage
+    - webplatform.swift-dreamobjects
   'storage1*':
     - specific.storage1
   'memcache*':
@@ -85,6 +92,7 @@ base:
     - php
     - apache.buggenie
     - buggenie.crontab
+    - webplatform.swift-dreamobjects
   'kuma.webplatform.org':
     - apache.kuma
     - kuma

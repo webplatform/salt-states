@@ -12,6 +12,7 @@ php-piwik:
       - php-image-text
       - php5-curl
       - php5-mysql
+      - php5-mysqlnd
 
 /srv/webplatform/piwik/tmp:
   file.directory:

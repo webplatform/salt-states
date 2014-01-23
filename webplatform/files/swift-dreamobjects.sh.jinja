@@ -1,0 +1,4 @@
+# Managed by Salt Stack
+export ST_AUTH="{{ salt['pillar.get']('accounts:swift:dreamhost:endpoint') }}"
+export ST_USER="{{ salt['pillar.get']('accounts:swift:dreamhost:username') }}"
+export ST_KEY="{{ salt['pillar.get']('accounts:swift:dreamhost:password') }}"

@@ -31,7 +31,7 @@ backupdeployment:
     - user: root
     - minute: 1
     - hour: 2
-    - name: 'rsync -a --no-perms --password-file=/etc/backup.secret backup@deployment.webplatform.org::backup/ /mnt/backup/'
+    - name: 'rsync -a --no-perms --password-file=/etc/backup.secret backup@deployment.dho.wpdn::backup/ /mnt/backup/'
     - require:
       - file: /etc/backup.secret
       - file: /mnt/backup
@@ -41,7 +41,7 @@ backupdb:
     - user: root
     - minute: 1
     - hour: 2
-    - name: 'rsync -a --no-perms --password-file=/etc/backup.secret backup@db1.webplatform.org::backup/ /mnt/backup/'
+    - name: 'rsync -a --no-perms --password-file=/etc/backup.secret backup@master.db.wpdn::backup/ /mnt/backup/'
     - require:
       - file: /etc/backup.secret
       - file: /mnt/backup
