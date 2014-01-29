@@ -1,0 +1,32 @@
+<VirtualHost *:80>
+  ServerAdmin noc@webplatform.org
+  ServerName  www.webat25.org
+  ServerAlias webat25.org web25.webplatform.org
+
+  DocumentRoot /srv/webplatform/blog/web25/
+
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+  </Directory>
+  <Directory /var/www/>
+    Options FollowSymLinks
+    AllowOverride None
+    Order allow,deny
+    allow from all
+  </Directory>
+  <Directory /srv/webplatform/blog/web25/>
+    Options FollowSymLinks
+    AllowOverride FileInfo
+    Order allow,deny
+    allow from all
+  </Directory>
+
+  ErrorLog syslog:local1
+
+  # Possible values include: debug, info, notice, warn, error, crit,
+  # alert, emerg.
+  LogLevel warn
+
+  CustomLog /var/log/apache2/access.log combined
+</VirtualHost>
