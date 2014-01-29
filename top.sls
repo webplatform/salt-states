@@ -30,8 +30,9 @@ base:
     - mediawiki.scaler
 #    - qwebirc
 #    - qwebirc.daemon
-    - mediawiki.jobrunner
     - webplatform.swift-dreamobjects
+  'app5':
+    - mediawiki.jobrunner
   'app-hypotesis*':
     - hypotesis
   'backup*':
@@ -42,6 +43,7 @@ base:
     - php
     - wordpress
     - apache.blog
+    - apache.web25
     - webplatform.swift-dreamobjects
   'bots*':
     - bots
@@ -88,6 +90,8 @@ base:
     - monitor.gmetad
     - monitor.web
     - apache.ganglia
+  'monitor':
+    - specific.monitor
   'project*':
     - php
     - apache.buggenie

@@ -12,6 +12,8 @@ dbname        = wpstats
 tables_prefix = piwik_
 
 [General]
+trusted_hosts[] = "stats.webplatform.org"
+trusted_hosts[] = "tracking.webplatform.org"
 session_save_handler    = dbtable
 proxy_client_headers[]  = HTTP_X_FORWARDED_FOR
 proxy_host_headers[]    = HTTP_X_FORWARDED_HOST
