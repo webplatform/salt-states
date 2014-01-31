@@ -1,5 +1,4 @@
 include:
-  - code.lumberjack
   - code.compat
   - code.dabblet
   - code.nonshared

@@ -1,3 +1,3 @@
 include:
-  - code.buggenie
+  - code.blog
   - code.root
