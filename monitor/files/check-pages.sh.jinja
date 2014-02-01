@@ -8,9 +8,8 @@ export SMTPUSERNAME="{{ salt['pillar.get']('accounts:smtp:username', 'login') }}
 export SMTPPASSWORD="{{ salt['pillar.get']('accounts:smtp:password', 'ChangeMe') }}"
 export TO='hello@renoirboulanger.com'
 
-
 ###################################
-export BIN='pylinkcheck.py'
+export BIN='/usr/local/bin/pylinkcheck.py'
 
 set -e
 
