@@ -14,6 +14,9 @@ php-piwik:
       - php5-mysql
       - php5-mysqlnd
 
+/etc/nginx/sites-enabled/default:
+  file.absent
+
 /srv/webplatform/piwik/tmp:
   file.directory:
     - mode: 755

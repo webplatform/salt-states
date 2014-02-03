@@ -12,3 +12,9 @@ ganglia-webfrontend:
   file.patch:
     - source: salt://monitor/functions.php.patch
     - hash: md5=4eb9c7c3dc7fdeb1c92b0a81b0ace764
+
+/usr/share/ganglia-webfrontend/cluster_legend.html:
+  file.managed:
+    - source: salt://monitor/files/cluster_legend.html
+    - require:
+      - pkg: ganglia-webfrontend
