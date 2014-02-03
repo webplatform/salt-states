@@ -18,3 +18,9 @@ ganglia-webfrontend:
     - source: salt://monitor/files/cluster_legend.html
     - require:
       - pkg: ganglia-webfrontend
+
+/usr/share/ganglia-webfrontend/node_legend.html:
+  file.managed:
+    - source: salt://monitor/files/node_legend.html
+    - require:
+      - pkg: ganglia-webfrontend
