@@ -9,3 +9,8 @@ rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deplo
     - require:
       - file: /etc/codesync.secret
       - file: /srv/webplatform
+  file.managed:
+    - name: /srv/webplatform/bots/lumberjack/config.php
+    - user: nobody
+    - group: deployment
+    - source: salt://code/files/lumberjack/config.php
