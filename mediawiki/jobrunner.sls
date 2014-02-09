@@ -1,3 +1,8 @@
+timeout:
+  pkg.installed
+
+# run-one on ubuntu 12.4 would be useful too
+
 /srv/webplatform/wiki/mediawiki-runJobs.sh:
   file.managed:
     - mode: 755 

@@ -22,7 +22,22 @@
   <Directorymatch "^/.*/\.git/">
     Order deny,allow
     deny from all
-  </Directorymatch>
+  </DirectoryMatch>
+
+  <DirectoryMatch "^/.*/wp-contents/uploads/">
+    AllowOverride none
+    RemoveHandler .cgi .pl .py
+    <FilesMatch "\.(php|p?html?)$">
+      SetHandler none
+    </FilesMatch>
+  </DirectoryMatch>
+  <DirectoryMatch "^/.*/wp-content/cache/">
+    AllowOverride none
+    RemoveHandler .cgi .pl .py
+    <FilesMatch "\.(php|p?html?)$">
+      SetHandler none
+    </FilesMatch>
+  </Directory>
 
   ErrorLog syslog:local1
 
