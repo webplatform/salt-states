@@ -3,7 +3,7 @@ include:
   - rsync.secret
   - code.prereq
 
-rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.webplatform.org::code/talk/ /srv/webplatform/talk/:
+rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/talk/ /srv/webplatform/talk/:
   cmd.run:
     - user: root
     - group: root

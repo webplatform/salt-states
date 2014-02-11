@@ -6,7 +6,7 @@ include:
 
 buggenie-codesync:
   cmd.run:
-    - name: 'rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.webplatform.org::code/buggenie/ /srv/webplatform/buggenie/'
+    - name: 'rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/buggenie/ /srv/webplatform/buggenie/'
     - user: root
     - group: root
     - require:

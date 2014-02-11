@@ -19,7 +19,7 @@ ensure-cache-writable-current:
   file.directory:
     - makedirs: True
 
-rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.webplatform.org::code/docs/current/ /srv/webplatform/wiki/current/:
+rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/docs/current/ /srv/webplatform/wiki/current/:
   cmd.run:
     - user: root
     - group: root

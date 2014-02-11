@@ -2,7 +2,7 @@ include:
   - rsync.secret
   - code.prereq
 
-rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.webplatform.org::code/qwebirc/ /srv/webplatform/qwebirc/:
+rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/qwebirc/ /srv/webplatform/qwebirc/:
   cmd.run:
     - user: root
     - group: root

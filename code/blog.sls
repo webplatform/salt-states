@@ -11,7 +11,7 @@
 #  - rsync.secret
 #  - code.prereq
 #
-#rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.webplatform.org::code/blog/ /srv/webplatform/blog/:
+#rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/blog/ /srv/webplatform/blog/:
 #  cmd.run:
 #    - user: root
 #    - group: root

@@ -5,7 +5,7 @@ include:
 
 sync-piwik:
   cmd.run:
-    - name: rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.webplatform.org::code/piwik/clone/ /srv/webplatform/piwik/
+    - name: rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/piwik/clone/ /srv/webplatform/piwik/
     - user: root
     - group: root
     - require:

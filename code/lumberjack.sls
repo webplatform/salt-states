@@ -2,7 +2,7 @@ include:
   - rsync.secret
   - code.prereq
 
-rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.webplatform.org::code/bots/lumberjack/ /srv/webplatform/bots/lumberjack/:
+rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/bots/lumberjack/ /srv/webplatform/bots/lumberjack/:
   cmd.run:
     - user: root
     - group: root
