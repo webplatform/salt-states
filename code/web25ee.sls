@@ -40,13 +40,13 @@ ee-special-perms:
     - mode: 755
     - require:
       - file: /srv/webplatform/web25ee
-      - file: /srv/webplatform/web25ee/system/expressionengine/config/config.php
-      - file: /srv/webplatform/web25ee/system/expressionengine/config/database.php
+      - file: /srv/webplatform/web25ee/backoffice/expressionengine/config/config.php
+      - file: /srv/webplatform/web25ee/backoffice/expressionengine/config/database.php
     - recurse:
       - user
       - group
     - names:
-      - /srv/webplatform/web25ee/system/expressionengine/cache
+      - /srv/webplatform/web25ee/backoffice/expressionengine/cache
       - /srv/webplatform/web25ee/images/made   # Required by CE Image
       - /srv/webplatform/web25ee/images/remote # ^
       - /srv/webplatform/web25ee/assets        # Required by LibrarEE
@@ -57,7 +57,7 @@ ee-special-perms:
       - /srv/webplatform/web25ee/images/signature_attachments
       - /srv/webplatform/web25ee/images/uploads
 
-/srv/webplatform/web25ee/system/expressionengine/config/config.php:
+/srv/webplatform/web25ee/backoffice/expressionengine/config/config.php:
   file.managed:
     - source: salt://code/files/web25/config.php.jinja
     - template: jinja
@@ -65,7 +65,7 @@ ee-special-perms:
     - user: www-data
     - group: www-data
 
-/srv/webplatform/web25ee/system/expressionengine/config/database.php:
+/srv/webplatform/web25ee/backoffice/expressionengine/config/database.php:
   file.managed:
     - source: salt://code/files/web25/database.php.jinja
     - template: jinja
