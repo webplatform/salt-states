@@ -5,16 +5,6 @@
 
   DocumentRoot /srv/webplatform/blog/web25/
 
-  <Directory />
-    Options FollowSymLinks
-    AllowOverride None
-  </Directory>
-  <Directory /var/www/>
-    Options FollowSymLinks
-    AllowOverride None
-    Order allow,deny
-    allow from all
-  </Directory>
   <Directory /srv/webplatform/blog/web25/>
     Options FollowSymLinks
     AllowOverride FileInfo

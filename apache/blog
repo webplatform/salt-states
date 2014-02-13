@@ -37,7 +37,7 @@
     <FilesMatch "\.(php|p?html?)$">
       SetHandler none
     </FilesMatch>
-  </Directory>
+  </DirectoryMatch>
 
   ErrorLog syslog:local1
 
