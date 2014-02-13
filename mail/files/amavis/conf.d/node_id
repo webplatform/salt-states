@@ -1,0 +1,6 @@
+use strict;
+#
+# Managed by Salt Stack
+#
+$myhostname = "mail.webplatform.org";
+1;

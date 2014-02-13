@@ -4,18 +4,16 @@
     - user: root
     - group: root
     - mode: 644
-    - require:
-      - pkg: exim4
 
-/etc/exim4/passwd.client:
-  file.managed:
-    - source: salt://mail/passwd.client
-    - template: jinja
-    - user: root
-    - group: Debian-exim
-    - mode: 640
-    - require:
-      - pkg: exim4
+#/etc/exim4/passwd.client:
+#  file.managed:
+#    - source: salt://mail/passwd.client
+#    - template: jinja
+#    - user: root
+#    - group: Debian-exim
+#    - mode: 640
+#    - require:
+#      - pkg: exim4
 
 /etc/exim4/update-exim4.conf.conf:
   file.managed:
@@ -33,7 +31,7 @@
     - watch:
       - file: /etc/exim4/update-exim4.conf.conf
       - file: /etc/mailname
-      - file: /etc/exim4/passwd.client
+#      - file: /etc/exim4/passwd.client
     - require:
       - pkg: exim4
 

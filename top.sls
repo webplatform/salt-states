@@ -104,3 +104,5 @@ base:
     - php
     - piwik
     - piwik.archive
+  'mail*':
+    - mail.mailhub
