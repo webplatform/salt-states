@@ -5,6 +5,8 @@
     - group: root
     - mode: 644
 
+/etc/exim4/passwd.client:
+  file.absent
 #/etc/exim4/passwd.client:
 #  file.managed:
 #    - source: salt://mail/passwd.client
