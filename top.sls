@@ -53,11 +53,9 @@ base:
     - rsync
     - webplatform.swift-dreamobjects
   'db*':
-    - backup.db
     - mysql.server
     - mysql.ssl
     - rsync
-    - webplatform.swift-dreamobjects
   'db4*':
     - specific.master-db
   'deployment*':
@@ -105,4 +103,5 @@ base:
     - piwik
     - piwik.archive
   'mail*':
+    - logwatch
     - mail.mailhub

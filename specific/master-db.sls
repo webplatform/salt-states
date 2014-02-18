@@ -1,3 +1,7 @@
+include:
+  - backup.db
+  - webplatform.swift-dreamobjects
+
 #
 # Things that are specific to master MySQL node
 #

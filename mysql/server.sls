@@ -11,7 +11,7 @@ salt-dependency:
 /etc/mysql/debian.cnf:
   file.managed:
     - modes: 600
-    - source: salt://mysql/debian.cnf.jinja
+    - source: salt://mysql/files/debian.cnf.jinja
     - template: jinja
     - requires:
       - pkg: mysql-server
@@ -50,7 +50,7 @@ apparmor:
     - user: root
     - group: root
     - mode: 644
-    - source: salt://mysql/my.cnf
+    - source: salt://mysql/files/my.cnf.jinja
     - template: jinja
     - require:
       - pkg: mysql-server
