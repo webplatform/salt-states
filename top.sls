@@ -95,7 +95,7 @@ base:
   'project*':
     - php
     - apache.buggenie
-    - buggenie.crontab
+    - buggenie.mailqueue
     - webplatform.swift-dreamobjects
   'kuma.webplatform.org':
     - apache.kuma
