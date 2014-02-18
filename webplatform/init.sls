@@ -6,6 +6,12 @@
     - mode: 755
     - makedirs: True
 
+non-needed-softwares:
+  pkg.purged:
+    - pkgs:
+      - landscape-common
+      - landscape-client
+
 commonly-used-utilities:
   pkg.installed:
     - names:
