@@ -1,4 +1,3 @@
-# Experimental, only for use with piwik[1|2] at the moment
 # source: https://github.com/kevva/states/blob/master/nginx/
 nginx:
     pkgrepo.managed:
@@ -17,8 +16,9 @@ nginx:
         - require:
             - pkg: nginx
 
-/etc/nginx/fastcgi_params:
+fastcgi-orig:
   file.managed:
+    - name: /etc/nginx/fastcgi_params
     - source: salt://nginx/files/fastcgi_params
     - user: root
     - group: root

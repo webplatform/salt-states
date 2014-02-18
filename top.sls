@@ -100,9 +100,7 @@ base:
     - apache.kuma
     - kuma
   'piwik*':
-    - php
     - piwik
-    - piwik.archive
   'mail*':
     - logwatch
     - mail.mailhub
