@@ -1,0 +1,2 @@
+logwatch:
+  pkg.installed

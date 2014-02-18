@@ -53,6 +53,7 @@ base:
     - rsync
     - webplatform.swift-dreamobjects
   'db*':
+    - logwatch
     - mysql.server
     - mysql.ssl
     - rsync
