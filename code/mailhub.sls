@@ -43,6 +43,20 @@ postfix-dir:
     - force: True
     - require:
       - cmd: sync-hub-configs
+      - file: /var/log/dkim-filter
+
+/var/log/dkim-filter:
+  file.directory:
+    - user: opendkim
+    - group: opendkim
+    - dir_mode: 0755
+    - file_mode: 0644
+    - recurse:
+      - user
+      - group
+      - mode
+    - require:
+      - pkg: opendkim
 
 opendkim-dir:
   file.symlink:
