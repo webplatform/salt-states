@@ -99,3 +99,7 @@ ce-cache-static-handler-enable:
     - makedirs: True
     - require:
       - file: ce-cache-static-handler-cachedir
+
+a2enmod expires:
+  cmd:
+    - run

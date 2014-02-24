@@ -33,7 +33,29 @@ $config['is_system_on'] = 'y';
 $config['allow_extensions'] = 'y';
 $config['site_label'] = '2014 — The Web Turns 25';
 $config['cookie_prefix'] = '';
+$config['webmaster_email'] = 'info@webat25.org';
 
+# Configs required by MonkeyDo
+$config['upload_preferences'] = array(
+    1 => array(                                                       // ID of upload destination
+        'server_path' => '/srv/webplatform/web25ee/images/uploads/',  // Server path to upload directory
+        'url'         => 'http://web25/images/uploads/'               // URL of upload directory
+    )
+);
+$config['tmpl_file_basepath']     = "/srv/webplatform/web25ee/assets/eecms/templates/";
+$config['libraree_basepath']      = "/srv/webplatform/web25ee/assets/eecms/";
+$config['avatar_path']            = '/srv/webplatform/web25ee/images/avatars/';
+$config['avatar_url']             = 'http://web25/images/avatars/';
+$config['emoticon_path']          = 'http://web25/images/smileys/';
+$config['emoticon_url']           = 'http://web25/images/smileys/';
+$config['photo_path']             = '/srv/webplatform/web25ee/images/member_photos/';
+$config['photo_url']              = 'http://web25/images/member_photos/';
+$config['theme_folder_path']      = '/srv/webplatform/web25ee/themes/';
+$config['theme_folder_url']       = 'http://web25/themes/';
+$config['path_third_themes']      = '/srv/webplatform/web25ee/themes/third_party/';
+$config['url_third_themes']       = 'http://web25/themes/third_party/';
+$config['ce_image_document_root'] = '/srv/webplatform/web25ee/assets';
+$config['ce_image_cache_dir']     = 'made';
 
 // END EE config items
 
