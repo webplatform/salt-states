@@ -29,7 +29,12 @@ useful-pkgs:
       - build-essential
       - libterm-readkey-perl
       - percona-toolkit
-      - python-novaclient
+
+python-novaclient:
+  pkg.latest:
+    - refresh: True
+    - require:
+      - cmd: cloud-archive-repo
 
 /usr/local/bin/deploy.sh:
   file.managed:
@@ -37,3 +42,17 @@ useful-pkgs:
     - group: root
     - source: salt://environment/deploy.sh
     - mode: 755
+
+#cloudarchive-repos:
+#  pkgrepo.managed:
+#    - humanname: Openstack Havana archive for Ubuntu 12.04 LTS
+#    - name: deb http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/havana main
+#    - keyserver: keyserver.ubuntu.com
+#    - keyid: EC4926EA
+#    - file: /etc/apt/sources.list.d/cloudarchive-havana.list
+
+cloud-archive-repo:
+  cmd:
+    - run
+    - name: add-apt-repository cloud-archive:havana
+    - creates: /etc/apt/sources.list.d/cloudarchive-havana.list
