@@ -30,8 +30,10 @@ useful-pkgs:
       - libterm-readkey-perl
       - percona-toolkit
 
-python-novaclient:
+python-nova-pkgs:
   pkg.latest:
+    - pkgs:
+      - python-novaclient
     - refresh: True
     - require:
       - cmd: cloud-archive-repo
@@ -56,3 +58,12 @@ cloud-archive-repo:
     - run
     - name: add-apt-repository cloud-archive:havana
     - creates: /etc/apt/sources.list.d/cloudarchive-havana.list
+
+adjust-hosts-deployment:
+  file.append:
+    - name: /etc/hosts
+    - text: |
+        10.0.0.1		controller.dho.wpdn
+        10.0.0.17		compute2.dho.wpdn
+        10.0.0.26       	compute3.dho.wpdn
+        10.0.0.15		compute1.dho.wpdn
