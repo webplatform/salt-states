@@ -18,7 +18,10 @@ apache2:
 
 /etc/apache2/conf.d/performance:
   file.managed:
-    - source: salt://apache/performance
+    - source: salt://apache/performance.jinja
+    - template: jinja
     - user: root
     - group: root
     - mode: 644
+    - watch_in:
+      - service: apache2

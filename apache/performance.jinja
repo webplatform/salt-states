@@ -1,0 +1,20 @@
+{%- set ram_int = salt['grains.get']('mem_total', '1024') // 1024 -%}
+{%- set max_clients = ram_int * 150 -%}
+{%- if ram_int == 1 -%}
+  {%- set max_per_child = 1000 -%}
+{%- elif ram_int == 2 -%}
+  {%- set max_per_child = 10000 -%}
+{%- else -%}
+  {%- set max_per_child = 0 -%}
+{%- endif -%}
+# Edited by Salt Stack, generated with calculations
+# based on the curernt system available resources
+#
+# Current system memory:    {{ salt['grains.get']('mem_total', 'ERROR') }}
+#
+MinSpareServers       15
+MaxSpareServers       20
+ServerLimit           {{ max_clients }}
+MaxClients            {{ max_clients }}
+MaxRequestsPerChild   {{ max_per_child }}
+Timeout               150
