@@ -7,7 +7,7 @@
     - makedirs: True
 
 non-needed-softwares:
-  pkg.purged:
+  pkg.removed:
     - pkgs:
       - landscape-common
       - landscape-client

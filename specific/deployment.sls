@@ -63,7 +63,7 @@ adjust-hosts-deployment:
   file.append:
     - name: /etc/hosts
     - text: |
-        10.0.0.1		controller.dho.wpdn
-        10.0.0.17		compute2.dho.wpdn
-        10.0.0.26       	compute3.dho.wpdn
-        10.0.0.15		compute1.dho.wpdn
+        10.0.0.1	controller.dho.wpdn controller
+        10.0.0.17	compute2.dho.wpdn
+        10.0.0.26      	compute3.dho.wpdn
+        10.0.0.15	compute1.dho.wpdn
