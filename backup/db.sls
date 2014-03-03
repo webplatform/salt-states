@@ -13,7 +13,7 @@ backupdb:
     - user: root
     - minute: 1
     - hour: 1
-    - name: "/usr/local/sbin/db.sh"
+    - name: "JOBNAME=master-backup cronhelper.sh /usr/local/sbin/db.sh"
     - require:
       - file: /mnt/backup
       - file: /usr/local/sbin/db.sh

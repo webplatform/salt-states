@@ -16,7 +16,7 @@ include:
     - group: deployment
     - mode: 640
     - template: jinja
-    - source: salt://environment/my.cnf
+    - source: salt://specific/db.my.cnf
 
 #
 # Only allow Salt commands on the master

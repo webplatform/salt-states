@@ -14,6 +14,15 @@ cron:
     - mode: 755
     - source: salt://cron/mailto.sh
 
+/usr/bin/cronhelper.sh:
+  file.managed:
+    - user: root
+    - group: root
+    - mode: 755
+    - source: salt://cron/cronhelper.sh
+    - require:
+      - service: cron
+
 {% for job, args in pillar.get('cron', {}).items() %}
 {{ job }}:
   cron.present:

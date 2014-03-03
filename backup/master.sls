@@ -1,5 +1,7 @@
 include:
   - rsync.secret
+  - cron
+  - webplatform.swift-dreamobjects
 
 backup_mount:
   mount.mounted:
@@ -35,6 +37,21 @@ backupdeployment:
     - require:
       - file: /etc/backup.secret
       - file: /mnt/backup
+
+swift-upload:
+  file.managed:
+    - source: salt://backup/swift-upload.sh
+    - mode: 755
+    - name: /usr/local/sbin/swift-upload.sh
+  cron.present:
+    - user: root
+    - minute: random
+    - hour: 4
+    - name: 'JOBNAME=swift-upload cronhelper.sh /usr/local/sbin/swift-upload.sh'
+    - require:
+      - file: /usr/bin/cronhelper.sh
+      - file: /etc/profile.d/swift-dreamobjects.sh
+      - file: /usr/local/sbin/swift-upload.sh
 
 backupdb:
   cron.present:

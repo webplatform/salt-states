@@ -18,3 +18,9 @@ ServerLimit           {{ max_clients }}
 MaxClients            {{ max_clients }}
 MaxRequestsPerChild   {{ max_per_child }}
 Timeout               150
+{# Was previously
+MinSpareServers       15
+MaxSpareServers       20
+MaxClients            256
+MaxRequestsPerChild   5000
+#}

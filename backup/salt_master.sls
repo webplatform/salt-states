@@ -10,6 +10,6 @@ backupsalt:
     - user: root
     - minute: 30
     - hour: 1
-    - name: "/usr/local/sbin/salt_master.sh"
+    - name: "JOBNAME=salt_master cronhelper.sh /usr/local/sbin/salt_master.sh"
     - require:
       - file: /mnt/backup

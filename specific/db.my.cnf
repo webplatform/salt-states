@@ -1,0 +1,4 @@
+[client]
+host = "localhost"
+user = "root"
+password = "{{ salt['pillar.get']('accounts:db:root:password') }}"
