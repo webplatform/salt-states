@@ -24,17 +24,23 @@ $config['license_number'] = '0000-0000-0000-0000';
 
 
 # Default configs
+$config['is_system_on'] = 'n';
 $config['app_version'] = '273';
 $config['install_lock'] = "";
 $config['debug'] = '1';
 $config['cp_url'] = 'http://www.webat25.org/backoffice.php';
 $config['site_url'] = 'http://www.webat25.org/';
 $config['doc_url'] = 'http://ellislab.com/expressionengine/user-guide/';
-$config['is_system_on'] = 'y';
 $config['allow_extensions'] = 'y';
 $config['site_label'] = '2014 — The Web Turns 25';
 $config['cookie_prefix'] = '';
 $config['webmaster_email'] = 'info@webat25.org';
+
+$config['mail_protocol'] = 'smtp';
+$config['smtp_server'] = 'tls://mail.webplatform.org:25';
+$config['email_newline'] = "\r\n";
+$config['email_crlf'] = "\r\n";
+$config['webmaster_email'] = 'notifier-web25@webplatform.org';
 
 # Configs required by MonkeyDo
 $config['upload_preferences'] = array(

@@ -19,7 +19,7 @@ include:
 
 sync-web25ee:
   cmd.run:
-    - name: rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/web25ee/docroot/ /srv/webplatform/web25ee/
+    - name: rsync -a --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/web25ee/docroot/ /srv/webplatform/web25ee/
     - require:
       - file: /etc/codesync.secret
       - file: /srv/webplatform
