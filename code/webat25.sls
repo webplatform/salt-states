@@ -100,6 +100,9 @@ ce-cache-static-handler-enable:
     - require:
       - file: ce-cache-static-handler-cachedir
 
-a2enmod expires:
-  cmd:
-    - run
+webat25-requirements:
+  pkg.installed:
+    - pkgs:
+      - php5-gd
+  cmd.run:
+    - name: a2enmod expires

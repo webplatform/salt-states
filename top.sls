@@ -43,7 +43,7 @@ base:
     - php
     - wordpress
     - apache.blog
-    - apache.web25
+    - apache.webat25
     - webplatform.swift-dreamobjects
   'bots*':
     - bots
