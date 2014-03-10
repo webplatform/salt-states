@@ -37,9 +37,10 @@ $config['cookie_prefix'] = '';
 $config['webmaster_email'] = 'info@webat25.org';
 
 $config['mail_protocol'] = 'smtp';
-$config['smtp_server'] = 'tls://mail.webplatform.org:25';
-$config['email_newline'] = "\r\n";
-$config['email_crlf'] = "\r\n";
+$config['smtp_server'] = 'mail.webplatform.org';
+$config['smtp_port'] = '25';
+$config['email_newline'] = "\r".PHP_EOL;
+$config['email_crlf'] = "\r".PHP_EOL;
 $config['webmaster_email'] = 'notifier-web25@webplatform.org';
 
 # Configs required by MonkeyDo
