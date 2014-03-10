@@ -26,6 +26,8 @@ include:
 #      - file: archive-noncommited.sh
 #      - file: cronhelper.sh
 
+# rsync -a --no-perms --delete --filter '- .rsync-filter' --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/web25ee/docroot/ /srv/webplatform/web25ee/
+# rsync --dry-run -a --no-perms --delete --filter '- /srv/code/web25ee/docroot/.rsync-filter' --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/web25ee/docroot/ /srv/webplatform/web25ee/
 sync-web25ee:
   cmd.run:
     - name: rsync -a --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/web25ee/docroot/ /srv/webplatform/web25ee/

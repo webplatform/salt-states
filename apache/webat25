@@ -5,6 +5,10 @@
 
   DocumentRoot /srv/webplatform/web25ee/
 
+#  php_flag log_errors on
+#  php_flag display_errors on
+#  php_value error_log "/var/log/apache2/php.webat25.log"
+
   <Directory /srv/webplatform/web25ee/>
     Options FollowSymLinks
     AllowOverride All
