@@ -26,6 +26,14 @@ hypothesis-service:
     - watch:
       - file: /srv/webplatform/h/h.ini
 
+#/tmp/hypothesis.sock
+#... make sure it has service with right user
+#...
+
+/srv/webplatform/h/h/favicon.ico:
+  file.managed:
+    - source: salt://hypothesis/files/favicon.ico
+
 hypothesis-dependencies:
   pkg.installed:
     - names:
@@ -58,7 +66,7 @@ required-gems:
 hypothesis-checkout:
   git.latest:
     - name: https://github.com/hypothesis/h.git
-    - rev: email-notifications-6
+    - rev: a211604f25207be7f6f1c5265cd3a26857200f12
     - target: /srv/webplatform/h
     - unless: test -f /srv/webplatform/h/h.ini
     - require:
