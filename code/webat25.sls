@@ -1,6 +1,7 @@
 include:
   - rsync.secret
   - code.prereq
+  - cron
 
 # Related links
 # * http://www.causingeffect.com/software/expressionengine/ce-cache/user-guide/installation
@@ -16,6 +17,14 @@ include:
 # * http://eeinsider.com/articles/securing-expressionengine-2
 # * http://www.php.net/manual/en/configuration.changes.php
 # * https://github.com/murtaugh/webat25
+
+#JOBNAME=webat25-archive GITFOLDER='/srv/webplatform/web25ee' cronhelper.sh archive-noncommited.sh:
+#  cron.exist:
+#    - hour: '*/5'
+#    - minute: 1
+#    - require:
+#      - file: archive-noncommited.sh
+#      - file: cronhelper.sh
 
 sync-web25ee:
   cmd.run:
