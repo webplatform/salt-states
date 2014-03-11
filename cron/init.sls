@@ -23,6 +23,13 @@ cron:
     - require:
       - service: cron
 
+/usr/local/sbin/archive-noncommited.sh:
+  file.managed:
+    - mode: 755
+    - source: salt://cron/archive-noncommited.sh
+    - require:
+      - service: cron
+
 {% for job, args in pillar.get('cron', {}).items() %}
 {{ job }}:
   cron.present:
