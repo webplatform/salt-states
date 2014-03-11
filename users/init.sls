@@ -11,3 +11,4 @@ include:
   - users.pdsouza
   - users.jean-gui
   - users.estheban
+  - users.vivien
