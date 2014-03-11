@@ -23,8 +23,8 @@ include:
 #    - hour: '*/5'
 #    - minute: 1
 #    - require:
-#      - file: archive-noncommited.sh
-#      - file: cronhelper.sh
+#      - file: /usr/local/sbin/archive-noncommited.sh
+#      - file: /usr/bin/cronhelper.sh
 
 # rsync -a --no-perms --delete --filter '- .rsync-filter' --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/web25ee/docroot/ /srv/webplatform/web25ee/
 # rsync --dry-run -a --no-perms --delete --filter '- /srv/code/web25ee/docroot/.rsync-filter' --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/web25ee/docroot/ /srv/webplatform/web25ee/
@@ -58,6 +58,7 @@ ee-special-perms:
       - group
     - names:
       - /srv/webplatform/web25ee/backoffice/expressionengine/cache
+      - /srv/webplatform/web25ee/backoffice/expressionengine/cache/db_cache
       - /srv/webplatform/web25ee/images/made   # Required by CE Image
       - /srv/webplatform/web25ee/images/remote # ^
       - /srv/webplatform/web25ee/assets        # Required by LibrarEE
