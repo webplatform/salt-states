@@ -9,17 +9,17 @@
     - group: root
     - mode: 644 
 
-web25-autoupdate:
-  file.managed:
-    - source: salt://code/webat25-autoupdate.sh
-    - name: /srv/code/web25ee/web25-autoupdate.sh
-    - mode: 755
-  cron.present:
-    - user: root
-    - minute: '*/5'
-    - name: "JOBNAME=web25-autoupdate cronhelper.sh /srv/code/web25ee/web25-autoupdate.sh"
-    - require:
-      - file: /srv/code/web25ee/web25-autoupdate.sh
+#web25-autoupdate:
+#  file.managed:
+#    - source: salt://code/webat25-autoupdate.sh
+#    - name: /srv/code/web25ee/web25-autoupdate.sh
+#    - mode: 755
+#  cron.present:
+#    - user: root
+#    - minute: '*/5'
+#    - name: "JOBNAME=web25-autoupdate cronhelper.sh /srv/code/web25ee/web25-autoupdate.sh"
+#    - require:
+#      - file: /srv/code/web25ee/web25-autoupdate.sh
 
 /etc/profile.d/nova.sh:
   file.managed:
