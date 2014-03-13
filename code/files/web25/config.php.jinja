@@ -15,6 +15,7 @@
 
 # @TODO: Use Salt pillars to populate
 $config['ce_cache_static_enabled'] = 'yes';                                 # Required by CE Cache, Static cache driver
+$config['ce_cache_static_path'] = '/srv/webplatform/web25ee/static';
 $config['ce_cache_static_logged_out_only'] = 'yes';                         # ^
 $config['ce_cache_secret'] = '00000000000000000000000000000+000000000000';  # Required by CE Cache
 
@@ -24,6 +25,7 @@ $config['license_number'] = '0000-0000-0000-0000';
 
 
 # Default configs
+$config['enable_emoticons'] = 'n';
 $config['cp_session_type'] = 'c';
 $config['admin_session_type'] = 'c';
 $config['is_system_on'] = 'y';

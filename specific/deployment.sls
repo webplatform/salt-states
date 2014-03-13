@@ -11,12 +11,12 @@
 
 #web25-autoupdate:
 #  file.managed:
-#    - source: salt://code/webat25-autoupdate.sh
+#    - source: salt://code/files/web25/webat25-autoupdate.sh
 #    - name: /srv/code/web25ee/web25-autoupdate.sh
 #    - mode: 755
 #  cron.present:
 #    - user: root
-#    - minute: '*/5'
+#    - hour: '*/2'
 #    - name: "JOBNAME=web25-autoupdate cronhelper.sh /srv/code/web25ee/web25-autoupdate.sh"
 #    - require:
 #      - file: /srv/code/web25ee/web25-autoupdate.sh
