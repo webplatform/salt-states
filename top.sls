@@ -109,5 +109,5 @@ base:
     - specific.sandbox
   'elastic*':
     - elasticsearch
-  'webat25':
+  'webat25*':
     - specific.webat25

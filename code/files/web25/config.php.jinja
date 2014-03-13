@@ -24,11 +24,13 @@ $config['license_number'] = '0000-0000-0000-0000';
 
 
 # Default configs
+$config['cp_session_type'] = 'c';
+$config['admin_session_type'] = 'c';
 $config['is_system_on'] = 'y';
 $config['app_version'] = '273';
 $config['install_lock'] = "";
 $config['debug'] = '1';
-$config['cp_url'] = 'http://www.webat25.org/backoffice.php';
+$config['cp_url'] = 'http://ee.webat25.org/backoffice.php';
 $config['site_url'] = 'http://www.webat25.org/';
 $config['doc_url'] = 'http://ellislab.com/expressionengine/user-guide/';
 $config['allow_extensions'] = 'y';
@@ -47,7 +49,7 @@ $config['webmaster_email'] = 'notifier-web25@webplatform.org';
 $config['upload_preferences'] = array(
     1 => array(                                                       // ID of upload destination
         'server_path' => '/srv/webplatform/web25ee/images/uploads/',  // Server path to upload directory
-        'url'         => 'http://www.webat25.org/images/uploads/'               // URL of upload directory
+        'url'         => 'http://www.webat25.org/images/uploads/'     // URL of upload directory, can be set to a CDN location
     )
 );
 $config['tmpl_file_basepath']     = "/srv/webplatform/web25ee/assets/eecms/templates/";
