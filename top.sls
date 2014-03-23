@@ -24,6 +24,7 @@ base:
     - apache.docs
     - apache.talk
     - apache.dabblet
+    - apache.status
     - glusterfs
     - mediawiki
     - mediawiki.appserver
@@ -41,7 +42,7 @@ base:
     - php
     - wordpress
     - apache.blog
-    - apache.webat25
+    - apache.status
     - webplatform.swift-dreamobjects
   'bots*':
     - bots
@@ -87,11 +88,13 @@ base:
     - monitor.gmetad
     - monitor.web
     - apache.ganglia
+    - apache.status
   'monitor':
     - specific.monitor
   'project*':
     - php
     - apache.buggenie
+    - apache.status
     - buggenie.mailqueue
     - webplatform.swift-dreamobjects
   'kuma.webplatform.org':
@@ -111,3 +114,4 @@ base:
     - elasticsearch
   'webat25*':
     - specific.webat25
+    - apache.status

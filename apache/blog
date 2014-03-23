@@ -15,7 +15,7 @@
   </Directory>
   <Directory /srv/webplatform/blog/current/>
     Options FollowSymLinks
-    AllowOverride FileInfo
+    AllowOverride FileInfo Indexes
     Order allow,deny
     allow from all
   </Directory>
