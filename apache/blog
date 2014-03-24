@@ -3,6 +3,11 @@
   ServerName blog.webplatform.org
 
   DocumentRoot /srv/webplatform/blog/current/
+
+  # W3TotalCache allows cache on UA, 
+  #   not in our practices
+  SetEnv dont-vary 'ever'
+
   <Directory />
     Options FollowSymLinks
     AllowOverride None
