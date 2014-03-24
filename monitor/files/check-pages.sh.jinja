@@ -22,23 +22,20 @@ fi
 
 # --smtp-username=$SMTPUSERNAME --smtp-password="$SMTPPASSWORD"
 
-$BIN -P -N -m process -c -s $SMTP -a $TO --subject="[check-pages] WPD Main page" -W error http://docs.webplatform.org/wiki/WPD:Policy
-$BIN -P -N -m process -c -s $SMTP -a $TO --subject="[check-pages] MW API recent changes" -W error http://docs.webplatform.org/w/api.php?action=query&list=recentchanges&rcprop=user%7Cparsedcomment%7Cflags%7Ctimestamp%7Ctitle%7Csizes%7Credirect%7Cids%7Cloginfo&rclimit=10
-$BIN -P -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Talk subdomain" -W error http://talk.webplatform.org/
-$BIN -P -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Blog subdomain, random post" -W error http://blog.webplatform.org/2013/02/pointing-toward-the-future/#more-191
-$BIN -P -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Project subdomain login" -W error http://project.webplatform.org/login
-$BIN -P -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Tracking subdomain" -W error http://tracking.webplatform.org/
-$BIN -P -N -m process -c -s $SMTP -a $TO --subject="[check-pages] API Compat tables" -W error http://docs.webplatform.org/compat/data.json
-$BIN -P -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Dreamhost OpenStack dashboard" -W error https://horizon.dho.webplatform.org/horizon/
-$BIN -P -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Campaign utility" -W error http://www.webplatform.org/campaign/use.html
-$BIN -P -N -m process -c -s $SMTP -a $TO --subject="[check-pages] DreamObjects is alive image over the IP" -W error https://64.90.32.4/wpd/internal/is-alive-sprite.gif
-$BIN -P -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Homepage" -W error http://www.webplatform.org/
-$BIN -P -m process -c -s $SMTP -a $TO --subject="[check-pages] WebAt25" -W error http://www.webat25.org/
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] WPD Main page" -W error http://docs.webplatform.org/wiki/WPD:Policy
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] MW API recent changes" -W error http://docs.webplatform.org/w/api.php?action=query&list=recentchanges&rcprop=user%7Cparsedcomment%7Cflags%7Ctimestamp%7Ctitle%7Csizes%7Credirect%7Cids%7Cloginfo&rclimit=10
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Talk subdomain" -W error http://talk.webplatform.org/
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Blog subdomain, random post" -W error http://blog.webplatform.org/2013/02/pointing-toward-the-future/#more-191
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Project subdomain login" -W error http://project.webplatform.org/login
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Tracking subdomain" -W error http://tracking.webplatform.org/
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] API Compat tables" -W error http://docs.webplatform.org/compat/data.json
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Dreamhost OpenStack dashboard" -W error https://horizon.dho.webplatform.org/horizon/
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Campaign utility" -W error http://www.webplatform.org/campaign/use.html
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] DreamObjects is alive image over the IP" -W error https://64.90.32.4/wpd/internal/is-alive-sprite.gif
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Homepage" -W error http://www.webplatform.org/
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] WebAt25" -W error http://www.webat25.org/
 
 # Cannot run those ones yet
-#$BIN -P -N -m process -c -s $SMTP --smtp-username=$SMTPUSERNAME --smtp-password="$SMTPPASSWORD" -a $TO -i 'docs.webplatform.org/wiki/,Help:Contents' --subject="[check-pages] MW Test wiki random page" -W error http://docs.webplatform.org/test/WPD:Policy
-#$BIN -P -N -m process -c -s $SMTP --smtp-username=$SMTPUSERNAME --smtp-password="$SMTPPASSWORD" -a $TO --subject="[check-pages] MW Sandbox" -W error http://sandbox.webplatform.org/test/Main_Page
-#$BIN -P -N -m process -c -s $SMTP --smtp-username=$SMTPUSERNAME --smtp-password="$SMTPPASSWORD" -a $TO --subject="[check-pages] WebAt25.org page" -W error http://www.webat25.org/
-#$BIN -P -N -m process -c -s $SMTP --smtp-username=$SMTPUSERNAME --smtp-password="$SMTPPASSWORD" -a $TO --subject="[check-pages] Monitor subdomain" -W error http://monitor.webplatform.org/ganglia/
+#$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Monitor subdomain" -W error http://monitor.webplatform.org/ganglia/
 
 exit 0
