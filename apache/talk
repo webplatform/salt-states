@@ -28,18 +28,9 @@
 	LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\" \"%{X-Forwarded-For}i\"" xff
         CustomLog /var/log/apache2/access.log xff
 
-        #ProxyPass  /annotate/ http://annotation.webplatform.org:5000/ retry=0
+        RedirectMatch ^/chat/?$ http://www.webplatform.org/talk/
+        RedirectMatch ^/chatlogs.*$ http://www.webplatform.org/talk/chatlogs/
+        RedirectMatch ^/forums.*$ http://www.webplatform.org/talk/
 
-        RedirectMatch ^/chat$ http://talk.webplatform.org/chat/
-        RedirectMatch ^/forums.*$ http://talk.webplatform.org
-        #ProxyPass /chat/ http://localhost:9090/ retry=0
-
-        Alias /chat/      /srv/webplatform/nonshared/talk/chat/
-        Alias /index.html /srv/webplatform/nonshared/talk/index.html
-        Alias /chatlogs   /srv/webplatform/bots/lumberjack
-
-        # serve html as php: https://lists.w3.org/Archives/Team/team-webplatform-admin/2013Apr/0018.html
-        <FilesMatch "\.html">
-          SetHandler application/x-httpd-php
-        </FilesMatch>
+        Redirect / http://www.webplatform.org/talk/
 </VirtualHost>

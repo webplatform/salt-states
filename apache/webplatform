@@ -5,6 +5,39 @@
 
   DocumentRoot /var/www
 
+  # Removing any cookies from here, we do not want them here
+  RequestHeader unset Cookie
+  Header unset Set-Cookie
+
+  # http://www.mnot.net/blog/2007/05/15/expires_max-age
+  ExpiresActive On
+  ExpiresDefault "access plus 1 day"
+  #Header set Cache-Control "max-age=3600, must-revalidate"  # Should be done already by ExpiresActive
+
+  <IfModule mod_headers.c>
+    Header set X-UA-Compatible "IE=edge,chrome=1"
+    # mod_headers can't match by content-type, but we don't want to send this header on *everything*...
+    <FilesMatch "\.(appcache|crx|css|eot|gif|htc|ico|jpe?g|js|m4a|m4v|manifest|mp4|oex|oga|ogg|ogv|otf|pdf|png|safariextz|svg|svgz|ttf|vcf|webm|webp|woff|xml|xpi)$">
+      Header unset X-UA-Compatible
+    </FilesMatch>
+  </IfModule>
+
+  <IfModule mod_setenvif.c>
+    <IfModule mod_headers.c>
+      # mod_headers, y u no match by Content-Type?!
+      <FilesMatch "\.(gif|ico|jpe?g|png|svg|svgz|webp)$">
+        SetEnvIf Origin ":" IS_CORS
+        Header set Access-Control-Allow-Origin "*" env=IS_CORS
+      </FilesMatch>
+    </IfModule>
+  </IfModule>
+
+  <IfModule mod_headers.c>
+    <FilesMatch "\.(eot|font.css|otf|ttc|ttf|woff)$">
+      Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+  </IfModule>
+
   <Directory />
     Options FollowSymLinks
     AllowOverride None
@@ -32,40 +65,24 @@
   RewriteCond %{HTTP_HOST} !^$
   RewriteRule ^/?(.*) http://www.webplatform.org/$1 [L,R,NE]
 
-  Alias /index.html /srv/webplatform/nonshared/webplatform/index.html
-  Alias /logo /srv/webplatform/nonshared/webplatform/logo
-  Alias /stewards /srv/webplatform/nonshared/webplatform/stewards
-  Alias /assets /srv/webplatform/nonshared/webplatform/assets
-  Alias /errors /srv/webplatform/nonshared/webplatform/errors
-  Alias /sitemaps /srv/webplatform/nonshared/webplatform/sitemaps
-  Alias /google1196cd49dc73743e.html /srv/webplatform/nonshared/webplatform/google1196cd49dc73743e.html
-  Alias /BingSiteAuth.xml /srv/webplatform/nonshared/webplatform/BingSiteAuth.xml
-
   # MediaWiki
   <Directory /srv/webplatform/wiki/images>
   	Options -Indexes
   </Directory>
-  
+
+  Alias /talk/chatlogs   /srv/webplatform/bots/lumberjack
+
   RewriteEngine on
  
   RewriteRule   ^/docs/(.+)  http://docs.webplatform.org/wiki/$1  [R,L]
   RedirectMatch ^/docs/?$ http://docs.webplatform.org/wiki/
   RedirectMatch ^/wiki/?$ http://docs.webplatform.org/wiki/
   
-  RedirectMatch ^/talk/?$ http://webplatform.org/chat/
-  RedirectMatch ^/chat/?$ http://talk.webplatform.org/chat/
-
   # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0174.html
   RewriteCond %{REQUEST_URI}        ^/(beginners|css|dom|concepts|accessibility|svg|html|javascript|apis)
   RewriteRule ^(.*)$                http://docs.webplatform.org/wiki$1   [R=301,L]
 
   # Error pages
-  ErrorDocument 404 /errors/404.php
-  ErrorDocument 503 /errors/503.php
-
-  # serve html as php: https://lists.w3.org/Archives/Team/team-webplatform-admin/2013Apr/0018.html
-  <FilesMatch "\.html">
-      SetHandler application/x-httpd-php
-  </FilesMatch>
-
+  ErrorDocument 404 /errors/404.html
+  ErrorDocument 503 /errors/503.html
 </VirtualHost>
