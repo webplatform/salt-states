@@ -115,3 +115,6 @@ base:
   'webat25*':
     - specific.webat25
     - apache.status
+  'ssl*':
+    - sslproxy.nginx
+    - nodejs
