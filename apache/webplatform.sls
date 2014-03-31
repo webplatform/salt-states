@@ -1,9 +1,9 @@
 include:
   - apache
+  - apache.headers
 
 {% from "apache/module.sls" import a2mod %}
 {{ a2mod('expires') }}
-{{ a2mod('headers') }}
 
 /etc/apache2/sites-available/webplatform:
   file:
