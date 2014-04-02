@@ -7,10 +7,6 @@ openssl-installed:
     - require_in:
       - file: /etc/ssl/webplatform
 
-/var/www/index.html:
-  file.managed:
-    - source: salt://sslproxy/files/index.html
-
 /etc/ssl/webplatform:
   file.directory:
     - user: root

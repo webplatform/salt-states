@@ -14,6 +14,17 @@ nginx:
       - file: nginxconf
 #      - file: /etc/ssl/webplatform/webplatform.pem
 
+webplatform-ssl-pem:
+  cmd:
+    - run
+    - name: files=("webplatform.crt" "startssl.sub.class1.server.ca.pem" "startssl.ca.pem") && for i in ${files[@]} ; do $(cat $i >> webplatform.pem && echo "" >> webplatform.pem) ; done
+    - unless: test -f /etc/ssl/webplatform/webplatform.pem
+    - cwd: /etc/ssl/webplatform/
+    - require:
+      - file: /etc/ssl/webplatform/webplatform.crt
+      - file: /etc/ssl/webplatform/startssl.ca.pem
+      - file: /etc/ssl/webplatform/startssl.sub.class1.server.ca.pem
+
 nginxconf:
   file.managed:
     - name: /etc/nginx/sites-enabled/default
