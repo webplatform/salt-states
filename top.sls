@@ -19,7 +19,6 @@ base:
     - monitor
     - cron
   'app*':
-    - ssl
     - php
     - apache.webplatform
     - apache.docs
@@ -34,6 +33,8 @@ base:
 #    - qwebirc.daemon
     - webplatform.swift-dreamobjects
   'app5*':
+    - ssl
+    - apache.webplatform_ssl
     - mediawiki.jobrunner
   'backup*':
     - backup
