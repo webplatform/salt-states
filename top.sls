@@ -118,3 +118,8 @@ base:
   'ssl*':
     - sslproxy.nginx
     - nodejs
+  'sandbox*':
+    - percona.cluster
+    - mediawiki.scaler
+    - apache.docs
+    - specific.sandbox

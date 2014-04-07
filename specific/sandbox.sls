@@ -1,25 +1,31 @@
 include:
-  - memcached
-  - users.randall
-  - mysql.server
-  - apache.annotation
-  - hypothesis
-  - java.oracle
-  - users.randall
+  - apache
+  - php.mediawiki-apache
+  - glusterfs
+  - php
+  - apache.docs
+  - mysql.ssl
 
-#adjust-memcached-ini:
-#  file.append:
-#    - name: /etc/php5/conf.d/memcached.ini
-#    - text: |
-#        session.save_path = "localhost:11211"
-#    - requires:
-#      - pkg: memcached
-#      - pkg: php5-memcached
-#      - file: /etc/php5/conf.d/memcached.ini
-#
-#comment-memcached-ini:
-#  file.comment:
-#    - name: /etc/php5/conf.d/memcached.ini
-#    - regex: ^session.save_path = "memcache(.*)
-#    - requires:
-#      - file: adjust-memcached-ini
+{% from "apache/module.sls" import a2mod %}
+{{ a2mod('ssl') }}
+{{ a2mod('rewrite') }}
+
+
+extend:
+  /etc/apache2/sites-available/docs:
+    file:
+      - source: salt://specific/files/sandbox/docs
+
+# What is in mysql/server.sls, trimmed
+salt-dependency:
+  pkg.installed:
+    - names:
+      - python-mysqldb
+      - php5-curl
+
+# Only allow Salt commands on the master
+# writes operation on non master is dangerous
+/etc/salt/minion.d/mysql.conf:
+  file.managed:
+    - modes: 644
+    - source: salt://mysql/minion.mysql.conf

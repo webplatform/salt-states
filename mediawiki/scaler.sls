@@ -3,7 +3,6 @@ scaler-packages:
     - installed
     - names:
       - imagemagick
-      - gs
       - ffmpeg
       - ffmpeg2theora
       - librsvg2-bin

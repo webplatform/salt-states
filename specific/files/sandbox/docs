@@ -1,0 +1,45 @@
+ServerName sandbox.webplatform.org
+
+<VirtualHost *:80>
+  DocumentRoot /var/www
+
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+  </Directory>
+  <Directory /var/www/>
+    Options FollowSymLinks
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+  </Directory>
+  <Directorymatch "^/.*/\.git/">
+    Order deny,allow
+    Deny from all
+  </Directorymatch>
+
+  <FilesMatch "\.(ttf|otf|eot)$">
+    <IfModule mod_headers.c>
+      Header set Access-Control-Allow-Origin "*"
+    </IfModule>
+  </FilesMatch>
+
+  # MediaWiki
+  <Directory /srv/webplatform/wiki/latest/images>
+    Options -Indexes
+  </Directory>
+
+  Alias /w/images /srv/webplatform/wiki/latest/images
+  Alias /w        /srv/webplatform/wiki/latest
+  Alias /wiki     /srv/webplatform/wiki/latest/index.php
+  Alias /compat   /srv/webplatform/compat
+
+  RedirectMatch   ^/$ /wiki/
+  RedirectMatch   permanent ^/wiki/(.+)/$ /wiki/$1
+
+  # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0145.html
+  RewriteEngine On
+  RewriteCond   %{REQUEST_URI} !^/(wiki|w|test|t|compat)/
+  RewriteCond   %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+  RewriteRule   ^(.*)$ /wiki$1 [R=301,L]
+</VirtualHost>
