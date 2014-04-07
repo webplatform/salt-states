@@ -13,10 +13,16 @@ server {
     ssl_certificate     /etc/ssl/webplatform/webplatform.pem;
     ssl_certificate_key /etc/ssl/webplatform/webplatform.key;
 
-
     location /oauth {
       proxy_pass              http://localhost:6284;
       proxy_set_header        X-Real-IP         $remote_addr;
+    }
+
+    location /api/docs {
+      # TODO, make a server pool for all app* servers.
+      proxy_pass                http://10.0.0.18/w/api.php;
+      proxy_set_header          Host            'docs.webplatform.org';
+      proxy_set_header          X-Real-IP       $remote_addr;
     }
 
     # Proxying horizon? http://alex.shvid.com/2012/11/02/openstack-dashboard-customization.html

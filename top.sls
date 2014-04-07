@@ -19,6 +19,7 @@ base:
     - monitor
     - cron
   'app*':
+    - ssl
     - php
     - apache.webplatform
     - apache.docs
