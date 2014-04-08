@@ -57,6 +57,14 @@ python-nova-pkgs:
     - source: salt://environment/deploy.sh
     - mode: 755
 
+/etc/salt/master.d/roots.conf:
+  file.managed:
+    - source: salt://specific/files/deployment/roots.conf
+
+/etc/salt/master.d/runners.conf:
+  file.managed:
+    - source: salt://specific/files/deployment/runners.conf
+
 #cloudarchive-repos:
 #  pkgrepo.managed:
 #    - humanname: Openstack Havana archive for Ubuntu 12.04 LTS
@@ -64,7 +72,6 @@ python-nova-pkgs:
 #    - keyserver: keyserver.ubuntu.com
 #    - keyid: EC4926EA
 #    - file: /etc/apt/sources.list.d/cloudarchive-havana.list
-
 cloud-archive-repo:
   cmd:
     - run
