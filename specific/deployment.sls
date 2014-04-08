@@ -70,3 +70,4 @@ cloud-archive-repo:
     - run
     - name: add-apt-repository cloud-archive:havana
     - creates: /etc/apt/sources.list.d/cloudarchive-havana.list
+    - unless: test -f /etc/apt/sources.list.d/cloudarchive-havana.list

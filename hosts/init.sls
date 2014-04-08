@@ -29,8 +29,12 @@ adjust-hosts-deployment:
     - require_in:
       - file: blockreplace-in-hosts
     - text: |
-        10.0.0.1        controller controller.dho.wpdn
+        10.0.0.1        controller.dho.wpdn
         10.0.0.17       compute2.dho.wpdn
         10.0.0.26       compute3.dho.wpdn
         10.0.0.15       compute1.dho.wpdn
+        208.113.157.157 controller
+        208.113.157.158 compute1
+        208.113.157.159 compute2
+        208.113.157.160 compute3
 {% endif %}
