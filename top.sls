@@ -33,8 +33,8 @@ base:
 #    - qwebirc.daemon
     - webplatform.swift-dreamobjects
   'app5*':
-    - ssl
-    - apache.webplatform_ssl
+#    - ssl
+#    - apache.webplatform_ssl
     - mediawiki.jobrunner
   'backup*':
     - backup
@@ -117,9 +117,9 @@ base:
   'webat25*':
     - specific.webat25
     - apache.status
-  'ssl*':
-    - sslproxy.nginx
-    - nodejs
+#  'ssl*':
+#    - sslproxy.nginx
+#    - nodejs
   'sandbox*':
     - percona.cluster
     - mediawiki.scaler
