@@ -8,11 +8,17 @@ nginx:
     - running
     - watch:
       - file: nginxconf
+  pkgrepo.managed:
+    - ppa: nginx/stable
+    - require_in:
+      - pkg: nginx
 
 nginxconf:
   file.managed:
-    - name: /etc/nginx/sites-enabled/default
-    - source: salt://hypothesis/files/nginx.default.jinja
+    - name: /etc/nginx/sites-enabled/notes
+    - source: salt://hypothesis/files/nginx.notes.jinja
     - template: jinja
-    - makedirs: True
-    - mode: 755
+
+/etc/nginx/sites-enabled/default:
+  file:
+    - absent

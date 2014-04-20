@@ -49,7 +49,6 @@ hypothesis-service:
 
 #/tmp/hypothesis.sock
 #... make sure it has service with right user
-#...
 
 hypothesis-dependencies:
   pkg.installed:
@@ -66,11 +65,15 @@ hypothesis-dependencies:
       - nodejs
       - npm
       - python-mysqldb
+{% if grains['lsb_distrib_release'] == "12.04" %}
+      - rubygems
+{% endif %}
+{% if grains['lsb_distrib_release'] == "14.04" %}
+      - rubygems-integration
+{% endif %}
 
 # pip install pyyaml
-# gem install sass
 # http://acervulus.info/2012/how-to-install-sass-on-ubuntu-precise-12-04-lts/
-# gem install compass
 
 required-gems:
   cmd.run:

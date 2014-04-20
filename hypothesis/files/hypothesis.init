@@ -24,4 +24,7 @@ script
    #export SCRIPT_NAME='/notes'
    #TODO, set in a variable the log file
    exec ./service.sh >> /var/log/webplatform/hypothesis.log 2>&1
+   # https://lukedrummond.net/2014/02/django-with-prefix-nginxgunicorndjango/
+   # http://albertoconnor.ca/blog/2011/Sep/15/hosting-django-under-different-locations
+   #./bin/hypothesis start h.ini
 end script
