@@ -40,8 +40,8 @@ install-mediawiki-{{ slot }}:
       - log-file=/var/log/gluster.log
     - require:
       - pkg: glusterfs-client
-      - file: /srv/webplatform/wiki/images
-  file.directory:
-    - user: www-data
-    - group: www-data
-    - makedirs: True
+#      - file: /srv/webplatform/wiki/images
+#  file.directory:
+#    - user: www-data
+#    - group: www-data
+#    - makedirs: True
