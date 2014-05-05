@@ -38,3 +38,21 @@ adjust-hosts-deployment:
         208.113.157.159 compute2
         208.113.157.160 compute3
 {% endif %}
+
+{% if h == 'storage2' %}
+append-for-storage2:
+  file.append:
+    - name: /etc/hosts
+    - text: |
+        127.0.0.1       storage2.dho.wpdn storage2.webplatform.org storage2
+    - requires:
+      - file: /etc/hosts
+
+comment-storage1:
+  file.comment:
+    - name: /etc/hosts
+    - regex: ^{{ salt['pillar.get']('infra:storage:master:private') }}(.*)storage2
+    - requires:
+      - file: append-to-hosts
+      - file: /etc/hosts
+{% endif %}

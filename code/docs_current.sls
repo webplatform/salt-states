@@ -25,7 +25,12 @@ rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/
     - group: root
     - require_in:
       - file: ensure-cache-writable-current
-    - requires:
+    - require:
       - file: /etc/codesync.secret
       - file: /srv/webplatform
+      - file: /srv/webplatform/wiki/current
+
+rsync -a --exclude '.git' --exclude '.svn' --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/docs/wpd-mediawiki/skins/ /srv/webplatform/wiki/current/skins/:
+  cmd.run:
+    - require:
       - file: /srv/webplatform/wiki/current

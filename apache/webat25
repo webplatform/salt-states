@@ -9,7 +9,7 @@
 #  php_flag display_errors on
 #  php_value error_log "/var/log/apache2/php.webat25.log"
 
-  Header set Cache-Control "max-age=3600, must-revalidate"
+  Header set Cache-Control "max-age=86400, must-revalidate"
 
   <Directory /srv/webplatform/web25ee/>
     Options FollowSymLinks

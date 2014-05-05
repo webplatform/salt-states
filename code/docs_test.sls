@@ -31,6 +31,10 @@ rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/
       - file: /srv/webplatform
       - file: /srv/webplatform/wiki/test
 
+rsync -a --exclude '.git' --exclude '.svn' --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/docs/wpd-mediawiki/skins/ /srv/webplatform/wiki/test/skins/:
+  cmd.run:
+    - require:
+      - file: /srv/webplatform/wiki/test
 
 ## Upgrade mode - test runs from its own directory
 #rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/etc/codesync.secret --exclude="LocalSettings.php" codesync@deployment.dho.wpdn::code/docs/test/ /srv/webplatform/wiki/test/:
