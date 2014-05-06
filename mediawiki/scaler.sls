@@ -3,7 +3,6 @@ scaler-packages:
     - installed
     - names:
       - imagemagick
-      - ffmpeg
       - ffmpeg2theora
       - librsvg2-bin
       - djvulibre-bin
@@ -15,11 +14,15 @@ scaler-packages:
       - xfonts-base
       - xfonts-mplus
       - ttf-liberation
-      - ttf-linux-libertine
       - ttf-ubuntu-font-family
       - libogg0
       - libvorbisenc2
       - libtheora0
       - oggvideotools
-      - libvips15
       - libvips-tools
+{% if grains['lsb_distrib_release'] == "10.04" %}
+      - libvips15
+      - ttf-linux-libertine
+{% else %}
+      - fonts-linuxlibertine
+{% endif  %}

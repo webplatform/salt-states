@@ -22,3 +22,10 @@ rsync -a --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho
     - group: root
     - require:
       - file: /etc/codesync.secret
+
+rsync -a --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/docs/UpgradeSettings.php /srv/webplatform/wiki/UpgradeSettings.php:
+  cmd.run:
+    - user: root
+    - group: root
+    - require:
+      - file: /etc/codesync.secret
