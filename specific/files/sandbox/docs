@@ -35,6 +35,10 @@ ServerName sandbox.webplatform.org
   Alias /test     /srv/webplatform/wiki/latest/index.php
   Alias /compat   /srv/webplatform/compat
 
+  Alias /u/images /srv/webplatform/wiki/upgrade/images
+  Alias /u        /srv/webplatform/wiki/upgrade
+  Alias /upgrade  /srv/webplatform/wiki/upgrade/index.php
+
   RedirectMatch   ^/$ /test/
   RedirectMatch   permanent ^/test/(.+)/$ /test/$1
 
