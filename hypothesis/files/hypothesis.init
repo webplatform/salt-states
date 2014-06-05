@@ -10,5 +10,5 @@ script
    #export SCRIPT_NAME='/notes'
    # https://lukedrummond.net/2014/02/django-with-prefix-nginxgunicorndjango/
    # http://albertoconnor.ca/blog/2011/Sep/15/hosting-django-under-different-locations
-   ./bin/hypothesis start h.ini
+   ./bin/hypothesis serve h.ini
 end script

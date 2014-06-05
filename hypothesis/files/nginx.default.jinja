@@ -1,13 +1,34 @@
 server {
     listen      80;
+    server_name notes.webplatform.org;
+    return      301 https://notes.webplatform.org$request_uri;
+}
+
+server {
+    listen              443 ssl spdy;
+    ssl                 on;
+    ssl_certificate     /etc/nginx/ssl/notes.class2.webplatform-20140601.pem;
+    ssl_certificate_key /etc/nginx/ssl/201404.key;
+
     root        /srv/webplatform/h/h/;
     server_name notes.webplatform.org;
 
     access_log  /var/log/nginx/access.log;
     error_log   /var/log/nginx/error.log;
 
-    location ~ ^/assets/(.*)$ {
-        expires     max;
+    # All static files will be served directly.
+    # Thanks: http://stackoverflow.com/questions/19515132/nginx-cache-static-files#answer-20843725 and Joost van der Laan
+    location ~* ^.+\.(?:css|cur|js|jpe?g|gif|htc|ico|png|html|xml|otf|ttf|eot|woff|svg)$ {
+        access_log off;
+        expires 30d;
+        ## No need to bleed constant updates. Send the all shebang in one
+        ## fell swoop.
+        tcp_nodelay off;
+        ## Set the OS file cache.
+        open_file_cache max=3000 inactive=120s;
+        open_file_cache_valid 45s;
+        open_file_cache_min_uses 2;
+        open_file_cache_errors off;
         alias      /srv/webplatform/h/h/$1;
         add_header Access-Control-Allow-Origin *;
     }
@@ -21,9 +42,13 @@ server {
         #proxy_pass http://unix:/tmp/hypothesis.sock:/;
         proxy_pass http://127.0.0.1:5000;
         proxy_set_header Host $http_host;
-        proxy_set_header Connection "upgrade";
+        proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        #proxy_http_version 1.1;
-        #proxy_redirect off;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # WebSocket support (nginx 1.4+)
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
     }
 }

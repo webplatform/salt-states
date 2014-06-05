@@ -20,7 +20,6 @@ hypothesis-service:
     - enable: True
     - reload: true
     - require:
-      - git: hypothesis-checkout
       - pkg: hypothesis-dependencies
       - file: /etc/init/hypothesis.conf
     - watch:
@@ -44,7 +43,6 @@ hypothesis-dependencies:
       - git
       - libpq-dev
       - make
-      - rubygems
       - ruby-full
       - build-essential
       - nodejs
@@ -61,24 +59,24 @@ required-gems:
     - name: gem install compass sass
     - unless: /srv/webplatform/h/h.ini
     - require:
-      - pkg: rubygems
+      - pkg: ruby-full
 
-hypothesis-checkout:
-  git.latest:
-    - name: https://github.com/hypothesis/h.git
-    - rev: a211604f25207be7f6f1c5265cd3a26857200f12
-    - target: /srv/webplatform/h
-    - unless: test -f /srv/webplatform/h/h.ini
-    - require:
-      - file: /srv/webplatform/h
-      - cmd: required-gems
-      - pkg: git
-  cmd.run:
-    - name: ./bootstrap
-    - cwd: /srv/webplatform/h
-    - require:
-      - git: hypothesis-checkout
-      - pkg: python-pip
+#hypothesis-checkout:
+#  git.latest:
+#    - name: https://github.com/hypothesis/h.git
+#    - rev: a211604f25207be7f6f1c5265cd3a26857200f12
+#    - target: /srv/webplatform/h
+#    - unless: test -f /srv/webplatform/h/h.ini
+#    - require:
+#      - file: /srv/webplatform/h
+#      - cmd: required-gems
+#      - pkg: git
+#  cmd.run:
+#    - name: ./bootstrap
+#    - cwd: /srv/webplatform/h
+#    - require:
+#      - git: hypothesis-checkout
+#      - pkg: python-pip
  
 # Make SURE this file exists, its required
 # by the /etc/init/hypothesis.conf init script 
@@ -88,7 +86,6 @@ hypothesis-checkout:
     - source: salt://hypothesis/files/h.ini.jinja
     - require:
       - file: /srv/webplatform/h
-      - git: hypothesis-checkout
 
 /srv/webplatform/h:
   file.directory:
@@ -102,7 +99,6 @@ hypothesis-checkout:
     - mode: 644
     - requires:
       - file: /srv/webplatform/h
-      - git: hypothesis-checkout
       - file: /srv/webplatform/h/h.ini
 
 npm-packages:
