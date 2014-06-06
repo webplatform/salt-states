@@ -7,6 +7,17 @@ include:
   - git
   - hypothesis.nginx
 
+monit-checker:
+  pkg:
+    - installed
+    - name: monit
+    - require_in:
+      - file: /etc/monit/conf.d/hypothesis
+  file:
+    - managed
+    - template: jinja
+    - source: salt://hypothesis/files/monit.conf.jinja
+
 openjdk-7-jdk-package:
   pkg.installed:
     - names:
@@ -60,23 +71,6 @@ required-gems:
     - unless: /srv/webplatform/h/h.ini
     - require:
       - pkg: ruby-full
-
-#hypothesis-checkout:
-#  git.latest:
-#    - name: https://github.com/hypothesis/h.git
-#    - rev: a211604f25207be7f6f1c5265cd3a26857200f12
-#    - target: /srv/webplatform/h
-#    - unless: test -f /srv/webplatform/h/h.ini
-#    - require:
-#      - file: /srv/webplatform/h
-#      - cmd: required-gems
-#      - pkg: git
-#  cmd.run:
-#    - name: ./bootstrap
-#    - cwd: /srv/webplatform/h
-#    - require:
-#      - git: hypothesis-checkout
-#      - pkg: python-pip
  
 # Make SURE this file exists, its required
 # by the /etc/init/hypothesis.conf init script 

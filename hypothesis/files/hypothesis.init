@@ -1,14 +1,27 @@
+#
+# Annotator Upstart script
+# 
+# file: /etc/init/hypothesis.conf
+# Gist: https://gist.github.com/WebPlatformDocs/1ba5b980b52303b62acf
+#
+# Thanks to:
+# - https://lukedrummond.net/2014/02/django-with-prefix-nginxgunicorndjango/
+# - http://albertoconnor.ca/blog/2011/Sep/15/hosting-django-under-different-locations
+#
 description "Hypothesis server"
-
+ 
 start on (net-device-up
           and local-filesystems
           and runlevel [2345])
 stop on runlevel [!2345]
-
+ 
+respawn
+setuid renoirb
+setgid deployment
+ 
 script
    cd /srv/webplatform/h
    #export SCRIPT_NAME='/notes'
-   # https://lukedrummond.net/2014/02/django-with-prefix-nginxgunicorndjango/
-   # http://albertoconnor.ca/blog/2011/Sep/15/hosting-django-under-different-locations
-   ./bin/hypothesis serve h.ini
+   #TODO, set in a variable the log file
+   exec ./service.sh >> /var/log/webplatform/hypothesis.log 2>&1
 end script

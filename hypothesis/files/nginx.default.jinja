@@ -1,7 +1,8 @@
 server {
-    listen      80;
-    server_name notes.webplatform.org;
-    return      301 https://notes.webplatform.org$request_uri;
+    listen        80;
+    server_name   notes.webplatform.org;
+    server_tokens off;
+    return        301 https://notes.webplatform.org$request_uri;
 }
 
 server {
@@ -10,25 +11,21 @@ server {
     ssl_certificate     /etc/nginx/ssl/notes.class2.webplatform-20140601.pem;
     ssl_certificate_key /etc/nginx/ssl/201404.key;
 
-    root        /srv/webplatform/h/h/;
-    server_name notes.webplatform.org;
+    root                /srv/webplatform/h/h/;
+    server_name         notes.webplatform.org;
+ 
+    server_tokens off;
+    access_log    /var/log/nginx/access.log;
+    error_log     /var/log/nginx/error.log;
 
-    access_log  /var/log/nginx/access.log;
-    error_log   /var/log/nginx/error.log;
+    # All static files will be served directly?
+    # See: http://stackoverflow.com/questions/19515132/nginx-cache-static-files#answer-20843725 and Joost van der Laan
 
-    # All static files will be served directly.
-    # Thanks: http://stackoverflow.com/questions/19515132/nginx-cache-static-files#answer-20843725 and Joost van der Laan
-    location ~* ^.+\.(?:css|cur|js|jpe?g|gif|htc|ico|png|html|xml|otf|ttf|eot|woff|svg)$ {
-        access_log off;
-        expires 30d;
-        ## No need to bleed constant updates. Send the all shebang in one
-        ## fell swoop.
-        tcp_nodelay off;
-        ## Set the OS file cache.
-        open_file_cache max=3000 inactive=120s;
-        open_file_cache_valid 45s;
-        open_file_cache_min_uses 2;
-        open_file_cache_errors off;
+    rewrite ^/app/embed.js$  https://notes.webplatform.org/embed.js permanent;
+    rewrite ^/$              https://notes.webplatform.org/stream   permanent;
+
+    location ~ ^/assets/(.*)$ {
+        expires     max;
         alias      /srv/webplatform/h/h/$1;
         add_header Access-Control-Allow-Origin *;
     }
