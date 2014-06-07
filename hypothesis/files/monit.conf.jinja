@@ -1,14 +1,17 @@
 # file /etc/monit/conf.d/hypothesis
- 
+
+set logfile /var/log/monit.log
+
 set mailserver mail.webplatform.org
                mail2.webplatform.org
-set mail-format { from: monit@notes1.webplatform.org }
-set alert team-webplatform-systems@w3.org
+set mail-format { from: monit@notes.webplatform.org }
+set alert team-webplatform-cronjobs@w3.org
+ 
 set httpd port 2812 and
     use address localhost
     allow localhost
  
-check system notes1.webplatform.org
+check system notes.webplatform.org
     if loadavg (1min) > 4 then alert
     if loadavg (5min) > 2 then alert
     if memory usage > 75% then alert

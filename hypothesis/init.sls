@@ -7,14 +7,23 @@ include:
   - git
   - hypothesis.nginx
 
+/var/log/webplatform:
+  file:
+    - directory
+    - makedirs: True
+    - user: renoirb
+    - group: deployment
+
 monit-checker:
   pkg:
     - installed
     - name: monit
     - require_in:
       - file: /etc/monit/conf.d/hypothesis
+      - file: /srv/webplatform/h/service.sh
   file:
     - managed
+    - name: /etc/monit/conf.d/hypothesis
     - template: jinja
     - source: salt://hypothesis/files/monit.conf.jinja
 
@@ -24,12 +33,14 @@ openjdk-7-jdk-package:
       - openjdk-7-jre-headless
       - openjdk-7-jdk
 
+
 hypothesis-service:
   service:
     - running
     - name: hypothesis
     - enable: True
     - reload: true
+    - unless: test -f /srv/webplatform/h/production.ini
     - require:
       - pkg: hypothesis-dependencies
       - file: /etc/init/hypothesis.conf
@@ -39,10 +50,6 @@ hypothesis-service:
 #/tmp/hypothesis.sock
 #... make sure it has service with right user
 #...
-
-/srv/webplatform/h/h/favicon.ico:
-  file.managed:
-    - source: salt://hypothesis/files/favicon.ico
 
 hypothesis-dependencies:
   pkg.installed:
@@ -94,6 +101,13 @@ required-gems:
     - requires:
       - file: /srv/webplatform/h
       - file: /srv/webplatform/h/h.ini
+      - file: /srv/webplatform/h/service.sh
+
+/srv/webplatform/h/service.sh:
+  file.managed:
+    - source: salt://hypothesis/files/service.sh
+    - require:
+      - file: /srv/webplatform/h
 
 npm-packages:
   npm.installed:

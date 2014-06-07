@@ -1,0 +1,44 @@
+diff --git a/h/templates/displayer.pt b/h/templates/displayer.pt
+index 93bcb43..a5e5c39 100644
+--- a/h/templates/displayer.pt
++++ b/h/templates/displayer.pt
+@@ -1,6 +1,6 @@
+ <html metal:use-macro="main_template">
+   <head metal:fill-slot="head" tal:omit-tag>
+-    <title>Hypothes.is</title>
++    <title>WebPlatform Notes</title>
+     <script type="text/javascript">
+         document.init_annotation = ${annotation};
+     </script>
+diff --git a/h/templates/home.pt b/h/templates/home.pt
+index 5de07b3..3f0b908 100644
+--- a/h/templates/home.pt
++++ b/h/templates/home.pt
+@@ -3,7 +3,7 @@
+     <script type="text/javascript" defer="defer">
+       <metal:main use-macro="load: embed.txt" />
+     </script>
+-    <title>Hypothesis</title>
++    <title>WebPlatform Notes</title>
+   </head>
+   <body metal:fill-slot="body" tal:omit-tag>
+     <div id="home" class="content paper">
+diff --git a/h/templates/streamsearch.pt b/h/templates/streamsearch.pt
+index 1f01381..1602038 100644
+--- a/h/templates/streamsearch.pt
++++ b/h/templates/streamsearch.pt
+@@ -1,12 +1,12 @@
+ <html metal:use-macro="main_template">
+   <head metal:fill-slot="head" tal:omit-tag>
+-    <title>Hypothes.is</title>
++    <title>WebPlatform Notes</title>
+   </head>
+   <body metal:fill-slot="body" tal:omit-tag>
+     <div class="topbar">
+       <div class="inner">
+         <a class="pull-left" href="/"
+-           ><h4>hypothes<span class="red">.</span>is</h4></a>
++           ><h4>WebPlatform <span class="red">Notes</span></h4></a>
+ 
+         <!-- Searchbar -->
+         <div class="search-container yui3-u-1">
