@@ -127,3 +127,5 @@ base:
     - specific.sandbox
   'builder*':
     - specific.builder
+  'accounts*':
+    - fxa

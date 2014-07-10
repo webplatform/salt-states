@@ -1,0 +1,48 @@
+# file /etc/monit/conf.d/auth
+#
+# Installed through Salt stack
+#
+# TODO:
+#  - With DNS, use hostname from it
+#
+{% set hostname = grains['fqdn'] %}
+# Host {{ hostname }}
+
+set logfile /var/log/monit.log
+
+set mailserver mail.webplatform.org
+               mail2.webplatform.org
+
+set mail-format { from: monit@accounts.webplatform.org }
+set alert team-webplatform-cronjobs@w3.org
+
+set httpd port 2812 and
+    use address localhost
+    allow localhost
+
+check system accounts.webplatform.org
+    if loadavg (1min) > 4 then alert
+    if loadavg (5min) > 2 then alert
+    if memory usage > 75% then alert
+    if swap usage > 25% then alert
+    if cpu usage (user) > 70% then alert
+    if cpu usage (system) > 30% then alert
+    if cpu usage (wait) > 20% then alert
+
+check process nginx with pidfile /var/run/nginx.pid
+  group www
+  group nginx
+  start program = "/etc/init.d/nginx start"
+  stop program = "/etc/init.d/nginx stop"
+  if failed port 80 protocol http request "/" then restart
+  if 5 restarts with 5 cycles then timeout
+  depend nginx_bin
+  depend nginx_rc
+
+check file nginx_bin with path /usr/sbin/nginx
+  group nginx
+  include /etc/monit/templates/rootbin
+
+check file nginx_rc with path /etc/init.d/nginx
+  group nginx
+  include /etc/monit/templates/rootbin

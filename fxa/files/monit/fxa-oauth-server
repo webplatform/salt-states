@@ -1,0 +1,8 @@
+check host fxa-oauth-server with address "localhost"
+  start program = "/usr/sbin/service fxa-oauth-server start"
+  stop program = "/usr/sbin/service fxa-oauth-server stop"
+  if failed port 9010 protocol HTTP
+    request /
+    with timeout 15 seconds
+    then restart
+    depends on nginx

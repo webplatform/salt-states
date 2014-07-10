@@ -1,0 +1,44 @@
+#!/bin/bash
+#
+# Installed through Salt stack
+#
+# TODO:
+# - Use Salt to describe curl version number
+# - Support more than one REST service
+# - Create checks for other services
+#
+# see also:
+#   - salt/fxa/checks.sls
+#   - salt/fxa/files/monit/fxa-profile-server
+#   - salt/fxa/files/profile-check.sh
+#
+# usage:
+#   ./profile-check.sh 'some-bearer-token'
+#
+# Expected location:
+#   /srv/webplatform/auth/fxa-profile-server/scripts/profile-check.sh
+#
+# Reference
+#   - http://unix.stackexchange.com/questions/84814/health-check-of-web-page-using-curl
+#   - http://nongnu.13855.n7.nabble.com/monit-Question-about-cpu-monitoring-and-quot-expect-quot-behaviour-td3981.html (i.e. Monit HTTP checks has not enough options)
+#   - http://www.guguncube.com/2959/monit-url-http-and-elasticsearch-checks
+#   - http://omgitsmgp.com/2013/09/07/a-monit-primer/
+#   - http://howtonode.org/deploying-node-upstart-monit
+#   - http://blog.blindgaenger.net/monitor_applications_with_monit.html
+#   - http://spin.atomicobject.com/2010/11/30/monitoring-and-management-with-monit-and-nagios/
+#   - http://mmonit.com/monit/documentation/monit.html#generic__send_expect_  (in case I want to get diretly through TCP)
+
+#set -e
+#curl --version | grep -Po '\s\d+?\.\d+?\.?\d+?\.?\d+?\s'
+#token='3a9458a6e4da60974414ed4b0f9818ed11ca2b3ccf61cf0aa16344449eb678bd'
+#check=$(curl --connect-timeout 9 -sL -H "Authorization: Bearer $token" 'https://profile.accounts.webplatform.org/v1/email' | grep email)
+token='6bbbdba6b87a46b6a9d1f34ba133c144d243481abf6b53b2d379fb11b7d50ea7'
+check=$(curl --connect-timeout 9 -A 'curl/7.35.0 wpd-check/1.0' -sL -H "Authorization: Bearer $token" 'http://localhost:8081/v1/session/read' | grep email)
+
+if [[ -n "$check" ]] ; then
+#    echo "Service is working"
+exit 0
+else
+#    echo 'NOT Working!'
+exit 1
+fi
