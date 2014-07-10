@@ -125,3 +125,5 @@ base:
     - mediawiki.scaler
     - apache.docs
     - specific.sandbox
+  'builder*':
+    - specific.builder

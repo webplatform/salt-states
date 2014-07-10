@@ -1,7 +1,7 @@
-{% if grains['lsb_distrib_release'] == "12.04" %}
-/etc/dhcp/dhclient.conf:
-{% else %}
+{% if grains['lsb_distrib_release'] == "10.04"  %}
 /etc/dhcp3/dhclient.conf:
+{% else %}
+/etc/dhcp/dhclient.conf:
 {% endif %}
   file.managed:
     - user: root
