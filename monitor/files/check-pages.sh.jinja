@@ -24,7 +24,6 @@ fi
 
 $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] WPD Main page" -W error http://docs.webplatform.org/wiki/WPD:Policy
 $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] MW API recent changes" -W error http://docs.webplatform.org/w/api.php?action=query&list=recentchanges&rcprop=user%7Cparsedcomment%7Cflags%7Ctimestamp%7Ctitle%7Csizes%7Credirect%7Cids%7Cloginfo&rclimit=10
-$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Talk subdomain" -W error http://talk.webplatform.org/
 $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Blog subdomain, random post" -W error http://blog.webplatform.org/2013/02/pointing-toward-the-future/#more-191
 $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Project subdomain login" -W error http://project.webplatform.org/login
 $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Tracking subdomain" -W error http://tracking.webplatform.org/

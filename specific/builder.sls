@@ -15,6 +15,12 @@ hypothesis-dependencies:
       - build-essential
       - nodejs
       - npm
+      - python-virtualenv
+      - docker.io
+
+/usr/local/bin/docker:
+  file.symlink:
+    - target: /usr/bin/docker.io
 
 required-gems:
   cmd.run:
