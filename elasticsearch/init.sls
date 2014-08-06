@@ -9,7 +9,7 @@ elasticsearch:
 {% if grains['lsb_distrib_release'] == "12.04" %}
       - elasticsearch: https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.12.deb
 {% else %}
-      - elasticsearch: https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.1.1.deb
+      - elasticsearch: https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.1.deb
 {% endif %}
   service.running:
     - name: elasticsearch

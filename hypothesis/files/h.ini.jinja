@@ -10,103 +10,79 @@ api.secret: f52c57f0-36ba-761e-32df-28621a1d26c1
 
 auth.wpd.client_id: 27b93dae2d61e07d
 auth.wpd.client_secret: f6e09900b19badb9c2c3f26f013a9ab1404874ff3708ae7a5e7cdd28cb116817
+#auth.local.authorization: /oauth/authorize
+#auth.local.token: /oauth/token
 
-# ElasticSearch configuration
-es.host: http://elastic3.dho.wpdn:9200
+es.host: http://elastic1.dho.wpdn:9200
 es.index: notes
 
-# User and group framework settings -- see horus documentation
 horus.login_redirect: /
 horus.logout_redirect: /
 
-# Authorization settings -- see pyramid_multiauth documentation
-multiauth.policies: h.auth.wpd h.api
+multiauth.policies: h.auth.local h.api
 
-# Mail server configuration -- see the pyramid_mailer documentation
-#mail.default_sender: "Annotation Daemon" <no-reply@localhost>
 mail.default_sender: "Annotation Daemon" <notifier-notes@webplatform.org>
-mail.host: mail.webplatform.org
+mail.host: mail.webplatform.org 
 mail.port: 25
 
-# Include any deployment-specific pyramid add-ons here
 pyramid.includes:
     pyramid_deform
     pyramid_mailer
+    h.domain_mailer
 
-# Change or append to override templates
 pyramid_deform.template_search_path:
     h:templates/deform
     deform_bootstrap:templates
 
-# SQLAlchemy configuration -- See SQLAlchemy documentation
-#sqlalchemy.url: sqlite:///h.db
-
-# Static asset configuration -- see webassets documentation
-# Until the next pyramid_webassets, don't change these.
-# Example:
-#   webassets.base_dir: /srv/www/static
-#   webassets.base_url: https://static.example.com
 webassets.base_dir: h:
-webassets.base_url: /assets
+webassets.base_url: assets
 webassets.cache_max_age: 86400
 webassets.coffee_no_bare: True
 webassets.static_view: True
-webassets.debug: False
-webassets.versions: hash
 
 [server:main]
 use: egg:gunicorn
 worker_class: gevent
 host: 127.0.0.1
 port: 5000
-#host: unix://tmp/hypothesis.sock (TODO)
 
 [loggers]
 keys = root, gunicorn.access, gunicorn.error, h, sqlalchemy
 
-
 [handlers]
 keys = console
-
 
 [formatters]
 keys = generic
 
-
 [logger_root]
 level = WARN
 handlers = console
-
 
 [logger_gunicorn.error]
 level = WARN
 handlers =
 qualname = gunicorn.error
 
-
 [logger_gunicorn.access]
 level = INFO
 handlers =
 qualname = gunicorn.access
-
 
 [logger_h]
 level = WARN
 handlers =
 qualname = h
 
-
 [logger_sqlalchemy]
 level = WARN
 handlers =
 qualname = sqlalchemy.engine
 
-
 [handler_console]
 class = StreamHandler
 args = (sys.stderr,)
 formatter = generic
-
 
 [formatter_generic]
 format = %(asctime)s %(levelname)-5.5s [%(name)s] %(message)s
