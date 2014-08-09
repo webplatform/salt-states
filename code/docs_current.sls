@@ -31,8 +31,8 @@ sync-current-mediawiki:
       - file: /srv/webplatform
       - file: /srv/webplatform/wiki/current
 
-rsync -a --exclude '.git' --exclude '.svn' --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/docs/wpd-mediawiki/skins/ /srv/webplatform/wiki/current/skins/:
-  cmd.run:
-    - require:
-      - file: /srv/webplatform/wiki/current
-      - cmd: sync-current-mediawiki
+#rsync -a --exclude '.git' --exclude '.svn' --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/docs/wpd-mediawiki/skins/ /srv/webplatform/wiki/current/skins/:
+#  cmd.run:
+#    - require:
+#      - file: /srv/webplatform/wiki/current
+#      - cmd: sync-current-mediawiki

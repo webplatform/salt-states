@@ -16,7 +16,11 @@ apache2:
     - watch_in:
       - service: apache2
 
+{% if grains['lsb_distrib_release'] == "14.04" %}
+/etc/apache2/conf-enabled/performance.conf:
+{% else %}
 /etc/apache2/conf.d/performance:
+{% endif %}
   file.managed:
     - source: salt://apache/performance.jinja
     - template: jinja

@@ -29,7 +29,11 @@ install-composer:
     - watch:
       - cmd: get-composer
 
+{% if grains['lsb_distrib_release'] == "14.04" %}
+/etc/php5/mods-available/apc.ini:
+{% else %}
 /etc/php5/conf.d/apc.ini:
+{% endif %}
   file.managed:
     - source: salt://php/apc.ini
     - template: jinja
@@ -39,7 +43,11 @@ install-composer:
     - require:
       - pkg: php-apc
 
+{% if grains['lsb_distrib_release'] == "14.04" %}
+/etc/php5/mods-available/memcached.ini:
+{% else %}
 /etc/php5/conf.d/memcached.ini:
+{% endif %}
   file.managed:
     - source: salt://php/memcached.ini
     - user: root
