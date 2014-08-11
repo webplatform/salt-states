@@ -12,9 +12,10 @@
 #
 # Current system memory:    {{ salt['grains.get']('mem_total', 'ERROR') }}
 #
+ServerName            {{ salt['grains.get']('nodename') }}
 MinSpareServers       10
 MaxSpareServers       25
-MaxClients            256
-ServerLimit           256
+MaxClients            60
+ServerLimit           60
 MaxRequestsPerChild   800
 Timeout               20
