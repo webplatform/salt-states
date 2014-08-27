@@ -1,5 +1,3 @@
-mysql-client-pkgs:
+mariadb-client:
   pkg:
     - latest
-    - names:
-      - mysql-client

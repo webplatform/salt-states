@@ -9,12 +9,12 @@ include:
 {{ a2mod('rewrite') }}
 
 # Initial install of MediaWiki via states
-{% for slot in ['current','test'] %}
-install-mediawiki-{{ slot }}:
-  cmd:
-    - run
-    - name: salt-call state.sls mediawiki.docs_{{ slot }}
-    - unless: test -d /srv/webplatform/wiki/{{ slot }}
+{% for slot in ['wpwiki','wptestwiki'] %}
+#install-mediawiki-{{ slot }}:
+#  cmd:
+#    - run
+#    - name: salt-call state.sls mediawiki.docs_{{ slot }}
+#    - unless: test -d /srv/webplatform/wiki/{{ slot }}
 
 /srv/webplatform/wiki/{{ slot }}/cache:
   file.directory:
@@ -28,18 +28,18 @@ install-mediawiki-{{ slot }}:
 {% endfor %}
 
 # Mount point for the glusterfs filesystem
-/srv/webplatform/wiki/images:
-  mount.mounted:
-    - device: {{ salt['pillar.get']('infra:storage:master:wiki-images') }}
-    - fstype: glusterfs
-    - mkmnt: True
-    - opts:
-      - defaults
-      - _netdev=eth0
-      - log-level=WARNING
-      - log-file=/var/log/gluster.log
-    - require:
-      - pkg: glusterfs-client
+#/srv/webplatform/wiki/images:
+#  mount.mounted:
+#    - device: {{ salt['pillar.get']('infra:storage:master:wiki-images') }}
+#    - fstype: glusterfs
+#    - mkmnt: True
+#    - opts:
+#      - defaults
+#      - _netdev=eth0
+#      - log-level=WARNING
+#      - log-file=/var/log/gluster.log
+#    - require:
+#      - pkg: glusterfs-client
 #      - file: /srv/webplatform/wiki/images
 #  file.directory:
 #    - user: www-data

@@ -16,6 +16,21 @@ apache2:
     - watch_in:
       - service: apache2
 
+apache_watchdog:
+  cron.present:
+    - user: root
+    - minute: '*/2'
+    - name: /usr/local/sbin/wpd-apache-watchdog
+    - require:
+      - file: /usr/local/sbin/wpd-apache-watchdog
+
+/usr/local/sbin/wpd-apache-watchdog:
+  file.managed:
+    - user: root
+    - group: deployment
+    - mode: 755
+    - source: salt://apache/files/wpd-apache-watchdog
+
 {% if grains['lsb_distrib_release'] == "14.04" %}
 /etc/apache2/conf-enabled/performance.conf:
 {% else %}
@@ -29,3 +44,15 @@ apache2:
     - mode: 644
     - watch_in:
       - service: apache2
+
+{% if grains['lsb_distrib_release'] == "14.04" %}
+/etc/apache2/conf-enabled/security.conf:
+  file.managed:
+    - source: salt://apache/security.jinja
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 644
+    - watch_in:
+      - service: apache2
+{% endif %}

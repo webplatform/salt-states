@@ -25,16 +25,12 @@ base:
     - apache.talk
     - apache.dabblet
     - apache.status
-    - glusterfs
+#    - glusterfs
     - mediawiki
     - mediawiki.appserver
     - mediawiki.scaler
-#    - qwebirc
-#    - qwebirc.daemon
     - webplatform.swift-dreamobjects
-  'app5*':
-#    - ssl
-#    - apache.webplatform_ssl
+  'app9':
     - mediawiki.jobrunner
   'backup*':
     - backup
@@ -53,13 +49,16 @@ base:
     - gerrit
     - rsync
     - webplatform.swift-dreamobjects
-  'db*':
-    - logwatch
-    - mysql.server
+#  'db*':
+#    - logwatch
+#    - mysql.server
+#    - mysql.ssl
+#    - rsync
+#  'db4*':
+#    - specific.master-db
+  'percona*':
+    - percona.cluster
     - mysql.ssl
-    - rsync
-  'db4*':
-    - specific.master-db
   'deployment*':
     - halite
     - backup.mediawiki_xml
@@ -68,7 +67,6 @@ base:
     - logrotate
     - logrotate.deployment
     - glusterfs
-#    - qwebirc
     - rsync
     - specific.deployment
     - logging.syslog_ng

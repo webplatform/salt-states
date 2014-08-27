@@ -13,6 +13,7 @@ hypothesis-dependencies:
       - make
       - ruby-full
       - build-essential
+      - checkinstall
       - nodejs
       - npm
       - python-virtualenv

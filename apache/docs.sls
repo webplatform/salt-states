@@ -14,10 +14,10 @@ include:
     - watch_in:
       - service: apache2
 
-/etc/apache2/sites-enabled/docs:
+/etc/apache2/sites-enabled/01-docs.conf:
   file.symlink:
     - target: /etc/apache2/sites-available/docs
     - requires:
-      - file: /etc/apache2/sites-enabled/docs
+      - file: /etc/apache2/sites-available/docs
     - watch_in:
       - service: apache2

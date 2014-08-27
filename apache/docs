@@ -1,63 +1,87 @@
 <VirtualHost *:80>
   ServerAdmin noc@webplatform.org
-  ServerName docs.webplatform.org
+  ServerName  docs.webplatform.org
+  ServerAlias docs.webplatformstaging.org
+  ServerAlias docs.mroftalpbew.org
 
   DocumentRoot /var/www
+
   <Directory />
-          Options FollowSymLinks
-          AllowOverride None
+    Options FollowSymLinks
+    AllowOverride None
+    Require all granted
   </Directory>
-  <Directory /var/www/>
-          Options FollowSymLinks
-          AllowOverride None
-          Order allow,deny
-          allow from all
+  <Directory /var/www>
+    Options FollowSymLinks
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+    Require all granted
   </Directory>
-	<Directorymatch "^/.*/\.git/">
-		Order deny,allow
-		deny from all
-	</Directorymatch>
+  <Directory /srv/webplatform/wiki/wptestwiki/mediawiki/extensions/WebPlatformDocs/skin>
+      Options FollowSymLinks
+      AllowOverride None
+      Require all granted
+  </Directory>
+  <Directory /srv/webplatform/wiki/wptestwiki/mediawiki>
+      Require all granted
+  </Directory>
+  <Directory /srv/webplatform/wiki/wpwiki/mediawiki/extensions/WebPlatformDocs/skin>
+      Options FollowSymLinks
+      AllowOverride None
+      Require all granted
+  </Directory>
+  <Directory /srv/webplatform/wiki/images>
+    Options -Indexes
+    Require all granted
+  </Directory>
+  <Directory /srv/webplatform/wiki/wpwiki/mediawiki>
+      Require all granted
+  </Directory>
+  <Directory /srv/webplatform/compat>
+      Require all granted
+  </Directory>
 
-	<FilesMatch "\.(ttf|otf|eot)$">
-		<IfModule mod_headers.c>
-		Header set Access-Control-Allow-Origin "*"
-		</IfModule>
-	</FilesMatch>
+  <Directorymatch "^/.*/\.git/">
+    Order deny,allow
+    Deny from all
+  </Directorymatch>
 
-        <IfModule mod_headers.c>
-          Header add Access-Control-Allow-Origin "*"
-          # Find how to allow more than one http://www.webplatform.org 
-        </IfModule>
+  <FilesMatch "\.(ttf|otf|eot)$">
+    <IfModule mod_headers.c>
+      Header set Access-Control-Allow-Origin "*"
+    </IfModule>
+  </FilesMatch>
+  <IfModule mod_headers.c>
+    Header add Access-Control-Allow-Origin "*"
+  </IfModule>
 
-        ErrorLog syslog:local1
+  # Possible values include: debug, info, notice, warn, error, crit, alert, emerg
+  LogLevel warn
+  ErrorLog syslog:local1
 
-        # Possible values include: debug, info, notice, warn, error, crit,
-        # alert, emerg.
-        LogLevel warn
+  RewriteEngine On
+  RewriteCond %{REQUEST_URI}                       !^/(wiki|w|test|t|compat)/
+  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+  RewriteRule ^/wiki$                              /w/index.php [R=301]
+  RewriteRule ^/test$                              /t/index.php [R=301]
 
-        CustomLog /var/log/apache2/access.log combined
+  Alias /test                "/srv/webplatform/wiki/wptestwiki/mediawiki/index.php"
+  Alias /t/skins/webplatform "/srv/webplatform/wiki/wptestwiki/mediawiki/extensions/WebPlatformDocs/skin"
+  Alias /t                   "/srv/webplatform/wiki/wptestwiki/mediawiki"
 
-	# MediaWiki
-	<Directory /srv/webplatform/wiki/images>
-		Options -Indexes
-	</Directory>
+  Alias /wiki                "/srv/webplatform/wiki/wpwiki/mediawiki/index.php"
+  Alias /w/skins/webplatform "/srv/webplatform/wiki/wpwiki/mediawiki/extensions/WebPlatformDocs/skin"
+  Alias /w/images            "/srv/webplatform/wiki/images"
+  Alias /w                   "/srv/webplatform/wiki/wpwiki/mediawiki"
 
-	Alias /w/images /srv/webplatform/wiki/images
-	Alias /w /srv/webplatform/wiki/current
-	Alias /wiki /srv/webplatform/wiki/current/index.php
-	Alias /t/images /srv/webplatform/wiki/testimages
-	Alias /t /srv/webplatform/wiki/test
-	Alias /test /srv/webplatform/wiki/test/index.php
-	Alias /compat /srv/webplatform/compat
+  Alias /compat /srv/webplatform/compat
 
-	RedirectMatch ^/docs(/)$ http://docs.webplatform.org/wiki/
-	RedirectMatch ^/$ http://docs.webplatform.org/wiki/
-        RedirectMatch permanent ^/wiki/(.+)/$ /wiki/$1
+  RedirectMatch permanent ^/wiki/(.+)/$ /wiki/$1
+  RedirectMatch permanent ^/test/(.+)/$ /test/$1
+  RedirectMatch permanent ^/$           /wiki/
 
-        # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0145.html
-        RewriteEngine On
-        RewriteCond %{HTTP_HOST}                         ^docs\.webplatform\.org$
-        RewriteCond %{REQUEST_URI}                       !^/(wiki|w|test|t|compat)/
-        RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
-        RewriteRule ^(.*)$                               http://docs.webplatform.org/wiki$1   [R=301,L]
+  ErrorDocument 404 /errors/404.html
+  ErrorDocument 503 /errors/503.html
+  ErrorDocument 403 /errors/403.html
 </VirtualHost>

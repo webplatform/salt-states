@@ -5,7 +5,7 @@ salt-dependency:
   pkg.installed:
     - name: python-mysqldb
     - requires:
-      - pkg: mysql-server
+      - pkg: mariadb-server
       - file: /etc/mysql/debian.cnf
 
 /etc/mysql/debian.cnf:
@@ -14,16 +14,16 @@ salt-dependency:
     - source: salt://mysql/files/debian.cnf.jinja
     - template: jinja
     - requires:
-      - pkg: mysql-server
+      - pkg: mariadb-server
 
-mysql-server:
+mariadb-server:
   pkg:
     - installed
   service:
     - name: mysql
     - running
     - require:
-      - pkg: mysql-server
+      - pkg: mariadb-server
       - file: /etc/apparmor.d/usr.sbin.mysqld
     - watch:
       - file: /etc/mysql/conf.d
@@ -37,13 +37,13 @@ apparmor:
     - watch:
       - file: /etc/apparmor.d/usr.sbin.mysqld
 
-/etc/apparmor.d/usr.sbin.mysqld:
-  file.patch:
-#    - hash: md5=3d0d5311d599ab6fc48f74efdf7443e0    # Ubuntu 10.04
-    - hash: md5=c773199742d3eab522de1a5a95fcd2d8    # Ubuntu 10.04.4
-    - source: salt://mysql/apparmor.patch
-    - require:
-      - pkg: apparmor
+#/etc/apparmor.d/usr.sbin.mysqld:
+#  file.patch:
+##    - hash: md5=3d0d5311d599ab6fc48f74efdf7443e0    # Ubuntu 10.04
+#    - hash: md5=c773199742d3eab522de1a5a95fcd2d8    # Ubuntu 10.04.4
+#    - source: salt://mysql/apparmor.patch
+#    - require:
+#      - pkg: apparmor
 
 /etc/mysql/my.cnf:
   file.managed:
@@ -53,7 +53,7 @@ apparmor:
     - source: salt://mysql/files/my.cnf.jinja
     - template: jinja
     - require:
-      - pkg: mysql-server
+      - pkg: mariadb-server
 
 /etc/mysql/conf.d:
   file.recurse:

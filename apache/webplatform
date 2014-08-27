@@ -1,7 +1,7 @@
-<VirtualHost *:80>
-  ServerAdmin noc@webplatform.org
-  ServerName webplatform.org
-  ServerAlias www.webplatform.org www1.webplatform.org
+<VirtualHost _default_:80>
+  ServerAdmin webmaster@webplatform.org
+  ServerName  www.webplatform.org
+  ServerAlias www.webplatformstaging.org
 
   DocumentRoot /var/www
 
@@ -41,13 +41,16 @@
   <Directory />
     Options FollowSymLinks
     AllowOverride None
+    Require all granted
   </Directory>
   <Directory /var/www/>
     Options FollowSymLinks
     AllowOverride None
     Order allow,deny
     allow from all
+    Require all granted
   </Directory>
+
   <Directorymatch "^/.*/\.git/">
     Order deny,allow
     deny from all
@@ -61,13 +64,12 @@
 
   CustomLog /var/log/apache2/access.log combined
 
-  RewriteCond %{HTTP_HOST} !^www\.webplatform\.org [NC]
-  RewriteCond %{HTTP_HOST} !^$
-  RewriteRule ^/?(.*) http://www.webplatform.org/$1 [L,R,NE]
-
-  # MediaWiki
   <Directory /srv/webplatform/wiki/images>
-  	Options -Indexes
+    Options -Indexes
+    Require all granted
+  </Directory>
+  <Directory /srv/webplatform/bots/lumberjack>
+    Require all granted
   </Directory>
 
   Alias /talk/chatlogs   /srv/webplatform/bots/lumberjack
@@ -75,8 +77,8 @@
   RewriteEngine on
  
   RewriteRule   ^/docs/(.+)  http://docs.webplatform.org/wiki/$1  [R,L]
-  RedirectMatch ^/docs/?$ http://docs.webplatform.org/wiki/
-  RedirectMatch ^/wiki/?$ http://docs.webplatform.org/wiki/
+  RedirectMatch ^/docs/?$    http://docs.webplatform.org/wiki/
+  RedirectMatch ^/wiki/?$    http://docs.webplatform.org/wiki/
   
   # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0174.html
   RewriteCond %{REQUEST_URI}        ^/(beginners|css|dom|concepts|accessibility|svg|html|javascript|apis)
@@ -86,4 +88,15 @@
   ErrorDocument 404 /errors/404.html
   ErrorDocument 503 /errors/503.html
   ErrorDocument 403 /errors/403.html
+</VirtualHost>
+
+<VirtualHost *:80>
+  ServerAdmin webmaster@webplatform.org
+  ServerName  webplatform.org
+  ServerAlias webplatformstaging.org
+
+  RewriteEngine on
+  RewriteCond   %{HTTP_HOST}   !^www\. [NC]
+  RewriteCond   %{HTTP_HOST}   !^$
+  RewriteRule   ^/?(.*)        http://www.%{HTTP_HOST}/$1 [L,R,NE]
 </VirtualHost>

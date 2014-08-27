@@ -7,7 +7,9 @@ php-basic:
       - php-pear
       - php-apc
       - php5-memcached
-      - php5-memcache
+      - php5-redis
+      - php5-intl
+      - php-wikidiff2
 
 curl:
   pkg:
@@ -53,5 +55,6 @@ install-composer:
     - user: root
     - group: root
     - mode: 644
+    - template: jinja
     - require:
       - pkg: php5-memcached

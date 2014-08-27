@@ -11,11 +11,13 @@
 # based on the curernt system available resources in apache/init.sls
 #
 # Current system memory:    {{ salt['grains.get']('mem_total', 'ERROR') }}
+# ram_int value:            {{ ram_int }}
 #
 ServerName            {{ salt['grains.get']('nodename') }}
+
 MinSpareServers       10
 MaxSpareServers       25
-MaxClients            60
-ServerLimit           60
-MaxRequestsPerChild   800
-Timeout               20
+MaxClients            64
+ServerLimit           64
+MaxRequestsPerChild   200
+Timeout               30

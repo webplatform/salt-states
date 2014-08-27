@@ -1,0 +1,56 @@
+#!/bin/bash
+#
+# apache-watchdog: watchdog to make sure apache is responding on port 80
+#
+# sample usage: */5 * * * * /usr/local/sbin/wpd-apache-watchdog
+#
+# to disable this monitor for a short period of time (e.g. a few hours
+# while you work on something), run:
+#
+#    $ touch /etc/no_monitor
+#
+# to re-enable it later:
+#
+#    $ rm /etc/no_monitor
+#
+# to disable this monitor for some period of time longer than 1 day,
+# comment out the appropriate entry in root's crontab.
+#
+# @author Gerald Oskoboiny, 17 Oct 2009
+#
+# Imported from the sys-team on 20140820
+
+# erase any old no_monitor files that may have been left around by accident
+if [ x != x"`find /etc -maxdepth 1 -type f -name no_monitor -mtime +1`" ]; then
+    echo "&systeam apache-watchdog found a stale no_monitor file on $HOSTNAME; removed. `ls -l /etc/no_monitor`" | nc -q0 irccat.w3.org 1101
+    rm -f /etc/no_monitor
+fi
+
+# exit here if no monitor currently wanted
+if [ -f /etc/no_monitor ]; then
+    exit
+fi
+
+# try three times to get an HTTP response; exit if we get at least one
+for attempt in 1 2 3 ; do
+    ( echo 'HEAD / HTTP/1.0'
+      echo 'Host: www.webplatform.org'
+      echo 'User-Agent: W3C/apache-watchdog'
+      echo
+    ) | nc -w 5 localhost 80 2> /dev/null | egrep -q '^HTTP/... [0-9][0-9][0-9] ' && exit 0
+    sleep 10
+done
+
+# no response, so restart apache after killing any lingering processes
+( date
+  /etc/init.d/apache2 stop
+  sleep 5
+  killall -q apache2
+  sleep 15
+  killall -q apache2
+  sleep 5
+  /etc/init.d/apache2 start
+) 2>&1 >> /tmp/apache-watchdog.log
+
+# bark about what we did, like a good little watchdog
+#echo "&systeam apache was unresponsive on $HOSTNAME; restarted by apache-watchdog" | nc -q0 irccat.w3.org 1101

@@ -13,10 +13,10 @@ include:
     - watch_in:
       - service: apache2
 
-/etc/apache2/sites-enabled/status:
+/etc/apache2/sites-enabled/10-status.conf:
   file.symlink:
     - target: /etc/apache2/sites-available/status
     - requires:
-      - file: /etc/apache2/sites-enabled/status
+      - file: /etc/apache2/sites-available/status
     - watch_in:
       - service: apache2

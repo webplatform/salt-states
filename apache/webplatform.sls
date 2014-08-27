@@ -17,10 +17,10 @@ include:
     - watch_in:
       - service: apache2
 
-/etc/apache2/sites-enabled/webplatform:
+/etc/apache2/sites-enabled/00-webplatform.conf:
   file.symlink:
     - target: /etc/apache2/sites-available/webplatform
     - requires:
-      - file: /etc/apache2/sites-enabled/webplatform
+      - file: /etc/apache2/sites-available/webplatform
     - watch_in:
       - service: apache2

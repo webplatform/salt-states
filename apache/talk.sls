@@ -15,11 +15,11 @@ include:
     - watch_in:
       - service: apache2
 
-/etc/apache2/sites-enabled/talk:
+/etc/apache2/sites-enabled/02-talk.conf:
   file.symlink:
     - target: /etc/apache2/sites-available/talk
     - requires:
-      - file: /etc/apache2/sites-enabled/talk
+      - file: /etc/apache2/sites-available/talk
     - watch_in:
       - service: apache2
 

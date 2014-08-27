@@ -1,0 +1,235 @@
+<?php
+
+// Common settings
+// Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+// Unless you make changes in `salt/code/files/docs/Settings.php`
+
+// How Wikimedia does it, take a look at:
+// https://github.com/wikimedia/operations-mediawiki-config/tree/master/wmf-config
+// https://github.com/wikimedia/operations-puppet/tree/production/modules
+
+#$wgReadOnly = 'Currently backing up data, will be back shortly [http://status.webplatform.org/ our status page]';
+
+$wgServer = "http://docs.webplatform.org";
+#$sgCAnonicalServer = 'https://docs.webplatform.org';
+#$wgServer = "//docs.webplatform.org";
+
+
+#$wgCacheDirectory = "$IP/cache";
+$wgUploadDirectory = "/srv/webplatform/wiki/images/";
+
+
+## WebPlatform Docs
+require_once("$IP/extensions/WebPlatformDocs/main.php");
+
+## See DefaultSettings.php for details on each of them
+## wfFixSessionID() in GlobalFunctions
+#$wgCookieExpiration = 180*86400;
+#$wgCookieDomain = "";
+#$wgCookiePath = "/";
+#$wgCookieSecure = "detect";
+#$wgDisableCookieCheck = false;
+#$wgCookiePrefix = false;
+#$wgCookieHttpOnly = true;
+#$wgCacheVaryCookies = array();
+#$wgSessionName = false;
+
+## Upcoming improvements
+#$wgDisableOutputCompression = true;
+#$wgDBssl = true;
+#$wgSecureLogin = true;
+
+$wgMaxShellMemory = 1024 * 512;
+
+# See https://github.com/wikimedia/operations-puppet/tree/production/modules/varnish/templates
+#     https://github.com/wikimedia/operations-puppet/tree/production/templates/varnish
+## Frontend cache settings
+$wgUseSquid = true;
+$wgSquidServers = array( 'api.fastly.com:80' );
+
+$wpdUdp2logDest = 'deployment.webplatform.org:8420';
+$wgDebugLogGroups = array(
+  'UserThrottle' => "udp://$wpdUdp2logDest/UserThrottle",
+  'cite' => "udp://$wpdUdp2logDest/cite", // to see how it's used;) -ævar
+  'thumbnail' => "udp://$wpdUdp2logDest/thumbnail",
+  'testing' => "udp://$wpdUdp2logDest/testing", // for temp testing hacks
+  'jobqueue' => "udp://$wpdUdp2logDest/jobqueue/web",
+  'mkdir' => "udp://$wpdUdp2logDest/mkdir",
+  'slow-parse' => "udp://$wpdUdp2logDest/slow-parse",
+  'exception' => "udp://$wpdUdp2logDest/exception",
+  'session' => "udp://$wpdUdp2logDest/session",
+  'badblock' => "udp://$wpdUdp2logDest/badblock",
+  'SpamBlacklistHit' => "udp://$wpdUdp2logDest/spam",
+  'SpamRegex' => "udp://$wpdUdp2logDest/spam",
+  'ValidationStatistic' => "udp://$wpdUdp2logDest/valid",
+  'OutputBuffer' => "udp://$wpdUdp2logDest/buffer",
+  'exec' => "udp://$wpdUdp2logDest/exec",
+  'runJobs' => "udp://$wpdUdp2logDest/runJobs",
+  'memcached' => "udp://$wpdUdp2logDest/memcached",
+  'memcached-serious' => "udp://$wpdUdp2logDest/memcached-serious",
+  'lc-recache' => "udp://$wpdUdp2logDest/lc-recache",
+  'generated-pp-node-count' => "udp://$wpdUdp2logDest/generated-pp-node-count",
+  'api' => "udp://$wpdUdp2logDest/api",
+);
+
+$wgDBtype = "mysql";
+
+
+###### Production database settings #####################
+$wgDBname = "wpwiki";
+$wgDBserver = "10.0.0.29";  # percona1
+$wgDBuser = "wikiuser";
+$wgDBpassword = "yiiNahNgeigi3vu";
+
+
+###### Production caching settings #####################
+# See https://github.com/wikimedia/operations-mediawiki-config/blob/master/wmf-config/mc.php
+$wgMainCacheType = 'memcached-pecl';
+$wgMemCachedPersistent = false;
+$wgMemCachedTimeout = 250000; # default is 100000
+$wgObjectCaches['memcached-pecl'] = array(
+    'class' => 'MemcachedPeclBagOStuff',
+    'serializer' => 'php',
+    'persistent' => false,
+    'servers' => array( '10.0.0.10:11211', '10.0.0.11:11211', '10.0.0.40:11211' ),
+    'server_failure_limit' => 1e9,
+    'retry_timeout' => -1
+);
+$wgObjectCaches['redis'] = array(
+    'class' => 'RedisBagOStuff',
+    'servers' => array( '10.0.0.40:6379' ),
+    'persistent' => true,
+);
+$wgObjectCaches['sessions'] = array(
+        'class'   => 'RedisBagOStuff',
+        'servers' => array( '10.0.0.40:6379' ),
+);
+$wgJobTypeConf['default'] = array(
+        'class'       => 'JobQueueRedis',
+        'redisServer' => '10.0.0.40',
+        'redisConfig' => array( 'connectTimeout' => 2, 'compression' => 'gzip' ),
+);
+$wgJobQueueAggregator = array(
+        'class'        => 'JobQueueAggregatorRedis',
+        'redisServers' => array( '10.0.0.40' ),
+        'redisConfig'  => array( 'connectTimeout' => 2 ),
+);
+
+
+# renoirb 20140404
+# http://ryandlane.com/blog/2009/04/21/allowing-docpptxls-uploads-to-mediawiki-and-getting-proper-mime-types-back/
+$wgFileExtensions = array( 'png', 'gif', 'jpg', 'jpeg', 'ppt', 'pdf', 'psd', 'mp3', 'mp4', 'xls', 'xlsx', 'swf', 'doc','docx', 'odt', 'odc', 'odp', 'odg', 'mpp', 'svg', 'svgz', 'ai', 'txt');
+
+
+###################
+## Extensions
+
+## Anti bots
+## Has a very basic plugin that checks form application/x-www-form-urlencoded.
+## TODO: Add more?
+require_once("$IP/extensions/AntiBot/AntiBot.php");
+
+require_once("$IP/extensions/EventLogging/EventLogging.php");
+
+require_once("$IP/extensions/Renameuser/Renameuser.php");
+
+## Syntax Highlighting Extension
+require_once("$IP/extensions/SyntaxHighlight_GeSHi/SyntaxHighlight_GeSHi.php");
+$wgSyntaxHighlightDefaultLang = "html5";
+
+require_once("$IP/extensions/Cite/Cite.php");
+
+require_once("$IP/extensions/Vector/Vector.php");
+$wgDefaultUserOptions['vector-collapsiblenav'] = 1;
+$wgVectorUseSimpleSearch = true;
+
+require_once("$IP/extensions/WikiEditor/WikiEditor.php");
+$wgDefaultUserOptions['usebetatoolbar'] = 1;
+$wgDefaultUserOptions['usebetatoolbar-cgd'] = 1;
+#require_once("$IP/extensions/Gadgets/Gadgets.php"); #DISABLED
+
+require_once("$IP/extensions/CategoryTree/CategoryTree.php");
+
+include_once("$IP/extensions/Validator/Validator.php");
+
+include_once("$IP/extensions/SemanticMediaWiki/SemanticMediaWiki.php");
+enableSemantics('webplatform');
+
+# Semantic Forms Extension
+include_once("$IP/extensions/SemanticForms/SemanticForms.php");
+$sfgRenameEditTabs = true;
+
+# SemanticResultFormats, an extra set of printers for SMW
+require_once("$IP/extensions/SemanticResultFormats/SemanticResultFormats.php");
+
+include_once("$IP/extensions/AdminLinks/AdminLinks.php");
+#require_once("$IP/extensions/EmailCapture/EmailCapture.php");  #TODO, find
+
+# Captcha Extension
+require_once( "$IP/extensions/ConfirmEdit/ConfirmEdit.php" );
+$wgCaptchaTriggers['edit']          = false;
+$wgCaptchaTriggers['create']        = false;
+$wgCaptchaTriggers['addurl']        = false;
+$wgCaptchaTriggers['createaccount'] = true;
+$wgCaptchaTriggers['badlogin']      = false;
+#require_once( "$IP/extensions/ConfirmEdit/WpdCaptcha.php"); #TODO, refactor
+#$wgCaptchaClass = 'WpdCaptcha';
+
+# Page mass-delete
+require_once("$IP/extensions/Nuke/Nuke.php");
+
+# comments extension
+#require_once("$IP/extensions/Comments/Comments.php");
+#$wgCommentsEnabledNS = array(NS_MAIN);
+#require_once("$IP/extensions/WebPlatformDocs/extensions/SectionComments/SectionComments.php"); #TODO, REFACTOR, see WebPlatformDocs/main.php
+
+#require_once("$IP/extensions/WebPlatformSearchAutocomplete/WebPlatformSearchAutocomplete.php"); #TODO, refactor
+
+# Sub-page list
+require_once("$IP/extensions/SubPageList3/SubPageList3.php");
+
+# DismissableSiteNotice
+#require_once("$IP/extensions/DismissableSiteNotice/DismissableSiteNotice.php" ); #DISABLED
+
+## Semantic_Internal_Objects
+include_once("$IP/extensions/SemanticInternalObjects/SemanticInternalObjects.php");
+
+## Replace_Text
+#require_once("$IP/extensions/ReplaceText/ReplaceText.php"); #TODO, Find?
+
+## StringFunctionsEscaped
+require_once("$IP/extensions/ParserFunctions/ParserFunctions.php");
+$wgPFEnableStringFunctions = true;  // Note: this must be after ParserFunctions and before StringFunctionsEscaped
+require_once("$IP/extensions/StringFunctionsEscaped/StringFunctionsEscaped.php"); #NEEDSTOBEADDED 
+
+## Social Profile extension
+#require_once("$IP/extensions/SocialProfile/SocialProfile.php"); #DISABLED, suggested, and not installed
+#$wgUserProfileDisplay['friends'] = true;
+#$wgUserProfileDisplay['foes'] = false;
+
+## NewSignupPage extension, for agreeing to site terms
+require_once("$IP/extensions/NewSignupPage/NewSignupPage.php"); #NEEDSTOBEADDED
+$wgRegisterTrack = true;
+$wgUserStatsPointValues['referral_complete'] = 10;
+$wgAutoAddFriendOnInvite = true;
+$wgForceNewSignupPageInitialization = true;
+
+# CLDR extension, for local language names
+require_once("$IP/extensions/cldr/cldr.php");
+
+require_once("$IP/extensions/LookupUser/LookupUser.php");  #NEEDSTOBEADDED
+$wgGroupPermissions['*']['lookupuser'] = false;
+$wgGroupPermissions['sysop']['lookupuser'] = true;
+
+require_once( "$IP/extensions/UserMerge/UserMerge.php" );
+$wgGroupPermissions['bureaucrat']['usermerge'] = true;
+
+require_once( "$IP/extensions/AbuseFilter/AbuseFilter.php" );
+$wgGroupPermissions['sysop']['abusefilter-modify'] = true;
+$wgGroupPermissions['*']['abusefilter-log-detail'] = true;
+$wgGroupPermissions['*']['abusefilter-view'] = true;
+$wgGroupPermissions['*']['abusefilter-log'] = true;
+$wgGroupPermissions['sysop']['abusefilter-private'] = true;
+$wgGroupPermissions['sysop']['abusefilter-modify-restricted'] = true;
+$wgGroupPermissions['sysop']['abusefilter-revert'] = true;
+

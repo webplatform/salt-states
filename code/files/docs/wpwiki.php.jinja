@@ -1,0 +1,70 @@
+<?php
+
+// Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+// Ensure you change `salt/code/files/wpwiki.php.jinja` instead
+
+$wgDBname = "wpwiki";
+
+$wgSitename = "WebPlatform Docs";
+$wgServer = "http://docs.webplatform.org";
+
+$wgPiwikIDSite = "1";
+
+$wgDefaultRobotPolicy = 'index,follow';
+
+$wgArticlePath = '/wiki/$1';
+$wgScriptPath  = '/w';
+
+#require_once("$IP/extensions/WebPlatformAuth/WebPlatformAuth.php");
+#$wgWebPlatformAuth['endpoints']['fxa_oauth']   = 'https://oauth.accounts.webplatform.org/v1/';
+#$wgWebPlatformAuth['endpoints']['fxa_profile'] = 'https://profile.accounts.webplatform.org/v1/';
+#$wgWebPlatformAuth['methods']['authorize']     = 'authorization';
+#$wgWebPlatformAuth['methods']['token']         = 'token';
+#$wgWebPlatformAuth['client']['id']             = '0000000000000000';
+#$wgWebPlatformAuth['client']['secret']         = '3333333333333333333333333333333333333333333333333333333333333333';
+
+require_once("$IP/extensions/SwiftCloudFiles/SwiftCloudFiles.php");
+$wgFileBackends[] = array(
+    'name'           => 'local-backend',
+    'class'          => 'FSFileBackend',
+    'wikiId'         => $wgDBname,
+    'lockManager'    => 'nullLockManager',
+    'containerPaths' => array(
+               'local-public'  => $wgUploadDirectory,
+               'local-thumb'   => "$wgUploadDirectory/thumb",
+               'local-deleted' => "$wgUploadDirectory/deleted",
+               'local-temp'    => "$wgUploadDirectory/temp"
+    ),
+    'fileMode'       => 420
+);
+$wgFileBackends[] = array( // backend config for wiki's local repo
+       'class'              => 'SwiftFileBackend',
+       'name'               => 'local-ceph',
+       'wikiId'             => $wgDBname,
+       'lockManager'        => 'nullLockManager',
+       'swiftAuthUrl'       => 'objects.dreamhost.com/auth',
+       'swiftUser'          => 'wpd-assets:wpd-assets-user',
+       'swiftKey'           => '8888888888888888888888888888888888888888',
+       'swiftTempUrlKey'    => '', // TODO
+       'parallelize'        => 'implicit',
+       'cacheAuthInfo'      => true,
+       //'readOnly'          => 'Disabled during migration; please wait'
+);
+$wgLocalFileRepo = array(
+       'class'             => 'LocalRepo',
+       'name'              => 'local',
+       //'backend'           => 'local-backend',
+       'backend'           => 'local-ceph',
+       'scriptDirUrl'      => $wgScriptPath,
+       'scriptExtension'   => $wgScriptExtension,
+       'url'               => '/w/images',
+       'hashLevels'        => 2,
+       'thumbScriptUrl'    => false,
+       'transformVia404'   => false,
+       'deletedHashLevels' => 3,
+       'zones' => array (
+          'public' => array('url'=> '//static.webplatform.org/w/public'),
+          'thumb'  => array('url'=> '//static.webplatform.org/w/thumb'),
+          'temp'   => array('url'=> '//static.webplatform.org/w/temp')
+       )
+);

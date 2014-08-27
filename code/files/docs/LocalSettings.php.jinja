@@ -1,0 +1,20 @@
+<?php
+
+// Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+
+error_reporting(0);
+
+foreach(
+  array_merge(
+    // Settings from default wiki
+    glob( __DIR__ . '/../settings.d/puppet-managed/*.php' ),
+    glob( __DIR__ . '/../settings.d/*.php' ),
+    // Settings for this wiki
+    glob( __DIR__ . "/../local.d/*.php" )
+  ) as $conffile
+) {
+  include_once $conffile;
+}
+
+require_once( "$IP/../LocalSettings.php" );
+require_once( "$IP/../../Settings.php" );

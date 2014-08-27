@@ -6,18 +6,21 @@
         <Directory />
                 Options FollowSymLinks
                 AllowOverride None
+		Require all granted
         </Directory>
         <Directory /var/www/>
                 Options FollowSymLinks
                 AllowOverride None
                 Order allow,deny
                 allow from all
+		Require all granted
         </Directory>
         <Directory /srv/webplatform/dabblet/>
                 Options FollowSymLinks
                 AllowOverride FileInfo
                 Order allow,deny
                 allow from all
+		Require all granted
         </Directory>
 
 	<Directorymatch "^/.*/\.git/">
@@ -46,18 +49,21 @@
         <Directory />
                 Options FollowSymLinks
                 AllowOverride None
+		Require all granted
         </Directory>
         <Directory /var/www/>
                 Options FollowSymLinks
                 AllowOverride None
                 Order allow,deny
                 allow from all
+		Require all granted
         </Directory>
         <Directory /srv/webplatform/dabblet/preview>
                 Options FollowSymLinks
                 AllowOverride FileInfo
                 Order allow,deny
                 allow from all
+		Require all granted
         </Directory>
 
 	<Directorymatch "^/.*/\.git/">
@@ -86,18 +92,21 @@
         <Directory />
                 Options FollowSymLinks
                 AllowOverride None
+		Require all granted
         </Directory>
         <Directory /var/www/>
                 Options FollowSymLinks
                 AllowOverride None
                 Order allow,deny
                 allow from all
+		Require all granted
         </Directory>
         <Directory /srv/webplatform/dabblet/result>
                 Options FollowSymLinks
                 AllowOverride FileInfo
                 Order allow,deny
                 allow from all
+		Require all granted
         </Directory>
 
 	<Directorymatch "^/.*/\.git/">

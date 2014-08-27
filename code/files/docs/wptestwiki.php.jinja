@@ -1,0 +1,21 @@
+<?php
+
+// Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+// Ensure you change `salt/code/files/wptestwiki.php.jinja` instead
+
+$wgDBname = "wptestwiki";
+
+$wgPiwikIDSite = "9";
+
+$wgSitename = "WebPlatform Docs [Test wiki]";
+
+$wgArticlePath = '/test/$1';
+$wgScriptPath  = '/t';
+
+require_once("$IP/extensions/WebPlatformAuth/WebPlatformAuth.php");
+$wgWebPlatformAuth['endpoints']['fxa_oauth']   = 'https://oauth.accounts.webplatform.org/v1/';
+$wgWebPlatformAuth['endpoints']['fxa_profile'] = 'https://profile.accounts.webplatform.org/v1/';
+$wgWebPlatformAuth['methods']['authorize']     = 'authorization';
+$wgWebPlatformAuth['methods']['token']         = 'token';
+$wgWebPlatformAuth['client']['id']             = '0000000000000000';
+$wgWebPlatformAuth['client']['secret']         = '1111111111111111111111111111111111111111111111111111111111111111';
