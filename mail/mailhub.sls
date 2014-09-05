@@ -62,12 +62,12 @@ mailhub-required-pkgs:
       - opendkim
       - opendkim-tools
 
-refresh-clam:
-  cmd:
-    - run
-    - name: freshclam
-    - require:
-      - pkg: clamav-freshclam
+#refresh-clam:
+#  cmd:
+#    - run
+#    - name: freshclam
+#    - require:
+#      - pkg: clamav-freshclam
 
 mailhub-services:
   service:
