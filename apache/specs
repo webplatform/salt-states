@@ -1,0 +1,25 @@
+<VirtualHost *:80>
+  ServerAdmin webmaster@webplatform.org
+  ServerName  specs.webplatform.org
+
+  DocumentRoot /srv/webplatform/webspecs/specs
+
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+  </Directory>
+  <Directory /srv/webplatform/webspecs/specs>
+    AllowOverride None
+    Require       all granted
+  </Directory>
+
+  ErrorLog syslog:local1
+
+  # Possible values include: debug, info, notice, warn, error, crit,
+  # alert, emerg.
+  LogLevel warn
+
+  CustomLog /var/log/apache2/access.log combined
+
+  Alias /favicon.ico /var/www/favicon.ico
+</VirtualHost>

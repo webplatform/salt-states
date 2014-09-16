@@ -12,3 +12,4 @@ include:
   - users.jean-gui
   - users.estheban
   - users.vivien
+  - users.darobin

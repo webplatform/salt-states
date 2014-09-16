@@ -25,6 +25,7 @@ base:
     - apache.talk
     - apache.dabblet
     - apache.status
+    - apache.specs
 #    - glusterfs
     - mediawiki
     - mediawiki.appserver
