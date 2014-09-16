@@ -3,7 +3,35 @@
 // Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
 // Ensure you change `salt/code/files/wptestwiki.php.jinja` instead
 
+if ( !defined( 'MEDIAWIKI' ) ) {
+        exit;
+}
+
+##################### database settings #####################
 $wgDBname = "wptestwiki";
+$wgDBservers = array(
+        array(
+                'host'     => "10.0.0.29",  # percona1
+                'dbname'   => $wgDBname,
+                'user'     => "wikiuser",
+                'password' => "yiiNahNgeigi3vu",
+                'type'     => "mysql",
+                'flags'    => DBO_DEFAULT,
+                'load'     => 0,
+        ),
+);
+#if ( !$wgCommandLineMode ) {
+#        $wgDBservers[] = array(
+#                'host'     => "db5.dho.wpdn",
+#                'dbname'   => $wgDBname,
+#                'user'     => "wikiuser",
+#                'password' => "yiiNahNgeigi3vu",
+#                'type'     => "mysql",
+#                'flags'    => DBO_DEFAULT,
+#                'load'     => 1,
+#        );
+#}
+##################### database settings #####################
 
 $wgPiwikIDSite = "9";
 

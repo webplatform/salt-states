@@ -3,10 +3,37 @@
 // Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
 // Ensure you change `salt/code/files/wpwiki.php.jinja` instead
 
+if ( !defined( 'MEDIAWIKI' ) ) {
+        exit;
+}
+
+##################### database settings #####################
 $wgDBname = "wpwiki";
+$wgDBservers = array(
+        array(
+                'host'     => "10.0.0.29",  # percona1
+                'dbname'   => $wgDBname,
+                'user'     => "wikiuser",
+                'password' => "yiiNahNgeigi3vu",
+                'type'     => "mysql",
+                'flags'    => DBO_DEFAULT,
+                'load'     => 0,
+        ),
+);
+#if ( !$wgCommandLineMode ) {
+#        $wgDBservers[] = array(
+#                'host'     => "db5.dho.wpdn",
+#                'dbname'   => $wgDBname,
+#                'user'     => "wikiuser",
+#                'password' => "yiiNahNgeigi3vu",
+#                'type'     => "mysql",
+#                'flags'    => DBO_DEFAULT,
+#                'load'     => 1,
+#        );
+#}
+##################### database settings #####################
 
 $wgSitename = "WebPlatform Docs";
-$wgServer = "http://docs.webplatform.org";
 
 $wgPiwikIDSite = "1";
 
@@ -22,6 +49,13 @@ $wgScriptPath  = '/w';
 #$wgWebPlatformAuth['methods']['token']         = 'token';
 #$wgWebPlatformAuth['client']['id']             = '0000000000000000';
 #$wgWebPlatformAuth['client']['secret']         = '3333333333333333333333333333333333333333333333333333333333333333';
+
+$wgSecretKey = "7c8029f5757f15abb4d9bf8d6aef6d9aea2f4eb7911f054961f47eaf70571729";
+$wgUpgradeKey = "f9a680f04e3abe2d";
+
+$wgEnableUploads  = true;
+$wgUseImageMagick = true;
+$wgImageMagickConvertCommand = "/usr/bin/convert";
 
 require_once("$IP/extensions/SwiftCloudFiles/SwiftCloudFiles.php");
 $wgFileBackends[] = array(
