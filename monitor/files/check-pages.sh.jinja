@@ -22,7 +22,10 @@ fi
 
 # --smtp-username=$SMTPUSERNAME --smtp-password="$SMTPPASSWORD"
 
-$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] WPD Main page" -W error http://docs.webplatform.org/wiki/WPD:Policy
+## Because... MediaWiki
+$BIN -N -m process -c -s $SMTP -a $TO -T 12 --subject="[check-pages] Wiki" -W error http://docs.webplatform.org/wiki/WPD:Policy
+$BIN -N -m process -c -s $SMTP -a $TO -T 12 --subject="[check-pages] Test wiki" -W error http://docs.webplatform.org/test/WPD:Policy
+
 $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] MW API recent changes" -W error http://docs.webplatform.org/w/api.php?action=query&list=recentchanges&rcprop=user%7Cparsedcomment%7Cflags%7Ctimestamp%7Ctitle%7Csizes%7Credirect%7Cids%7Cloginfo&rclimit=10
 $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Blog subdomain, random post" -W error http://blog.webplatform.org/2013/02/pointing-toward-the-future/#more-191
 $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Project subdomain login" -W error http://project.webplatform.org/login
@@ -34,7 +37,7 @@ $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] DreamObjects is a
 $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Homepage" -W error http://www.webplatform.org/
 $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] WebAt25" -W error http://www.webat25.org/
 
-# Cannot run those ones yet
+## Cannot run those ones yet
 #$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Monitor subdomain" -W error http://monitor.webplatform.org/ganglia/
 
 exit 0
