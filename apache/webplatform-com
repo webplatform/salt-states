@@ -1,0 +1,50 @@
+<VirtualHost *:80>
+  ServerAdmin hostmaster@webplatform.org
+  ServerName  www.webplatform.com
+
+  DocumentRoot /srv/webplatform/webplatform-com/out
+
+  # Removing any cookies from here, we do not want them here
+  RequestHeader unset Cookie
+  Header unset Set-Cookie
+
+  # http://www.mnot.net/blog/2007/05/15/expires_max-age
+  ExpiresActive On
+  ExpiresDefault "access plus 1 day"
+  #Header set Cache-Control "max-age=3600, must-revalidate"  # Should be done already by ExpiresActive
+
+  <IfModule mod_headers.c>
+    Header set X-UA-Compatible "IE=edge,chrome=1"
+    # mod_headers can't match by content-type, but we don't want to send this header on *everything*...
+    <FilesMatch "\.(appcache|crx|css|eot|gif|htc|ico|jpe?g|js|m4a|m4v|manifest|mp4|oex|oga|ogg|ogv|otf|pdf|png|safariextz|svg|svgz|ttf|vcf|webm|webp|woff|xml|xpi)$">
+      Header unset X-UA-Compatible
+    </FilesMatch>
+  </IfModule>
+
+  <Directory />
+    AllowOverride None
+    Require all granted
+  </Directory>
+  <Directory /srv/webplatform/webplatform-com/out/>
+    AllowOverride None
+    Require all granted
+  </Directory>
+
+  ErrorLog syslog:local1
+
+  # Possible values include: debug, info, notice, warn, error, crit,
+  # alert, emerg.
+  LogLevel warn
+
+  CustomLog /var/log/apache2/access.log combined
+</VirtualHost>
+
+<VirtualHost *:80>
+  ServerAdmin hostmaster@webplatform.org
+  ServerName  webplatform.com
+
+  RewriteEngine on
+  RewriteCond   %{HTTP_HOST}   !^www\. [NC]
+  RewriteCond   %{HTTP_HOST}   !^$
+  RewriteRule   ^/?(.*)        http://www.%{HTTP_HOST}/$1 [L,R,NE]
+</VirtualHost>

@@ -20,6 +20,7 @@ base:
     - cron
   'app*':
     - php
+    - apache.webplatform-com
     - apache.webplatform
     - apache.docs
     - apache.talk

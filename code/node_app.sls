@@ -4,3 +4,4 @@ include:
   - code.dabblet
   - code.talk
   - code.root
+  - code.root-com
