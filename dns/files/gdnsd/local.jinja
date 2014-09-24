@@ -1,0 +1,26 @@
+$TTL 3600
+
+@   SOA noc hostmaster.webplatform.org. (
+      2014092400 ; serial
+      7200       ; refresh
+      30M        ; retry
+      3D         ; expire
+      900        ; ncache
+)
+
+@         NS  noc
+
+noc       A   10.10.10.3
+salt      A   10.10.10.2
+
+app1      A   10.10.10.7
+
+db1       A   10.10.10.6
+
+mail      A   10.10.10.5
+
+nginx0    A   10.10.10.4
+
+redis1    A   10.10.10.10
+redis2    A   10.10.10.11
+redis3    A   10.10.10.9

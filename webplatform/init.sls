@@ -15,11 +15,12 @@ non-needed-softwares:
 commonly-used-utilities:
   pkg.installed:
     - names:
+      - screen
       - htop
       - sysstat
-{% if grains['lsb_distrib_release'] == "10.04" %}
-      - timeout
-{% endif %}
+
+/usr/bin/timeout:
+  file.exists
 
 sysstat:
   service.running:

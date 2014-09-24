@@ -38,7 +38,7 @@ renoirb:
     - require:
       - user: renoirb
 
-{% if grains['host'] == 'deployment' %}
+{% if grains['host'] == 'salt*' %}
 /home/renoirb/.my.cnf:
   file.managed:
     - user: renoirb

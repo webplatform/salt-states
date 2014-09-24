@@ -1,0 +1,5 @@
+search local.webplatformstaging.org
+domain local.webplatformstaging.org
+nameserver 10.10.10.3
+nameserver 8.8.8.8
+nameserver 8.8.6.6

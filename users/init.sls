@@ -1,18 +1,18 @@
 include:
   - groups
-  - users.laner
   - users.renoirb
-  - users.tguild
-  - users.shepazu
-  - users.jkomoros
-  - users.julee
-  - users.frozenice
-  - users.garbee
-  - users.pdsouza
-  - users.jean-gui
-  - users.estheban
-  - users.vivien
-  - users.darobin
+#  - users.laner
+#  - users.tguild
+#  - users.shepazu
+#  - users.jkomoros
+#  - users.julee
+#  - users.frozenice
+#  - users.garbee
+#  - users.pdsouza
+#  - users.jean-gui
+#  - users.estheban
+#  - users.vivien
+#  - users.darobin
 
 # User ids:
 # - 1001

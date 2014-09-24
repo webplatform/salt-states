@@ -26,7 +26,8 @@
     - user: root
     - group: ops
     - mode: 640
-    - source: salt://environment/nova-profile.sh
+    - template: jinja
+    - source: salt://environment/nova-profile.sh.jinja
 
 /root/.my.cnf:
   file.managed:
@@ -42,13 +43,16 @@ useful-pkgs:
       - libterm-readkey-perl
       - percona-toolkit
 
-python-nova-pkgs:
-  pkg.latest:
-    - pkgs:
-      - python-novaclient
-    - refresh: True
-    - require:
-      - cmd: cloud-archive-repo
+python-novaclient:
+  pkg.installed
+
+#python-nova-pkgs:
+#  pkg.latest:
+#    - pkgs:
+#      - python-novaclient
+#    - refresh: True
+#    - require:
+#      - cmd: cloud-archive-repo
 
 /usr/local/bin/deploy.sh:
   file.managed:
@@ -72,9 +76,9 @@ python-nova-pkgs:
 #    - keyserver: keyserver.ubuntu.com
 #    - keyid: EC4926EA
 #    - file: /etc/apt/sources.list.d/cloudarchive-havana.list
-cloud-archive-repo:
-  cmd:
-    - run
-    - name: add-apt-repository cloud-archive:havana
-    - creates: /etc/apt/sources.list.d/cloudarchive-havana.list
-    - unless: test -f /etc/apt/sources.list.d/cloudarchive-havana.list
+#cloud-archive-repo:
+#  cmd:
+#    - run
+#    - name: add-apt-repository cloud-archive:havana
+#    - creates: /etc/apt/sources.list.d/cloudarchive-havana.list
+#    - unless: test -f /etc/apt/sources.list.d/cloudarchive-havana.list

@@ -1,5 +1,13 @@
+syslog-requisites:
+  pkg:
+    - installed
+    - names:
+      - syslog-ng-core
+      - syslog-ng-mod-redis
+
 syslog-ng:
-  pkg.installed
+  service:
+    - running
 
 /etc/syslog-ng/conf.d/10local1.conf:
   file.managed:

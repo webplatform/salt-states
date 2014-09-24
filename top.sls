@@ -1,23 +1,37 @@
 base:
   '*':
-    - webplatform
-    - dhcp
-    - dns
-    - git
-    - groups
-    - hosts
-    - network
-    - mail
-    - mercurial
-    - ntp
-    - subversion
-    - sudo
     - users
-    - logging
+    - groups
+    - sudo
+    - webplatform
+    - mail
+    - git
+    - mercurial
+    - subversion
+    - cron
+    - ntp
+    - network
     - lvm
     - xfs
-    - monitor
-    - cron
+#    - dhcp
+#    - dns
+#    - logging
+#    - monitor
+#    - hosts
+  'salt*':
+#    - halite
+#    - backup.mediawiki_xml
+#    - backup.salt_master
+    - logrotate
+    - logrotate.deployment
+#    - glusterfs
+    - rsync
+    - specific.deployment
+#    - logging.syslog_ng
+#    - logging.udp2log
+    - python
+    - python.mysqldb
+    - webplatform.swift-dreamobjects
   'app*':
     - php
     - apache.webplatform-com
@@ -27,7 +41,6 @@ base:
     - apache.dabblet
     - apache.status
     - apache.specs
-#    - glusterfs
     - mediawiki
     - mediawiki.appserver
     - mediawiki.scaler
@@ -61,21 +74,6 @@ base:
   'percona*':
     - percona.cluster
     - mysql.ssl
-  'deployment*':
-    - halite
-    - backup.mediawiki_xml
-#    - backup.mediawiki_images
-    - backup.salt_master
-    - logrotate
-    - logrotate.deployment
-    - glusterfs
-    - rsync
-    - specific.deployment
-    - logging.syslog_ng
-    - logging.udp2log
-    - python
-    - python.mysqldb
-    - webplatform.swift-dreamobjects
   'storage*':
     - glusterfs
     - glusterfs.server
