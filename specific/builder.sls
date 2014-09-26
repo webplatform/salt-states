@@ -15,6 +15,7 @@ hypothesis-dependencies:
       - build-essential
       - checkinstall
       - nodejs
+      - nodejs-legacy
       - npm
       - python-virtualenv
       - docker.io

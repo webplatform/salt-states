@@ -1,5 +1,5 @@
-server: master.db.wpdn
-port: 3306
-database: lumberjack
-user: lumberjack_user
-password: Ek7jei4ooli6aiw
+server: {{ salt['pillar.get']('accounts:lumberjack:db:server', 'localhost') }}
+port: {{ salt['pillar.get']('accounts:lumberjack:db:port', '3306') }}
+database: {{ salt['pillar.get']('accounts:lumberjack:db:database', 'lumberjack') }}
+user: {{ salt['pillar.get']('accounts:lumberjack:db:user', 'root') }}
+password: {{ salt['pillar.get']('accounts:lumberjack:db:password', '') }}

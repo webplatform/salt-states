@@ -2,7 +2,7 @@ include:
   - rsync.secret
   - code.prereq
 
-rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/compat/ /srv/webplatform/compat/:
+rsync -a --compress --delete --no-perms --exclude 'package.json' --exclude '.git*' --exclude 'README.md' --exclude 'node_modules' --password-file=/etc/codesync.secret codesync@salt.wpdn::code/compat/repo/ /srv/webplatform/compat/:
   cmd.run:
     - user: root
     - group: root

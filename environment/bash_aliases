@@ -3,3 +3,5 @@ alias service-test='nc -vz '
 alias besu='sudo -H bash -l'
 alias gentoken='openssl rand -base64 32'
 alias scr='screen -dd -R'
+
+export NOVA_COMMONS='--image Ubuntu-14.04-Trusty-latest --user-data /srv/opsconfigs/userdata.txt --key_name salt-renoirb'

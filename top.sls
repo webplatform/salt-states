@@ -17,7 +17,7 @@ base:
 #    - dns
 #    - logging
 #    - monitor
-#    - hosts
+    - hosts
   'salt*':
 #    - halite
 #    - backup.mediawiki_xml

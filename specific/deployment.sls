@@ -36,15 +36,16 @@
     - mode: 640
     - source: salt://environment/my.cnf
 
-useful-pkgs:
+deployment-deps:
   pkg.installed:
     - pkgs:
       - build-essential
       - libterm-readkey-perl
       - percona-toolkit
-
-python-novaclient:
-  pkg.installed
+      - nodejs
+      - nodejs-legacy
+      - npm
+      - python-novaclient
 
 #python-nova-pkgs:
 #  pkg.latest:
