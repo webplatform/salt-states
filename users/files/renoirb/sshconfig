@@ -1,0 +1,6 @@
+StrictHostKeyChecking no
+
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile /home/renoirb/.ssh/id_pwless

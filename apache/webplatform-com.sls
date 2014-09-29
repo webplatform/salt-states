@@ -2,9 +2,6 @@ include:
   - apache
   - apache.headers
 
-{% from "apache/module.sls" import a2mod %}
-{{ a2mod('expires') }}
-
 /etc/apache2/sites-available/webplatform-com:
   file:
     - managed

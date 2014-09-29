@@ -28,7 +28,6 @@ renoirb:
       - user: renoirb
     - source: salt://environment/bash_aliases
 
-
 /home/renoirb/.screenrc:
   file.managed:
     - user: renoirb
@@ -37,6 +36,13 @@ renoirb:
     - source: salt://environment/screenrc
     - require:
       - user: renoirb
+
+/home/renoirb/.ssh/config:
+  file.managed:
+    - user: renoirb
+    - group: renoirb
+    - mode: 600
+    - source: salt://users/files/renoirb/sshconfig
 
 {% if grains['host'] == 'salt*' %}
 /home/renoirb/.my.cnf:
