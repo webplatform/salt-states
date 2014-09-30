@@ -7,7 +7,7 @@
 
 #HOSTS#
 {% for a, iter in saltProvidedData.items() -%}
-{{ iter.get('ipaddr') }}	{{ iter.get('host') }}  {{ iter.get('host') }}.wpdn	{{ iter.get('host') }}.staging.wpdn
+{{ iter.get('ipaddr') }}	{{ iter.get('host') }}  {{ iter.get('host') }}.wpdn  {{ iter.get('host') }}.staging.wpdn
 {% endfor -%}
 {% for node, args in pillar.get('nodes', {}).items() -%}
 {{ args.get('private') }}	{{ node }}  {{ node }}.wpdn  # Provided by a pillar in salt:/srv/pillar/nodes

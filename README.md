@@ -19,6 +19,8 @@ The only thing you need to do is to add to your ~/.ssh/config the following:
     ##
     ## Reference:
     ##   - http://serverfault.com/questions/337274
+    ##   - https://wikitech.wikimedia.org/wiki/Help:Access#Using_ProxyCommand_ssh_option
+    ##   - http://blog.pluralsight.com/linux-ssh-jumpbox
 
     Host staging.wpdn
       Hostname salt.webplatformstaging.org

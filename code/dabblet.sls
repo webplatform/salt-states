@@ -2,7 +2,7 @@ include:
   - rsync.secret
   - code.prereq
 
-rsync -a --exclude '.git' --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/dabblet/ /srv/webplatform/dabblet/:
+rsync -a --exclude '.git' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.wpdn::code/dabblet/ /srv/webplatform/dabblet/:
   cmd.run:
     - user: root
     - group: root

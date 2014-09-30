@@ -2,7 +2,6 @@
   ServerAdmin noc@webplatform.org
   ServerName  docs.webplatform.org
   ServerAlias docs.webplatformstaging.org
-  ServerAlias docs.mroftalpbew.org
 
   DocumentRoot /var/www
 

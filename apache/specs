@@ -1,6 +1,7 @@
 <VirtualHost *:80>
   ServerAdmin webmaster@webplatform.org
   ServerName  specs.webplatform.org
+  ServerAlias specs.webplatformstaging.org
 
   DocumentRoot /srv/webplatform/webspecs/specs
 

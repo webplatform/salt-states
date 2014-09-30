@@ -1,6 +1,7 @@
 <VirtualHost *:80>
   ServerAdmin noc@webplatform.org
   ServerName project.webplatform.org
+  ServerAlias project.webplatformstaging.org
 
   DocumentRoot /srv/webplatform/buggenie/thebuggenie/
   <Directory />

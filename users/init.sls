@@ -1,32 +1,35 @@
 include:
   - groups
   - users.renoirb
-#  - users.laner
-#  - users.tguild
 #  - users.shepazu
+#  - users.tguild
+#  - users.jean-gui
+#  - users.vivien
+#  - users.darobin
+#  - users.tripu
+#
+#  ---- UNSURE ARE BELOW ----
+#  - users.laner
 #  - users.jkomoros
 #  - users.julee
 #  - users.frozenice
 #  - users.garbee
 #  - users.pdsouza
-#  - users.jean-gui
 #  - users.estheban
-#  - users.vivien
-#  - users.darobin
-
-# User ids:
-# - 1001
-# - 1002
-# -
-# - 1004
-# - 1005
-# - 1006
-# - 1007
+#
+# User ids #TODO:
+# - 1001, renoirb
+# - 1002, shepazu
+# - 1003, tguild
+# - 1004, jean-bui
+# - 1005, vivien
+# - 1006, darobin
+# - 1007, tripu
 # - 1008
 # - 1009
 # - 1010
 # - 1011
-# - 1012, tripu
+# - 1012
 # - 1013
 # - 1014
 # - 1015

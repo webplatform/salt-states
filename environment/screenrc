@@ -12,4 +12,4 @@ escape ^Jj
 bind T screen -t htop htop
 
 hardstatus alwayslastline
-hardstatus string '%{= kG}[ %{G}%H Staging %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]'
+hardstatus string '%{= kG}[ %{G}%H staging %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]'

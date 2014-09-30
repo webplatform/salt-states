@@ -1,6 +1,7 @@
 <VirtualHost *:80>
   ServerAdmin noc@webplatform.org
-	ServerName stats.webplatform.org
+  ServerName stats.webplatform.org
+  ServerAlias stats.webplatformstaging.org
 
   DocumentRoot /var/www
   <Directory />
@@ -14,10 +15,10 @@
     allow from all
   </Directory>
 
-	<Directorymatch "^/.*/\.git/">
-		Order deny,allow
-		deny from all
-	</Directorymatch>
+  <Directorymatch "^/.*/\.git/">
+    Order deny,allow
+    deny from all
+  </Directorymatch>
 
   ErrorLog syslog:local1
 

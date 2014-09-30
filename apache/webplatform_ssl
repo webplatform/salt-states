@@ -1,7 +1,9 @@
 <IfModule mod_ssl.c>
   <VirtualHost _default_:443>
     ServerName  webplatform.org
-    ServerAlias www.webplatform.org www1.webplatform.org
+    ServerAlias www.webplatform.org
+    ServerAlias webplatformstaging.org
+    ServerAlias www.webplatformstaging.org
 
     DocumentRoot /var/www
 

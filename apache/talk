@@ -1,6 +1,7 @@
 <VirtualHost *:80>
         ServerAdmin noc@webplatform.org
 	ServerName talk.webplatform.org
+	ServerAlias talk.webplatformstaging.org
 
         DocumentRoot /var/www
         <Directory />

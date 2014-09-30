@@ -1,6 +1,7 @@
 <VirtualHost *:80>
   ServerAdmin noc@webplatform.org
   ServerName blog.webplatform.org
+  ServerAlias blog.webplatformstaging.org
 
   DocumentRoot /srv/webplatform/blog/current/
 

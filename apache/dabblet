@@ -1,6 +1,7 @@
 <VirtualHost *:80>
         ServerAdmin noc@webplatform.org
 	ServerName code.webplatform.org
+	ServerAlias code.webplatformstaging.org
 
         DocumentRoot /srv/webplatform/dabblet
         <Directory />
@@ -44,6 +45,8 @@
 <VirtualHost *:80>
         ServerAdmin noc@webplatform.org
 	ServerName preview.webplatform.org
+	ServerAlias preview.webplatformstaging.org
+
 
         DocumentRoot /srv/webplatform/dabblet/preview
         <Directory />
@@ -87,6 +90,7 @@
 <VirtualHost *:80>
         ServerAdmin noc@webplatform.org
 	ServerName result.webplatform.org
+	ServerAlias result.webplatformstaging.org
 
         DocumentRoot /srv/webplatform/dabblet/result
         <Directory />

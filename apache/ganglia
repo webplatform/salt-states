@@ -1,6 +1,7 @@
 <VirtualHost *:80>
   ServerAdmin noc@webplatform.org
-	ServerName monitor.webplatform.org
+  ServerName monitor.webplatform.org
+  ServerAlias monitor.webplatformstaging.org
 
   DocumentRoot /var/www
   <Directory />
@@ -26,6 +27,5 @@
 
   CustomLog /var/log/apache2/access.log combined
 
-	Alias /ganglia /usr/share/ganglia-webfrontend
-
+  Alias /ganglia /usr/share/ganglia-webfrontend
 </VirtualHost>

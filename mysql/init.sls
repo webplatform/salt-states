@@ -1,3 +1,6 @@
-mariadb-client:
+include:
+  - percona
+
+percona-xtradb-cluster-client:
   pkg:
-    - latest
+    - installed
