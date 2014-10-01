@@ -11,9 +11,9 @@ specs-rsync:
     - require:
       - file: /etc/codesync.secret
       - file: /srv/webplatform
-      - file: /srv/webplatform/webspecs/specs
+      - file: /srv/webplatform/specs
 
-/srv/webplatform/webspecs/specs:
+/srv/webplatform/specs:
   file.directory:
     - mode: 755
     - makedirs: True

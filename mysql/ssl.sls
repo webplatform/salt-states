@@ -18,7 +18,7 @@ openssl-client-newkey:
     - stateful: True
     - cwd: /etc/mysql
     - unless: test -s /etc/mysql/client-req.pem
-    - name: /usr/bin/openssl req -newkey rsa:2048 -days 3600 -nodes -keyout client-key.pem -out client-req.pem -subj '/C=US/ST=MA/L=Cambridge/O=W3C/OU=WebPlatform Docs/CN={{ grains['host'] }}.webplatform.org/emailAddress=team-webplatform-systems@w3.org'
+    - name: /usr/bin/openssl req -newkey rsa:2048 -days 3600 -nodes -keyout client-key.pem -out client-req.pem -subj '/C=US/ST=MA/L=Cambridge/O=W3C/OU=WebPlatform Docs/CN={{ grains['host'] }}.staging.wpdn/emailAddress=team-webplatform-systems@w3.org'
     - require:
       - pkg: openssl-installed
   file.managed:
@@ -61,7 +61,7 @@ openssl-newkey:
     - stateful: True
     - cwd: /etc/mysql
     - unless: test -s /etc/mysql/server-req.pem
-    - name: /usr/bin/openssl req -newkey rsa:2048 -days 3600 -nodes -keyout server-key.pem -out server-req.pem -subj '/C=US/ST=MA/L=Cambridge/O=W3C/OU=WebPlatform Docs/CN={{ grains['host'] }}.webplatform.org/emailAddress=team-webplatform-systems@w3.org'
+    - name: /usr/bin/openssl req -newkey rsa:2048 -days 3600 -nodes -keyout server-key.pem -out server-req.pem -subj '/C=US/ST=MA/L=Cambridge/O=W3C/OU=WebPlatform Docs/CN={{ grains['host'] }}.staging.wpdn/emailAddress=team-webplatform-systems@w3.org'
     - require:
       - pkg: openssl-installed
   file.managed:

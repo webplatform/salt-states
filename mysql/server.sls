@@ -1,6 +1,3 @@
-include:
-  - mysql
-
 salt-dependency:
   pkg.installed:
     - name: python-mysqldb
@@ -13,29 +10,27 @@ salt-dependency:
     - modes: 600
     - source: salt://mysql/files/debian.cnf.jinja
     - template: jinja
-    - requires:
-      - pkg: mariadb-server
 
-mariadb-server:
-  pkg:
-    - installed
-  service:
-    - name: mysql
-    - running
-    - require:
-      - pkg: mariadb-server
-      - file: /etc/apparmor.d/usr.sbin.mysqld
-    - watch:
-      - file: /etc/mysql/conf.d
-      - file: /etc/mysql/my.cnf
-
-# https://blogs.oracle.com/jsmyth/entry/apparmor_and_mysql
-apparmor:
-  pkg:
-    - installed
-  service.running:
-    - watch:
-      - file: /etc/apparmor.d/usr.sbin.mysqld
+#mysql-server:
+#  pkg:
+#    - installed
+#  service:
+#    - name: mysql
+#    - running
+#    - require:
+#      - pkg: mysql-server
+#      - file: /etc/apparmor.d/usr.sbin.mysqld
+#    - watch:
+#      - file: /etc/mysql/conf.d
+#      - file: /etc/mysql/my.cnf
+#
+## https://blogs.oracle.com/jsmyth/entry/apparmor_and_mysql
+#apparmor:
+#  pkg:
+#    - installed
+#  service.running:
+#    - watch:
+#      - file: /etc/apparmor.d/usr.sbin.mysqld
 
 #/etc/apparmor.d/usr.sbin.mysqld:
 #  file.patch:
@@ -45,15 +40,15 @@ apparmor:
 #    - require:
 #      - pkg: apparmor
 
-/etc/mysql/my.cnf:
-  file.managed:
-    - user: root
-    - group: root
-    - mode: 644
-    - source: salt://mysql/files/my.cnf.jinja
-    - template: jinja
-    - require:
-      - pkg: mariadb-server
+#/etc/mysql/my.cnf:
+#  file.managed:
+#    - user: root
+#    - group: root
+#    - mode: 644
+#    - source: salt://mysql/files/my.cnf.jinja
+#    - template: jinja
+#    - require:
+#      - pkg: mysql-server
 
 /etc/mysql/conf.d:
   file.recurse:

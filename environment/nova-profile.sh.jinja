@@ -11,3 +11,4 @@ export OS_TENANT_ID="{{ salt['pillar.get']('accounts:tenant:id', '') }}"
 export OS_TENANT_NAME="{{ salt['pillar.get']('accounts:tenant:name', '') }}"
 export OS_USERNAME="{{ salt['pillar.get']('accounts:tenant:username', '') }}"
 export OS_PASSWORD="{{ salt['pillar.get']('accounts:tenant:password', '') }}"
+export NOVA_COMMONS='--image Ubuntu-14.04-Trusty-latest --user-data /srv/opsconfigs/userdata.txt --key_name salt-renoirb'

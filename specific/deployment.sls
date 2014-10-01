@@ -24,7 +24,7 @@
 /etc/profile.d/nova.sh:
   file.managed:
     - user: root
-    - group: ops
+    - group: deployment
     - mode: 640
     - template: jinja
     - source: salt://environment/nova-profile.sh.jinja
@@ -45,16 +45,14 @@ deployment-deps:
       - nodejs
       - nodejs-legacy
       - npm
-      - python-novaclient
       - bundler
 
-#python-nova-pkgs:
-#  pkg.latest:
-#    - pkgs:
-#      - python-novaclient
-#    - refresh: True
-#    - require:
-#      - cmd: cloud-archive-repo
+python-nova-pkgs:
+  pkg.latest:
+    - pkgs:
+      - python-novaclient
+      - salt-cloud
+      - python-libcloud
 
 /usr/local/bin/deploy.sh:
   file.managed:

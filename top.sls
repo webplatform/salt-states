@@ -14,24 +14,24 @@ base:
     - lvm
     - xfs
 #    - dhcp
-#    - dns
 #    - logging
 #    - monitor
     - hosts
   'salt*':
-#    - halite
-#    - backup.mediawiki_xml
-#    - backup.salt_master
+    - dns.server
     - logrotate
     - logrotate.deployment
-#    - glusterfs
     - rsync
     - specific.deployment
-#    - logging.syslog_ng
-#    - logging.udp2log
     - python
     - python.mysqldb
     - webplatform.swift-dreamobjects
+#    - halite
+#    - backup.mediawiki_xml
+#    - backup.salt_master
+#    - glusterfs
+#    - logging.syslog_ng
+#    - logging.udp2log
   'app*':
     - php
     - apache.webplatform_ssl
@@ -63,16 +63,12 @@ base:
     - gerrit
     - rsync
     - webplatform.swift-dreamobjects
-#  'db*':
+  'db*':
 #    - logwatch
-#    - mysql.server
-#    - mysql.ssl
-#    - rsync
+    - mysql.cluster
+    - rsync
 #  'db4*':
 #    - specific.master-db
-  'percona*':
-    - percona.cluster
-    - mysql.ssl
   'storage*':
     - glusterfs
     - glusterfs.server
