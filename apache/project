@@ -1,20 +1,20 @@
 <VirtualHost *:80>
-  ServerAdmin noc@webplatform.org
-  ServerName stats.webplatform.org
-  ServerAlias stats.webplatformstaging.org
+  ServerAdmin 	hostmaster@webplatform.org
+  ServerName 	project.webplatform.org
+  ServerAlias 	project.webplatformstaging.org
 
-  DocumentRoot /var/www
+  DocumentRoot 	/srv/webplatform/project
+
   <Directory />
     Options FollowSymLinks
     AllowOverride None
   </Directory>
-  <Directory /var/www/>
+  <Directory /srv/webplatform/project>
     Options FollowSymLinks
-    AllowOverride None
+    AllowOverride All
     Order allow,deny
     allow from all
   </Directory>
-
   <Directorymatch "^/.*/\.git/">
     Order deny,allow
     deny from all
@@ -25,10 +25,11 @@
   # Possible values include: debug, info, notice, warn, error, crit,
   # alert, emerg.
   LogLevel warn
+
   CustomLog /var/log/apache2/access.log combined
 
-  # Piwik
-  Alias /piwik /srv/webplatform/piwik
-  Alias /track /srv/webplatform/piwik
-
+  Alias /favicon.ico /var/www/favicon.ico
+  Alias /robots.txt /var/www/robots.txt
+  Alias /wpdlogo.png /var/www/wpdlogo.png
 </VirtualHost>
+

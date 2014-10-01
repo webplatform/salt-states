@@ -1,7 +1,8 @@
 include:
+  - code.certificates
   - code.compat
-  - code.lumberjack     # To read talk.webplatform.org/chatlog
+  - code.lumberjack
   - code.dabblet
-  - code.talk
   - code.root
   - code.root-com
+  - code.specs

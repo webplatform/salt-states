@@ -1,9 +1,10 @@
 <VirtualHost *:80>
-  ServerAdmin noc@webplatform.org
-  ServerName monitor.webplatform.org
-  ServerAlias monitor.webplatformstaging.org
+  ServerAdmin 	hostmaster@webplatform.org
+  ServerName 	monitor.webplatform.org
+  ServerAlias 	monitor.webplatformstaging.org
 
-  DocumentRoot /var/www
+  DocumentRoot 	/var/www
+
   <Directory />
     Options FollowSymLinks
     AllowOverride None

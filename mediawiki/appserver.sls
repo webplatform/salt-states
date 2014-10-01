@@ -1,7 +1,6 @@
 include:
   - apache
   - php.mediawiki-apache
-  - glusterfs
   - php
 
 {% from "apache/module.sls" import a2mod %}

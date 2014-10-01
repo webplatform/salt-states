@@ -11,7 +11,7 @@ apache2:
     - installed
     - name: apache2-mpm-prefork
 
-/etc/apache2/sites-enabled/000-default:
+/etc/apache2/sites-enabled/000-default.conf:
   file.absent:
     - watch_in:
       - service: apache2
@@ -31,11 +31,7 @@ apache_watchdog:
     - mode: 755
     - source: salt://apache/files/wpd-apache-watchdog
 
-{% if grains['lsb_distrib_release'] == "14.04" %}
 /etc/apache2/conf-enabled/performance.conf:
-{% else %}
-/etc/apache2/conf.d/performance:
-{% endif %}
   file.managed:
     - source: salt://apache/performance.jinja
     - template: jinja
@@ -45,7 +41,6 @@ apache_watchdog:
     - watch_in:
       - service: apache2
 
-{% if grains['lsb_distrib_release'] == "14.04" %}
 /etc/apache2/conf-enabled/security.conf:
   file.managed:
     - source: salt://apache/security.jinja
@@ -55,4 +50,3 @@ apache_watchdog:
     - mode: 644
     - watch_in:
       - service: apache2
-{% endif %}

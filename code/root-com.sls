@@ -1,7 +1,7 @@
 include:
   - code.prereq
 
-/srv/webplatform/webplatform-com/out:
+/srv/webplatform/webplatform-com:
   file.recurse:
     - source: salt://code/files/root-com
     - user: www-data

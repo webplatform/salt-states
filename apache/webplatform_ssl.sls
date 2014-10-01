@@ -13,11 +13,11 @@ include:
     - watch_in:
       - service: apache2
 
-/etc/apache2/sites-enabled/webplatform_ssl:
+/etc/apache2/sites-enabled/00-webplatform_ssl.conf:
   file.symlink:
     - target: /etc/apache2/sites-available/webplatform_ssl
     - requires:
-      - file: /etc/apache2/sites-enabled/webplatform_ssl
+      - file: /etc/apache2/sites-available/webplatform_ssl
     - watch_in:
       - service: apache2
 

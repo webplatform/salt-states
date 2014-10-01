@@ -2,10 +2,10 @@ include:
   - rsync.secret
   - code.prereq
 
-specs-static:
+specs-rsync:
   cmd:
     - run
-    - name: 'rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.wpdn::code/webspecs/specs/out/ /srv/webplatform/webspecs/specs/'
+    - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.wpdn::code/specs/out/ /srv/webplatform/specs/"
     - user: root
     - group: root
     - require:

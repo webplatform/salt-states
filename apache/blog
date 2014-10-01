@@ -1,9 +1,9 @@
 <VirtualHost *:80>
-  ServerAdmin noc@webplatform.org
-  ServerName blog.webplatform.org
-  ServerAlias blog.webplatformstaging.org
+  ServerAdmin 	hostmaster@webplatform.org
+  ServerName 	blog.webplatform.org
+  ServerAlias 	blog.webplatformstaging.org
 
-  DocumentRoot /srv/webplatform/blog/current/
+  DocumentRoot 	/srv/webplatform/blog
 
   # W3TotalCache allows cache on UA, 
   #   not in our practices
@@ -19,7 +19,7 @@
     Order allow,deny
     allow from all
   </Directory>
-  <Directory /srv/webplatform/blog/current/>
+  <Directory /srv/webplatform/blog>
     Options FollowSymLinks
     AllowOverride FileInfo Indexes
     Order allow,deny

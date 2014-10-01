@@ -46,6 +46,7 @@ deployment-deps:
       - nodejs-legacy
       - npm
       - python-novaclient
+      - bundler
 
 #python-nova-pkgs:
 #  pkg.latest:
@@ -69,6 +70,16 @@ deployment-deps:
 /etc/salt/master.d/runners.conf:
   file.managed:
     - source: salt://specific/files/deployment/runners.conf
+
+/etc/salt/master.d/peers.conf:
+  file.managed:
+    - contents: |
+        # Managed by Salt Stack, too
+        peer:
+          .*:
+            - grains.*
+            - network.*
+            - test.*
 
 #cloudarchive-repos:
 #  pkgrepo.managed:

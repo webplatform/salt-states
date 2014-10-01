@@ -1,9 +1,9 @@
 <VirtualHost *:80>
-  ServerAdmin noc@webplatform.org
-  ServerName  docs.webplatform.org
-  ServerAlias docs.webplatformstaging.org
+  ServerAdmin 	hostmaster@webplatform.org
+  ServerName  	docs.webplatform.org
+  ServerAlias 	docs.webplatformstaging.org
 
-  DocumentRoot /var/www
+  DocumentRoot 	/var/www
 
   <Directory />
     Options FollowSymLinks

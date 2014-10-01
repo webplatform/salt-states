@@ -34,10 +34,10 @@ base:
     - webplatform.swift-dreamobjects
   'app*':
     - php
-    - apache.webplatform-com
+    - apache.webplatform_ssl
+    - apache.webplatform_com
     - apache.webplatform
     - apache.docs
-    - apache.talk
     - apache.dabblet
     - apache.status
     - apache.specs
@@ -60,7 +60,6 @@ base:
   'bots*':
     - bots
   'code*':
-    - apache.gerrit
     - gerrit
     - rsync
     - webplatform.swift-dreamobjects
@@ -93,13 +92,10 @@ base:
     - specific.monitor
   'project*':
     - php
-    - apache.buggenie
+    - apache.project
     - apache.status
     - buggenie.mailqueue
     - webplatform.swift-dreamobjects
-  'kuma.webplatform.org':
-    - apache.kuma
-    - kuma
   'piwik*':
     - piwik
   'mail*':

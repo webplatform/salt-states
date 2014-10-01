@@ -1,15 +1,15 @@
 <VirtualHost *:80>
-  ServerAdmin webmaster@webplatform.org
-  ServerName  specs.webplatform.org
-  ServerAlias specs.webplatformstaging.org
+  ServerAdmin 	hostmaster@webplatform.org
+  ServerName  	specs.webplatform.org
+  ServerAlias 	specs.webplatformstaging.org
 
-  DocumentRoot /srv/webplatform/webspecs/specs
+  DocumentRoot 	/srv/webplatform/specs
 
   <Directory />
     Options FollowSymLinks
     AllowOverride None
   </Directory>
-  <Directory /srv/webplatform/webspecs/specs>
+  <Directory /srv/webplatform/specs>
     AllowOverride None
     Require       all granted
   </Directory>

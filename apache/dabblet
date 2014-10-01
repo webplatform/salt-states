@@ -1,133 +1,92 @@
 <VirtualHost *:80>
-        ServerAdmin noc@webplatform.org
-	ServerName code.webplatform.org
-	ServerAlias code.webplatformstaging.org
+  ServerAdmin 	hostmaster@webplatform.org
+  ServerName 	code.webplatform.org
+  ServerAlias 	code.webplatformstaging.org
 
-        DocumentRoot /srv/webplatform/dabblet
-        <Directory />
-                Options FollowSymLinks
-                AllowOverride None
-		Require all granted
-        </Directory>
-        <Directory /var/www/>
-                Options FollowSymLinks
-                AllowOverride None
-                Order allow,deny
-                allow from all
-		Require all granted
-        </Directory>
-        <Directory /srv/webplatform/dabblet/>
-                Options FollowSymLinks
-                AllowOverride FileInfo
-                Order allow,deny
-                allow from all
-		Require all granted
-        </Directory>
+  DocumentRoot 	/srv/webplatform/dabblet
 
-	<Directorymatch "^/.*/\.git/">
-		Order deny,allow
-		deny from all
-	</Directorymatch>
+  <Directory />
+    AllowOverride None
+    Require all granted
+  </Directory>
+  <Directory /srv/webplatform/dabblet>
+    AllowOverride None
+    Require all granted
+    RewriteEngine on
+    RewriteBase   /
+    RewriteCond   %{REQUEST_FILENAME} !-f
+    RewriteCond   %{REQUEST_FILENAME} !-d
+    RewriteRule   ^.*$ /index.html [L]
+  </Directory>
 
+  ErrorLog syslog:local1
 
-        ErrorLog syslog:local1
+  # Possible values include: debug, info, notice, warn, error, crit,
+  # alert, emerg.
+  LogLevel warn
 
-        # Possible values include: debug, info, notice, warn, error, crit,
-        # alert, emerg.
-        LogLevel warn
+  CustomLog /var/log/apache2/code_access.log combined
 
-        CustomLog /var/log/apache2/access.log combined
-
-	Alias /favicon.ico /var/www/favicon.ico
-	Alias /robots.txt /var/www/robots.txt
-	Alias /wpdlogo.png /var/www/wpdlogo.png
+  Alias /favicon.ico /var/www/favicon.ico
+  Alias /robots.txt /var/www/robots.txt
+  Alias /wpdlogo.png /var/www/wpdlogo.png
 </VirtualHost>
+
 <VirtualHost *:80>
-        ServerAdmin noc@webplatform.org
-	ServerName preview.webplatform.org
-	ServerAlias preview.webplatformstaging.org
+  ServerAdmin	hostmaster@webplatform.org
+  ServerName	preview.webplatform.org
+  ServerAlias	preview.webplatformstaging.org
 
+  DocumentRoot 	/srv/webplatform/dabblet/preview
 
-        DocumentRoot /srv/webplatform/dabblet/preview
-        <Directory />
-                Options FollowSymLinks
-                AllowOverride None
-		Require all granted
-        </Directory>
-        <Directory /var/www/>
-                Options FollowSymLinks
-                AllowOverride None
-                Order allow,deny
-                allow from all
-		Require all granted
-        </Directory>
-        <Directory /srv/webplatform/dabblet/preview>
-                Options FollowSymLinks
-                AllowOverride FileInfo
-                Order allow,deny
-                allow from all
-		Require all granted
-        </Directory>
+  <Directory /srv/webplatform/dabblet/preview>
+    AllowOverride None 
+    Require all granted
+    RewriteEngine on
+    RewriteBase   /
+    RewriteCond   %{REQUEST_FILENAME} !-f
+    RewriteCond   %{REQUEST_FILENAME} !-d
+    RewriteRule   ^(.*)$ %{REQUEST_SCHEME}://%{HTTP_HOST}/?$1 [R=301,L]
+  </Directory>
 
-	<Directorymatch "^/.*/\.git/">
-		Order deny,allow
-		deny from all
-	</Directorymatch>
+  ErrorLog syslog:local1
 
+  # Possible values include: debug, info, notice, warn, error, crit,
+  # alert, emerg.
+  LogLevel warn
 
-        ErrorLog syslog:local1
+  CustomLog /var/log/apache2/preview_access.log combined
 
-        # Possible values include: debug, info, notice, warn, error, crit,
-        # alert, emerg.
-        LogLevel warn
-
-        CustomLog /var/log/apache2/access.log combined
-
-	Alias /favicon.ico /var/www/favicon.ico
-	Alias /robots.txt /var/www/robots.txt
-	Alias /wpdlogo.png /var/www/wpdlogo.png
+  Alias /favicon.ico /var/www/favicon.ico
+  Alias /robots.txt /var/www/robots.txt
+  Alias /wpdlogo.png /var/www/wpdlogo.png
 </VirtualHost>
+
 <VirtualHost *:80>
-        ServerAdmin noc@webplatform.org
-	ServerName result.webplatform.org
-	ServerAlias result.webplatformstaging.org
+  ServerAdmin	hostmaster@webplatform.org
+  ServerName 	result.webplatform.org
+  ServerAlias 	result.webplatformstaging.org
 
-        DocumentRoot /srv/webplatform/dabblet/result
-        <Directory />
-                Options FollowSymLinks
-                AllowOverride None
-		Require all granted
-        </Directory>
-        <Directory /var/www/>
-                Options FollowSymLinks
-                AllowOverride None
-                Order allow,deny
-                allow from all
-		Require all granted
-        </Directory>
-        <Directory /srv/webplatform/dabblet/result>
-                Options FollowSymLinks
-                AllowOverride FileInfo
-                Order allow,deny
-                allow from all
-		Require all granted
-        </Directory>
+  DocumentRoot /srv/webplatform/dabblet/result
 
-	<Directorymatch "^/.*/\.git/">
-		Order deny,allow
-		deny from all
-	</Directorymatch>
+  <Directory /srv/webplatform/dabblet/result>
+    AllowOverride None
+    Require all granted
+    RewriteEngine on
+    RewriteBase   /
+    RewriteCond   %{REQUEST_FILENAME} !-f
+    RewriteCond   %{REQUEST_FILENAME} !-d
+    RewriteRule   ^(.*)$ %{REQUEST_SCHEME}://%{HTTP_HOST}/?$1 [R=301,L]
+  </Directory>
+ErrorLog syslog:local1
 
+  # Possible values include: debug, info, notice, warn, error, crit,
+  # alert, emerg.
+  LogLevel warn
 
-        ErrorLog syslog:local1
+  CustomLog /var/log/apache2/result_access.log combined
 
-        # Possible values include: debug, info, notice, warn, error, crit,
-        # alert, emerg.
-        LogLevel warn
-
-        CustomLog /var/log/apache2/access.log combined
-
-	Alias /favicon.ico /var/www/favicon.ico
-	Alias /robots.txt /var/www/robots.txt
-	Alias /wpdlogo.png /var/www/wpdlogo.png
+  Alias /favicon.ico /var/www/favicon.ico
+  Alias /robots.txt /var/www/robots.txt
+  Alias /wpdlogo.png /var/www/wpdlogo.png
 </VirtualHost>

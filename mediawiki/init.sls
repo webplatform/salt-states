@@ -1,4 +1,4 @@
 include:
   - php.mediawiki
   - fonts
-  - mysql
+  - percona.client

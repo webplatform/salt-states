@@ -1,7 +1,7 @@
 <VirtualHost *:80>
-  ServerAdmin noc@webplatform.org
-  ServerName  www.webat25.org
-  ServerAlias webat25.org web25
+  ServerAdmin 	hostnaster@webplatform.org
+  ServerName  	www.webat25.org
+  ServerAlias 	webat25.org
 
   DocumentRoot /srv/webplatform/web25ee/
 
@@ -71,10 +71,10 @@
 
 
 <VirtualHost *:80>
-  ServerAdmin noc@webplatform.org
-  ServerName  ee.webat25.org
+  ServerAdmin 	hostnaster@webplatform.org
+  ServerName  	ee.webat25.org
 
-  DocumentRoot /srv/webplatform/web25ee/
+  DocumentRoot 	/srv/webplatform/web25ee/
 
   RewriteEngine On
 
