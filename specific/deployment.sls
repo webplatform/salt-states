@@ -21,6 +21,14 @@
 #    - require:
 #      - file: /srv/code/web25ee/web25-autoupdate.sh
 
+/etc/ssh/sshd_config:
+  file.append:
+    - text: Banner /etc/issue.net
+
+/etc/issue.net:
+  file.managed:
+    - source: salt://environment/issue.net
+
 /etc/profile.d/nova.sh:
   file.managed:
     - user: root

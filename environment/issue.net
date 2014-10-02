@@ -1,6 +1,16 @@
-# WebPlatform server environment configuration
 
-## Connecting with SSH
+                            _    _      _    ______ _       _    __
+                           | |  | |    | |   | ___ \ |     | |  / _|
+                           | |  | | ___| |__ | |_/ / | __ _| |_| |_ ___  _ __ _ __ ___
+                           | |/\| |/ _ \ '_ \|  __/| |/ _` | __|  _/ _ \| '__| '_ ` _ \
+                           \  /\  /  __/ |_) | |   | | (_| | |_| || (_) | |  | | | | | |
+                            \/  \/ \___|_.__/\_|   |_|\__,_|\__|_| \___/|_|  |_| |_| |_|
+
+
+                           WebPlatform SSH Jumper
+
+
+# Connecting with SSH
 
 Not ALL VMs in an environment has a publicly available IP address. To connect
 to them, you have to configure your local SSH client to use the salt master as
@@ -25,5 +35,4 @@ To access them, add to your `~/.ssh/config`:
       ProxyCommand none
     Host *.staging.wpdn
       ProxyCommand ssh -e @ -o StrictHostKeyChecking=no -a -W %h:%p staging.wpdn
-
 
