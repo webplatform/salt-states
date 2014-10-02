@@ -28,6 +28,15 @@ renoirb:
       - user: renoirb
     - source: salt://environment/bash_aliases
 
+/home/renoirb/.gitconfig:
+  file.managed:
+    - user: renoirb
+    - group: deployment
+    - mode: 640
+    - source: salt://environment/gitconfig
+    - require:
+      - user: renoirb
+
 /home/renoirb/.screenrc:
   file.managed:
     - user: renoirb

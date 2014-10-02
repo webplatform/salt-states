@@ -1,8 +1,12 @@
+include:
+  - mysql.ssl
+  - mysql
+
 salt-dependency:
   pkg.installed:
     - name: python-mysqldb
     - requires:
-      - pkg: mariadb-server
+      - pkg: db-server
       - file: /etc/mysql/debian.cnf
 
 /etc/mysql/debian.cnf:
@@ -11,19 +15,20 @@ salt-dependency:
     - source: salt://mysql/files/debian.cnf.jinja
     - template: jinja
 
-#mysql-server:
-#  pkg:
-#    - installed
-#  service:
-#    - name: mysql
-#    - running
-#    - require:
-#      - pkg: mysql-server
-#      - file: /etc/apparmor.d/usr.sbin.mysqld
-#    - watch:
-#      - file: /etc/mysql/conf.d
-#      - file: /etc/mysql/my.cnf
-#
+db-server:
+  pkg:
+    - installed
+    - name: percona-xtradb-cluster-full-56
+    - require:
+      - pkgrepo: deb http://repo.percona.com/apt trusty main
+  service:
+    - name: mysql
+    - running
+    - require:
+      - pkg: db-server
+    - watch:
+      - file: /etc/mysql/conf.d
+
 ## https://blogs.oracle.com/jsmyth/entry/apparmor_and_mysql
 #apparmor:
 #  pkg:

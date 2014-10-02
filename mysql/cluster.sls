@@ -1,7 +1,3 @@
-include:
-  - mysql.server
-  - mysql.ssl
-
 percona-xtradb-cluster-full-56:
   pkg:
     - installed

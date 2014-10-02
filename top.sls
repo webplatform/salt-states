@@ -64,8 +64,8 @@ base:
     - rsync
     - webplatform.swift-dreamobjects
   'db*':
-#    - logwatch
-    - mysql.cluster
+    - logwatch
+    - mysql.server
     - rsync
 #  'db4*':
 #    - specific.master-db
