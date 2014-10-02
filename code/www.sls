@@ -5,14 +5,16 @@ include:
 
 root-rsync:
   cmd:
-    - wait
+    - run
+    - stateful: True
     - name: "rsync -a --delete --no-perms --exclude '**/frontend-styleguide' --password-file=/etc/codesync.secret codesync@salt.wpdn::code/www/out/ /var/www/"
     - require:
       - file: /etc/codesync.secret
 
 campaign-rsync:
   cmd:
-    - wait
+    - run
+    - stateful: True
     - name: "rsync -a --delete --no-perms --exclude '.git' --password-file=/etc/codesync.secret codesync@salt.wpdn::code/campaign-bookmarklet/ /var/www/campaign/"
     - require:
       - file: /etc/codesync.secret

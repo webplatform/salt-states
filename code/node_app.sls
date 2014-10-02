@@ -3,6 +3,6 @@ include:
   - code.compat
   - code.lumberjack
   - code.dabblet
-  - code.root
+  - code.www
   - code.root-com
   - code.specs

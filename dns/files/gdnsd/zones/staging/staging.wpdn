@@ -1,6 +1,6 @@
 $TTL 3600
 @   SOA salt.staging.wpdn. hostmaster.webplatform.org. (
-      2014100108 ; serial
+      2014100200 ; serial
       7200       ; refresh
       30M        ; retry
       3D         ; expire
@@ -12,7 +12,7 @@ $TTL 3600
 
 salt      A       10.10.10.40
 
-app1      A       10.10.10.45
+app1      A       10.10.10.51
 app2      A       10.10.10.47
 app3      A       10.10.10.46
 app9      A       10.10.10.46
