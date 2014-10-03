@@ -1,5 +1,6 @@
 include:
   - code.certificates
+  - code.packages
   - code.compat
   - code.lumberjack
   - code.dabblet

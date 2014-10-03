@@ -18,6 +18,8 @@ base:
 #    - monitor
     - hosts
   'salt*':
+    - mysql.cluster-client
+    - php.composer
     - dns.server
     - logrotate
     - logrotate.deployment
@@ -45,7 +47,7 @@ base:
     - mediawiki.appserver
     - mediawiki.scaler
     - webplatform.swift-dreamobjects
-  'app9':
+  'app3':
     - mediawiki.jobrunner
   'backup*':
     - backup
@@ -67,8 +69,8 @@ base:
     - logwatch
     - mysql.server
     - rsync
-#  'db4*':
-#    - specific.master-db
+  'db1':
+    - specific.master-db
   'storage*':
     - glusterfs
     - glusterfs.server
@@ -79,6 +81,8 @@ base:
     - specific.storage1
   'memcache*':
     - memcached
+  'redis*':
+    - redis
   'monitor*':
     - monitor.gmetad
     - monitor.web

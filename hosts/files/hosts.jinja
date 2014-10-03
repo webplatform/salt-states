@@ -1,4 +1,3 @@
-{%- set saltProvidedData = salt['publish.publish']('*', 'grains.item', 'host,ipaddr') -%}
 {%- set saltMaster = salt['publish.publish']('salt', 'grains.item', 'host,ipaddr') %}
 #
 # Managed by Salt stack. Do NOT EDIT directly!
@@ -10,9 +9,6 @@
 10.10.10.40     salt.wpdn   # Hardcoded salt-master as dns.server #TODO
 
 #HOSTS#
-#{% for a, iter in saltProvidedData.items() -%}
-#{{ iter.get('ipaddr') }}	{{ iter.get('host') }}.staging.wpdn  {{ iter.get('host') }}
-#{% endfor -%}
 {% for node, args in pillar.get('nodes', {}).items() -%}
 {{ args.get('private') }}	{{ node }}.staging.wpdn  {{ node }}		# Provided by a pillar in salt:/srv/pillar/nodes
 {% endfor -%}

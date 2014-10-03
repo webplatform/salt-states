@@ -1,0 +1,20 @@
+$TTL 3600
+@   SOA salt.local.wpdn. hostmaster.webplatform.org. (
+      2014100205 ; serial
+      7200       ; refresh
+      30M        ; retry
+      3D         ; expire
+      900        ; ncache
+)
+
+@         NS      salt.local.wpdn.
+
+salt      A       10.10.10.40 ; Salt master
+
+masterdb  A       10.10.10.48 ; Master db1
+
+memcache1 A       10.10.10.52
+memcache2 A       10.10.10.55
+
+redis1    A       10.10.10.53
+redis2    A       10.10.10.54

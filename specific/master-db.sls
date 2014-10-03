@@ -5,11 +5,11 @@ include:
 #
 # Things that are specific to master MySQL node
 #
-/mnt:
-  mount.mounted:
-    - device: /dev/vdb1
-    - fstype: xfs
-
+#/mnt:
+#  mount.mounted:
+#    - device: /dev/vdb1
+#    - fstype: xfs
+#
 /etc/my.cnf:
   file.managed:
     - user: nobody

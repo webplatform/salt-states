@@ -13,7 +13,7 @@ include:
 
 /srv/webplatform/wiki/{{ env }}/mediawiki/LocalSettings.php:
   file.managed:
-    - source: salt://code/files/docs/LocalSettings.php.jinja
+    - source: salt://code/files/wiki/LocalSettings.php.jinja
     - template: jinja
 
 /srv/webplatform/wiki/{{ env }}/cache:
@@ -42,13 +42,13 @@ include:
 
 /srv/webplatform/wiki/{{ env }}/local.d:
   file.recurse:
-    - source: salt://code/files/docs/{{ env }}
+    - source: salt://code/files/wiki/{{ env }}
     - require:
       - file: /srv/webplatform/wiki/{{ env }}
 
 rsync-run-{{ env }}:
   cmd.run:
-    - name: "rsync -a --exclude '.git' --exclude '.svn' --exclude 'LocalSettings.php' --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/docs/nextgen/ /srv/webplatform/wiki/{{ env }}/"
+    - name: "rsync -a --exclude '.git' --exclude '.svn' --exclude 'LocalSettings.php' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.wpdn::code/wiki/repo/ /srv/webplatform/wiki/{{ env }}/"
     - user: root
     - group: root
     - require_in:
@@ -60,7 +60,7 @@ rsync-run-{{ env }}:
       - file: /srv/webplatform/wiki/{{ env }}
   file.managed:
     - name: /srv/webplatform/wiki/{{ env }}/LocalSettings.php
-    - source: salt://code/files/docs/{{ env }}.php.jinja
+    - source: salt://code/files/wiki/{{ env }}.php.jinja
     - template: jinja
     - require:
       - file: /srv/webplatform/wiki/Settings.php
@@ -68,6 +68,6 @@ rsync-run-{{ env }}:
 
 /srv/webplatform/wiki/Settings.php:
   file.managed:
-    - source: salt://code/files/docs/Settings.php.jinja
+    - source: salt://code/files/wiki/Settings.php.jinja
     - template: jinja
 
