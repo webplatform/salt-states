@@ -4,6 +4,19 @@
 
 error_reporting(0);
 
+#
+# Redis job servers
+#
+$wpdRedisJobServers[]		= 'redis-jobs1.staging.wpdn';
+
+
+#
+# Redis session servers
+#
+$wpdRedisSessionServers[] 	= 'redis-session1.staging.wpdn';
+
+
+
 foreach(
   array_merge(
     // Settings from default wiki

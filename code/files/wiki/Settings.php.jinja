@@ -10,7 +10,9 @@
 
 #$wgReadOnly = 'Currently backing up data, will be back shortly [http://status.webplatform.org/ our status page]';
 
-$wgServer = "//docs.webplatform.org";
+
+$wgServer = "//docs.webplatformstaging.org";
+#$wgServer = "//docs.webplatform.org";
 #$wgCanonicalServer = "https://docs.webplatform.org";  # ref http://www.mediawiki.org/wiki/Manual:$wgCanonicalServer
 
 
@@ -46,7 +48,7 @@ $wgMaxShellMemory = 1024 * 512;
 $wgUseSquid = true;
 $wgSquidServers = array( 'api.fastly.com:80' );
 
-$wpdUdp2logDest = 'deployment.webplatform.org:8420';
+$wpdUdp2logDest = 'salt.local.wpdn:8420';
 $wgDebugLogGroups = array(
   'UserThrottle' => "udp://$wpdUdp2logDest/UserThrottle",
   'cite' => "udp://$wpdUdp2logDest/cite", // to see how it's used;) -ævar
@@ -75,6 +77,15 @@ $wgDBtype = "mysql";
 
 ###### Production caching settings #####################
 # See https://github.com/wikimedia/operations-mediawiki-config/blob/master/wmf-config/mc.php
+
+
+##
+## PAGE CACHE
+##
+## ref: https://github.com/wikimedia/operations-mediawiki-config/blob/master/wmf-config/mc.php
+##
+## TCP port 11311 is Memcached through Nutcracker
+##
 $wgMainCacheType = 'memcached-pecl';
 $wgMemCachedPersistent = false;
 $wgMemCachedTimeout = 250000; # default is 100000
@@ -82,27 +93,40 @@ $wgObjectCaches['memcached-pecl'] = array(
     'class' => 'MemcachedPeclBagOStuff',
     'serializer' => 'php',
     'persistent' => false,
-    'servers' => array( '10.0.0.10:11211', '10.0.0.11:11211', '10.0.0.40:11211' ),
+    'servers' => array('127.0.0.1:11211'), /* 11211 is local nutcracker on an app node */
     'server_failure_limit' => 1e9,
     'retry_timeout' => -1
 );
-$wgObjectCaches['redis'] = array(
-    'class' => 'RedisBagOStuff',
-    'servers' => array( '10.0.0.40:6379' ),
-    'persistent' => true,
-);
+
+
+##
+## SESSIONS
+##
+## ref: https://github.com/wikimedia/operations-mediawiki-config/blob/master/wmf-config/CommonSettings.php
+##
+## $wpdRedisSessionServers is defined in salt/code/files/wiki/LocalSettings.php.jinja
+##
 $wgObjectCaches['sessions'] = array(
         'class'   => 'RedisBagOStuff',
-        'servers' => array( '10.0.0.40:6379' ),
+        'servers' => $wpdRedisSessionServers,
 );
+
+
+##
+##  JOBS
+##
+## ref: https://github.com/wikimedia/operations-mediawiki-config/blob/master/wmf-config/CommonSettings.php
+##
+## $wpdRedisJobServers is defined in salt/code/files/wiki/LocalSettings.php.jinja
+##
 $wgJobTypeConf['default'] = array(
-        'class'       => 'JobQueueRedis',
-        'redisServer' => '10.0.0.40',
-        'redisConfig' => array( 'connectTimeout' => 2, 'compression' => 'gzip' ),
+        'class'        => 'JobQueueRedis',
+        'redisServers' => $wpdRedisJobServers,
+        'redisConfig'  => array( 'connectTimeout' => 2, 'compression' => 'gzip' ),
 );
 $wgJobQueueAggregator = array(
         'class'        => 'JobQueueAggregatorRedis',
-        'redisServers' => array( '10.0.0.40' ),
+        'redisServer'  => $wpdRedisJobServers,
         'redisConfig'  => array( 'connectTimeout' => 2 ),
 );
 
