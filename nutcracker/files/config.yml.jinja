@@ -1,0 +1,15 @@
+memcache:
+  listen: 127.0.0.1:11211
+  hash: md5
+  distribution: ketama
+  timeout: 250
+  preconnect: 'true'           # this is quoted on purpose
+  redis: 'false'               # same here
+  auto_eject_hosts: 'true'     # same here
+  server_retry_timeout: 30000
+  server_failure_limit: 3
+  server_connections: 2
+  servers:
+    - 10.10.10.52:11211:2
+    - 10.10.10.62:11211:2
+    - 10.10.10.59:11211:1
