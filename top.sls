@@ -18,13 +18,13 @@ base:
 #    - monitor
     - hosts
   'salt*':
+    - logrotate.receiver
+    - salt.master
     - mysql.cluster-client
     - php.composer
     - dns.server
     - logrotate
-    - logrotate.deployment
     - rsync
-    - specific.deployment
     - python
     - python.mysqldb
     - webplatform.swift-dreamobjects

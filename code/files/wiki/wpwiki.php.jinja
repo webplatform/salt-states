@@ -11,10 +11,10 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 $wgDBname = "wpwiki";
 $wgDBservers = array(
         array(
-                'host'     => "10.0.0.29",  # percona1
+                'host'     => "{{ salt['pillar.get']('accounts:wiki:db:hostname', 'localhost') }}",
                 'dbname'   => $wgDBname,
-                'user'     => "wikiuser",
-                'password' => "yiiNahNgeigi3vu",
+                'user'     => "{{ salt['pillar.get']('accounts:wiki:db:username', 'root') }}",
+                'password' => "{{ salt['pillar.get']('accounts:wiki:db:password', '') }}",
                 'type'     => "mysql",
                 'flags'    => DBO_DEFAULT,
                 'load'     => 0,
@@ -24,20 +24,14 @@ $wgDBservers = array(
 #        $wgDBservers[] = array(
 #                'host'     => "db5.dho.wpdn",
 #                'dbname'   => $wgDBname,
-#                'user'     => "wikiuser",
-#                'password' => "yiiNahNgeigi3vu",
+#                'user'     => "{{ salt['pillar.get']('accounts:wiki:db:username', 'root') }}",
+#                'password' => "{{ salt['pillar.get']('accounts:wiki:db:password', '') }}",
 #                'type'     => "mysql",
 #                'flags'    => DBO_DEFAULT,
 #                'load'     => 1,
 #        );
 #}
 ##################### database settings #####################
-
-$wgSitename = "WebPlatform Docs";
-
-$wgPiwikIDSite = "1";
-
-$wgDefaultRobotPolicy = 'index,follow';
 
 $wgArticlePath = '/wiki/$1';
 $wgScriptPath  = '/w';

@@ -6,10 +6,10 @@ $active_group = 'expressionengine';
 $active_record = TRUE;
 
 # @TODO: Use Salt pillars to populate
-$db['expressionengine']['hostname'] = 'master.db.wpdn';
-$db['expressionengine']['username'] = 'web25_user';
-$db['expressionengine']['password'] = 'ONbhG8yHv4xCF23CtmUvDYTdwc1wNzmPsI';
-$db['expressionengine']['database'] = 'web25ee';
+$db['expressionengine']['hostname'] = '{{ salt['pillar.get']('accounts:webat25:db:hostname', 'localhost') }}';
+$db['expressionengine']['username'] = '{{ salt['pillar.get']('accounts:webat25:db:username', 'root') }}';
+$db['expressionengine']['password'] = '{{ salt['pillar.get']('accounts:webat25:db:password', '') }}';
+$db['expressionengine']['database'] = '{{ salt['pillar.get']('accounts:webat25:db:database', 'web25ee') }}';
 $db['expressionengine']['dbdriver'] = 'mysql';
 $db['expressionengine']['pconnect'] = FALSE;
 $db['expressionengine']['dbprefix'] = 'exp_';

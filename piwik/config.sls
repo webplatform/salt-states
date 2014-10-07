@@ -13,4 +13,5 @@
     - user: www-data
     - group: www-data
     - mode: 644
-    - source: salt://piwik/config.ini.php
+    - template: jinja
+    - source: salt://piwik/files/config.ini.php.jinja

@@ -1,21 +1,28 @@
 $TTL 3600
-@   SOA salt.staging.wpdn. hostmaster.webplatform.org. (
-      2014100200 ; serial
+@   SOA salt.local.wpdn. hostmaster.webplatform.org. (
+      2014100700 ; serial
       7200       ; refresh
       30M        ; retry
       3D         ; expire
       900        ; ncache
 )
 
-@         NS      salt.staging.wpdn.
-@         NS      salt.wpdn.
+@		NS	salt.local.wpdn.
 
-salt      A       10.10.10.40
+salt		A	10.10.10.40
 
-app1      A       10.10.10.51
-app2      A       10.10.10.47
-app3      A       10.10.10.46
-app9      A       10.10.10.46
+app1		A	10.10.10.51
+app2		A	10.10.10.47
+app3		A	10.10.10.46
 
-db1       A       10.10.10.48
-db2       A       10.10.10.50
+memcache1	A	10.10.10.52
+memcache2	A	10.10.10.62
+memcache3	A	10.10.10.59
+
+redis-jobs1	A	10.10.10.60
+redis-session1	A	10.10.10.57
+redis-session2	A	10.10.10.58
+
+db1		A       10.10.10.48
+db2		A       10.10.10.50
+

@@ -58,7 +58,7 @@ backupdb:
     - user: root
     - minute: 1
     - hour: 2
-    - name: 'rsync -a --no-perms --password-file=/etc/backup.secret backup@master.db.wpdn::backup/ /mnt/backup/'
+    - name: 'rsync -a --no-perms --password-file=/etc/backup.secret backup@masterdb.local.wpdn::backup/ /mnt/backup/'
     - require:
       - file: /etc/backup.secret
       - file: /mnt/backup

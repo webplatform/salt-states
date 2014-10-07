@@ -1,5 +1,5 @@
-server: {{ salt['pillar.get']('accounts:lumberjack:db:server', 'localhost') }}
+server: {{ salt['pillar.get']('accounts:lumberjack:db:hostname', 'localhost') }}
 port: {{ salt['pillar.get']('accounts:lumberjack:db:port', '3306') }}
 database: {{ salt['pillar.get']('accounts:lumberjack:db:database', 'lumberjack') }}
-user: {{ salt['pillar.get']('accounts:lumberjack:db:user', 'root') }}
+user: {{ salt['pillar.get']('accounts:lumberjack:db:username', 'root') }}
 password: {{ salt['pillar.get']('accounts:lumberjack:db:password', '') }}

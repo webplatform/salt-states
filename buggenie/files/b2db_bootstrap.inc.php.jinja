@@ -10,8 +10,9 @@
 	 * @subpackage core
 	 */
         # @TODO Use salt states pillaars
-	self::setUname('buggenie');
-	self::setPasswd('aiGaePah4Zai0ph');
+	self::setUname('{{ salt['pillar.get']('accounts:buggenie:db:username', 'root') }}');
+	self::setPasswd('{{ salt['pillar.get']('accounts:buggenie:db:password', '') }}');
 	self::setTablePrefix('tbg3_');
 
-	self::setDSN('mysql:host=master.db.wpdn;dbname=buggenie');
+	self::setDSN('mysql:host={{ salt['pillar.get']('accounts:buggenie:db:hostname', 'localhost') }};dbname={{ salt['pillar.get']('accounts:buggenie:db:database', 'buggenie') }}');
+stna

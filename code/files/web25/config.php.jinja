@@ -13,15 +13,11 @@
 |
 */
 
-# @TODO: Use Salt pillars to populate
 $config['ce_cache_static_enabled'] = 'yes';                                 # Required by CE Cache, Static cache driver
 $config['ce_cache_static_path'] = '/srv/webplatform/web25ee/static';
 $config['ce_cache_static_logged_out_only'] = 'yes';                         # ^
-$config['ce_cache_secret'] = '00000000000000000000000000000+000000000000';  # Required by CE Cache
-
-
-# Default configs, sensitive info
-$config['license_number'] = '0000-0000-0000-0000';
+$config['ce_cache_secret'] = '{{ salt["pillar.get"]("accounts:webat25:ee:ce_cache_secret", "no_so_secret_anymore") }}';  # Required by CE Cache
+$config['license_number'] = '{{ salt["pillar.get"]("accounts:webat25:ee:license_number", "0000-0000-0000-0000") }}';
 
 
 # Default configs

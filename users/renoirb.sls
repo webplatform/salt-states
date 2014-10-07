@@ -60,7 +60,7 @@ renoirb:
     - group: deployment
     - mode: 640
     - template: jinja
-    - source: salt://environment/my.cnf
+    - source: salt://environment/files/my.cnf.jinja
     - require:
       - user: renoirb
 

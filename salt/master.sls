@@ -7,7 +7,7 @@
     - source: salt://environment/bash.bashrc
     - user: root
     - group: root
-    - mode: 644 
+    - mode: 644
 
 #web25-autoupdate:
 #  file.managed:
@@ -39,10 +39,11 @@
 
 /root/.my.cnf:
   file.managed:
+    - template: jinja
     - user: root
     - group: root
     - mode: 640
-    - source: salt://environment/my.cnf
+    - source: salt://environment/files/my.cnf.jinja
 
 deployment-deps:
   pkg.installed:
@@ -54,6 +55,9 @@ deployment-deps:
       - nodejs-legacy
       - npm
       - bundler
+      - python-dulwich
+      - python-git
+      - php5-curl
 
 python-nova-pkgs:
   pkg.latest:
@@ -62,30 +66,25 @@ python-nova-pkgs:
       - salt-cloud
       - python-libcloud
 
-/usr/local/bin/deploy.sh:
+/usr/local/bin/wpd-deploy.sh:
   file.managed:
     - user: root
     - group: root
-    - source: salt://environment/deploy.sh
+    - source: salt://salt/files/wpd-deploy.sh
     - mode: 755
 
 /etc/salt/master.d/roots.conf:
   file.managed:
-    - source: salt://specific/files/deployment/roots.conf
+    - source: salt://salt/files/roots.conf
 
 /etc/salt/master.d/runners.conf:
   file.managed:
-    - source: salt://specific/files/deployment/runners.conf
+    - source: salt://salt/files/runners.conf
 
 /etc/salt/master.d/peers.conf:
   file.managed:
-    - contents: |
-        # Managed by Salt Stack, too
-        peer:
-          .*:
-            - grains.*
-            - network.*
-            - test.*
+    - source: salt://salt/files/peers.conf.jinja
+    - template: jinja
 
 #cloudarchive-repos:
 #  pkgrepo.managed:
