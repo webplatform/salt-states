@@ -20,9 +20,4 @@ scaler-packages:
       - libtheora0
       - oggvideotools
       - libvips-tools
-{% if grains['lsb_distrib_release'] == "10.04" %}
-      - libvips15
-      - ttf-linux-libertine
-{% else %}
       - fonts-linuxlibertine
-{% endif  %}

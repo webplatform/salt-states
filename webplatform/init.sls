@@ -48,6 +48,14 @@ resolvconf -u:
         domain staging.wpdn
         nameserver 8.8.8.8
 
+/etc/apt/sources.list.d/wikimedia.list:
+  file.managed:
+    - contents: |
+        # Managed by Salt Stack at salt/webplatform/init.sls
+        deb http://ubuntu.wikimedia.org/ubuntu trusty main
+        deb http://ubuntu.wikimedia.org/ubuntu trusty-updates main
+        deb http://ubuntu.wikimedia.org/ubuntu trusty-security main
+
 /etc/resolvconf/resolv.conf.d/head:
   file.managed:
     - contents: |

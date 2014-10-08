@@ -27,7 +27,7 @@ monit-checker:
     - template: jinja
     - source: salt://hypothesis/files/monit.conf.jinja
 
-openjdk-7-jdk-package:
+openjdk-7-jdk-packages:
   pkg.installed:
     - names:
       - openjdk-7-jre-headless
@@ -65,12 +65,7 @@ hypothesis-dependencies:
       - nodejs
       - npm
       - python-mysqldb
-{% if grains['lsb_distrib_release'] == "12.04" %}
-      - rubygems
-{% endif %}
-{% if grains['lsb_distrib_release'] == "14.04" %}
       - rubygems-integration
-{% endif %}
 
 # pip install pyyaml
 # http://acervulus.info/2012/how-to-install-sass-on-ubuntu-precise-12-04-lts/
