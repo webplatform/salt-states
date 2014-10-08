@@ -1,4 +1,5 @@
 <?php
+# vi set ai syntax=php
 
 // Common settings
 // Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
@@ -10,15 +11,14 @@
 
 #$wgReadOnly = 'Currently backing up data, will be back shortly [http://status.webplatform.org/ our status page]';
 
-
+## ref: http://www.mediawiki.org/wiki/Manual:$wgCanonicalServer
 $wgServer = "//docs.webplatformstaging.org";
+$wgCanonicalServer = "https://docs.webplatformstaging.org";
 #$wgServer = "//docs.webplatform.org";
-#$wgCanonicalServer = "https://docs.webplatform.org";  # ref http://www.mediawiki.org/wiki/Manual:$wgCanonicalServer
+#$wgCanonicalServer = "https://docs.webplatform.org";
 
-
-#$wgCacheDirectory = "$IP/cache";
-$wgUploadDirectory = "/srv/webplatform/wiki/images/";
-
+$wgCacheDirectory = dirname($IP)."/cache";
+#$wgUploadDirectory = $IP"/images";
 
 ## WebPlatform Docs
 require_once("$IP/extensions/WebPlatformDocs/main.php");
@@ -36,19 +36,31 @@ require_once("$IP/extensions/WebPlatformDocs/main.php");
 #$wgSessionName = false;
 
 ## Upcoming improvements
-#$wgDisableOutputCompression = true;
 #$wgDBssl = true;
 #$wgSecureLogin = true;
+#$wgResourceLoaderUseESI = true;
+$wgIncludeLegacyJavaScript = false;
+$wgResourceLoaderExperimentalAsyncLoading = true;
+
+## This is because we need the our local
+## http server to serve content non compressed
+## to the Varnish/Fastly frontend so they can
+## server ESI.  #TODO: ensure ESI works and that
+##                     fastly serves w/ gzip
+##
+$wgDisableOutputCompression = true;
 
 $wgMaxShellMemory = 1024 * 512;
 
-# See https://github.com/wikimedia/operations-puppet/tree/production/modules/varnish/templates
-#     https://github.com/wikimedia/operations-puppet/tree/production/templates/varnish
+## See https://github.com/wikimedia/operations-puppet/tree/production/modules/varnish/templates
+##     https://github.com/wikimedia/operations-puppet/tree/production/templates/varnish
 ## Frontend cache settings
 $wgUseSquid = true;
 $wgSquidServers = array( 'api.fastly.com:80' );
 
 $wpdUdp2logDest = 'salt.local.wpdn:8420';
+
+## ref: http://www.mediawiki.org/wiki/Manual:$wgDebugLogGroups
 $wgDebugLogGroups = array(
   'UserThrottle' => "udp://$wpdUdp2logDest/UserThrottle",
   'cite' => "udp://$wpdUdp2logDest/cite", // to see how it's used;) -ævar
@@ -70,13 +82,13 @@ $wgDebugLogGroups = array(
   'memcached-serious' => "udp://$wpdUdp2logDest/memcached-serious",
   'lc-recache' => "udp://$wpdUdp2logDest/lc-recache",
   'generated-pp-node-count' => "udp://$wpdUdp2logDest/generated-pp-node-count",
-  'api' => "udp://$wpdUdp2logDest/api",
+  'api' => "udp://$wpdUdp2logDest/api"
 );
 
 $wgDBtype = "mysql";
 
 ###### Production caching settings #####################
-# See https://github.com/wikimedia/operations-mediawiki-config/blob/master/wmf-config/mc.php
+## ref: https://github.com/wikimedia/operations-mediawiki-config/blob/master/wmf-config/mc.php
 
 
 ##
@@ -87,7 +99,7 @@ $wgDBtype = "mysql";
 ## TCP port 11311 is Memcached through Nutcracker
 ##
 $wgMainCacheType = 'memcached-pecl';
-$wgMemCachedPersistent = false;
+$wgMemCachedPersistent = true;
 $wgMemCachedTimeout = 250000; # default is 100000
 $wgObjectCaches['memcached-pecl'] = array(
     'class' => 'MemcachedPeclBagOStuff',
@@ -96,6 +108,11 @@ $wgObjectCaches['memcached-pecl'] = array(
     'servers' => array('127.0.0.1:11211'), /* 11211 is local nutcracker on an app node */
     'server_failure_limit' => 1e9,
     'retry_timeout' => -1
+);
+$wgObjectCaches['redis'] = array(
+    'class' => 'RedisBagOStuff',
+    'servers' => array('10.10.10.63:6379'),
+    'persistent' => true,
 );
 
 
@@ -121,30 +138,34 @@ $wgObjectCaches['sessions'] = array(
 ##
 $wgJobTypeConf['default'] = array(
         'class'        => 'JobQueueRedis',
-        'redisServers' => $wpdRedisJobServers,
+        'redisServer'  => $wpdRedisJobServers[0],
         'redisConfig'  => array( 'connectTimeout' => 2, 'compression' => 'gzip' ),
 );
 $wgJobQueueAggregator = array(
         'class'        => 'JobQueueAggregatorRedis',
-        'redisServer'  => $wpdRedisJobServers,
+        'redisServers'  => $wpdRedisJobServers,
         'redisConfig'  => array( 'connectTimeout' => 2 ),
 );
 
 
-# renoirb 20140404
-# http://ryandlane.com/blog/2009/04/21/allowing-docpptxls-uploads-to-mediawiki-and-getting-proper-mime-types-back/
+## renoirb 20140404
+## http://ryandlane.com/blog/2009/04/21/allowing-docpptxls-uploads-to-mediawiki-and-getting-proper-mime-types-back/
 $wgFileExtensions = array( 'png', 'gif', 'jpg', 'jpeg', 'ppt', 'pdf', 'psd', 'mp3', 'mp4', 'xls', 'xlsx', 'swf', 'doc','docx', 'odt', 'odc', 'odp', 'odg', 'mpp', 'svg', 'svgz', 'ai', 'txt');
 
 
 ###################
 ## Extensions
 
+## ref: https://wikitech.wikimedia.org/wiki/EventLogging
+#require_once("$IP/extensions/EventLogging/EventLogging.php");
+#$wgEventLoggingBaseUri = 'http://173.236.254.222:8080/event.gif';
+#$wgEventLoggingFile = dirname($IP)."/logs/events.log";
+#$wgEventLoggingSchemaApiUri = $wgServer.'/w/api.php';
+
 ## Anti bots
 ## Has a very basic plugin that checks form application/x-www-form-urlencoded.
 ## TODO: Add more?
 require_once("$IP/extensions/AntiBot/AntiBot.php");
-
-require_once("$IP/extensions/EventLogging/EventLogging.php");
 
 require_once("$IP/extensions/Renameuser/Renameuser.php");
 
@@ -170,17 +191,17 @@ include_once("$IP/extensions/Validator/Validator.php");
 include_once("$IP/extensions/SemanticMediaWiki/SemanticMediaWiki.php");
 enableSemantics('webplatform');
 
-# Semantic Forms Extension
+## Semantic Forms Extension
 include_once("$IP/extensions/SemanticForms/SemanticForms.php");
 $sfgRenameEditTabs = true;
 
-# SemanticResultFormats, an extra set of printers for SMW
+## SemanticResultFormats, an extra set of printers for SMW
 require_once("$IP/extensions/SemanticResultFormats/SemanticResultFormats.php");
 
 include_once("$IP/extensions/AdminLinks/AdminLinks.php");
 #require_once("$IP/extensions/EmailCapture/EmailCapture.php");  #TODO, find
 
-# Captcha Extension
+## Captcha Extension
 require_once( "$IP/extensions/ConfirmEdit/ConfirmEdit.php" );
 $wgCaptchaTriggers['edit']          = false;
 $wgCaptchaTriggers['create']        = false;
@@ -190,20 +211,20 @@ $wgCaptchaTriggers['badlogin']      = false;
 #require_once( "$IP/extensions/ConfirmEdit/WpdCaptcha.php"); #TODO, refactor
 #$wgCaptchaClass = 'WpdCaptcha';
 
-# Page mass-delete
+## Page mass-delete
 require_once("$IP/extensions/Nuke/Nuke.php");
 
-# comments extension
+## Comments extension
 #require_once("$IP/extensions/Comments/Comments.php");
 #$wgCommentsEnabledNS = array(NS_MAIN);
 #require_once("$IP/extensions/WebPlatformDocs/extensions/SectionComments/SectionComments.php"); #TODO, REFACTOR, see WebPlatformDocs/main.php
 
 #require_once("$IP/extensions/WebPlatformSearchAutocomplete/WebPlatformSearchAutocomplete.php"); #TODO, refactor
 
-# Sub-page list
+## Sub-page list
 require_once("$IP/extensions/SubPageList3/SubPageList3.php");
 
-# DismissableSiteNotice
+## DismissableSiteNotice
 #require_once("$IP/extensions/DismissableSiteNotice/DismissableSiteNotice.php" ); #DISABLED
 
 ## Semantic_Internal_Objects
@@ -229,7 +250,7 @@ $wgUserStatsPointValues['referral_complete'] = 10;
 $wgAutoAddFriendOnInvite = true;
 $wgForceNewSignupPageInitialization = true;
 
-# CLDR extension, for local language names
+## CLDR extension, for local language names
 require_once("$IP/extensions/cldr/cldr.php");
 
 require_once("$IP/extensions/LookupUser/LookupUser.php");  #NEEDSTOBEADDED

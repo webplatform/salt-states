@@ -1,4 +1,5 @@
 <?php
+# vi set ai syntax=php
 
 // Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
 // Ensure you change `salt/code/files/wpwiki.php.jinja` instead
@@ -44,8 +45,9 @@ $wgScriptPath  = '/w';
 #$wgWebPlatformAuth['client']['id']             = '0000000000000000';
 #$wgWebPlatformAuth['client']['secret']         = '3333333333333333333333333333333333333333333333333333333333333333';
 
-$wgSecretKey = "7c8029f5757f15abb4d9bf8d6aef6d9aea2f4eb7911f054961f47eaf70571729";
-$wgUpgradeKey = "f9a680f04e3abe2d";
+$wgSecretKey     = '{{ salt['pillar.get']('accounts:wiki:secrets:key', 'foo') }}';
+$wgUpgradeKey    = '{{ salt['pillar.get']('accounts:wiki:secrets:upgrade', 'bar') }}';
+$wgCaptchaSecret = '{{ salt['pillar.get']('accounts:wiki:secrets:captcha', 'baz') }}';
 
 $wgEnableUploads  = true;
 $wgUseImageMagick = true;
@@ -65,14 +67,15 @@ $wgFileBackends[] = array(
     ),
     'fileMode'       => 420
 );
+
 $wgFileBackends[] = array( // backend config for wiki's local repo
        'class'              => 'SwiftFileBackend',
        'name'               => 'local-ceph',
        'wikiId'             => $wgDBname,
        'lockManager'        => 'nullLockManager',
-       'swiftAuthUrl'       => 'objects.dreamhost.com/auth',
-       'swiftUser'          => 'wpd-assets:wpd-assets-user',
-       'swiftKey'           => '8888888888888888888888888888888888888888',
+       'swiftAuthUrl'       => '{{ salt['pillar.get']('accounts:swift:dreamhost:mwSwiftAuthUrl', 'objects.dreamhost.com/auth') }}',
+       'swiftUser'          => '{{ salt['pillar.get']('accounts:swift:dreamhost:username', 'key-id:subkey-name') }}',
+       'swiftKey'           => '{{ salt['pillar.get']('accounts:swift:dreamhost:password', '000000000000000000') }}',
        'swiftTempUrlKey'    => '', // TODO
        'parallelize'        => 'implicit',
        'cacheAuthInfo'      => true,

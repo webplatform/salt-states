@@ -1,28 +1,37 @@
 <?php
+# vi set ai syntax=php
 
 // Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
 
-error_reporting(0);
+#error_reporting(0);
 
 #
 # Redis job servers
 #
-$wpdRedisJobServers[]		= 'redis-jobs1.staging.wpdn';
-
+$wpdRedisJobServers		= array();
+$wpdRedisJobServers[]		= '10.10.10.60';
 
 #
 # Redis session servers
 #
-$wpdRedisSessionServers[] 	= 'redis-session1.staging.wpdn';
+$wpdRedisSessionServers		= array();
+$wpdRedisSessionServers[]	= '10.10.10.57:6379';
+$wpdRedisSessionServers[]	= '10.10.10.58:6379';
 
-
+#memcache1       10.10.10.52
+#memcache2       10.10.10.62
+#memcache3       10.10.10.59
+#
+#redis-jobs1     10.10.10.60
+#
+#redis-cache1    10.10.10.63
+#
+#redis-session1  10.10.10.57
+#redis-session2  10.10.10.58
 
 foreach(
   array_merge(
-    // Settings from default wiki
-    glob( __DIR__ . '/../settings.d/puppet-managed/*.php' ),
     glob( __DIR__ . '/../settings.d/*.php' ),
-    // Settings for this wiki
     glob( __DIR__ . "/../local.d/*.php" )
   ) as $conffile
 ) {

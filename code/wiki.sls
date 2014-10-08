@@ -64,10 +64,12 @@ rsync-run-{{ env }}:
     - template: jinja
     - require:
       - file: /srv/webplatform/wiki/Settings.php
+
 {% endfor %}
 
 /srv/webplatform/wiki/Settings.php:
   file.managed:
     - source: salt://code/files/wiki/Settings.php.jinja
     - template: jinja
+
 

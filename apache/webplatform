@@ -57,7 +57,7 @@
   # alert, emerg.
   LogLevel warn
 
-  CustomLog /var/log/apache2/access.log combined
+  CustomLog /var/log/apache2/www_access.log combined
 
   <Directory /srv/webplatform/wiki/images>
     Options -Indexes

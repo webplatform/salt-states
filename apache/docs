@@ -59,6 +59,8 @@
   LogLevel warn
   ErrorLog syslog:local1
 
+  CustomLog /var/log/apache2/wiki_access.log combined
+
   RewriteEngine On
   RewriteCond %{REQUEST_URI}                       !^/(wiki|w|test|t|compat)/
   RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
