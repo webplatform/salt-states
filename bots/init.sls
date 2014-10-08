@@ -1,5 +1,6 @@
 include:
   - python.mysqldb
+  - mysql
 
 /srv/webplatform/lumberjack:
   file.recurse:

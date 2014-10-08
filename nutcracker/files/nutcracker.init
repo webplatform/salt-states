@@ -1,0 +1,26 @@
+#!upstart
+
+#
+# Twemproxy (Nutcracker) Service.
+# 
+# Mimicks memcached and redis locally
+#
+
+description "Nutcracker proxy"
+
+start on (net-device-up
+          and local-filesystems
+          and runlevel [2345])
+stop on runlevel [!2345]
+
+env MEM=65536
+env VERBOSITY=9
+
+respawn
+setuid nobody
+setgid www-data
+
+script
+   cd /etc/nutcracker
+   exec /usr/local/sbin/nutcracker -v $VERBOSITY -m $MEM
+end script

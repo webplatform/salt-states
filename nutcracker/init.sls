@@ -1,28 +1,35 @@
 # https://github.com/twitter/twemproxy#configuration
 # https://github.com/wikimedia/operations-puppet  in modules/nutcracker/
 
-/etc/default/nutcracker:
-  file:
-    - managed
-    - contents: |
-        # Managed by Salt Stack, DO NOT EDIT MANUALLY
-        DAEMON_OPTS="--mbuf-size=65536 --stats-port=22223 -c /etc/nutcracker/conf/nutcracker.yml"
+/etc/nutcracker/conf:
+  file.directory:
+    - makedirs: true
+    - user: nobody
+    - group: www-data
+    - require:
+      - cmd: nutcracker-pkg-installed
+
+nutcracker-pkg-installed:
+  cmd.run:
+    - name: "dpkg-query -Wf'${db:Status-abbrev}' nutcracker 2>/dev/null | grep -q '^i'  #ADVICE: Make sure you run code.node_app"
 
 /etc/nutcracker/conf/nutcracker.yml:
   file:
     - managed
     - mode: 444
+    - user: nobody
+    - group: www-data
     - source: salt://nutcracker/files/config.yml.jinja
     - template: jinja
-    - createdirs: True
     - require:
-      - file: /etc/default/nutcracker
+      - file: /etc/nutcracker/conf
 
-#/etc/init/nutcracker.conf:
-#  service.running:
-#    - name: nutcracker
-#    - enable: True
-#    - watch:
-#        - file: /etc/default/nutcracker
-#        - file: /etc/nutcracker/nutcracker.yml
-#    - reload: True
+/etc/init/nutcracker.conf:
+  file.managed:
+    - source: salt://nutcracker/files/nutcracker.init
+  service.running:
+    - name: nutcracker
+    - enable: True
+    - watch:
+        - file: /etc/nutcracker/conf/nutcracker.yml
+    - reload: True
