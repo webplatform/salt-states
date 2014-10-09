@@ -48,7 +48,7 @@ include:
 
 rsync-run-{{ env }}:
   cmd.run:
-    - name: "rsync -a --exclude '.git' --exclude '.svn' --exclude 'LocalSettings.php' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.wpdn::code/wiki/repo/ /srv/webplatform/wiki/{{ env }}/"
+    - name: "rsync -a --exclude '.git' --exclude '.svn' --exclude 'LocalSettings.php' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.local.wpdn::code/wiki/repo/ /srv/webplatform/wiki/{{ env }}/"
     - user: root
     - group: root
     - require_in:

@@ -69,6 +69,11 @@ hypothesis-dependencies:
 
 # pip install pyyaml
 # http://acervulus.info/2012/how-to-install-sass-on-ubuntu-precise-12-04-lts/
+## Install required python dependencies via pip
+#pip-dependencies:
+#  cmd:
+#    - run
+#    - name: pip install -r /srv/webplatform/h/requirements.txt
 
 required-gems:
   cmd.run:
