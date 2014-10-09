@@ -1,5 +1,5 @@
 #####################################################################
-### THIS FILE IS MANAGED BY PUPPET 
+### THIS FILE IS MANAGED BY SALT STACK
 ### puppet:///files/misc/demux.py
 #####################################################################
 
@@ -9,7 +9,7 @@ import sys, os, string, re
 
 transTable = string.maketrans("./", "__")
 openFiles = {}
-baseDir = '/mnt/logs/mw-logs';
+baseDir = '/mnt/storage/logs/mw-logs';
 nameRegex = re.compile(r"^[\040-\176]*$")
 
 while True:

@@ -32,11 +32,12 @@ base:
 #    - backup.mediawiki_xml
 #    - backup.salt_master
 #    - glusterfs
-#    - logging.syslog_ng
-#    - logging.udp2log
+    - logging.syslog_ng
+    - logging.udp2log
   'app*':
     - php
     - nutcracker
+    - bots.lumberjack-web
     - apache.webplatform_ssl
     - apache.webplatform_com
     - apache.webplatform
@@ -60,8 +61,8 @@ base:
     - apache.blog
     - apache.status
     - webplatform.swift-dreamobjects
-  'bots*':
-    - bots
+  'bots':
+    - bots.lumberjack-listener
   'code*':
     - gerrit
     - rsync

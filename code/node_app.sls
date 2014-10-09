@@ -2,7 +2,7 @@ include:
   - code.certificates
   - code.packages
   - code.compat
-  - code.lumberjack
+  - code.lumberjack-web
   - code.dabblet
   - code.www
   - code.root-com

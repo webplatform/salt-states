@@ -4,7 +4,7 @@ rsyslog:
 
 /etc/rsyslog.d/60-local1.conf:
   file.managed:
-    - source: salt://logging/60-local1.conf
+    - source: salt://logging/files/60-local1.conf.jinja
     - user: root
     - group: root
     - mode: 444

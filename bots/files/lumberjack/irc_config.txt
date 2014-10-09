@@ -1,5 +1,0 @@
-server: irc.freenode.net
-port: 6667
-channel: #webplatform
-nick: wp-logger
-reconnect: 300
