@@ -16,7 +16,12 @@ apache2:
     - watch_in:
       - service: apache2
 
-apache_watchdog:
+/usr/local/sbin/wpd-apache-watchdog:
+  file.managed:
+    - user: root
+    - group: deployment
+    - mode: 755
+    - source: salt://apache/files/wpd-apache-watchdog
   cron.present:
     - identifier: apache-watchdog
     - user: root
@@ -25,16 +30,9 @@ apache_watchdog:
     - require:
       - file: /usr/local/sbin/wpd-apache-watchdog
 
-/usr/local/sbin/wpd-apache-watchdog:
-  file.managed:
-    - user: root
-    - group: deployment
-    - mode: 755
-    - source: salt://apache/files/wpd-apache-watchdog
-
 /etc/apache2/conf-enabled/performance.conf:
   file.managed:
-    - source: salt://apache/performance.jinja
+    - source: salt://apache/files/performance.conf.jinja
     - template: jinja
     - user: root
     - group: root
@@ -44,7 +42,7 @@ apache_watchdog:
 
 /etc/apache2/conf-enabled/security.conf:
   file.managed:
-    - source: salt://apache/security.jinja
+    - source: salt://apache/files/security.conf.jinja
     - template: jinja
     - user: root
     - group: root

@@ -17,10 +17,10 @@ buggenie-requirements:
     - names:
       - php5-sqlite
 
-/etc/apache2/sites-available/buggenie:
+/etc/apache2/sites-available/project:
   file:
     - managed
-    - source: salt://apache/buggenie
+    - source: salt://apache/project
     - user: root
     - group: root
     - mode: 444
@@ -29,10 +29,10 @@ buggenie-requirements:
     - watch_in:
       - service: apache2
 
-/etc/apache2/sites-enabled/buggenie:
+/etc/apache2/sites-enabled/03-project.conf:
   file.symlink:
-    - target: /etc/apache2/sites-available/buggenie
+    - target: /etc/apache2/sites-available/project
     - requires:
-      - file: /etc/apache2/sites-enabled/buggenie
+      - file: /etc/apache2/sites-available/project
     - watch_in:
       - service: apache2
