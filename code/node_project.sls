@@ -1,3 +1,4 @@
 include:
+  - code.packages
   - code.buggenie
-  - code.root
+  - code.www

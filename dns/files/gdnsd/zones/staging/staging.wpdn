@@ -1,7 +1,7 @@
 ; vi: ai syntax=bindzone tabstop=4 softtabstop=4 shiftwidth=4
 $TTL 3600
 @   SOA salt.local.wpdn. hostmaster.webplatform.org. (
-      2014101000 ; serial
+      2014101002 ; serial
       7200       ; refresh
       30M        ; retry
       3D         ; expire
@@ -26,6 +26,8 @@ memcache3	A	10.10.10.59
 redis-jobs1	A	10.10.10.60
 redis-cache1	A	10.10.10.63
 redis-session1	A	10.10.10.57
+
+elastic1	A	10.10.10.74
 
 db1		A       10.10.10.48
 db2		A       10.10.10.50

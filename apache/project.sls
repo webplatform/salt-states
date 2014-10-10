@@ -11,6 +11,16 @@ extend:
       - watch:
         - cmd: a2enmod rewrite
 
+a2dismod mpm_event:
+  cmd.run
+
+a2enmod mpm_prefork:
+  cmd.run:
+    - require:
+      - cmd: a2dismod mpm_event
+    - require_in:
+      - cmd: a2enmod rewrite
+
 buggenie-requirements:
   pkg:
     - installed

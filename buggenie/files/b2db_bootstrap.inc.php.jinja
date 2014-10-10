@@ -1,18 +1,13 @@
 <?php
 
-	/**
-	 * B2DB sql parameters
-	 *
-	 * @author Daniel Andre Eikeland <zegenie@zegeniestudios.net>
-	 * @version 2.0
-	 * @license http://www.opensource.org/licenses/mozilla1.1.php Mozilla Public License 1.1 (MPL 1.1)
-	 * @package b2db
-	 * @subpackage core
-	 */
-        # @TODO Use salt states pillaars
-	self::setUname('{{ salt['pillar.get']('accounts:buggenie:db:username', 'root') }}');
-	self::setPasswd('{{ salt['pillar.get']('accounts:buggenie:db:password', '') }}');
-	self::setTablePrefix('tbg3_');
+## vim: ai syntax=php
+## Managed by Salt Stack, do NOT edit manually!
 
-	self::setDSN('mysql:host={{ salt['pillar.get']('accounts:buggenie:db:hostname', 'localhost') }};dbname={{ salt['pillar.get']('accounts:buggenie:db:database', 'buggenie') }}');
-stna
+## To debug issues
+#error_reporting(E_ALL);
+#ini_set('display_errors', true);
+
+self::setUname('{{ salt['pillar.get']('accounts:buggenie:db:username', 'root') }}');
+self::setPasswd('{{ salt['pillar.get']('accounts:buggenie:db:password', '') }}');
+self::setTablePrefix('tbg3_');
+self::setDSN('mysql:host={{ salt['pillar.get']('accounts:buggenie:db:hostname', 'localhost') }};dbname={{ salt['pillar.get']('accounts:buggenie:db:database', 'buggenie') }}');

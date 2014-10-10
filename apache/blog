@@ -1,4 +1,4 @@
-# vim: filetype=apache
+# vim: ai syntax=apache filetype=apache
 <VirtualHost *:80>
   ServerAdmin 	hostmaster@webplatform.org
   ServerName 	blog.webplatform.org

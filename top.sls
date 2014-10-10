@@ -28,9 +28,9 @@ base:
     - python
     - python.mysqldb
     - webplatform.swift-dreamobjects
-    - backup.salt_master
-    - logging.syslog_ng
-    - logging.udp2log
+#    - backup.salt_master
+#    - logging.syslog_ng
+#    - logging.udp2log
 #    - glusterfs
 #    - halite
 #    - backup.mediawiki_xml
@@ -94,6 +94,7 @@ base:
     - specific.monitor
   'project*':
     - php
+    - nutcracker
     - apache.project
     - apache.status
     - buggenie.mailqueue
