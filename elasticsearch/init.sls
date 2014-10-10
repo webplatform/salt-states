@@ -6,11 +6,7 @@ openjdk-7-jre-headless:
 elasticsearch:
   pkg.installed:
     - sources:
-{% if grains['lsb_distrib_release'] == "12.04" %}
-      - elasticsearch: https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.12.deb
-{% else %}
-      - elasticsearch: https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.1.deb
-{% endif %}
+      - elasticsearch: https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.4.deb
   service.running:
     - name: elasticsearch
     - running: True
