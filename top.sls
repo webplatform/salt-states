@@ -28,12 +28,12 @@ base:
     - python
     - python.mysqldb
     - webplatform.swift-dreamobjects
-#    - halite
-#    - backup.mediawiki_xml
-#    - backup.salt_master
-#    - glusterfs
+    - backup.salt_master
     - logging.syslog_ng
     - logging.udp2log
+#    - glusterfs
+#    - halite
+#    - backup.mediawiki_xml
   'app*':
     - php
     - nutcracker
@@ -52,11 +52,11 @@ base:
   'app3':
     - mediawiki.jobrunner
   'backup*':
-    - backup
     - backup.master
     - webplatform.swift-dreamobjects
   'blog*':
     - php
+    - nutcracker
     - wordpress
     - apache.blog
     - apache.status

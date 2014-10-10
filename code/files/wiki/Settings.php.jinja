@@ -1,13 +1,16 @@
 <?php
 # vi set ai syntax=php
 
-// Common settings
-// Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
-// Unless you make changes in `salt/code/files/docs/Settings.php`
+## Common settings
+## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+## Unless you make changes in `salt/code/files/docs/Settings.php`
 
-// How Wikimedia does it, take a look at:
-// https://github.com/wikimedia/operations-mediawiki-config/tree/master/wmf-config
-// https://github.com/wikimedia/operations-puppet/tree/production/modules
+## How Wikimedia does it, take a look at:
+##   * https://github.com/wikimedia/operations-mediawiki-config/tree/master/wmf-config
+##   * https://github.com/wikimedia/operations-puppet/tree/production/modules
+##
+## Reference pages:
+##   * http://www.mediawiki.org/wiki/Manual:Configuration_settings
 
 #$wgReadOnly = 'Currently backing up data, will be back shortly [http://status.webplatform.org/ our status page]';
 
@@ -58,22 +61,23 @@ $wgMaxShellMemory = 1024 * 512;
 $wgUseSquid = true;
 $wgSquidServers = array( 'api.fastly.com:80' );
 
-$wpdUdp2logDest = 'salt.local.wpdn:8420'; ## SecurityGroup port: UDP 8420 @salt
+$wpdUdp2logDest = 'salt.local.wpdn:8420'; ## SecurityGroup port: UDP 8420 @salt demux.py
 
 ## ref: http://www.mediawiki.org/wiki/Manual:$wgDebugLogGroups
 $wgDebugLogGroups = array(
+  'resresourceloader' => "udp://$wpdUdp2logDest/resresourceloader",
   'UserThrottle' => "udp://$wpdUdp2logDest/UserThrottle",
-  'cite' => "udp://$wpdUdp2logDest/cite", // to see how it's used;) -ævar
+  'cite' => "udp://$wpdUdp2logDest/cite",
   'thumbnail' => "udp://$wpdUdp2logDest/thumbnail",
-  'testing' => "udp://$wpdUdp2logDest/testing", // for temp testing hacks
+  'testing' => "udp://$wpdUdp2logDest/testing",
   'jobqueue' => "udp://$wpdUdp2logDest/jobqueue/web",
   'mkdir' => "udp://$wpdUdp2logDest/mkdir",
   'slow-parse' => "udp://$wpdUdp2logDest/slow-parse",
   'exception' => "udp://$wpdUdp2logDest/exception",
   'session' => "udp://$wpdUdp2logDest/session",
   'badblock' => "udp://$wpdUdp2logDest/badblock",
-  'SpamBlacklistHit' => "udp://$wpdUdp2logDest/spam",
-  'SpamRegex' => "udp://$wpdUdp2logDest/spam",
+  'SpamBlacklistHit' => "udp://$wpdUdp2logDest/spam-blacklist",
+  'SpamRegex' => "udp://$wpdUdp2logDest/spam-regex",
   'ValidationStatistic' => "udp://$wpdUdp2logDest/valid",
   'OutputBuffer' => "udp://$wpdUdp2logDest/buffer",
   'exec' => "udp://$wpdUdp2logDest/exec",

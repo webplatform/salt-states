@@ -5,6 +5,7 @@
     - group: www-data
     - source: salt://buggenie/files/buggenie-mailqueue.sh
   cron.present:
+    - identifier: buggenie-mailqueue
     - user: www-data
     - minute: '*/5'
     - require:

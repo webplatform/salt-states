@@ -1,3 +1,3 @@
 include:
+  - code.packages
   - code.blog
-  - code.root

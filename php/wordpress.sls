@@ -1,5 +1,6 @@
 include:
   - php
+  - mysql
 
 php-wordpress:
   pkg:

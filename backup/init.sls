@@ -4,8 +4,9 @@
     - group: root
     - mode: 750
 
-clean_backup:
+clean-backup-dir-cron:
   cron.present:
+    - identifier: clean-backup-dir
     - user: root
     - minute: 1
     - hour: 2

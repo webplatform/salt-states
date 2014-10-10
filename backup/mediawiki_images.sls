@@ -20,6 +20,7 @@
 
 backupimages:
   cron.present:
+    - identifier: backup-mediawiki-images
     - user: root
     - minute: 30
     - hour: 1

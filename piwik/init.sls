@@ -79,6 +79,7 @@ append-fastcgi:
     - group: www-data
     - source: salt://piwik/piwik-archive.sh
   cron.present:
+    - identifier: piwik-archive
     - user: www-data
     - minute: 5
     - require:

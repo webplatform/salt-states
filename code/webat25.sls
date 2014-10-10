@@ -20,6 +20,7 @@ include:
 
 #JOBNAME=webat25-archive GITFOLDER='/srv/webplatform/web25ee' cronhelper.sh archive-noncommited.sh:
 #  cron.exist:
+#    - identifier: webat25-archive
 #    - hour: '*/5'
 #    - minute: 1
 #    - require:

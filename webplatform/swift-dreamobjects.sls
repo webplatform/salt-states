@@ -1,4 +1,3 @@
-{% if grains['lsb_distrib_release'] == "12.04" %}
 python-swiftclient-install:
   pip.installed:
     - name: python-swiftclient
@@ -16,4 +15,3 @@ python-swiftclient-install:
     - source: salt://webplatform/files/swift-dreamobjects.sh.jinja
     - requires:
       - pip: python-swiftclient
-{% endif %}

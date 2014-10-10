@@ -1,5 +1,28 @@
 # WebPlatform server environment configuration
 
+
+## Security groups configuration
+
+All services that requires TCP/UDP connectivity should have, in the state file or
+configuration file, an annotation about it.
+
+To find all security groups that requires communication, search the files for notes
+that contains `## SecurityGroup`.  This string can be as a comment, or at the end
+of a configuration line.
+
+For example, MediaWiki `Settings.php` has a line like this:
+
+```php
+$wpdUdp2logDest = 'salt.local.wpdn:8420'; ## SecurityGroup port: UDP 8420 @salt demux.py
+```
+
+All security groups are expected to allow local network communication exclusively by allowing
+only incoming traffic from `10.10.10.0/24` or any other local network IP class available.
+
+As for inter network communication, we should maintain explicitly which security groups are allowing
+outside communication.
+
+
 ## Connecting with SSH
 
 Not ALL VMs in an environment has a publicly available IP address. To connect

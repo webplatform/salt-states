@@ -1,3 +1,4 @@
+# vim: filetype=apache
 <VirtualHost *:80>
   ServerAdmin 	hostmaster@webplatform.org
   ServerName 	blog.webplatform.org
@@ -9,35 +10,30 @@
   #   not in our practices
   SetEnv dont-vary 'ever'
 
-  <Directory />
-    Options FollowSymLinks
-    AllowOverride None
-  </Directory>
-  <Directory /var/www/>
-    Options FollowSymLinks
-    AllowOverride None
-    Order allow,deny
-    allow from all
-  </Directory>
   <Directory /srv/webplatform/blog>
     Options FollowSymLinks
     AllowOverride FileInfo Indexes
-    Order allow,deny
-    allow from all
+    Require all granted
+
+    RewriteEngine On
+    RewriteBase /
+    RewriteRule ^index\.php$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.php [L]
   </Directory>
-  <Directorymatch "^/.*/\.git/">
-    Order deny,allow
-    deny from all
-  </DirectoryMatch>
 
   <DirectoryMatch "^/.*/wp-contents/uploads/">
+    Require all granted
     AllowOverride none
     RemoveHandler .cgi .pl .py
     <FilesMatch "\.(php|p?html?)$">
       SetHandler none
     </FilesMatch>
   </DirectoryMatch>
+
   <DirectoryMatch "^/.*/wp-content/cache/">
+    Require all granted
     AllowOverride none
     RemoveHandler .cgi .pl .py
     <FilesMatch "\.(php|p?html?)$">
@@ -51,8 +47,10 @@
   # alert, emerg.
   LogLevel warn
 
-  CustomLog /var/log/apache2/access.log combined
+  CustomLog /var/log/apache2/blog_access.log combined
 
-  Alias /favicon.ico /var/www/favicon.ico
-  Alias /wpdlogo.png /var/www/wpdlogo.png
+  ErrorDocument 404 /404.html
+  ErrorDocument 403 /403.html
+  ErrorDocument 500 /500.html
+  ErrorDocument 503 /503.html
 </VirtualHost>

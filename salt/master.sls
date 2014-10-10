@@ -15,6 +15,7 @@
 #    - name: /srv/code/web25ee/web25-autoupdate.sh
 #    - mode: 755
 #  cron.present:
+#    - identifier: web25-autoupdate
 #    - user: root
 #    - hour: '*/2'
 #    - name: "JOBNAME=web25-autoupdate cronhelper.sh /srv/code/web25ee/web25-autoupdate.sh"
@@ -61,6 +62,11 @@ deployment-deps:
       - python-novaclient
       - salt-cloud
       - python-libcloud
+
+## SecurityGroup port: TCP 4505 4506 @salt
+salt-master:
+  pkg:
+    - installed
 
 /usr/local/bin/wpd-deploy.sh:
   file.managed:

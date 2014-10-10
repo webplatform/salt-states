@@ -9,12 +9,6 @@ include:
 
 # Initial install of MediaWiki via states
 {% for slot in ['wpwiki','wptestwiki'] %}
-#install-mediawiki-{{ slot }}:
-#  cmd:
-#    - run
-#    - name: salt-call state.sls mediawiki.docs_{{ slot }}
-#    - unless: test -d /srv/webplatform/wiki/{{ slot }}
-
 /srv/webplatform/wiki/{{ slot }}/cache:
   file.directory:
     - mode: 755

@@ -8,7 +8,7 @@ include:
     - user: root
     - group: root
     - mode: 444
-    - requires:
+    - require:
       - pkg: apache2
     - watch_in:
       - service: apache2
@@ -16,7 +16,7 @@ include:
 /etc/apache2/sites-enabled/09-dabblet.conf:
   file.symlink:
     - target: /etc/apache2/sites-available/dabblet
-    - requires:
+    - require:
       - file: /etc/apache2/sites-available/dabblet
     - watch_in:
       - service: apache2

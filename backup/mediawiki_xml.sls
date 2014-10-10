@@ -10,6 +10,7 @@ include:
 
 backupxml:
   cron.present:
+    - identifier: mediawiki-backup-xml
     - user: root
     - minute: 1
     - hour: 1

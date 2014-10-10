@@ -7,6 +7,7 @@
 
 backupsalt:
   cron.present:
+    - identifier: backup-salt-master
     - user: root
     - minute: 30
     - hour: 1

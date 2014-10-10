@@ -8,8 +8,9 @@ include:
     - mode: 555
     - source: salt://backup/db.sh
 
-backupdb:
+create-database-backup:
   cron.present:
+    - identifier: create-database-backup
     - user: root
     - minute: 1
     - hour: 1

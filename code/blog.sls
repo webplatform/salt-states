@@ -1,26 +1,28 @@
-## deployment of the blog has been disabled
 include:
   - rsync.secret
   - code.prereq
 
-/srv/webplatform/blog/current/robots.txt:
+/srv/webplatform/blog/robots.txt:
   file.managed:
     - source: salt://code/files/blog/robots.txt
     - user: www-data
     - group: www-data
 
-rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/blog/webplatform-wordpress-theme/ /srv/webplatform/blog/current/wp-content/themes/webplatform/:
+rsync-blog:
   cmd.run:
+    - name: "rsync -a  --exclude '.git' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.local.wpdn::code/blog/repo/ /srv/webplatform/blog/"
     - user: root
     - group: root
     - require:
       - file: /etc/codesync.secret
       - file: /srv/webplatform
-
-#rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/blog/ /srv/webplatform/blog/:
-#  cmd.run:
-#    - user: root
-#    - group: root
-#    - require:
-#      - file: /etc/codesync.secret
-#      - file: /srv/webplatform
+  file.directory:
+    - name: /srv/webplatform/blog
+    - user: www-data
+    - group: www-data
+    - file_mode: 644
+    - dir_mode: 755
+    - recurse:
+      - user
+      - group
+      - mode

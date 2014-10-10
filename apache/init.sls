@@ -18,6 +18,7 @@ apache2:
 
 apache_watchdog:
   cron.present:
+    - identifier: apache-watchdog
     - user: root
     - minute: '*/2'
     - name: /usr/local/sbin/wpd-apache-watchdog

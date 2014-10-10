@@ -1,12 +1,9 @@
-php-cli:
+composer-min-deps:
   pkg:
     - installed
     - names:
       - php5-cli
-
-curl:
-  pkg:
-    - installed
+      - curl
 
 get-composer:
   cmd.run:

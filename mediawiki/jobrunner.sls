@@ -10,6 +10,7 @@ coreutils:
 
 mediawiki_cron_1:
   cron.present:
+    - identifier: mediawiki-runjobs-1
     - user: dhc-user
     - minute: random
     - name: "/srv/webplatform/wiki/mediawiki-runJobs.sh #1st run"
@@ -18,6 +19,7 @@ mediawiki_cron_1:
 
 mediawiki_cron_2:
   cron.present:
+    - identifier: mediawiki-runjobs-2
     - minute: random
     - user: dhc-user
     - name: "/srv/webplatform/wiki/mediawiki-runJobs.sh #2nd run"

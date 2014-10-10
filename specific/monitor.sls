@@ -22,6 +22,7 @@ include:
       - file: /srv/webplatform
       - pip:  pylinkchecker
   cron.present:
+    - identifier: check-pages
     - user: www-data
     - minute: random
 
