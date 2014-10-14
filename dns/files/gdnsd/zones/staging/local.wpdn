@@ -1,7 +1,7 @@
 ; vi: ai syntax=bindzone tabstop=4 softtabstop=4 shiftwidth=4
 $TTL 3600
 @   SOA salt.local.wpdn. hostmaster.webplatform.org. (
-      2014100700 ; serial
+      2014101400 ; serial
       7200       ; refresh
       30M        ; retry
       3D         ; expire
@@ -10,6 +10,6 @@ $TTL 3600
 
 @         NS      salt.local.wpdn.
 
-salt      A       10.10.10.40 ; Salt master
+salt      A       10.10.10.76 ; Salt master
 
 masterdb  A       10.10.10.48 ; Master db1

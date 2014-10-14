@@ -62,6 +62,7 @@ deployment-deps:
       - python-novaclient
       - salt-cloud
       - python-libcloud
+      - salt-api
 
 ## SecurityGroup port: TCP 4505 4506 @salt
 salt-master:

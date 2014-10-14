@@ -1,6 +1,20 @@
 coreutils:
   pkg.installed
 
+## In order to have the ability to run sitemap.xml automatically
+##
+## script:
+##
+##     php maintenance/generateSitemap.php --fspath ~/sitemaps --server http://docs.webplatformstaging.org/wiki/ --urlpath http://www.webplatformstaging.org/sitemaps
+##
+## Plus minimal LocalSettings.php
+##
+mediawiki-runner-deps:
+  pkg.installed:
+    - names:
+      - php5-memcached
+      - php5-mysql
+
 /srv/webplatform/wiki/mediawiki-runJobs.sh:
   file.managed:
     - mode: 755 

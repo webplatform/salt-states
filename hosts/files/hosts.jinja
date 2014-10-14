@@ -3,14 +3,11 @@
 # Managed by Salt stack. Do NOT EDIT directly!
 #
 127.0.0.1	localhost
-127.0.1.1	{{ salt['grains.get']('host') }}.staging.wpdn {{ salt['grains.get']('host') }}
-
-# This entry is essential to allow rsync, needs improvements #TODO
-10.10.10.40     salt.wpdn   # Hardcoded salt-master as dns.server #TODO
+127.0.1.1	{{ salt['grains.get']('host') }}  {{ salt['grains.get']('host') }}.staging.wpdn
 
 #HOSTS#
 {% for node, args in pillar.get('nodes', {}).items() -%}
-{{ args.get('private') }}	{{ node }}.staging.wpdn  {{ node }}		# Provided by a pillar in salt:/srv/pillar/nodes
+{{ args.get('private') }}	{{ node }}  {{ node }}.local.wpdn	# Provided by a pillar in salt:/srv/pillar/nodes
 {% endfor -%}
 #/HOSTS#
 
