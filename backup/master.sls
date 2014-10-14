@@ -5,8 +5,9 @@ include:
   - cron
   - webplatform.swift-dreamobjects
 
-{{ deploymentBackupMountpoint }}:
-  file.directory
+backup_location:
+  file.directory:
+    - name: {{ deploymentBackupMountpoint }}
 
 #backup_mount:
 #  mount.mounted:
