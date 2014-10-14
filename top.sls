@@ -107,21 +107,11 @@ base:
   'notes*':
     - hypothesis
     - users.randall
-  'app-hypothesis':
-    - specific.sandbox
   'elastic*':
     - elasticsearch
   'webat25*':
     - specific.webat25
     - apache.status
-#  'ssl*':
-#    - sslproxy.nginx
-#    - nodejs
-  'sandbox*':
-    - percona.cluster
-    - mediawiki.scaler
-    - apache.docs
-    - specific.sandbox
   'builder*':
     - specific.builder
   'accounts*':
