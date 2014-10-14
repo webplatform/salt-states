@@ -1,5 +1,5 @@
-/mnt/logs/*log
-/mnt/logs/mw-logs/*log
+/srv/webplatform/wiki/wpwiki/logs/*log
+/srv/webplatform/wiki/wptestwiki/logs/*log
 {
 	rotate 7
 	daily

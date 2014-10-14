@@ -18,12 +18,11 @@ base:
 #    - monitor
     - hosts
   'salt*':
-    - logrotate.receiver
+    - logrotate.remote-logs
     - salt.master
     - mysql.cluster-client
     - php.composer
     - dns.server
-    - logrotate
     - rsync
     - python
     - python.mysqldb
@@ -49,6 +48,7 @@ base:
     - mediawiki.appserver
     - mediawiki.scaler
     - webplatform.swift-dreamobjects
+    - logrotate.mediawiki-debug
   'app3':
     - mediawiki.jobrunner
   'backup*':

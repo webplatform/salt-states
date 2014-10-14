@@ -9,7 +9,7 @@ import sys, os, string, re
 
 transTable = string.maketrans("./", "__")
 openFiles = {}
-baseDir = '/mnt/storage/logs/mw-logs';
+baseDir = '/mnt/logs/mw-logs';
 nameRegex = re.compile(r"^[\040-\176]*$")
 
 while True:

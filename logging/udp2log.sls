@@ -1,7 +1,7 @@
 udplog:
   pkg.installed
 
-/mnt/storage/logs/mw-logs:
+/mnt/logs/mw-logs:
   file.directory:
     - user: udp2log
     - mode: 755
@@ -30,4 +30,4 @@ udp2log:
     - require:
       - file: /etc/udp2log
       - file: /usr/local/bin/demux.py
-      - file: /mnt/storage/logs/mw-logs
+      - file: /mnt/logs/mw-logs
