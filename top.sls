@@ -73,6 +73,9 @@ base:
     - rsync
   'db1':
     - specific.master-db
+  'postgres*':
+    - postgres
+    - rsync
   'storage*':
     - glusterfs
     - glusterfs.server
