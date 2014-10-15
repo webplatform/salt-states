@@ -1,11 +1,11 @@
 shepazu:
   group.present:
-    - gid: 1002
+    - gid: 1001
   user.present:
     - fullname: Doug Schepers
     - shell: /bin/bash
-    - uid: 1002
-    - gid: 10001
+    - uid: 1001
+    - gid: 10000
     - groups:
       - shepazu
       - ops

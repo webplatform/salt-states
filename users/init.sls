@@ -1,12 +1,12 @@
 include:
   - groups
   - users.renoirb
-#  - users.shepazu
-#  - users.tguild
-#  - users.jean-gui
-#  - users.vivien
-#  - users.darobin
-#  - users.tripu
+  - users.shepazu
+  - users.tguild
+  - users.jean-gui
+  - users.vivien
+  - users.darobin
+  - users.tripu
 #
 #  ---- UNSURE ARE BELOW ----
 #  - users.laner
@@ -18,9 +18,9 @@ include:
 #  - users.estheban
 #
 # User ids #TODO:
-# - 1001, renoirb
-# - 1002, shepazu
-# - 1003, tguild
+# - 1001, shepazu
+# - 1002, tguild
+# - 1003, renoirb
 # - 1004, jean-bui
 # - 1005, vivien
 # - 1006, darobin
@@ -34,7 +34,7 @@ include:
 # - 1014
 # - 1015
 # - 1016
-# - 1017
+# - 1017: renoirb (MOVE to 1003)
 # - 1018
 # - 1019
 # - 1020
@@ -42,4 +42,4 @@ include:
 # - 1022
 # - 1023
 # - 1024
-# - 1025, darobin
+# - 1025

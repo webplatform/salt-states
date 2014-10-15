@@ -1,17 +1,15 @@
 vivien:
   group.present:
-    - gid: 1023
+    - gid: 1005
   user.present:
     - fullname: Vivien
     - shell: /bin/bash
-    - uid: 1023
+    - uid: 1005
     - gid: 10001
     - groups:
       - vivien
-      - ops
       - deployment
     - require:
-      - group: ops
       - group: deployment
 
 vivien_keys:

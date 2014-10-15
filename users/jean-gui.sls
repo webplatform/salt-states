@@ -1,14 +1,13 @@
 jean-gui:
   group.present:
-    - gid: 1020
+    - gid: 1004
   user.present:
     - fullname: Jean-Guilhem Rouel <jean-gui@w3.org>
     - shell: /bin/bash
-    - uid: 1020
+    - uid: 1004
     - gid: 10001
     - groups:
       - jean-gui
-      - ops
       - deployment
 
 jean-gui_keys:

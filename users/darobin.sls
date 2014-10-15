@@ -1,11 +1,11 @@
 darobin:
   group.present:
-    - gid: 1024
+    - gid: 1006
   user.present:
     - fullname: Robin Berjon
     - shell: /bin/bash
-    - uid: 1024
-    - gid: 10001
+    - uid: 1006
+    - gid: 10000
     - groups:
       - darobin
       - ops

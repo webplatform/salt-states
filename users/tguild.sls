@@ -1,17 +1,15 @@
 tguild:
   group.present:
-    - gid: 1010
+    - gid: 1002
   user.present:
     - fullname: Ted Guild
     - shell: /bin/bash
-    - uid: 1010
+    - uid: 1002
     - gid: 10001
     - groups:
       - tguild
-      - ops
       - deployment
     - require:
-      - group: ops
       - group: deployment
 
 tguild_keys:

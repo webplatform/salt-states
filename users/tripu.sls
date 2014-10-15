@@ -1,17 +1,15 @@
 tripu:
   group.present:
-    - gid: 1026
+    - gid: 1007
   user.present:
     - fullname: Antonio Olmo Titos
     - shell: /bin/bash
-    - uid: 1012
+    - uid: 1007
     - gid: 10001
     - groups:
       - tripu
-      - ops
       - deployment
     - require:
-      - group: ops
       - group: deployment
 
 tripu_keys:
