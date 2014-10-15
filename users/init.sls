@@ -18,22 +18,23 @@ include:
 #  - users.estheban
 #
 # User ids #TODO:
-# - 1001, shepazu
-# - 1002, tguild
-# - 1003, renoirb
-# - 1004, jean-bui
-# - 1005, vivien
-# - 1006, darobin
-# - 1007, tripu
-# - 1008
-# - 1009
-# - 1010
-# - 1011
-# - 1012
-# - 1013
-# - 1014
-# - 1015
-# - 1016
+# - 1005, shepazu
+# - 1006, tguild
+# - 1007, renoirb
+# - 1008, jean-bui
+# - 1009, vivien
+# - 1010, darobin
+# - 1011, tripu
+# - 1050
+# - 1051
+# - 1052
+# - 1053
+# - 1054
+# - 1055
+# - 1056
+# - 1057
+# - 1058
+#
 # - 1017: renoirb (MOVE to 1003)
 # - 1018
 # - 1019

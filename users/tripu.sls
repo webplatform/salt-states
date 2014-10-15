@@ -1,16 +1,21 @@
+include:
+  - groups.w3t
+  - groups.deployment
+
 tripu:
   group.present:
-    - gid: 1007
+    - gid: 1011
   user.present:
     - fullname: Antonio Olmo Titos
     - shell: /bin/bash
-    - uid: 1007
+    - uid: 1011
     - gid: 10001
     - groups:
       - tripu
       - deployment
     - require:
       - group: deployment
+      - group: w3t
 
 tripu_keys:
   ssh_auth:

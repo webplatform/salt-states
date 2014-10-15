@@ -1,14 +1,22 @@
+include:
+  - groups.w3t
+  - groups.deployment
+
 jean-gui:
   group.present:
-    - gid: 1004
+    - gid: 1008
   user.present:
     - fullname: Jean-Guilhem Rouel <jean-gui@w3.org>
     - shell: /bin/bash
-    - uid: 1004
+    - uid: 1008
     - gid: 10001
     - groups:
       - jean-gui
       - deployment
+      - w3t
+    - require:
+      - group: deployment
+      - group: w3t
 
 jean-gui_keys:
   ssh_auth:

@@ -1,18 +1,25 @@
+include:
+  - groups.w3t
+  - groups.deployment
+  - groups.ops
+
 shepazu:
   group.present:
-    - gid: 1001
+    - gid: 1005
   user.present:
     - fullname: Doug Schepers
     - shell: /bin/bash
-    - uid: 1001
-    - gid: 10000
+    - uid: 1005
+    - gid: 10001
     - groups:
       - shepazu
       - ops
       - deployment
+      - w3t
     - require:
       - group: ops
       - group: deployment
+      - group: w3t
 
 shepazu_keys:
   ssh_auth:

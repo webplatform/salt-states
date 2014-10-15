@@ -1,16 +1,22 @@
+include:
+  - groups.w3t
+  - groups.deployment
+
 tguild:
   group.present:
-    - gid: 1002
+    - gid: 1006
   user.present:
     - fullname: Ted Guild
     - shell: /bin/bash
-    - uid: 1002
+    - uid: 1006
     - gid: 10001
     - groups:
       - tguild
       - deployment
+      - w3t
     - require:
       - group: deployment
+      - group: w3t
 
 tguild_keys:
   ssh_auth:

@@ -1,16 +1,22 @@
+include:
+  - groups.w3t
+  - groups.deployment
+
 vivien:
   group.present:
-    - gid: 1005
+    - gid: 1009
   user.present:
     - fullname: Vivien
     - shell: /bin/bash
-    - uid: 1005
+    - uid: 1009
     - gid: 10001
     - groups:
       - vivien
       - deployment
+      - w3t
     - require:
       - group: deployment
+      - group: w3t
 
 vivien_keys:
   ssh_auth:

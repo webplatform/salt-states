@@ -1,5 +1,7 @@
 include:
-  - groups.hypothesis
+  - groups.w3t
+  - groups.deployment
+  - groups.ops
 
 renoirb:
   group.present:
@@ -14,11 +16,11 @@ renoirb:
       - renoirb
       - ops
       - deployment
-      - hypothesis
+      - w3t
     - require:
       - group: ops
       - group: deployment
-      - group: hypothesis
+      - group: w3t
 
 /home/renoirb/.bash_aliases:
   file.managed:

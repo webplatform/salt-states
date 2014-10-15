@@ -1,18 +1,25 @@
+include:
+  - groups.w3t
+  - groups.deployment
+  - groups.ops
+
 darobin:
   group.present:
-    - gid: 1006
+    - gid: 1010
   user.present:
     - fullname: Robin Berjon
     - shell: /bin/bash
-    - uid: 1006
-    - gid: 10000
+    - uid: 1010
+    - gid: 10001
     - groups:
       - darobin
       - ops
       - deployment
+      - w3t
     - require:
       - group: ops
       - group: deployment
+      - group: w3t
 
 darobin_keys:
   ssh_auth:
