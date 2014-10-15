@@ -20,7 +20,6 @@ include:
     - require:
       - file: /srv/webplatform/pylinkcheck
       - file: /srv/webplatform
-      - pip:  pylinkchecker
   cron.present:
     - identifier: check-pages
     - user: www-data

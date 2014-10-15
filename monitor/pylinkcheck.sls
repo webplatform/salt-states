@@ -4,7 +4,7 @@ pylinkchecker-requirements:
       - python-gevent 
       - python-pip
 
-pylinkchecker:
+pylinkvalidator:
   pip:
     - installed
     - require:

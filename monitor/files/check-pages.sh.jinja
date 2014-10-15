@@ -9,7 +9,8 @@ export SMTP="{{ salt['pillar.get']('accounts:smtp:hostname', 'localhost') }}"
 export TO='hello@renoirboulanger.com'
 
 ###################################
-export BIN='/usr/local/bin/pylinkcheck.py'
+export BIN='/usr/local/bin/pylinkvalidate.py'
+#           /usr/local/bin/pylinkcheck.py'
 
 set -e
 
