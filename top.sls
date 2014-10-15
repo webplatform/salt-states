@@ -1,5 +1,6 @@
 base:
   '*':
+    - salt.minion
     - users
     - groups
     - sudo

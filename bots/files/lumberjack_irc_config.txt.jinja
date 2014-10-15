@@ -1,5 +1,5 @@
 server: irc.freenode.net
 port: 6667
-channel: #webplatform
+channel: #{{ salt['pillar.get']('bots:logger:channel', 'webplatform') }}
 nick: {{ salt['pillar.get']('bots:logger:nickname', 'wp-logger') }}
 reconnect: 350
