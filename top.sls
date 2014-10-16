@@ -105,6 +105,7 @@ base:
     - webplatform.swift-dreamobjects
   'piwik*':
     - piwik
+    - nutcracker
   'mail*':
     - logwatch
     - mail.mailhub

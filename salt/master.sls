@@ -89,6 +89,10 @@ salt-master:
     - source: salt://salt/files/peers.conf.jinja
     - template: jinja
 
+/etc/salt/master.d/gitfs.conf:
+  file.managed:
+    - source: salt://salt/files/gitfs.conf
+
 ##
 ## Install udplog if its not installed
 ##

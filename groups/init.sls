@@ -2,3 +2,4 @@
 include:
   - groups.ops
   - groups.deployment
+  - groups.w3t
