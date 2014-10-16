@@ -1,6 +1,7 @@
 include:
   - cron
   - php
+  - mysql
   - nginx
   - php.fpm
   - piwik.config
@@ -12,8 +13,8 @@ php-piwik:
       - php5-gd
       - php-image-text
       - php5-curl
-      - php5-mysql
-#      - php5-mysqlnd
+      - php5-mysqlnd
+      - php-db
 
 /etc/nginx/sites-enabled/default:
   file.absent
@@ -28,6 +29,22 @@ php-piwik:
       - user
       - group
 
+/etc/php5/fpm/pool.d/www.conf:
+  file.append:
+    - text: |
+        ; Managed by Salt Stack from state piwik/init.sls
+        pm.max_children = 30
+        pm.start_servers = 10
+        pm.min_spare_servers = 5
+        pm.max_spare_servers = 20
+        pm.max_requests = 500
+        env[HOSTNAME] = $HOSTNAME
+        env[PATH] = /usr/local/bin:/usr/bin:/bin
+        env[TMP] = /tmp
+        env[TMPDIR] = /tmp
+        env[TEMP] = /tmp
+
+
 piwik-archive-requirements:
   pkg:
     - installed
@@ -39,11 +56,11 @@ piwik-archive-requirements:
   pecl.installed:
     - name: geoip
 
-/etc/php5/conf.d/geoip.ini:
-  file.append:
-    - text:
-      - '; Added for PECL php extension via Salt stack piwik.archive state'
-      - geoip.custom_directory=/srv/webplatform/piwik/misc
+/etc/php5/mods-available/geoip.ini:
+  file.managed:
+    - source: salt://piwik/files/geoip.ini
+    - require:
+      - pkg: php5-geoip
 
 /etc/nginx/conf.d/geoip.conf:
   file.managed:
@@ -53,6 +70,7 @@ piwik-archive-requirements:
     - mode: 644
     - require:
       - pkg: nginx
+      - pkg: php5-geoip
 
 append-fastcgi:
   file.append:
@@ -71,6 +89,7 @@ append-fastcgi:
       - fastcgi_param   GEOIP_POSTAL_CODE       $geoip_postal_code;
     - require:
       - file: fastcgi-orig
+      - pkg: php5-geoip
 
 /usr/bin/piwik-archive.sh:
   file.managed:
@@ -86,3 +105,23 @@ append-fastcgi:
       - file: /usr/bin/piwik-archive.sh
       - file: /etc/profile.d/mailto.sh
       - file: /etc/nginx/conf.d/geoip.conf
+
+
+/etc/nginx/sites-available/piwik:
+  file.managed:
+    - source: salt://piwik/files/vhost.conf.jinja
+    - template: jinja
+    - context:
+        site: piwik
+    - watch_in:
+      - service: nginx
+    - require:
+      - pkg: nginx
+
+/etc/nginx/sites-enabled/piwik:
+  file.symlink:
+    - target: /etc/nginx/sites-available/piwik
+    - require:
+      - pkg: nginx
+      - file: /etc/nginx/sites-available/piwik
+

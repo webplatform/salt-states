@@ -1,42 +1,23 @@
-{# TODO: REFACTOR THIS FILE! #}
-
-#server {
-#    # Don't forget to tell on which port this server listens
-#    listen 80;
-#
-#    {% if 'aliases' in args -%}
-#    # Listen on the www host
-#    server_name {{ args.aliases|join(" ") }};
-#    {%- endif -%}
-#
-#    # Redirect to the non-www host (declared below)
-#    return 301 $scheme://{{ args.name }}$request_uri;
-#}
-
 server {
-    {% if 'default' in args and args.default == True -%}
-    listen 80 default_server;
-    {%- endif %}
+    listen 80;
 
-    # The host name to respond to
-    server_name {{ args.name }} stats.webplatform.org;
+    server_name stats.webplatform.org stats.webplatformstaging.org tracking.webplatform.org;
+    index index.php index.html;
+    root /srv/webplatform/piwik;
 
-    # Index file
-    index index.php index.html index.htm;
+    access_log /var/log/nginx/piwik.access.log;
+    error_log /var/log/nginx/piwik.error.log notice;
 
-    root /srv/webplatform/{{ site }};
-
-    # Logging
-    access_log /var/log/nginx/{{ site }}.access.log;
-    error_log /var/log/nginx/{{ site }}.error.log notice;
-
-    # Specify a charset
     charset utf-8;
 
-    # Custom 404 page
-    error_page 404 /static/404.html;
+    location = /favicon.ico {
+        try_files /favicon.ico @empty;
+    }
 
-    {% if 'php' in args -%}{# TODO FIX THIS!! as EVERY site is php without that #}
+    location @empty {
+        empty_gif;
+    }
+
     location ~ \.php$ {
         set $no_cache 0;
 
@@ -45,7 +26,6 @@ server {
         proxy_set_header  X-Forwarded-Proto  $scheme;
         proxy_set_header  Host  $http_host;
         proxy_set_header  X-NginX-Proxy  true;
-        fastcgi_param REMOTE_ADDR $http_x_real_ip;
 
         if ($request_method !~ ^(GET|HEAD)$) {
             set $no_cache 1;
@@ -60,6 +40,8 @@ server {
             set $no_cache 1;
         }
 
+        fastcgi_param REMOTE_ADDR $http_x_real_ip;
+
         fastcgi_no_cache $no_cache;
         fastcgi_cache_bypass $no_cache;
         #fastcgi_cache microcache;
@@ -71,8 +53,7 @@ server {
         fastcgi_ignore_headers Cache-Control Expires Set-Cookie;
 
         try_files $uri = 404;
-        # Specific to Piwik until #TODONginxRefactor
-        fastcgi_pass 127.0.0.1:9001;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
         fastcgi_index index.php;
         fastcgi_buffer_size 128k;
         fastcgi_buffers 256 16k;
@@ -83,7 +64,15 @@ server {
         include /etc/nginx/fastcgi_params;
     }
 
-    {% endif %}
+    ## Any other attempt to access PHP files returns a 404.
+    location ~* ^.+\.php$ {
+        return 404;
+    }
+
+    ## No crawling of this site for bots that obey robots.txt.
+    location = /robots.txt {
+        return 200 "User-agent: *\nDisallow: /\n";
+    }
 
     include /etc/nginx/custom.d/optimize.conf;
 }
