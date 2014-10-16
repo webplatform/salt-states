@@ -12,4 +12,4 @@ $TTL 3600
 
 salt      A       10.10.10.76 ; Salt master
 
-masterdb  A       10.10.10.48 ; Master db1
+masterdb  A       10.10.10.48 ; db1
