@@ -65,5 +65,5 @@ dpkg -i /srv/code/packages/udplog_1.8-5~precise_amd64.deb /srv/code/packages/lib
     - unless: dpkg-query -Wf'${db:Status-abbrev}' udplog 2>/dev/null | grep -q '^i'
     - require:
       - sls: code.packages
-  file.exist:
+  file.exists:
     - name: /srv/code/packages/udplog_1.8-5~precise_amd64.deb
