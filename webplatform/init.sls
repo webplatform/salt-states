@@ -79,3 +79,12 @@ resolvconf -u:
         # https://www.kernel.org/doc/Documentation/vm/overcommit-accounting
         vm.overcommit_memory = 2
         vm.overcommit_ratio = 80
+
+##
+## TODO, use webat25 autoupdate and make generic
+##
+#/usr/local/bin/wpd-autoupdate.sh:
+#  file.managed:
+#    - source: salt://code/files/web25/webat25-autoupdate.sh
+#    - name: /srv/code/web25ee/web25-autoupdate.sh
+#    - mode: 755

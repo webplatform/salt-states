@@ -11,7 +11,7 @@
 
 nutcracker-pkg-installed:
   cmd.run:
-    - name: "dpkg-query -Wf'${db:Status-abbrev}' nutcracker 2>/dev/null | grep -q '^i'  #ADVICE: Make sure you run code.node_app"
+    - name: "dpkg-query -Wf'${db:Status-abbrev}' nutcracker 2>/dev/null | grep -q '^i'  #ADVICE: Make sure you installed manually nutcracker from code.packages"
 
 /etc/nutcracker/conf/nutcracker.yml:
   file:

@@ -19,6 +19,7 @@ base:
 #    - monitor
     - hosts
   'salt*':
+    - specific.salt
     - logrotate.remote-logs
     - salt.master
     - mysql.cluster-client

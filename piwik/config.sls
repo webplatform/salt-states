@@ -8,6 +8,7 @@
       - user
       - group
 
+## See also in code.piwik config patch
 /srv/webplatform/piwik/config/config.ini.php:
   file.managed:
     - user: www-data

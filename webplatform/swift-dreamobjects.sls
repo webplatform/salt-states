@@ -13,5 +13,5 @@ python-swiftclient-install:
     - mode: 755
     - template: jinja
     - source: salt://webplatform/files/swift-dreamobjects.sh.jinja
-    - requires:
+    - require:
       - pip: python-swiftclient

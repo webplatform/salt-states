@@ -22,3 +22,11 @@ piwik-perms:
     - recurse:
       - user
       - group
+
+{% if grains['host'] == 'salt' %}
+# See also in code.piwik.config config patch
+/srv/code/piwik/repo/config/config.ini.php:
+  file.managed:
+    - template: jinja
+    - source: salt://piwik/files/config.ini.php.jinja
+{% endif %}
