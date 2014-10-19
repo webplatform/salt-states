@@ -1,3 +1,4 @@
+#vim: ai ft=yaml
 base:
   '*':
     - salt.minion
@@ -22,7 +23,7 @@ base:
     - specific.salt
     - logrotate.remote-logs
     - salt.master
-    - mysql.cluster-client
+    - mysql
     - php.composer
     - dns.server
     - rsync
@@ -100,6 +101,7 @@ base:
   'project*':
     - php
     - nutcracker
+    - buggenie
     - apache.project
     - apache.status
     - buggenie.mailqueue

@@ -6,7 +6,7 @@ php-mediawiki:
     - installed
     - names:
       - php5-curl
-      - php5-mysql
+      - php5-mysqlnd
       - php5-xmlrpc
       - php-openid
       - php-wikidiff2

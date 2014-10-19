@@ -13,7 +13,7 @@ mediawiki-runner-deps:
   pkg.installed:
     - names:
       - php5-memcached
-      - php5-mysql
+      - php5-mysqlnd
 
 /srv/webplatform/wiki/mediawiki-runJobs.sh:
   file.managed:

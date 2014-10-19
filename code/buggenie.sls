@@ -1,8 +1,8 @@
 include:
   - rsync.secret
-  - php.buggenie
   - code.prereq
-  - buggenie.install
+  - php.buggenie
+  - buggenie.config
 
 buggenie-codesync:
   cmd.run:

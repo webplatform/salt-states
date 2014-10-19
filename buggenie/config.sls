@@ -1,6 +1,10 @@
 include:
-  - hosts
   - code.buggenie
+
+/srv/webplatform/buggenie/core:
+  file.directory:
+    - user: www-data
+    - group: www-data
 
 buggenie-dbconfig:
   file.managed:
@@ -10,6 +14,7 @@ buggenie-dbconfig:
     - user: nobody
     - group: www-data
     - require:
+      - file: /srv/webplatform/buggenie/core
       - cmd: buggenie-codesync
 
 /var/www/robots.txt:

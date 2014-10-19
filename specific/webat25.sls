@@ -14,6 +14,6 @@ include:
 php-ee:
   pkg.installed:
     - names:
-      - php5-mysql
+      - php5-mysqlnd
       - php5-intl
       - php5

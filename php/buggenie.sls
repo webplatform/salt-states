@@ -6,5 +6,6 @@ php-buggenie:
   pkg:
     - latest
     - names:
+      - php5-curl
       - php5-gd
-      - php5-mysql
+      - php5-mysqlnd
