@@ -2,8 +2,7 @@ include:
   - php.composer
 
 php-basic:
-  pkg:
-    - latest
+  pkg.installed:
     - names:
       - php5-common
       - php-pear

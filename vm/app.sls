@@ -8,9 +8,8 @@ include:
   - code.root-com
   - code.specs
   - nutcracker.install
+  - php
 
-##
-## Install udplog if its not installed
 ##
 ## ref: http://superuser.com/questions/427318/test-if-a-package-is-installed-in-apt
 ##
@@ -19,6 +18,7 @@ dpkg -i /srv/webplatform/packages/php5-igbinary_1.1.1-2_amd64.deb:
     - unless: dpkg-query -Wf'${db:Status-abbrev}' php5-igbinary 2>/dev/null | grep -q '^i'
     - require:
       - file: /srv/webplatform/packages/php5-igbinary_1.1.1-2_amd64.deb
+      - pkg: php-pear
 
 /srv/webplatform/packages/php5-igbinary_1.1.1-2_amd64.deb:
   file.exists

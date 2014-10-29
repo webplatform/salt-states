@@ -1,3 +1,2 @@
 git-core:
-  pkg:
-    - latest
+  pkg.installed

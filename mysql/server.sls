@@ -5,7 +5,7 @@ include:
 salt-dependency:
   pkg.installed:
     - name: python-mysqldb
-    - requires:
+    - require:
       - pkg: db-server
       - file: /etc/mysql/debian.cnf
 
@@ -14,20 +14,23 @@ salt-dependency:
     - modes: 600
     - source: salt://mysql/files/debian.cnf.jinja
     - template: jinja
+    - require:
+      - pkg: db-server
 
 db-server:
-  pkg:
-    - installed
-    - name: percona-xtradb-cluster-full-56
+  pkg.installed:
+    - names:
+      - mariadb-server-10.1
+      - galera
+      - percona-toolkit
+      - percona-xtrabackup
     - require:
-      - pkgrepo: deb http://repo.percona.com/apt trusty main
+      - pkgrepo: mariadb-apt-repo
   service:
     - name: mysql
     - running
     - require:
       - pkg: db-server
-    - watch:
-      - file: /etc/mysql/conf.d
 
 ## https://blogs.oracle.com/jsmyth/entry/apparmor_and_mysql
 #apparmor:
@@ -54,11 +57,12 @@ db-server:
 #    - template: jinja
 #    - require:
 #      - pkg: mysql-server
+#
+#/etc/mysql/conf.d:
+#  file.recurse:
+#    - user: root
+#    - group: root
+#    - dir_mode: 755
+#    - include_empty: True
+#    - source: salt://mysql/files/conf.d
 
-/etc/mysql/conf.d:
-  file.recurse:
-    - user: root
-    - group: root
-    - dir_mode: 755
-    - include_empty: True
-    - source: salt://mysql/files/conf.d

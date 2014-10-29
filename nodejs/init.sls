@@ -1,3 +1,6 @@
+include:
+  - git
+
 npm-repo:
   pkgrepo.managed:
     - ppa: chris-lea/node.js
@@ -8,7 +11,7 @@ build-essential:
   pkg.installed
 
 nodejs:
-  pkg.latest
+  pkg.installed
 
 npm:
   pkg.installed:

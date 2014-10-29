@@ -1,12 +1,12 @@
 memcached:
   pkg:
-    - latest
+    - installed
   service:
     - running
     - enable: True
     - watch:
       - file: /etc/memcached.conf
-    - requires:
+    - require:
       - pkg: memcached
 
 memcached-dependencies:

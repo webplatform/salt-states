@@ -1,18 +1,20 @@
-percona-apt-repo:
+mariadb-apt-repo:
   pkgrepo.managed:
-    - name: deb http://repo.percona.com/apt trusty main
-    - humanname: Percona apt Repository
-    - keyserver: keys.gnupg.net
-    - keyid: 1C4CBDCDCD2EFD2A
-    - file: /etc/apt/sources.list.d/percona.list
+    - name: deb http://ftp.osuosl.org/pub/mariadb/repo/10.1/ubuntu trusty main
+    - humanname: MariaDB Repositories
+    - keyserver: keyserver.ubuntu.com
+    - keyid: 1BB943DB
+    - file: /etc/apt/sources.list.d/mariadb.list
 
-percona-xtradb-cluster-client-5.6:
+mysql:
   pkg.installed:
+    - names:
+      - mariadb-client-10.1
     - require:
-      - pkgrepo: percona-apt-repo
+      - pkgrepo: mariadb-apt-repo
 
-/etc/apt/preferences.d/00percona.pref:
+/etc/apt/preferences.d/00-mariadb.pref:
   file.managed:
-    - source: salt://mysql/files/percona.apt.pref
+    - source: salt://mysql/files/mariadb.apt.pref
     - require:
-      - pkgrepo: percona-apt-repo
+      - pkgrepo: mariadb-apt-repo

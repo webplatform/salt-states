@@ -3,8 +3,7 @@ include:
   - mysql
 
 php-wordpress:
-  pkg:
-    - latest
+  pkg.installed:
     - names:
       - php5-curl
       - php5-mysql

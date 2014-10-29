@@ -2,8 +2,7 @@ include:
   - php
 
 php-apache:
-  pkg:
-    - latest
+  pkg.installed:
     - names:
       - libapache2-mod-php5
 

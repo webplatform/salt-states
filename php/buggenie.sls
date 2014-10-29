@@ -3,8 +3,7 @@ include:
   - php.apache
 
 php-buggenie:
-  pkg:
-    - latest
+  pkg.installed:
     - names:
       - php5-curl
       - php5-gd
