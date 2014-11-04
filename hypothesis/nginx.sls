@@ -1,6 +1,3 @@
-include:
-  - hypothesis
-
 nginx:
   pkg:
     - latest

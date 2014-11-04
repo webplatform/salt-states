@@ -1,88 +1,65 @@
-# REMINDER
-# To upgrade version, do not forget
-# ./bootstrap
+# File managed by Salt Stack in hypothesis/init.sls DO NOT EDIT DIRECTLY!
 [app:main]
-use: egg:h
+use: egg:notes_server
 
 api.endpoint: /api
-api.key: 9cafe3b1-bc92-n1e3-ac10-0800200c9a66
-api.secret: f52c57f0-36ba-761e-32df-28621a1d26c1
+api.key: {{ salt['pillar.get']('infra:notes:url', 'http://127.0.0.1:5000') }}
 
-auth.wpd.client_id: 27b93dae2d61e07d
-auth.wpd.client_secret: f6e09900b19badb9c2c3f26f013a9ab1404874ff3708ae7a5e7cdd28cb116817
-#auth.local.authorization: /oauth/authorize
-#auth.local.token: /oauth/token
+api.secret: {{ salt['pillar.get']('accounts:notes:secret', 'NOTASECRET') }}
+webplatform.client_id: {{ salt['pillar.get']('accounts:notes:client_id', 'af626da2c9106504') }}
+webplatform.client_secret: {{ salt['pillar.get']('accounts:notes:client_secret', '30b57cda3bb7f94beb132565e136b9965a58d86b151cd9e3c10b01e1651e72e2') }}
 
-es.host: http://elastic1.dho.wpdn:9200
+es.host: {{ salt['pillar.get']('infra:notes:elastic_endpoint', 'http://127.0.0.1:9200') }}
 es.index: notes
 
-horus.login_redirect: /
-horus.logout_redirect: /
-
-multiauth.policies: h.auth.local h.api
-
-mail.default_sender: "Annotation Daemon" <notifier-notes@webplatform.org>
-mail.host: mail.webplatform.org 
-mail.port: 25
+multiauth.policies: h.auth.local.oauth h.api
 
 pyramid.includes:
-    pyramid_deform
     pyramid_mailer
-    h.domain_mailer
+    pyramid_tm
 
-pyramid_deform.template_search_path:
-    h:templates/deform
-    deform_bootstrap:templates
+mail.default_sender: "Annotation Daemon" <{{ salt['pillar.get']('infra:notes:sender_email', 'root@localhost') }}>
+mail.host: {{ salt['pillar.get']('infra:notes:sender_relay', 'localhost') }}
 
-webassets.base_dir: h:
-webassets.base_url: assets
+webassets.base_dir: notes_server:static
+webassets.base_url: assets/notes-server
+webassets.bundles: notes_server:assets.yaml h:assets.yaml
 webassets.cache_max_age: 86400
 webassets.coffee_no_bare: True
 webassets.static_view: True
 
+
 [server:main]
 use: egg:gunicorn
 worker_class: gevent
-host: 127.0.0.1
-port: 5000
+
 
 [loggers]
-keys = root, gunicorn.access, gunicorn.error, h, sqlalchemy
+keys = root, gunicorn.error
+
 
 [handlers]
 keys = console
 
+
 [formatters]
 keys = generic
 
+
 [logger_root]
-level = WARN
 handlers = console
 
+
 [logger_gunicorn.error]
-level = WARN
 handlers =
 qualname = gunicorn.error
 
-[logger_gunicorn.access]
-level = INFO
-handlers =
-qualname = gunicorn.access
-
-[logger_h]
-level = WARN
-handlers =
-qualname = h
-
-[logger_sqlalchemy]
-level = WARN
-handlers =
-qualname = sqlalchemy.engine
 
 [handler_console]
 class = StreamHandler
-args = (sys.stderr,)
+args = ()
 formatter = generic
 
+
 [formatter_generic]
-format = %(asctime)s %(levelname)-5.5s [%(name)s] %(message)s
+format = %(asctime)s [%(process)d] [%(levelname)s] %(message)s

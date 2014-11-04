@@ -20,19 +20,12 @@ monit-checker:
     - name: monit
     - require_in:
       - file: /etc/monit/conf.d/hypothesis
-      - file: /srv/webplatform/h/service.sh
+      - file: /srv/webplatform/notes-server/service.sh
   file:
     - managed
     - name: /etc/monit/conf.d/hypothesis
     - template: jinja
     - source: salt://hypothesis/files/monit.conf.jinja
-
-openjdk-7-jdk-packages:
-  pkg.installed:
-    - names:
-      - openjdk-7-jre-headless
-      - openjdk-7-jdk
-
 
 hypothesis-service:
   service:
@@ -40,15 +33,12 @@ hypothesis-service:
     - name: hypothesis
     - enable: True
     - reload: true
-    - unless: test -f /srv/webplatform/h/production.ini
+    - unless: test -f /srv/webplatform/notes-server/h.ini
     - require:
       - pkg: hypothesis-dependencies
       - file: /etc/init/hypothesis.conf
     - watch:
-      - file: /srv/webplatform/h/h.ini
-
-#/tmp/hypothesis.sock
-#... make sure it has service with right user
+      - file: /srv/webplatform/notes-server/h.ini
 
 hypothesis-dependencies:
   pkg.installed:
@@ -66,6 +56,10 @@ hypothesis-dependencies:
       - npm
       - python-mysqldb
       - rubygems-integration
+  gem.installed:
+    - name: sass
+    - require:
+      - pkg: ruby-full
 
 # pip install pyyaml
 # http://acervulus.info/2012/how-to-install-sass-on-ubuntu-precise-12-04-lts/
@@ -73,25 +67,25 @@ hypothesis-dependencies:
 #pip-dependencies:
 #  cmd:
 #    - run
-#    - name: pip install -r /srv/webplatform/h/requirements.txt
+#    - name: pip install -r /srv/webplatform/notes-server/requirements.txt
 
-required-gems:
-  cmd.run:
-    - name: gem install compass sass
-    - unless: /srv/webplatform/h/h.ini
+hypothesis-compass-dep:
+  gem.installed:
+    - name: compass
     - require:
       - pkg: ruby-full
+      - gem: sass
  
 # Make SURE this file exists, its required
 # by the /etc/init/hypothesis.conf init script 
-/srv/webplatform/h/h.ini:
+/srv/webplatform/notes-server/h.ini:
   file.managed:
     - template: jinja
     - source: salt://hypothesis/files/h.ini.jinja
     - require:
-      - file: /srv/webplatform/h
+      - file: /srv/webplatform/notes-server
 
-/srv/webplatform/h:
+/srv/webplatform/notes-server:
   file.directory:
     - makedirs: True
 
@@ -102,15 +96,16 @@ required-gems:
     - group: root
     - mode: 644
     - requires:
-      - file: /srv/webplatform/h
-      - file: /srv/webplatform/h/h.ini
-      - file: /srv/webplatform/h/service.sh
+      - file: /srv/webplatform/notes-server
+      - file: /srv/webplatform/notes-server/h.ini
+      - file: /srv/webplatform/notes-server/service.sh
 
-/srv/webplatform/h/service.sh:
+/srv/webplatform/notes-server/service.sh:
   file.managed:
     - source: salt://hypothesis/files/service.sh
+    - mode: 755
     - require:
-      - file: /srv/webplatform/h
+      - file: /srv/webplatform/notes-server
 
 npm-packages:
   npm.installed:

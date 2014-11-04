@@ -1,2 +1,2 @@
 include:
-  - code.hypothesis
+  - code.certificates
