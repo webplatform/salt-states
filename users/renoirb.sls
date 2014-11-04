@@ -71,6 +71,10 @@ preferences:
     - names:
       - tig
       - screen
+
+
+/home/renoirb/.ssh/id_pwless:
+  file.exists
 {% endif %}
 
 renoirb_keys:
