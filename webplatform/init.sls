@@ -18,6 +18,7 @@ commonly-used-utilities:
       - screen
       - htop
       - sysstat
+      - nscd
 
 /usr/bin/timeout:
   file.exists

@@ -7,7 +7,7 @@
 
 #HOSTS#
 {% for node, args in pillar.get('nodes', {}).items() -%}
-{{ args.get('private') }}	{{ node }}  {{ node }}.local.wpdn	# Provided by a pillar in salt:/srv/pillar/nodes
+{{ args.get('private') }}	{{ node }}  {{ node }}.local.wpdn	# Provided by pillar nodes
 {% endfor -%}
 #/HOSTS#
 

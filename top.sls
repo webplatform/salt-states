@@ -1,7 +1,7 @@
 #vim: ai ft=yaml
 base:
   '*':
-    - salt.minion
+    - salt
     - users
     - groups
     - sudo
@@ -15,14 +15,15 @@ base:
     - network
     - lvm
     - xfs
+    - sysctl
 #    - dhcp
 #    - logging
 #    - monitor
     - hosts
   'salt*':
+    - salt.master
     - specific.salt
     - logrotate.remote-logs
-    - salt.master
     - mysql
     - php.composer
     - dns.server
@@ -91,6 +92,8 @@ base:
     - memcached
   'redis*':
     - redis
+  'redis-jobs1':
+    - redis.live
   'monitor*':
     - monitor.gmetad
     - monitor.web

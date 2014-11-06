@@ -1,3 +1,6 @@
+include:
+  - salt
+
 salt-deps:
   pkg.installed:
     - pkgs:
