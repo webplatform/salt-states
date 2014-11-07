@@ -1,0 +1,8 @@
+# Managed by salt stack
+alias service-test='nc -vz '
+alias besu='sudo -H bash -l'
+alias gentoken='openssl rand -base64 32'
+alias scr='screen -dd -R'
+alias flavors="nova flavor-list"
+alias secgroups="nova secgroup-list"
+deploy () { sudo salt "$@*" state.sls code; }

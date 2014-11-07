@@ -1,10 +1,10 @@
 estheban:
   group.present:
-    - gid: 1021
+    - gid: 1150
   user.present:
     - fullname: Etienne Lachance <el@elcweb.ca>
     - shell: /bin/bash
-    - uid: 1021
+    - uid: 1150
     - gid: 10001
     - groups:
       - estheban

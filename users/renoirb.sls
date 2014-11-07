@@ -22,14 +22,6 @@ renoirb:
       - group: deployment
       - group: w3t
 
-/home/renoirb/.bash_aliases:
-  file.managed:
-    - user: renoirb
-    - group: deployment
-    - require:
-      - user: renoirb
-    - source: salt://environment/bash_aliases
-
 /home/renoirb/.gitconfig:
   file.managed:
     - user: renoirb

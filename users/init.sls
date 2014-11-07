@@ -1,39 +1,41 @@
+{%- set users = salt['pillar.get']('users', {}) %}
+{% from "environment/_macros.sls" import install_bash_aliases %}
+
 include:
   - groups
-  - users.renoirb
-  - users.shepazu
-  - users.tguild
-  - users.jean-gui
-  - users.vivien
-  - users.darobin
-  - users.tripu
-#
+{% for username in users %}
+  - users.{{ username }}
+{% endfor %}
+
+{% for username in users %}
+{{ install_bash_aliases(username) }}
+
+{% endfor %}
+
 #  ---- UNSURE ARE BELOW ----
-#  - users.laner
 #  - users.jkomoros
 #  - users.julee
 #  - users.frozenice
 #  - users.garbee
 #  - users.pdsouza
-#  - users.estheban
 #
 # User ids #TODO:
 # - 1005, shepazu
 # - 1006, tguild
 # - 1007, renoirb
-# - 1008, jean-bui
+# - 1008, jean-gui
 # - 1009, vivien
 # - 1010, darobin
 # - 1011, tripu
-# - 1050
-# - 1051
-# - 1052
-# - 1053
-# - 1054
-# - 1055
-# - 1056
-# - 1057
-# - 1058
+# - 1150, estheban
+# - 1151, laner
+# - 1152
+# - 1153
+# - 1154
+# - 1155
+# - 1156
+# - 1157
+# - 1158
 #
 # - 1017: renoirb (MOVE to 1003)
 # - 1018

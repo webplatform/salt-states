@@ -1,0 +1,5 @@
+# Managed by Salt Stack, at mysql/server.sls
+# http://blackbe.lt/setting-up-utf-8-encoding-in-php-and-mysql/
+
+[mysqld]
+bind-address = 0.0.0.0

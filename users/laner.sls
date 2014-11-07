@@ -1,9 +1,9 @@
 laner:
   group.present:
-    - gid: 1001
+    - gid: 1151
   user.present:
     - shell: /bin/bash
-    - uid: 1001
+    - uid: 1151
     - gid: 10001
     - groups:
       - laner

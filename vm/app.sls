@@ -1,4 +1,5 @@
 include:
+  - code.wiki
   - code.certificates
   - code.packages
   - code.compat

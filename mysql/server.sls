@@ -17,6 +17,11 @@ salt-dependency:
     - require:
       - pkg: db-server
 
+comment-mycnf-network-listener:
+  file.comment:
+    - regex: ^bind-address
+    - name: /etc/mysql/my.cnf
+
 db-server:
   pkg.installed:
     - names:
@@ -26,11 +31,24 @@ db-server:
       - percona-xtrabackup
     - require:
       - pkgrepo: mariadb-apt-repo
-  service:
+  service.running:
     - name: mysql
-    - running
+    - reload: True
+    - enable: True
     - require:
       - pkg: db-server
+
+{%- set configFiles = ['listener','unicode-server'] -%}
+{%- for f in configFiles %}
+/etc/mysql/conf.d/{{ f }}.cnf:
+  file.managed:
+    - source: salt://mysql/files/{{ f }}.cnf
+    - mode: 644
+    - require:
+      - file: comment-mycnf-network-listener
+    - watch_in:
+      - service: db-server
+{% endfor -%}
 
 ## https://blogs.oracle.com/jsmyth/entry/apparmor_and_mysql
 #apparmor:
