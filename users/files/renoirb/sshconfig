@@ -4,3 +4,8 @@ Host github.com
   HostName github.com
   User git
   IdentityFile /home/renoirb/.ssh/id_pwless
+
+
+Host source.webplatform.org
+  HostName source.webplatform.org 
+  IdentityFile /home/renoirb/.ssh/id_pwless

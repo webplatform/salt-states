@@ -5,23 +5,35 @@
 
 #error_reporting(0);
 
-{%- if salt['grains.get']('level') == 'staging' %}
+{% if salt['grains.get']('level') == 'staging' -%}
 $siteTopLevelDomain = 'webplatformstaging.org';
-{% else %}
+{% else -%}
 $siteTopLevelDomain = 'webplatform.org';
-{% endif -%}
+{% endif %}
 
 #
-# Redis job servers
+# Redis job servers, managed by a Salt mine, network.ip_addrs at index 0
+#
+# To get the list, run from any salt minion:
+#
+#    salt-call mine.get 'roles:jobs' network.ip_addrs grain
 #
 $wpdRedisJobServers		= array();
-$wpdRedisJobServers[]		= '10.10.10.108';
+{%- for minion,addrs in salt['mine.get']('roles:jobs', 'network.ip_addrs', expr_form='grain').items() %}
+$wpdRedisJobServers[]		= '{{ addrs[0] }}';	// {{ minion }}
+{%- endfor %}
 
 #
-# Redis session servers
+# Redis session servers, managed by a Salt mine, network.ip_addrs at index 0
+#
+# To get the list, run from any salt minion:
+#
+#    salt-call mine.get 'roles:sessions' network.ip_addrs grain
 #
 $wpdRedisSessionServers		= array();
-$wpdRedisSessionServers[]	= '10.10.10.111:6379';
+{%- for minion,addrs in salt['mine.get']('roles:sessions', 'network.ip_addrs', expr_form='grain').items() %}
+$wpdRedisSessionServers[]	= '{{ addrs[0] }}:6379';	// {{ minion }}
+{%- endfor %}
 
 foreach(
   array_merge(
