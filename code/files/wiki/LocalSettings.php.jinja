@@ -5,23 +5,23 @@
 
 #error_reporting(0);
 
+{%- if salt['grains.get']('level') == 'staging' %}
+$siteTopLevelDomain = 'webplatformstaging.org';
+{% else %}
+$siteTopLevelDomain = 'webplatform.org';
+{% endif -%}
+
 #
 # Redis job servers
 #
 $wpdRedisJobServers		= array();
-$wpdRedisJobServers[]		= '10.10.10.60';
+$wpdRedisJobServers[]		= '10.10.10.108';
 
 #
 # Redis session servers
 #
 $wpdRedisSessionServers		= array();
-$wpdRedisSessionServers[]	= '10.10.10.57:6379';
-
-#memcache1       10.10.10.52
-#memcache2       10.10.10.62
-#memcache3       10.10.10.59
-#redis-jobs1     10.10.10.60
-#redis-session1  10.10.10.57
+$wpdRedisSessionServers[]	= '10.10.10.111:6379';
 
 foreach(
   array_merge(
