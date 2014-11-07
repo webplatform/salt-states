@@ -1,15 +1,9 @@
 {%- set users = salt['pillar.get']('users', {}) %}
-{% from "environment/_macros.sls" import install_bash_aliases %}
 
 include:
   - groups
 {% for username in users %}
   - users.{{ username }}
-{% endfor %}
-
-{% for username in users %}
-{{ install_bash_aliases(username) }}
-
 {% endfor %}
 
 #  ---- UNSURE ARE BELOW ----

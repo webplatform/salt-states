@@ -48,16 +48,6 @@ renoirb:
     - source: salt://users/files/renoirb/sshconfig
 
 {% if grains['host'] == 'salt*' %}
-/home/renoirb/.my.cnf:
-  file.managed:
-    - user: renoirb
-    - group: deployment
-    - mode: 640
-    - template: jinja
-    - source: salt://environment/files/my.cnf.jinja
-    - require:
-      - user: renoirb
-
 preferences:
   pkg.installed:
     - names:

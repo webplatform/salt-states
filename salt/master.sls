@@ -1,5 +1,28 @@
+{%- set users = salt['pillar.get']('users', {}) -%}
+
 include:
   - salt
+  - users
+
+{% for username in users %}
+/home/{{ username }}/.bash_aliases:
+  file.managed:
+    - source: salt://salt/files/master_bash_aliases
+    - user: {{ username }}
+    - group: {{ username }}
+    - require:
+      - user: {{ username }}
+
+/home/{{ username }}/.my.cnf:
+  file.managed:
+    - source: salt://environment/files/my.cnf.jinja
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: 640
+    - template: jinja
+    - require:
+      - user: {{ username }} 
+{% endfor %}
 
 salt-deps:
   pkg.installed:
@@ -17,12 +40,12 @@ salt-master:
   pkg:
     - installed
 
-/usr/local/bin/wpd-deploy.sh:
-  file.managed:
-    - user: root
-    - group: root
-    - source: salt://salt/files/wpd-deploy.sh
-    - mode: 755
+#/usr/local/bin/wpdn-deploy:
+#  file.managed:
+#    - user: root
+#    - group: root
+#    - source: salt://salt/files/wpdn-deploy
+#    - mode: 755
 
 /etc/salt/master.d/roots.conf:
   file.managed:
