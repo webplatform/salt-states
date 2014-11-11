@@ -1,0 +1,27 @@
+{
+  "server" : "irc.freenode.net",
+  "port" : 6667,
+  "nick" : "wpdbot",
+  "join" : [
+    "#webplatform",
+    "#webspecs",
+    "#webplatform-bot"
+  ],
+  "handlers" : [
+    "PhabricatorBotObjectNameHandler",
+    "PhabricatorBotSymbolHandler",
+    "PhabricatorBotLogHandler",
+    "PhabricatorBotFeedNotificationHandler",
+    "PhabricatorBotWhatsNewHandler",
+    "PhabricatorBotMacroHandler"
+  ],
+
+  "conduit.uri" : "https://project.webplatformstaging.org",
+  "conduit.user" : "wpdbot",
+  "conduit.cert" : "rtrgvetbrlvsiiaydv773mge4ijypupivgeb2k3tr5cpet67tfnhwju67xlfqa5qahsku7kssvdvqr3vufzgvi7pokftmdgzf4o6fnemaauuzrv6geifog3tnzpbddjqpdhtrymqh6gjzansbdis357jmx36pkmdgfjfrmwah353rsqz2qcvfez3byyfrbumctzmmrctv2xtbfwgb7qtaaiwjm2un3mmh75xxx6ob4e2atw3w5o4z4oyqvk7ole",
+
+  "macro.size" : 48,
+  "macro.aspect" : 0.66,
+
+  "notification.channels" : ["#webplatform-bot"]
+}
