@@ -26,3 +26,10 @@ rsync-blog:
       - user
       - group
       - mode
+
+/srv/webplatform/blog/local.php:
+  file.managed:
+    - source: salt://code/files/blog/local.php.jinja
+    - template: jinja
+    - require:
+      - cmd: rsync-blog

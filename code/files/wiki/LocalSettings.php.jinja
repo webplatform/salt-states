@@ -1,10 +1,11 @@
 <?php
 # vi set ai syntax=php
 
-// Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
 
 #error_reporting(0);
 
+## Deployment specific details
 {% if salt['grains.get']('level') == 'staging' -%}
 $siteTopLevelDomain = 'webplatformstaging.org';
 $wgPiwikIDSite = 0;
