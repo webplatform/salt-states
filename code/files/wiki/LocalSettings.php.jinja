@@ -7,9 +7,17 @@
 
 {% if salt['grains.get']('level') == 'staging' -%}
 $siteTopLevelDomain = 'webplatformstaging.org';
+$wgPiwikIDSite = 0;
+$wgSitename = "WebPlatform Docs [STAGING]";
 {% else -%}
 $siteTopLevelDomain = 'webplatform.org';
+$wgSitename = "WebPlatform Docs";
 {% endif %}
+
+## ref: http://www.mediawiki.org/wiki/Manual:$wgCanonicalServer
+$wgServer = "//docs.".$siteTopLevelDomain;
+$wgCanonicalServer = "https://docs.".$siteTopLevelDomain;
+$wgCompatablesJsonFileUrl = "https://docs.".$siteTopLevelDomain."/compat/data.json";
 
 #
 # Redis job servers, managed by a Salt mine, network.ip_addrs at index 0

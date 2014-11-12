@@ -14,14 +14,6 @@
 
 #$wgReadOnly = 'Currently backing up data, will be back shortly [http://status.webplatform.org/ our status page]';
 
-## ref: http://www.mediawiki.org/wiki/Manual:$wgCanonicalServer
-$wgServer = "//docs.webplatformstaging.org";
-$wgCanonicalServer = "https://docs.webplatformstaging.org";
-#$wgServer = "//docs.webplatform.org";
-#$wgCanonicalServer = "https://docs.webplatform.org";
-
-$wgCompatablesJsonFileUrl = "https://docs.webplatform.org/compat/data.json";
-
 $wgCacheDirectory = dirname($IP)."/cache";
 #$wgUploadDirectory = $IP"/images";
 
@@ -246,9 +238,9 @@ $wgPFEnableStringFunctions = true;  // Note: this must be after ParserFunctions 
 require_once("$IP/extensions/StringFunctionsEscaped/StringFunctionsEscaped.php"); #NEEDSTOBEADDED 
 
 ## Social Profile extension
-#require_once("$IP/extensions/SocialProfile/SocialProfile.php"); #DISABLED, suggested, and not installed
-#$wgUserProfileDisplay['friends'] = true;
-#$wgUserProfileDisplay['foes'] = false;
+require_once("$IP/extensions/SocialProfile/SocialProfile.php"); #DISABLED, suggested, and not installed
+$wgUserProfileDisplay['friends'] = true;
+$wgUserProfileDisplay['foes'] = false;
 
 ## NewSignupPage extension, for agreeing to site terms
 require_once("$IP/extensions/NewSignupPage/NewSignupPage.php"); #NEEDSTOBEADDED
