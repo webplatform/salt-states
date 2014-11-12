@@ -25,7 +25,11 @@
     - group: deployment
     - mode: 640
     - template: jinja
-    - source: salt://environment/nova-profile.sh.jinja
+    - source: salt://environment/files/nova-profile.sh.jinja
+
+/srv/userdata.txt:
+  file.managed:
+    - source: salt://environment/files/userdata.txt
 
 /root/.my.cnf:
   file.managed:

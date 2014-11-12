@@ -1,0 +1,37 @@
+#cloud-config
+
+# DO NOT EDIT MANUALLY, file managed by Salt Stack in salt/master.sls
+
+manage_etc_hosts: false
+manage-resolv-conf: false
+
+locale: en_US.UTF-8
+timezone: America/New_York
+package_upgrade: true
+package_update: true
+package_reboot_if_required: true
+
+bootcmd:
+  - grep -q -e 'nameserver' /etc/resolvconf/resolv.conf.d/head || printf "nameserver 10.10.10.92\n" >> /etc/resolvconf/resolv.conf.d/head
+  - grep -q -e 'wpdn' /etc/resolvconf/resolv.conf.d/base || printf "search staging.wpdn\ndomain staging.wpdn\nnameserver 8.8.8.8" > /etc/resolvconf/resolv.conf.d/base
+  - sed -i 's/$fqdn //' /etc/cloud/templates/hosts.debian.tmpl
+  - sed -i "s/^127.0.1.1 $(hostname).novalocal/127.0.1.1/g" /etc/hosts
+  - resolvconf -u
+  - grep -q -e 'disable_ipv6' /etc/sysctl.conf || printf "net.ipv6.conf.all.disable_ipv6 = 1\nnet.ipv6.conf.default.disable_ipv6 = 1\n" >> /etc/sysctl.conf
+  - sysctl -p
+
+runcmd:
+  - apt-get install software-properties-common python-software-properties
+  - add-apt-repository -y ppa:saltstack/salt
+  - printf "deb http://ppa.launchpad.net/saltstack/salt/ubuntu trusty main" > /etc/apt/sources.list.d/saltstack-salt-trusty.list
+
+packages:
+  - salt-minion
+  - screen
+
+output:
+  all:
+    output: "> /var/log/cloud-init-all.log"
+    error: '&1'
+
+# vim:syntax=yaml
