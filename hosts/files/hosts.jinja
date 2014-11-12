@@ -1,13 +1,19 @@
-{%- set saltMaster = salt['publish.publish']('salt', 'grains.item', 'host,ipaddr') %}
+{%- set hostName = salt['grains.get']('host') -%}
 #
 # Managed by Salt stack. Do NOT EDIT directly!
 #
-127.0.0.1	localhost
-127.0.1.1	{{ salt['grains.get']('host') }}  {{ salt['grains.get']('host') }}.staging.wpdn
+127.0.0.1 localhost
+127.0.1.1 {{ hostName }}  {{ hostName }}.staging.wpdn
+
+##  Provided by mine.get network.ip_addrs  ##
+{%- for minion,addrs in salt['mine.get']('*', 'network.ip_addrs').items() %}
+{{ addrs[0] }}		{{ minion }}
+{%- endfor %}
+## /Provided by mine.get network.ip_addrs  ##
 
 #HOSTS#
 {% for node, args in pillar.get('nodes', {}).items() -%}
-{{ args.get('private') }}	{{ node }}  {{ node }}.local.wpdn	# Provided by pillar nodes
+{{ args.get('private') }}		{{ node }}  {{ node }}.local.wpdn	# Provided by pillar nodes
 {% endfor -%}
 #/HOSTS#
 

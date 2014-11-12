@@ -116,6 +116,7 @@ base:
     - logwatch
     - mail.mailhub
   'notes*':
+    - phabricator.nginx
     - hypothesis
     - users.randall
   'elastic*':
@@ -127,3 +128,6 @@ base:
     - specific.builder
   'accounts*':
     - fxa
+  'hhvmbackend*':
+    - hhvm
+    - nutcracker
