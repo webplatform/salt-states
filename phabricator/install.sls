@@ -33,6 +33,5 @@ phabricator-deps:
   pkg.installed:
     - names:
       - python-pygments
-      - php5-mailparse
       - php5-curl
       - php5-json

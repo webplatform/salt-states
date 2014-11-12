@@ -3,7 +3,7 @@ server {
 
     listen 80;
     server_tokens off;
-    return 301 https://.webplatform.org$request_uri;
+    return 301 https://{{ subDomainName }}.webplatform.org$request_uri;
 }
 
 server {
@@ -27,8 +27,8 @@ server {
   ssl_certificate     /etc/ssl/webplatform/ssl.pem;
   ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
-  access_log    /var/log/nginx/source.access.log;
-  error_log     /var/log/nginx/source.error.log;
+  access_log    /var/log/nginx/{{ subDomainName }}.access.log;
+  error_log     /var/log/nginx/{{ subDomainName }}.error.log;
 
 
   location ~* .(gif|jpg|jpeg|png|ico|js|css)$ {
@@ -44,7 +44,7 @@ server {
 
   location ~ \.(hh|php)$ {
     fastcgi_keep_conn	on;
-    fastcgi_pass	10.10.10.117:9000;
+    fastcgi_pass	10.10.10.118:9000;
     fastcgi_index 	index.php;
     fastcgi_param	SCRIPT_FILENAME		$document_root$fastcgi_script_name;
 

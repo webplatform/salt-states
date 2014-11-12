@@ -14,6 +14,7 @@ require_once('lib/main.php');
 
 $wpd['memcache_array'] = array('localhost:11211');
 $wpd['pagespeed_key'] = "{{ salt['pillar.get']('accounts:blog:secrets:googlepagespeed', '') }}";
+$wpd['piwik_url'] = 'https://stats.' . $siteTopLevelDomain . '/';
 
 /**
  * WebPlatform Blog
