@@ -2,6 +2,7 @@
 base:
   '*':
     - salt
+    - mmonit
     - users
     - groups
     - sudo
@@ -103,6 +104,7 @@ base:
     - specific.monitor
   'project*':
     - php
+    - php.apache
     - nutcracker
     - buggenie
     - apache.project
@@ -116,7 +118,6 @@ base:
     - logwatch
     - mail.mailhub
   'notes*':
-    - phabricator.nginx
     - hypothesis
     - users.randall
   'elastic*':
