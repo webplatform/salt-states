@@ -1,3 +1,9 @@
+{%- set level = salt['grains.get']('level', 'production') -%}
+{%- set users = salt['pillar.get']('users', {}) -%}
+
+include:
+  - users
+
 /srv/webplatform:
   file:
     - directory
@@ -5,6 +11,20 @@
     - group: root
     - mode: 755
     - makedirs: True
+
+{% for username in users %}
+/home/{{ username }}/.screenrc:
+  file.managed:
+    - mode: 640
+    - source: salt://webplatform/files/screenrc.jinja
+    - template: jinja
+    - user: {{ username }}
+    - group: {{ username }}
+    - require:
+      - user: {{ username }}
+    - context:
+        level: {{ level }}
+{%- endfor %}
 
 non-needed-softwares:
   pkg.removed:
@@ -41,6 +61,11 @@ sysstat:
 
 resolvconf -u:
   cmd.run
+
+/etc/profile.d/wpd_aliases.sh:
+  file.managed:
+    - source: salt://webplatform/files/wpd_aliases.sh
+    - mode: 755
 
 /etc/resolvconf/resolv.conf.d/base:
   file.managed:

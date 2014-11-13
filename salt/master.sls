@@ -7,7 +7,7 @@ include:
 {% for username in users %}
 /home/{{ username }}/.bash_aliases:
   file.managed:
-    - source: salt://salt/files/master_bash_aliases
+    - source: salt://salt/files/bash_aliases
     - user: {{ username }}
     - group: {{ username }}
     - require:

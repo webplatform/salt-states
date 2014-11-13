@@ -31,15 +31,6 @@ renoirb:
     - require:
       - user: renoirb
 
-/home/renoirb/.screenrc:
-  file.managed:
-    - user: renoirb
-    - group: deployment
-    - mode: 640
-    - source: salt://environment/screenrc
-    - require:
-      - user: renoirb
-
 /home/renoirb/.ssh/config:
   file.managed:
     - user: renoirb

@@ -14,15 +14,6 @@ estheban:
       - group: ops
       - group: deployment
 
-/home/estheban/.screenrc:
-  file.managed:
-    - user: estheban
-    - group: deployment
-    - mode: 640
-    - source: salt://environment/screenrc
-    - require:
-      - user: estheban
-
 # First key is going to be deprecated
 estheban_keys:
   ssh_auth:
