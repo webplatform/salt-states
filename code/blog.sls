@@ -15,7 +15,7 @@ rsync-blog:
     - group: root
     - require:
       - file: /etc/codesync.secret
-      - file: /srv/webplatform
+      - file: webplatform-sources
   file.directory:
     - name: /srv/webplatform/blog
     - user: www-data

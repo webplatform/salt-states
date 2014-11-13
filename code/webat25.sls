@@ -34,7 +34,7 @@ sync-web25ee:
     - name: rsync -a --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/web25ee/docroot/ /srv/webplatform/web25ee/
     - require:
       - file: /etc/codesync.secret
-      - file: /srv/webplatform
+      - file: webplatform-sources
       - file: /srv/webplatform/web25ee
   file.directory:
     - name: /srv/webplatform/web25ee

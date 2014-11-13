@@ -8,4 +8,4 @@ packages-rsync:
     - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.local.wpdn::code/packages/ /srv/webplatform/packages/"
     - require:
       - file: /etc/codesync.secret
-      - file: /srv/webplatform
+      - file: webplatform-sources

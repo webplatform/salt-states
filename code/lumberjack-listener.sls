@@ -7,7 +7,7 @@ include:
     - mode: 755
     - makedirs: True
     - require:
-      - file: /srv/webplatform
+      - file: webplatform-sources
 
 lumberjack-listener-rsync:
   cmd:
@@ -15,7 +15,7 @@ lumberjack-listener-rsync:
     - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.local.wpdn::code/bots/lumberjack/repo/listener/ /srv/webplatform/lumberjack-listener/"
     - require:
       - file: /etc/codesync.secret
-      - file: /srv/webplatform
+      - file: webplatform-sources
       - file: /srv/webplatform/lumberjack-listener
   file:
     - directory

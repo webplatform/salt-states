@@ -8,4 +8,4 @@ rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/
     - group: root
     - require:
       - file: /etc/codesync.secret
-      - file: /srv/webplatform
+      - file: webplatform-sources

@@ -1,6 +1,5 @@
 include:
   - rsync.secret
-  - code.prereq
   - code.certificates
 
 root-rsync:

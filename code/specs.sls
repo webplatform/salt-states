@@ -10,7 +10,7 @@ specs-rsync:
     - group: root
     - require:
       - file: /etc/codesync.secret
-      - file: /srv/webplatform
+      - file: webplatform-sources
       - file: /srv/webplatform/specs
 
 /srv/webplatform/specs:

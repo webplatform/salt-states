@@ -9,4 +9,4 @@ rsync-compat:
     - group: root
     - require:
       - file: /etc/codesync.secret
-      - file: /srv/webplatform
+      - file: webplatform-sources

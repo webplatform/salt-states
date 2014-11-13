@@ -9,7 +9,7 @@ extend:
       - mode: 755
       - makedirs: True
       - require:
-        - file: /srv/webplatform
+        - file: webplatform-sources
 
 lumberjack-web-rsync:
   cmd:

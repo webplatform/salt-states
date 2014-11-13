@@ -9,6 +9,7 @@ sync-dists:
     - require:
       - file: /etc/codesync.secret
       - file: /srv/webplatform/auth/dists
+      - file: webplatform-sources
   file.directory:
     - name: /srv/webplatform/auth/dists
     - user: renoirb

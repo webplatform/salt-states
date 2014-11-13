@@ -56,7 +56,7 @@ rsync-run-{{ env }}:
       - file: /srv/webplatform/wiki/{{ env }}/mediawiki/LocalSettings.php
     - require:
       - file: /etc/codesync.secret
-      - file: /srv/webplatform
+      - file: webplatform-sources
       - file: /srv/webplatform/wiki/{{ env }}
   file.managed:
     - name: /srv/webplatform/wiki/{{ env }}/LocalSettings.php

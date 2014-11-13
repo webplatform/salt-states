@@ -10,7 +10,7 @@ sync-piwik:
     - group: root
     - require:
       - file: /etc/codesync.secret
-      - file: /srv/webplatform
+      - file: webplatform-sources
 
 piwik-perms:
   file.directory:

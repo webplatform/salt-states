@@ -11,7 +11,7 @@ buggenie-codesync:
     - group: root
     - require:
       - file: /etc/codesync.secret
-      - file: /srv/webplatform
+      - file: webplatform-sources
 
 /srv/webplatform/buggenie:
   file.directory:

@@ -11,4 +11,4 @@ include:
       - user
       - group
     - require:
-      - file: /srv/webplatform
+      - file: webplatform-sources
