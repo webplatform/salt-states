@@ -21,7 +21,7 @@ include:
     - identifier: wp-cron
     - name: 'JOBNAME=wp-cron cronhelper.sh /usr/bin/wpd-blogcron.sh'
     - user: www-data
-    - minute: '*/5'
+    - minute: '*/10'
     - hour: '*'
 
 ## This is required by W3 Total Cache

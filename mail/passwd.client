@@ -1,8 +1,0 @@
-# password file used when the local exim is authenticating to a remote
-# host as a client.
-#
-# see exim4_passwd_client(5) for more documentation
-#
-# Example:
-### target.mail.server.example:login:password
-{{ salt['pillar.get']('accounts:smtp:hostname', 'localhost') }}:{{ salt['pillar.get']('accounts:smtp:username', 'login') }}:{{ salt['pillar.get']('accounts:smtp:password', 'ChangeMe') }}

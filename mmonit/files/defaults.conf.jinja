@@ -28,6 +28,13 @@ check process salt-minion
   if not exist for 3 cycles then restart
   if 5 restarts within 5 cycles then timeout
 
+check process exim4
+  with pidfile "/var/run/exim4/exim.pid"
+  start = "/usr/sbin/service exim4 start"
+  stop  = "/usr/sbin/service exim4 stop"
+  if not exist for 3 cycles then restart
+  if 5 restarts within 5 cycles then timeout
+
 set httpd port 2812 and
   use address localhost  # only accept connection from localhost
   allow localhost        # allow localhost to connect to the server and

@@ -1,0 +1,8 @@
+#
+# Managed by Salt stack. Do NOT EDIT directly!
+#
+# Example:
+### target.mail.server.example:login:password
+{% if username is defined -%}
+{{ smarthost }}:{{ username }}:{{ password }}
+{%- endif -%}
