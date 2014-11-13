@@ -16,7 +16,7 @@ logger -i -p local1.notice -t cron "[notice] Host `hostname` ran $JOBNAME"
 
 output=$(mktemp)
 
-cd /srv/webplatform/blog/current
+cd /srv/webplatform/blog
 
 /usr/bin/php wp-cron.php > $output 2>&1
 

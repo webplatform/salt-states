@@ -1,0 +1,23 @@
+
+# Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+
+check process gdnsd
+  with pidfile "/var/run/gdnsd/gdnsd.pid"
+  start = "/usr/sbin/service gdnsd start"
+  stop  = "/usr/sbin/service gdnsd stop"
+  if not exist for 3 cycles then restart
+  if 5 restarts within 5 cycles then timeout
+
+check process salt-master
+  with pidfile "/var/run/salt-master.pid"
+  start = "/usr/sbin/service salt-master start"
+  stop  = "/usr/sbin/service salt-master stop"
+  if not exist for 3 cycles then restart
+  if 5 restarts within 5 cycles then timeout
+
+check process syslog-nd
+  with pidfile "/var/run/syslog-ng.pid"
+  start = "/usr/sbin/service syslog-ng start"
+  stop  = "/usr/sbin/service syslog-ng stop"
+  if not exist for 3 cycles then restart
+  if 5 restarts within 5 cycles then timeout

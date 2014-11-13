@@ -6,6 +6,8 @@ monit:
     - reload: True
     - require:
       - pkg: monit
+    - watch:
+      - file: /etc/monit/conf.d/defaults.conf
 
 /etc/monit/conf.d/defaults.conf:
   file.managed:
@@ -14,4 +16,4 @@ monit:
     - require:
       - pkg: monit
     - context:
-        nodename: {{ grains['nodename'] }}
+        nodename: {{ grains['fqdn'] }}

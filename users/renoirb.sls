@@ -47,13 +47,12 @@ renoirb:
     - mode: 600
     - source: salt://users/files/renoirb/sshconfig
 
-{% if grains['host'] == 'salt*' %}
+{% if grains['nodename'] == 'salt' %}
 preferences:
   pkg.installed:
     - names:
       - tig
       - screen
-
 
 /home/renoirb/.ssh/id_pwless:
   file.exists

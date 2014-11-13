@@ -23,7 +23,7 @@ piwik-perms:
       - user
       - group
 
-{% if grains['host'] == 'salt' %}
+{% if grains['nodename'] == 'salt' %}
 # See also in code.piwik.config config patch
 /srv/code/piwik/repo/config/config.ini.php:
   file.managed:

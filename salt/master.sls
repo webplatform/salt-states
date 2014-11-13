@@ -40,11 +40,11 @@ salt-master:
   pkg:
     - installed
 
-#/usr/local/bin/wpdn-deploy:
+#/usr/local/bin/wpd-deploy:
 #  file.managed:
 #    - user: root
 #    - group: root
-#    - source: salt://salt/files/wpdn-deploy
+#    - source: salt://salt/files/wpd-deploy
 #    - mode: 755
 
 /etc/salt/master.d/roots.conf:

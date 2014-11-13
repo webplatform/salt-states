@@ -5,12 +5,6 @@
 127.0.0.1 localhost
 127.0.1.1 {{ hostName }}  {{ hostName }}.staging.wpdn
 
-##  Provided by mine.get network.ip_addrs  ##
-{%- for minion,addrs in salt['mine.get']('*', 'network.ip_addrs').items() %}
-{{ addrs[0] }}		{{ minion }}
-{%- endfor %}
-## /Provided by mine.get network.ip_addrs  ##
-
 #HOSTS#
 {% for node, args in pillar.get('nodes', {}).items() -%}
 {{ args.get('private') }}		{{ node }}  {{ node }}.local.wpdn	# Provided by pillar nodes

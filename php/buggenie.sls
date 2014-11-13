@@ -1,6 +1,5 @@
 include:
   - php
-  - php.apache
 
 php-buggenie:
   pkg.installed:

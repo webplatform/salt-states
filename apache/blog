@@ -23,7 +23,7 @@
     RewriteRule . /index.php [L]
   </Directory>
 
-  <DirectoryMatch "^/.*/wp-contents/uploads/">
+  <DirectoryMatch "^/.*/wp-content/uploads/">
     Require all granted
     AllowOverride none
     RemoveHandler .cgi .pl .py

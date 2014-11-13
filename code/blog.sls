@@ -31,5 +31,7 @@ rsync-blog:
   file.managed:
     - source: salt://code/files/blog/local.php.jinja
     - template: jinja
+    - user: www-data
+    - group: www-data
     - require:
       - cmd: rsync-blog
