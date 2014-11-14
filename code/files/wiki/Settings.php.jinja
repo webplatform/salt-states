@@ -1,5 +1,7 @@
 <?php
 # vi set ai syntax=php
+{%- set log_dest = salt['mine.get']('roles:salt', 'network.ip_addrs', expr_form='grain').items()[0] -%}
+{%- set log_dest_port = 8420 %}{# ## SecurityGroup port: UDP 8420 @salt demux.py  #}
 
 ## Common settings
 ## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
@@ -55,7 +57,10 @@ $wgMaxShellMemory = 1024 * 512;
 $wgUseSquid = true;
 $wgSquidServers = array( 'api.fastly.com:80' );
 
-$wpdUdp2logDest = 'salt.local.wpdn:8420'; ## SecurityGroup port: UDP 8420 @salt demux.py
+## Send log messages through UDP to {{ log_dest[0] }}
+## Configured by Salt stack in code/wiki.sls
+## Python log_dest variable holds: {{ log_dest }}
+$wpdUdp2logDest = '{{ log_dest[1][0] }}:{{ log_dest_port }}';
 
 ## ref: http://www.mediawiki.org/wiki/Manual:$wgDebugLogGroups
 $wgDebugLogGroups = array(
@@ -93,57 +98,63 @@ $wgDBtype = "mysql";
 ## PAGE CACHE
 ##
 ## ref: https://github.com/wikimedia/operations-mediawiki-config/blob/master/wmf-config/mc.php
-##
-## TCP port 11311 is Memcached through Nutcracker
+##      http://www.mediawiki.org/wiki/Memcached
+##      http://www.mediawiki.org/wiki/Manual:$wgObjectCaches
 ##
 $wgMainCacheType = 'memcached-pecl';
 $wgMemCachedPersistent = true;
 $wgMemCachedTimeout = 250000; # default is 100000
+$wgParserCacheType = 'memcached-pecl';
+$wgMessageCacheType = 'memcached-pecl';
+$wgUseMemCached = true;
+$wgMemCachedInstanceSize = 3072;
 $wgObjectCaches['memcached-pecl'] = array(
     'class' => 'MemcachedPeclBagOStuff',
-    'serializer' => 'php',
+    'serializer' => 'igbinary',             // pkg igbinary should be installed, or use 'php'
     'persistent' => false,
-    'servers' => array('127.0.0.1:11211'), /* 11211 is local nutcracker on an app node */
+    'servers' => array('127.0.0.1:11211'),  // MCRouter/Nutcracker should be running locally
     'server_failure_limit' => 1e9,
     'retry_timeout' => -1
 );
-#$wgObjectCaches['redis'] = array(
-#    'class' => 'RedisBagOStuff',
-#    'servers' => array('10.10.10.2:6379'),
-#    'persistent' => true,
-#);
+#var_dump(CACHE_MEMCACHED);
 
 
 ##
 ## SESSIONS
 ##
-## ref: https://github.com/wikimedia/operations-mediawiki-config/blob/master/wmf-config/CommonSettings.php
+## If we want to have cross-datacenter session replication, Redis would
+## be a good choice. In the meantime, let’s use the default.
 ##
-## $wpdRedisSessionServers is defined in salt/code/files/wiki/LocalSettings.php.jinja
-##
-$wgObjectCaches['sessions'] = array(
-        'class'   => 'RedisBagOStuff',
-        'servers' => $wpdRedisSessionServers,
-);
+$wgSessionsInObjectCache = true;
+$wgSessionCacheType = 'memcached-pecl';
 
 
 ##
-##  JOBS
+## JOBS
+##
+## Is we had a very big amount of jobs (e.g. milions hits a month) it would be good
+## to move jobs to Redis.
+##
+## bd808: You can choose to put jobs into redis or into db tables. The redis job runner has some
+##        fanciness that the db version doesn’t, but I doubt it makes much difference either way for your wiki.
+##        Most wikis don’t even need a separate job runner and can just piggy back jobs on the tail end of requests (default setup)
+##        The WMF cluster adds a lot of operational complexity in order to scale to our millions of hits per hour request rate
+##        A "big" wiki would be lucky to get a million hits a month. :)
 ##
 ## ref: https://github.com/wikimedia/operations-mediawiki-config/blob/master/wmf-config/CommonSettings.php
 ##
 ## $wpdRedisJobServers is defined in salt/code/files/wiki/LocalSettings.php.jinja
 ##
-$wgJobTypeConf['default'] = array(
-        'class'        => 'JobQueueRedis',
-        'redisServer'  => $wpdRedisJobServers[0],
-        'redisConfig'  => array( 'connectTimeout' => 2, 'compression' => 'gzip' ),
-);
-$wgJobQueueAggregator = array(
-        'class'        => 'JobQueueAggregatorRedis',
-        'redisServers'  => $wpdRedisJobServers,
-        'redisConfig'  => array( 'connectTimeout' => 2 ),
-);
+#$wgJobTypeConf['default'] = array(
+#        'class'        => 'JobQueueRedis',
+#        'redisServer'  => $wpdRedisJobServers[0],
+#        'redisConfig'  => array( 'connectTimeout' => 2, 'compression' => 'gzip' ),
+#);
+#$wgJobQueueAggregator = array(
+#        'class'        => 'JobQueueAggregatorRedis',
+#        'redisServers'  => $wpdRedisJobServers,
+#        'redisConfig'  => array( 'connectTimeout' => 2 ),
+#);
 
 
 ## renoirb 20140404

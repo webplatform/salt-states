@@ -1,23 +1,36 @@
-{%- set hostName = salt['grains.get']('host') -%}
 #
 # Managed by Salt stack. Do NOT EDIT directly!
 #
 127.0.0.1 localhost
 127.0.1.1 {{ hostName }}  {{ hostName }}.staging.wpdn
 
-{% if grains['nodename'] == 'salt' %}
-##  Provided by mine.get network.ip_addrs  ##
-{%- for minion,addrs in salt['mine.get']('*', 'network.ip_addrs').items() %}
-{{ addrs[0] }}          {{ minion }}.{{ level }}.wpdn
-{%- endfor %}
-## /Provided by mine.get network.ip_addrs  ##
-{%- endif %}
-
-#HOSTS#
+## Provided by nodes pillar ##
 {% for node, args in pillar.get('nodes', {}).items() -%}
 {{ args.get('private') }}		{{ node }}  {{ node }}.local.wpdn	# Provided by pillar nodes
 {% endfor -%}
-#/HOSTS#
+## /Provided by nodes pillar ##
+
+{#
+ # Data given by `salt['mine.get']('*', 'network.ip_addrs')` looks like this:
+ #
+ # foo = [('project', ['10.10.10.1']),('foo', ['10.10.10.2'])]
+ #
+ # To sort the list in alphabetical order based on the node name, we do:
+ #
+ # foo|sort(attribute=0)
+ #
+ # To get the list, run from any salt minion:
+ #
+ #    salt-call mine.get '*' network.ip_addrs grain
+ #
+ #}
+{%- if grains['nodename'] == 'salt' -%}
+##  Provided by mine.get network.ip_addrs  ##
+{%- for minion,addrs in salt['mine.get']('*', 'network.ip_addrs').items()|sort(attribute=0) %}
+{{ addrs[0] }}		{{ minion }}.{{ level }}.wpdn
+{%- endfor %}
+## /Provided by mine.get network.ip_addrs  ##
+{%- endif %}
 
 # The following lines are desirable for IPv6 capable hosts
 ::1 ip6-localhost ip6-loopback
@@ -30,3 +43,5 @@ ff02::3 ip6-allhosts
 # Managed by Salt stack, appended entries
 # START managed hosts -DO-NOT-EDIT---
 # END managed hosts
+
+## vim: ai st=4

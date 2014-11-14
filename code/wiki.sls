@@ -71,5 +71,3 @@ rsync-run-{{ env }}:
   file.managed:
     - source: salt://code/files/wiki/Settings.php.jinja
     - template: jinja
-
-

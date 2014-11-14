@@ -21,18 +21,6 @@ $wgCanonicalServer = "https://docs.".$siteTopLevelDomain;
 $wgCompatablesJsonFileUrl = "https://docs.".$siteTopLevelDomain."/compat/data.json";
 
 #
-# Redis job servers, managed by a Salt mine, network.ip_addrs at index 0
-#
-# To get the list, run from any salt minion:
-#
-#    salt-call mine.get 'roles:jobs' network.ip_addrs grain
-#
-$wpdRedisJobServers		= array();
-{%- for minion,addrs in salt['mine.get']('roles:jobs', 'network.ip_addrs', expr_form='grain').items() %}
-$wpdRedisJobServers[]		= '{{ addrs[0] }}';	// {{ minion }}
-{%- endfor %}
-
-#
 # Redis session servers, managed by a Salt mine, network.ip_addrs at index 0
 #
 # To get the list, run from any salt minion:

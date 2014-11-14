@@ -5,3 +5,4 @@
     - mode: 444
     - context:
         level: {{ salt['grains.get']('level', 'production') }}
+        hostName: {{ salt['grains.get']('host', 'ubuntu') }}

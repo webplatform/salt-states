@@ -1,8 +1,12 @@
 <?php
 # vi set ai syntax=php
+{%- set db_creds      = salt['pillar.get']('accounts:wiki:db') -%}
+{%- set db_servers    = salt['mine.get']('roles:db', 'network.ip_addrs', expr_form='grain').items() -%}
+{%- set secrets       = salt['pillar.get']('accounts:wiki:secrets') -%}
+{%- set swift_backend = salt['pillar.get']('accounts:swift:dreamhost') %}
 
-// Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
-// Ensure you change `salt/code/files/wpwiki.php.jinja` instead
+# Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+# Ensure you change `salt/code/files/wpwiki.php.jinja` instead
 
 if ( !defined( 'MEDIAWIKI' ) ) {
         exit;
@@ -11,27 +15,32 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 ##################### database settings #####################
 $wgDBname = "wpwiki";
 $wgDBservers = array(
-        array(
-                'host'     => "{{ salt['pillar.get']('accounts:wiki:db:hostname', 'localhost') }}",
+        array(  'host'     => "{{ db_creds.hostname|default('localhost') }}",
                 'dbname'   => $wgDBname,
-                'user'     => "{{ salt['pillar.get']('accounts:wiki:db:username', 'root') }}",
-                'password' => "{{ salt['pillar.get']('accounts:wiki:db:password', '') }}",
+                'user'     => "{{ db_creds.username|default('root') }}",
+                'password' => "{{ db_creds.password|default('') }}",
                 'type'     => "mysql",
                 'flags'    => DBO_DEFAULT,
                 'load'     => 0,
-        ),
+        )
 );
-#if ( !$wgCommandLineMode ) {
-#        $wgDBservers[] = array(
-#                'host'     => "db5.dho.wpdn",
-#                'dbname'   => $wgDBname,
-#                'user'     => "{{ salt['pillar.get']('accounts:wiki:db:username', 'root') }}",
-#                'password' => "{{ salt['pillar.get']('accounts:wiki:db:password', '') }}",
-#                'type'     => "mysql",
-#                'flags'    => DBO_DEFAULT,
-#                'load'     => 1,
-#        );
-#}
+{% if db_servers|count >= 2 %}{# Two or more because the first should already be taken #}
+if ( !$wgCommandLineMode ) {
+{% for name,ipList in db_servers -%}
+{%- if name != 'db1' %}
+$wgDBservers[] = array(
+                'host'     => "{{ ipList[0] }}", # {{ name }}
+                'dbname'   => $wgDBname,
+                'user'     => "{{ db_creds.username|default('root') }}",
+                'password' => "{{ db_creds.password|default('') }}",
+                'type'     => "mysql",
+                'flags'    => DBO_DEFAULT,
+                'load'     => 1
+        );
+{% endif -%}
+{%- endfor -%}
+}
+{%- endif %}
 ##################### database settings #####################
 
 $wgArticlePath = '/wiki/$1';
@@ -45,9 +54,9 @@ $wgScriptPath  = '/w';
 #$wgWebPlatformAuth['client']['id']             = '0000000000000000';
 #$wgWebPlatformAuth['client']['secret']         = '3333333333333333333333333333333333333333333333333333333333333333';
 
-$wgSecretKey     = '{{ salt['pillar.get']('accounts:wiki:secrets:key', 'foo') }}';
-$wgUpgradeKey    = '{{ salt['pillar.get']('accounts:wiki:secrets:upgrade', 'bar') }}';
-$wgCaptchaSecret = '{{ salt['pillar.get']('accounts:wiki:secrets:captcha', 'baz') }}';
+$wgSecretKey     = '{{ secrets['key']|default('foo') }}';
+$wgUpgradeKey    = '{{ secrets['upgrade']|default('bar') }}';
+$wgCaptchaSecret = '{{ secrets['captcha']|default('baz') }}';
 
 $wgEnableUploads  = true;
 $wgUseImageMagick = true;
@@ -68,24 +77,24 @@ $wgFileBackends[] = array(
     'fileMode'       => 420
 );
 
+{% if swift_backend.password is defined -%}
 $wgFileBackends[] = array( // backend config for wiki's local repo
        'class'              => 'SwiftFileBackend',
        'name'               => 'local-ceph',
        'wikiId'             => $wgDBname,
        'lockManager'        => 'nullLockManager',
-       'swiftAuthUrl'       => '{{ salt['pillar.get']('accounts:swift:dreamhost:mwSwiftAuthUrl', 'objects.dreamhost.com/auth') }}',
-       'swiftUser'          => '{{ salt['pillar.get']('accounts:swift:dreamhost:username', 'key-id:subkey-name') }}',
-       'swiftKey'           => '{{ salt['pillar.get']('accounts:swift:dreamhost:password', '000000000000000000') }}',
+       'swiftAuthUrl'       => '{{ swift_backend['mwSwiftAuthUrl'] }}',
+       'swiftUser'          => '{{ swift_backend['username'] }}',
+       'swiftKey'           => '{{ swift_backend['password'] }}',
        'swiftTempUrlKey'    => '', // TODO
        'parallelize'        => 'implicit',
        'cacheAuthInfo'      => true,
        //'readOnly'          => 'Disabled during migration; please wait'
 );
+{%- endif %}
 $wgLocalFileRepo = array(
        'class'             => 'LocalRepo',
        'name'              => 'local',
-       //'backend'           => 'local-backend',
-       'backend'           => 'local-ceph',
        'scriptDirUrl'      => $wgScriptPath,
        'scriptExtension'   => $wgScriptExtension,
        'url'               => '/w/images',
@@ -93,9 +102,11 @@ $wgLocalFileRepo = array(
        'thumbScriptUrl'    => false,
        'transformVia404'   => false,
        'deletedHashLevels' => 3,
-       'zones' => array (
-          'public' => array('url'=> '//www.'.$GLOBALS['siteTopLevelDomain'].'/w/public'),
-          'thumb'  => array('url'=> '//www.'.$GLOBALS['siteTopLevelDomain'].'/w/thumb'),
-          'temp'   => array('url'=> '//www.'.$GLOBALS['siteTopLevelDomain'].'/w/temp')
-       )
+       'backend'           => 'local-backend'
 );
+{% if swift_backend.password is defined -%}
+$wgLocalFileRepo['backend'] = 'local-ceph';
+$wgLocalFileRepo['zones']['public'] = array('url'=> '//www.'.$GLOBALS['siteTopLevelDomain'].'/w/public');
+$wgLocalFileRepo['zones']['thumb']  = array('url'=> '//www.'.$GLOBALS['siteTopLevelDomain'].'/w/thumb');
+$wgLocalFileRepo['zones']['temp']   = array('url'=> '//www.'.$GLOBALS['siteTopLevelDomain'].'/w/temp');
+{%- endif %}
