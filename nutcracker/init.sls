@@ -38,7 +38,7 @@ nutcracker:
 
 /etc/init/nutcracker.conf:
   file.managed:
-    - source: salt://nutcracker/files/nutcracker.init
+    - source: salt://nutcracker/files/upstart.conf
 
 /etc/monit/conf.d/nutcracker.conf:
   file.managed:

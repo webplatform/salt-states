@@ -91,7 +91,7 @@ hypothesis-compass-dep:
 
 /etc/init/hypothesis.conf:
   file.managed:
-    - source: salt://hypothesis/files/hypothesis.init
+    - source: salt://hypothesis/files/upstart.conf
     - user: root
     - group: root
     - mode: 644
