@@ -6,13 +6,12 @@
 #   - https://coreos.com/docs/distributed-configuration/etcd-configuration/
 #   - https://github.com/toml-lang/toml
 #   - https://coreos.com/docs/cluster-management/setup/cloudinit-cloud-config
-#
+#   - https://coreos.com/docs/cluster-management/setup/cluster-discovery/
+
 name = "{{ nodename }}"
 discovery = "{{ discovery }}"
 data_dir = "{{ data_dir }}"
 addr = "{{ addr }}:4001"
-bind_addr = "{{ addr }}:4001"
 
 [peer]
 addr = "{{ addr }}:7001"
-bind_addr = "{{ addr }}:7001"

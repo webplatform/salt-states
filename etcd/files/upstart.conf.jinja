@@ -11,12 +11,6 @@ description "etcd config sharing subsystem"
 start on started
 stop on shutdown
 
-env ETCD_DATA_DIR="{{ data_dir }}"
-
-respawn
-setuid {{ etcd_user }}
-setgid {{ etcd_group }}
-
 script
-   exec start-stop-daemon --start --make-pidfile --pidfile /var/run/etcd.pid --exec /usr/bin/etcd
+   exec /usr/bin/etcd
 end script

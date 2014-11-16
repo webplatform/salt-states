@@ -5,13 +5,21 @@
 
 include:
   - code.packages
+  - mmonit
 
-etcd-package:
+etcd:
   pkg.installed:
     - name: etcd
     - skip_verify: True
     - require:
       - file: /etc/apt/sources.list.d/webplatform.list
+  service.running:
+    - enable: True
+    - reload: True
+    - watch:
+      - file: /etc/etcd/etcd.conf
+    - require:
+      - file: /etc/init/etcd.conf
 
 /etc/etcd:
   file.directory:
@@ -28,7 +36,7 @@ etcd-package:
         addr: {{ grains['ipaddr'] }} 
     - require:
       - file: /etc/etcd
-      - pkg: etcd-package
+      - pkg: etcd
 
 {{ data_dir }}:
   file.directory:
@@ -45,5 +53,11 @@ etcd-package:
         etcd_group: {{ etcd_group }}
         data_dir: {{ data_dir }}
     - require:
-      - pkg: etcd-package
+      - pkg: etcd
       - file: /etc/etcd/etcd.conf
+
+/etc/monit/conf.d/etcd.conf:
+  file.managed:
+    - source: salt://etcd/files/monit.conf
+    - require:
+      - service: monit
