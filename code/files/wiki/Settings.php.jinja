@@ -1,5 +1,15 @@
 <?php
 # vi set ai syntax=php
+{#
+ # Data given by mine.get Salt function, data should look like this:
+ #
+ # foo = [('project', ['10.10.10.1'])]
+ #
+ # To get the list, run from any salt minion:
+ #
+ #    salt-call mine.get 'roles:salt' network.ip_addrs grain
+ #
+ #}
 {%- set log_dest = salt['mine.get']('roles:salt', 'network.ip_addrs', expr_form='grain').items()[0] -%}
 {%- set log_dest_port = 8420 %}{# ## SecurityGroup port: UDP 8420 @salt demux.py  #}
 
@@ -60,7 +70,7 @@ $wgSquidServers = array( 'api.fastly.com:80' );
 ## Send log messages through UDP to {{ log_dest[0] }}
 ## Configured by Salt stack in code/wiki.sls
 ## Python log_dest variable holds: {{ log_dest }}
-$wpdUdp2logDest = '{{ log_dest[1][0] }}:{{ log_dest_port }}';
+$wpdUdp2logDest = '{{ log_dest[1][0]|default('salt') }}:{{ log_dest_port }}';
 
 ## ref: http://www.mediawiki.org/wiki/Manual:$wgDebugLogGroups
 $wgDebugLogGroups = array(

@@ -50,8 +50,4 @@ build-deps:
       - npm
       - bundler
       - php5-curl
-
-salt-master-deps:
-  pkg.installed:
-    - pkgs:
       - dpkg-dev

@@ -24,12 +24,10 @@ include:
       - user: {{ username }} 
 {% endfor %}
 
-salt-deps:
+salt-master-deps:
   pkg.installed:
     - pkgs:
-      - python-dulwich
       - python-git
-      - php5-curl
       - python-novaclient
       - salt-cloud
       - python-libcloud
