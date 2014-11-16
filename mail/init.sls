@@ -1,3 +1,6 @@
+include:
+  - mmonit
+
 /etc/mailname:
   file.managed:
     - source: salt://mail/mailname
@@ -51,3 +54,9 @@ exim4:
     - reload: True
     - require:
       - pkg: exim4
+
+/etc/monit/conf.d/exim4.conf:
+  file.managed:
+    - source: salt://mail/files/exim4/monit.conf
+    - require:
+      - service: monit

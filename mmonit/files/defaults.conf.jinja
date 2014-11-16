@@ -14,24 +14,10 @@ check system {{ nodename }}
   if cpu usage (system) > 30% then alert
   if cpu usage (wait) > 20% then alert
 
-check process nscd
-  with pidfile "/var/run/nscd/nscd.pid"
-  start = "/usr/sbin/service nscd start"
-  stop  = "/usr/sbin/service nscd stop"
-  if not exist for 3 cycles then restart
-  if 5 restarts within 5 cycles then timeout
-
 check process salt-minion
   with pidfile "/var/run/salt-minion.pid"
   start = "/usr/sbin/service salt-minion start"
   stop  = "/usr/sbin/service salt-minion stop"
-  if not exist for 3 cycles then restart
-  if 5 restarts within 5 cycles then timeout
-
-check process exim4
-  with pidfile "/var/run/exim4/exim.pid"
-  start = "/usr/sbin/service exim4 start"
-  stop  = "/usr/sbin/service exim4 stop"
   if not exist for 3 cycles then restart
   if 5 restarts within 5 cycles then timeout
 
@@ -48,4 +34,4 @@ set mailserver mailtrap.io
   using sslauto
 
 set mail-format { from: monit@{{ nodename }} }
-set alert hostmaster@webplatformstaging.org  # #TODO hardcoded domain name
+set alert hostmaster@webplatformstaging.org not on { pid ppid }  # #TODO hardcoded domain name

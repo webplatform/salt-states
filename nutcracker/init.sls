@@ -1,6 +1,9 @@
 # https://github.com/twitter/twemproxy#configuration
 # https://github.com/wikimedia/operations-puppet  in modules/nutcracker/
 
+include:
+  - mmonit
+
 /etc/nutcracker/conf:
   file.directory:
     - makedirs: true
@@ -33,3 +36,9 @@ nutcracker-pkg-installed:
     - watch:
         - file: /etc/nutcracker/conf/nutcracker.yml
     - reload: True
+
+/etc/monit/conf.d/nutcracker.conf:
+  file.managed:
+    - source: salt://nutcracker/files/monit.conf
+    - require:
+      - service: monit
