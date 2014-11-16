@@ -6,18 +6,14 @@
 include:
   - nodejs
   - git
+  - builder
+#   ^ until we separate specific builder appropriately #TODO
 
 hypothesis-dependencies:
   pkg.installed:
     - names:
-      - make
-      - ruby-full
-      - build-essential
-      - checkinstall
       - nodejs
-      - nodejs-legacy
       - npm
-      - python-virtualenv
       - docker.io
 
 /usr/local/bin/docker:
@@ -40,9 +36,3 @@ npm-packages:
       - underscore-cli
     - require:
       - pkg: npm
-
-nginx:
-  pkg:
-    - latest
-  service:
-    - running
