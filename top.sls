@@ -127,8 +127,6 @@ base:
   'webat25*':
     - specific.webat25
     - apache.status
-  'builder*':
-    - specific.builder
   'accounts*':
     - fxa
   'hhvmbackend*':

@@ -1,15 +1,11 @@
-#
-#
-# TODO: Split build process from hypothesis server so what packages
-#       hypothes.is isn’t  the same as where it was compiled/built
-#
 include:
   - nodejs
   - git
   - builder
-#   ^ until we separate specific builder appropriately #TODO
 
-hypothesis-dependencies:
+# Separate this from hypothesis build #TODO
+
+builder-dependencies:
   pkg.installed:
     - names:
       - nodejs
