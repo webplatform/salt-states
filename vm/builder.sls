@@ -3,27 +3,28 @@ include:
   - git
   - builder
 
-# Separate this from hypothesis build #TODO
+# Move docker in its own? #TODO
 
-builder-dependencies:
+docker-dependencies:
   pkg.installed:
     - names:
-      - nodejs
-      - npm
       - docker.io
 
 /usr/local/bin/docker:
   file.symlink:
     - target: /usr/bin/docker.io
 
-required-gems:
+
+# Separate this from hypothesis build #TODO
+
+hypothesis-required-gems:
   cmd.run:
     - name: gem install compass sass
     - unless: /srv/webplatform/h/h.ini
     - require:
       - pkg: ruby-full
 
-npm-packages:
+hypothesis-npm-packages:
   npm.installed:
     - names:
       - uglify-js
