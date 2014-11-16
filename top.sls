@@ -1,8 +1,10 @@
 #vim: ai ft=yaml
 base:
   '*':
+    - code.packages
     - salt
     - mmonit
+    - etcd
     - users
     - groups
     - sudo

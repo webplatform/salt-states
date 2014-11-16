@@ -1,16 +1,17 @@
 include:
   - code.packages
 
-
-##
-## Install udplog if its not installed
-##
-## ref: http://superuser.com/questions/427318/test-if-a-package-is-installed-in-apt
-##
-dpkg -i /srv/code/packages/udplog_1.8-5~precise_amd64.deb /srv/code/packages/libboost-program-options1.46.1_1.46.1-7ubuntu3_amd64.deb:
-  cmd.run:
-    - unless: dpkg-query -Wf'${db:Status-abbrev}' udplog 2>/dev/null | grep -q '^i'
+salt-specific-packages:
+  pkg.installed:
+    - pkgs:
+      - udplog
+    - skip_verify: True
     - require:
-      - sls: code.packages
-  file.exists:
-    - name: /srv/code/packages/udplog_1.8-5~precise_amd64.deb
+      - file: /etc/apt/sources.list.d/webplatform.list
+
+libboost-program-options:
+  pkg.installed:
+    - skip_verify: True
+    - version: 1.46.1-7ubuntu3
+    - require:
+      - file: /etc/apt/sources.list.d/webplatform.list

@@ -6,9 +6,6 @@ monit:
     - reload: True
     - require:
       - pkg: monit
-      - file: /etc/monit/conf.d
-    - watch:
-      - file: /etc/monit/conf.d/*
 
 /etc/monit/conf.d/defaults.conf:
   file.managed:
@@ -27,4 +24,5 @@ monit:
       - mode
     - require:
       - pkg: monit
- 
+    - watch_in:
+      - service: monit

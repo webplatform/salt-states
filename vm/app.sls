@@ -8,19 +8,12 @@ include:
   - code.www
   - code.root-com
   - code.specs
-  - nutcracker.install
+  - nutcracker
   - php
 
-##
-## ref: http://superuser.com/questions/427318/test-if-a-package-is-installed-in-apt
-##
-dpkg -i /srv/webplatform/packages/php5-igbinary_1.1.1-2_amd64.deb:
-  cmd.run:
-    - unless: dpkg-query -Wf'${db:Status-abbrev}' php5-igbinary 2>/dev/null | grep -q '^i'
+php5-igbinary:
+  pkg.installed:
+    - skip_verify: True
     - require:
-      - file: /srv/webplatform/packages/php5-igbinary_1.1.1-2_amd64.deb
       - pkg: php-pear
-
-/srv/webplatform/packages/php5-igbinary_1.1.1-2_amd64.deb:
-  file.exists
-
+      - file: /etc/apt/sources.list.d/webplatform.list

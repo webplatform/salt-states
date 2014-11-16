@@ -1,0 +1,12 @@
+# etcd config
+#
+# Note: config format is TOML
+#
+# ref:
+#   - https://coreos.com/docs/distributed-configuration/etcd-configuration/
+#   - https://github.com/toml-lang/toml
+#   - https://coreos.com/docs/cluster-management/setup/cloudinit-cloud-config
+#
+name = "{{ nodename }}"
+discovery = "{{ discovery }}"
+data_dir = "/var/lib/etcd/{{ nodename|replace('.','_') }}"

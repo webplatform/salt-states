@@ -1,7 +1,8 @@
 {%- set rolesDict = salt['grains.get']('roles') %}
 
-{% if rolesDict|length() >= 1 %}
 include:
+{% if rolesDict|length() >= 1 %}
+  - code.packages
 {% for roleName in rolesDict %}
   - vm.{{ roleName }}
 {% endfor %}

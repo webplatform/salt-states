@@ -2,6 +2,12 @@ include:
   - rsync.secret
   - code.prereq
 
+/etc/apt/sources.list.d/webplatform.list:
+  file.managed:
+    - contents: |
+        # Managed by Salt Stack at salt/webplatform/init.sls
+        deb file:/srv/webplatform/packages/apt ./
+
 packages-rsync:
   cmd:
     - run

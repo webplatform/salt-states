@@ -1,4 +1,3 @@
 include:
-  - code.packages
-  - nutcracker.install
+  - nutcracker
   - code.buggenie
