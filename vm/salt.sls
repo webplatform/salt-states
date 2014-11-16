@@ -9,9 +9,8 @@ salt-specific-packages:
     - require:
       - file: /etc/apt/sources.list.d/webplatform.list
 
-libboost-program-options:
+libboost-program-options1.46.1:
   pkg.installed:
     - skip_verify: True
-    - version: 1.46.1-7ubuntu3
     - require:
       - file: /etc/apt/sources.list.d/webplatform.list

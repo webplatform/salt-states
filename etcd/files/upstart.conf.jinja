@@ -8,10 +8,8 @@
 
 description "etcd config sharing subsystem"
 
-start on (net-device-up
-          and local-filesystems
-          and runlevel [2345])
-stop on runlevel [!2345]
+start on started
+stop on shutdown
 
 env ETCD_DATA_DIR="{{ data_dir }}"
 

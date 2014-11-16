@@ -1,4 +1,4 @@
-{%- set etcd = salt['pillar.get']('accounts:etcd') }}
+{%- set etcd = salt['pillar.get']('accounts:etcd') -%}
 {%- set data_dir = "/var/lib/etcd/" ~ grains['fqdn']|replace('.','_') -%}
 {%- set etcd_user = 'nobody' -%}
 {%- set etcd_group = 'www-data' -%}
