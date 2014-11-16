@@ -1,4 +1,4 @@
-{%- set datadir = "/var/lib/etcd/" ~ grains['fqdn']|replace('.','_') -%}
+{%- set data_dir = "/var/lib/etcd/" ~ grains['fqdn']|replace('.','_') -%}
 {%- set etcd_user = 'nobody' -%}
 {%- set etcd_group = 'www-data' -%}
 
@@ -21,14 +21,14 @@ etcd-package:
     - source: salt://etcd/files/etcd.conf.jinja
     - template: jinja
     - context:
-        datadir: {{ datadir }}
+        data_dir: {{ data_dir }}
         nodename: {{ grains['fqdn'] }}
         discovery: https://discovery.etcd.io/6887ce87d17aa32e97412a70382e6091
     - require:
       - file: /etc/etcd
       - pkg: etcd-package
 
-{{ datadir }}:
+{{ data_dir }}:
   file.directory:
     - makedirs: True
     - user: {{ etcd_user }}
@@ -41,6 +41,7 @@ etcd-package:
     - context:
         etcd_user: {{ etcd_user }}
         etcd_group: {{ etcd_group }}
+        data_dir: {{ data_dir }}
     - require:
       - pkg: etcd-package
       - file: /etc/etcd/etcd.conf

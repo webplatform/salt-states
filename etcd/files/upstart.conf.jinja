@@ -11,7 +11,7 @@ start on (net-device-up
           and runlevel [2345])
 stop on runlevel [!2345]
 
-env DATADIR=/var/lib/etcd
+env ETCD_DATA_DIR="{{ data_dir }}"
 
 respawn
 setuid {{ etcd_user }}
