@@ -1,4 +1,4 @@
 # Managed by salt stack
-wpd-deploy () { echo "Deploying ..."; sudo salt -G "roles:$@" state.sls code; }
+wpd-deploy () { echo "Going to update:"; sudo salt -G "roles:$@" test.ping --out highstate; echo "Deploying..."; sudo salt -G "roles:$@" state.sls code; }
 alias wpd-flavor="nova flavor-list"
 alias wpd-secgroup="nova secgroup-list"
