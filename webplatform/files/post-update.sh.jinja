@@ -1,0 +1,16 @@
+#!/bin/env bash
+
+echo "*** $USER: updating server info..."
+git update-server-info 2<&1
+
+unset GIT_DIR
+cd .. # runs from .git/
+
+echo "*** $USER: hard resetting..."
+git reset --hard 2<&1
+
+echo "*** $USER: foo-ing..."
+# on /etc/sudoers:
+# webmire ALL=NOPASSWD: /usr/sbin/service lighttpd reload
+
+echo "*** $USER: post-update hook done ***"

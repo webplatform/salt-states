@@ -65,3 +65,12 @@ salt-master:
 /etc/salt/master.d/overrides.conf:
   file.managed:
     - source: salt://salt/files/master-overrides.conf
+
+/srv/userdata.txt:
+  file.managed:
+    - source: salt://salt/files/userdata.txt.jinja
+    - template: jinja
+    - context:
+        level: {{ salt['grains.get']('level', 'production') }}
+        salt_master_ip: 10.10.10.129
+        # Looking if it works well to specify future salt master IP, before creation #TODO

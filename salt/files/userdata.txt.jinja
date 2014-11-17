@@ -1,0 +1,46 @@
+#cloud-config
+
+## Managed by Salt Stack, do NOT edit manually!
+{#
+ # Context variables:
+ #   - salt_master_ip
+ #   - level
+ #}
+
+manage_etc_hosts: false
+manage-resolv-conf: false
+
+locale: en_US.UTF-8
+timezone: America/New_York
+package_upgrade: true
+package_update: true
+package_reboot_if_required: true
+
+users:
+  - default
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3yWFgjwICPb8kQdkO8OX228tGnRLzCvEV74QccCIGwZ3KvXzN9RDRdUZ7fr5sGhwx5s7WQbXkLwOtAxyAUPB1K2DJnJiK/99n4lEjR3vUZN5p7ni7LsrwuoD0A7fF3PlBILYI294xaI/nikJFP14MKgX2TZcEBfY6bVeNmIuthlimKsfpIA2KtKm56zurMjVfjPCQYmcrThs0Wa4ArlAal8IlwPcLAJrjWaFfqjJlIA+PwclXj1xbRLhALkwNmFwkTsea1oT70ydFAeWH+Ui8+bTpjtEIthDVL1BkQ8mMhbrRXa/rVFU72ENc7iY2pknKSBA0hlRRumG8gYKAAhh1 hello@renoirboulanger.com
+
+bootcmd:
+  - grep -q -e 'nameserver' /etc/resolvconf/resolv.conf.d/head || printf "nameserver {{ salt_master_ip }}\n" >> /etc/resolvconf/resolv.conf.d/head
+  - grep -q -e 'wpdn' /etc/resolvconf/resolv.conf.d/base || printf "search {{ level }}.wpdn\ndomain {{ level }}.wpdn\nnameserver 8.8.8.8" > /etc/resolvconf/resolv.conf.d/base
+  - sed -i 's/$fqdn //' /etc/cloud/templates/hosts.debian.tmpl
+  - sed -i "s/^127.0.1.1 $(hostname).novalocal/127.0.1.1/g" /etc/hosts
+  - resolvconf -u
+  - grep -q -e 'disable_ipv6' /etc/sysctl.conf || printf "net.ipv6.conf.all.disable_ipv6 = 1\nnet.ipv6.conf.default.disable_ipv6 = 1\n" >> /etc/sysctl.conf
+  - sysctl -p
+
+runcmd:
+  - apt-get install software-properties-common python-software-properties
+  - add-apt-repository -y ppa:saltstack/salt
+  - printf "deb http://ppa.launchpad.net/saltstack/salt/ubuntu trusty main" > /etc/apt/sources.list.d/saltstack-salt-trusty.list
+
+packages:
+  - salt-minion
+  - screen
+  - python-git
+  - git-core
+
+final_message: "All my work here is done"
+
+# vim: et ts=2 sw=2 ft=yaml
