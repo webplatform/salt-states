@@ -1,7 +1,7 @@
 ; vi: ai syntax=bindzone tabstop=4 softtabstop=4 shiftwidth=4
 $TTL 3600
 @   SOA salt.local.wpdn. hostmaster.webplatform.org. (
-      2014111700 ; serial
+      2014111800 ; serial
       7200       ; refresh
       30M        ; retry
       3D         ; expire
@@ -10,5 +10,5 @@ $TTL 3600
 
 @		NS	salt.local.wpdn.
 
-salt		A	10.10.10.131	; make sure pillar infra:salt:master:private is adjusted
+salt		A	10.10.10.135	; make sure pillar infra:salt:master:private is adjusted
 masterdb	A	10.10.10.101	; make sure pillar infra:db:master:private is adjusted
