@@ -2,6 +2,11 @@
 
 ## Managed by Salt Stack, do NOT edit manually!
 {#
+ # Cloud init config
+ #
+ # Ref:
+ #   - http://cloudinit.readthedocs.org/en/latest/topics/examples.html#call-a-url-when-finished
+ #
  # Context variables:
  #   - salt_master_ip
  #   - level
@@ -16,11 +21,6 @@ package_upgrade: true
 package_update: true
 package_reboot_if_required: true
 
-users:
-  - default
-    ssh-authorized-keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3yWFgjwICPb8kQdkO8OX228tGnRLzCvEV74QccCIGwZ3KvXzN9RDRdUZ7fr5sGhwx5s7WQbXkLwOtAxyAUPB1K2DJnJiK/99n4lEjR3vUZN5p7ni7LsrwuoD0A7fF3PlBILYI294xaI/nikJFP14MKgX2TZcEBfY6bVeNmIuthlimKsfpIA2KtKm56zurMjVfjPCQYmcrThs0Wa4ArlAal8IlwPcLAJrjWaFfqjJlIA+PwclXj1xbRLhALkwNmFwkTsea1oT70ydFAeWH+Ui8+bTpjtEIthDVL1BkQ8mMhbrRXa/rVFU72ENc7iY2pknKSBA0hlRRumG8gYKAAhh1 hello@renoirboulanger.com
-
 bootcmd:
   - grep -q -e 'nameserver' /etc/resolvconf/resolv.conf.d/head || printf "nameserver {{ salt_master_ip }}\n" >> /etc/resolvconf/resolv.conf.d/head
   - grep -q -e 'wpdn' /etc/resolvconf/resolv.conf.d/base || printf "search {{ level }}.wpdn\ndomain {{ level }}.wpdn\nnameserver 8.8.8.8" > /etc/resolvconf/resolv.conf.d/base
@@ -34,12 +34,13 @@ runcmd:
   - apt-get install software-properties-common python-software-properties
   - add-apt-repository -y ppa:saltstack/salt
   - printf "deb http://ppa.launchpad.net/saltstack/salt/ubuntu trusty main" > /etc/apt/sources.list.d/saltstack-salt-trusty.list
+  - printf "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3yWFgjwICPb8kQdkO8OX228tGnRLzCvEV74QccCIGwZ3KvXzN9RDRdUZ7fr5sGhwx5s7WQbXkLwOtAxyAUPB1K2DJnJiK/99n4lEjR3vUZN5p7ni7LsrwuoD0A7fF3PlBILYI294xaI/nikJFP14MKgX2TZcEBfY6bVeNmIuthlimKsfpIA2KtKm56zurMjVfjPCQYmcrThs0Wa4ArlAal8IlwPcLAJrjWaFfqjJlIA+PwclXj1xbRLhALkwNmFwkTsea1oT70ydFAeWH+Ui8+bTpjtEIthDVL1BkQ8mMhbrRXa/rVFU72ENc7iY2pknKSBA0hlRRumG8gYKAAhh1 hello@renoirboulanger.com" >> /home/dhc-user/.ssh/authorized_keys
 
 packages:
   - salt-minion
+  - salt-common
   - screen
   - python-git
-  - git-core
 
 final_message: "All my work here is done"
 

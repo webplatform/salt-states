@@ -72,5 +72,6 @@ salt-master:
     - template: jinja
     - context:
         level: {{ salt['grains.get']('level', 'production') }}
-        salt_master_ip: 10.10.10.129
+        salt_master_ip: 10.10.10.131
         # Looking if it works well to specify future salt master IP, before creation #TODO
+        # #CHANGE_SALT_MASTER
