@@ -6,12 +6,16 @@
  #
  # Ref:
  #   - http://cloudinit.readthedocs.org/en/latest/topics/examples.html#call-a-url-when-finished
+ #   - https://help.ubuntu.com/community/CloudInit
  #
  # Context variables:
  #   - salt_master_ip
  #   - level
+ #
+ # Get previous userdata
+ #
+ #     curl http://169.254.169.254/openstack/2013-10-17/user_data
  #}
-
 manage_etc_hosts: false
 manage-resolv-conf: false
 
@@ -44,4 +48,4 @@ packages:
 
 final_message: "All my work here is done"
 
-# vim: et ts=2 sw=2 ft=yaml
+# vim: et ts=2 sw=2 ft=yaml syntax=yaml

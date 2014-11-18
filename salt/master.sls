@@ -1,8 +1,21 @@
 {%- set users = salt['pillar.get']('users', {}) -%}
+{%- set level = salt['grains.get']('level', 'production') -%}
+{%- set salt_master_ip = salt['pillar.get']('infra:salt:master:private') -%}
 
 include:
   - salt
   - users
+
+/srv/userdata.txt:
+  file.managed:
+    - source: salt://salt/files/userdata.txt.jinja
+    - template: jinja
+    - context:
+        level: {{ level }}
+        salt_master_ip: 10.10.10.134
+        # CANNOT set salt_master_ip to create new salt master
+        # Looking if it works well to specify future salt master IP, before creation #TODO
+        # #CHANGE_SALT_MASTER
 
 {% for username in users %}
 /home/{{ username }}/.bash_aliases:
@@ -65,13 +78,3 @@ salt-master:
 /etc/salt/master.d/overrides.conf:
   file.managed:
     - source: salt://salt/files/master-overrides.conf
-
-/srv/userdata.txt:
-  file.managed:
-    - source: salt://salt/files/userdata.txt.jinja
-    - template: jinja
-    - context:
-        level: {{ salt['grains.get']('level', 'production') }}
-        salt_master_ip: 10.10.10.131
-        # Looking if it works well to specify future salt master IP, before creation #TODO
-        # #CHANGE_SALT_MASTER

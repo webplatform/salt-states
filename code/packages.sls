@@ -7,6 +7,7 @@ include:
     - contents: |
         # Managed by Salt Stack at salt/webplatform/init.sls
         deb file:/srv/webplatform/packages/apt ./
+        # See also http://wpd-packages.objects.dreamhost.com/apt #TODO
 
 packages-rsync:
   cmd:

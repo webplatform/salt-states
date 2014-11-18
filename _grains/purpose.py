@@ -30,7 +30,7 @@ def level():
 	'''
 	dataObject = {}
 	fqdn = socket.getfqdn()
-	if 1 <= len(fqdn.split('.')):
+	if 1 < len(fqdn.split('.')):
 		dataObject['level'] = fqdn.split('.')[1]
 	else:
 		dataObject['level'] = "production"
