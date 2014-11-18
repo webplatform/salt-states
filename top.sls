@@ -18,7 +18,7 @@ base:
     - network
     - lvm
     - xfs
-#    - sysctl
+    - sysctl
 #    - dhcp
 #    - logging
 #    - monitor
@@ -29,7 +29,7 @@ base:
     - logrotate.remote-logs
     - mysql
     - php.composer
-    - dns.server
+#    - dns.server
     - rsync
     - python
     - python.mysqldb
