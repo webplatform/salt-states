@@ -1,3 +1,4 @@
+{%- set names = ['id_pwless','id_ecdsa'] -%}
 include:
   - groups.w3t
   - groups.deployment
@@ -45,8 +46,27 @@ preferences:
       - tig
       - screen
 
-/home/renoirb/.ssh/id_pwless:
-  file.exists
+##
+## To get keys, try with command:
+##
+##     salt salt pillar.get sshkeys:renoirb:id_ecdsa:private
+##
+{% for key_name in names %}
+/home/renoirb/.ssh/{{ key_name }}:
+  file.managed:
+    - contents_pillar: sshkeys:renoirb:{{ key_name }}:private
+    - user: renoirb
+    - group: renoirb
+    - mode: 0600
+
+/home/renoirb/.ssh/{{ key_name }}.pub:
+  file.managed:
+    - contents_pillar: sshkeys:renoirb:{{ key_name }}:public
+    - user: renoirb
+    - group: renoirb
+    - mode: 0600
+{% endfor %}
+
 {% endif %}
 
 renoirb_keys:
