@@ -1,4 +1,5 @@
 {%- set etcd = salt['pillar.get']('accounts:etcd') -%}
+{%- set discovery = salt['pillar.get']('salt_cluster:discovery', 'https://discovery.etcd.io/6887ce87d17aa32e97412a70382e6091') -%}
 {%- set data_dir = "/var/lib/etcd/" ~ grains['fqdn']|replace('.','_') -%}
 {%- set etcd_user = 'nobody' -%}
 {%- set etcd_group = 'www-data' -%}
@@ -32,7 +33,7 @@ etcd:
     - context:
         data_dir: {{ data_dir }}
         nodename: {{ grains['fqdn'] }}
-        discovery: {{ etcd.discovery|default('https://discovery.etcd.io/6887ce87d17aa32e97412a70382e6091') }}
+        discovery: {{ discovery }}
         addr: {{ grains['ipaddr'] }} 
     - require:
       - file: /etc/etcd

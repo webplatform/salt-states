@@ -16,7 +16,9 @@
  #
  #     curl http://169.254.169.254/openstack/2013-10-17/user_data
  #}
-manage_etc_hosts: false
+
+#manage_etc_hosts: false # While this works for the salt master, if we set it to false, the minions wont recognize
+
 manage-resolv-conf: false
 
 locale: en_US.UTF-8
@@ -39,6 +41,7 @@ runcmd:
   - add-apt-repository -y ppa:saltstack/salt
   - printf "deb http://ppa.launchpad.net/saltstack/salt/ubuntu trusty main" > /etc/apt/sources.list.d/saltstack-salt-trusty.list
   - printf "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3yWFgjwICPb8kQdkO8OX228tGnRLzCvEV74QccCIGwZ3KvXzN9RDRdUZ7fr5sGhwx5s7WQbXkLwOtAxyAUPB1K2DJnJiK/99n4lEjR3vUZN5p7ni7LsrwuoD0A7fF3PlBILYI294xaI/nikJFP14MKgX2TZcEBfY6bVeNmIuthlimKsfpIA2KtKm56zurMjVfjPCQYmcrThs0Wa4ArlAal8IlwPcLAJrjWaFfqjJlIA+PwclXj1xbRLhALkwNmFwkTsea1oT70ydFAeWH+Ui8+bTpjtEIthDVL1BkQ8mMhbrRXa/rVFU72ENc7iY2pknKSBA0hlRRumG8gYKAAhh1 hello@renoirboulanger.com" >> /home/dhc-user/.ssh/authorized_keys
+  - grep -q -e 'salt' /etc/hosts || printf "{{ salt_master_ip }} salt\n" >> /etc/hosts
 
 packages:
   - salt-minion

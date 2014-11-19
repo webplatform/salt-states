@@ -30,6 +30,7 @@ base:
     - mysql
     - php.composer
 #    - dns.server
+#      ^ Trying to NOT need it at all.
     - rsync
     - python
     - python.mysqldb
