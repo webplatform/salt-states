@@ -5,6 +5,7 @@
 include:
   - salt
   - users
+  - mmonit
 
 /srv/userdata.txt:
   file.managed:
@@ -41,6 +42,7 @@ salt-master-deps:
   pkg.installed:
     - pkgs:
       - python-git
+      - python-dulwich
       - python-novaclient
       - salt-cloud
       - python-libcloud
@@ -78,3 +80,9 @@ salt-master:
 /etc/salt/master.d/overrides.conf:
   file.managed:
     - source: salt://salt/files/master-overrides.conf
+
+/etc/monit/conf.d/salt-master.conf:
+  file.managed:
+    - source: salt://salt/files/monit.conf
+    - require:
+      - service: monit
