@@ -1,8 +1,5 @@
 #!/bin/bash
 
-#
-#
-
 if [ "$CODE_PATH" == "" ]; then
     echo "Please provide the CODE_PATH env variable"
     exit 1

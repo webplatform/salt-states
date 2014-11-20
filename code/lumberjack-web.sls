@@ -14,7 +14,7 @@ extend:
 lumberjack-web-rsync:
   cmd:
     - wait
-    - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.local.wpdn::code/bots/lumberjack/repo/web/ /srv/webplatform/lumberjack-web/"
+    - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.local.wpdn::code/bots/repo/web/ /srv/webplatform/lumberjack-web/"
     - require:
       - file: /etc/codesync.secret
       - file: /srv/webplatform/lumberjack-web

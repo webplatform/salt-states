@@ -57,7 +57,7 @@ repos["compat"]="https://github.com/webplatform/compatibility-data.git"
 repos["dabblet"]="https://github.com/webplatform/dabblet.git"
 repos["docsprint-dashboard"]="https://github.com/webplatform/DocSprintDashboard.git"
 repos["piwik"]="https://github.com/piwik/piwik.git"
-repos["specs"]="https://github.com/webspecs/specs.webplatform.org.git"
+repos["specs"]="https://github.com/webspecs/docs.git"
 repos["wiki"]="https://github.com/webplatform/mediawiki-core.git"
 repos["www"]="https://github.com/webplatform/www.webplatform.org.git"
 repos["notes-server"]="https://github.com/webplatform/notes-server.git"
@@ -109,6 +109,12 @@ for key in ${!repos[@]}; do
           cd /srv/code/${key}/repo/
           (bundle install)
           cd /srv/code 
+        fi
+        if [ -f "/srv/code/${key}/repo/generator/package.json" ]; then
+          echo " * Dealing with Robin’s difference with npm"
+          cd /srv/code/${key}/repo/generator
+          (npm install)
+          cd /srv/code
         fi
       else
         echo " * Repo in /srv/code/${key}/repo already cloned. Did nothing."

@@ -6,13 +6,13 @@ include:
   file.managed:
     - contents: |
         # Managed by Salt Stack at salt/webplatform/init.sls
-        deb file:/srv/webplatform/packages/apt ./
+        deb file:/srv/webplatform/apt ./
         # See also http://wpd-packages.objects.dreamhost.com/apt #TODO
 
 packages-rsync:
   cmd:
     - run
-    - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.local.wpdn::code/packages/ /srv/webplatform/packages/"
+    - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.local.wpdn::code/packages/apt/ /srv/webplatform/apt/"
     - require:
       - file: /etc/codesync.secret
       - file: webplatform-sources

@@ -1,16 +1,3 @@
-#web25-autoupdate:
-#  file.managed:
-#    - source: salt://code/files/web25/webat25-autoupdate.sh
-#    - name: /srv/code/web25ee/web25-autoupdate.sh
-#    - mode: 755
-#  cron.present:
-#    - identifier: web25-autoupdate
-#    - user: root
-#    - hour: '*/2'
-#    - name: "JOBNAME=web25-autoupdate cronhelper.sh /srv/code/web25ee/web25-autoupdate.sh"
-#    - require:
-#      - file: /srv/code/web25ee/web25-autoupdate.sh
-
 /etc/ssh/sshd_config:
   file.append:
     - text: Banner /etc/issue.net

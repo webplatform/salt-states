@@ -22,8 +22,17 @@ output=$(mktemp)
 
 cd $CODE_PATH
 
+echo -ne "Moved into code repository: $(pwd)\n"
+
 # Check if $CODE_PATH as composer.json
-if [ -a "composer.json" ]; then
+if [ -f "${CODE_PATH}/composer.json" ]; then
+    if [ ! -a "composer.phar" ]; then
+        MSG="$DEFAULT_MSG composer.phar is missing, downloaded locally"
+        logger -i -p local1.notice -t cron $MSG
+        echo $MSG
+
+        curl -sS https://getcomposer.org/installer | php
+    fi
     MSG="$DEFAULT_MSG run composer install"
     logger -i -p local1.notice -t cron $MSG
     echo $MSG
@@ -33,7 +42,7 @@ fi
 
 
 # Check if $CODE_PATH as package.json
-if [ -a "package.json" ]; then
+if [ -f "${CODE_PATH}/package.json" ]; then
     MSG="$DEFAULT_MSG run npm install"
     logger -i -p local1.notice -t cron $MSG
     echo $MSG
@@ -42,12 +51,19 @@ if [ -a "package.json" ]; then
 fi
 
 # Check if $CODE_PATH as bower.json
-if [ -a "bower.json" ]; then
-    MSG="$DEFAULT_MSG run composer install"
+if [ -f "${CODE_PATH}/bower.json" ]; then
+    if [ ! -f "${CODE_PATH}/node_modules/bower/bin/bower" ]; then
+        MSG="$DEFAULT_MSG did not find bower, installing locally"
+        logger -i -p local1.notice -t cron $MSG
+        echo $MSG
+
+        npm install bower
+    fi
+    MSG="$DEFAULT_MSG run bower install"
     logger -i -p local1.notice -t cron $MSG
     echo $MSG
 
-    bower install > $output 2>&1
+    node_modules/bower/bin/bower install > $output 2>&1
 fi
 
 

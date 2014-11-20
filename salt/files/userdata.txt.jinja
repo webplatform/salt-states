@@ -17,8 +17,7 @@
  #     curl http://169.254.169.254/openstack/2013-10-17/user_data
  #}
 
-#manage_etc_hosts: false # While this works for the salt master, if we set it to false, the minions wont recognize
-
+manage_etc_hosts: false # Has to be set to false for everybody. Otherwise we need a DNS
 manage-resolv-conf: false
 
 locale: en_US.UTF-8

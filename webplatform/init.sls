@@ -105,12 +105,22 @@ resolvconf -u:
 #        # https://www.kernel.org/doc/Documentation/vm/overcommit-accounting
 #        vm.overcommit_memory = 2
 #        vm.overcommit_ratio = 80
-#
+
+
+/usr/local/bin/wpd-autoupdate.sh:
+  file.managed:
+    - source: salt://webplatform/files/wpd-autoupdate.sh
+    - mode: 755
 ##
-## TODO, use webat25 autoupdate and make generic
+##TODO Loop through web apps
 ##
-#/usr/local/bin/wpd-autoupdate.sh:
-#  file.managed:
-#    - source: salt://code/files/web25/webat25-autoupdate.sh
-#    - name: /srv/code/web25ee/web25-autoupdate.sh
-#    - mode: 755
+#{% set appNameUpdateId = 'tmp' %}
+#{% set appCodePath = 'tmp' %}
+#{{ appNameUpdateId }}-crontab:
+#  cron.present:
+#    - identifier: {{ appNameUpdateId }} 
+#    - user: root
+#    - hour: '*/2'
+#    - name: "JOBNAME={{ appNameUpdateId }} CODE_PATH={{ appCodePath }} cronhelper.sh /usr/local/bin/wpd-autoupdate.sh"
+#    - require:
+#      - file: /usr/local/bin/wpd-autoupdate.sh

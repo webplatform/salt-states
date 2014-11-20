@@ -21,6 +21,8 @@ if [ ! -f "/srv/ci-dreamobjects.sh" ]; then
     exit 1
 fi
 
+echo "About to download all the packages in DreamObject wpd-packages bucket"
+
 cd /srv
 . ci-dreamobjects.sh
 mkdir -p code/packages
@@ -29,3 +31,8 @@ swift list wpd-packages > filesList
 while read FILE; do swift download wpd-packages $FILE ; done < filesList
 rm filesList
 chown -R nobody:deployment /srv/code/packages
+
+echo "Extracting our SSL certificates, you will be prompted a passphrase"
+gpg certificates.tar.gz.gpg
+tar xfz certificates.tar.gz
+mv certificates /srv/code/
