@@ -1,9 +1,30 @@
 #!/bin/bash
 
 #
-# Bootstrapping a new Salt master
+# Bootstrapping a new WebPlatform salt master (step 1)
 #
-# Canonical: https://gist.github.com/renoirb/a66b533c46ef7a8de8e3
+# *Cloning Salt configurations*
+#
+# This script is meant to be run only once per salt master
+# so that every code dependencies are cloned and installed
+# in a constant fashion.
+#
+# A salt master should have NO hardcoded files and configuration
+# but simply be booted bootstrapped by the three following components.
+#
+# 1. Cloning Salt configurations (so we can salt the salt master)
+# 2. The packages we share accross the infrastructure
+# 3. Cloning every webplatform.org software dependencies.
+#
+# =========================================================================
+#
+# Note that you can run this bootstrapper on ANY vanilla Ubuntu 14.04 VM and
+# it should work just fine. This script takes into account that you might 
+# might now have a master to start from. If that’s the case, make sure the
+# new VM is called "salt.staging.wpdn" (or "salt.production.wpdn") in the
+# `/etc/hosts` file and jump to step #5
+#
+# =========================================================================
 #
 # STEPS:
 #
@@ -11,8 +32,10 @@
 #
 # 1. Get to know the next IP address nova will give:
 #
-# This is useful so we can tell the new salt master to use the upcoming new DNS. Normally, nova rotates +1 private
-# IP addresses.
+# This is useful so we can tell the new salt master to use the upcoming new
+# DNS. Normally, nova rotates +1 private IP addresses. Note that you can
+# get to know the IP address, and boot an empty VM from OpenStack Dashboard
+# but if you are like the author, better having only shell stuff!
 #
 #     nova list
 #
@@ -26,16 +49,19 @@
 #
 #     salt salt state.highstate
 #
-# It should have updated `/srv/userdata.txt` so that the next VM will know at boot time that it should listen to itself
-# as a new salt master.  Note that userdata is part of OpenStack and that this script is run at every reboot, stating that
-# on subsequent boots to listen to itself instead of another IP, that most likely wont exist anymore, prevents potential
+# It should have updated `/srv/userdata.txt` so that the next VM will know at
+# boot time that it should listen to itself as a new salt master.  Note that
+# userdata is part of OpenStack and that this script is run at every reboot,
+# stating that on subsequent boots to listen to itself instead of another
+# IP, that most likely wont exist anymore, prevents potential
 # confusion and misdirected network traffic.
 #
 #
 # 3. Using python-novaclient, launch new future salt-master:
 #
-# We will have two VMs with name `salt` the new one will not have public IP address yet. The last step is to ask OpenStack
-# to change the public IP address to the new salt master.
+# We will have two VMs with name `salt` the new one will not have public IP
+# address yet. The last step is to ask OpenStack to change the public IP
+# address to the new salt master.
 #
 # Start the new VM:
 #
@@ -46,9 +72,11 @@
 #               --security-groups default,all,dns,log-dest,mw-eventlog,salt-master \
 #               salt
 #
-# NOTE: Adjust `key_name` with your secret key that you given in OpenStack dashboard you should have on the salt master.
-#       That one is only useful among VMs you control FROM the salt master. It should be available in
-#        `/srv/private/pillar/sshkeys/init.sls` as its kept in source control so it can replicate the same setup everywhere.
+# NOTE: Adjust `key_name` with your secret key that you given in OpenStack dashboard
+#       you should have on the salt master. That one is only useful among VMs you
+#       control FROM the salt master. It should be available in
+#       `/srv/private/pillar/sshkeys/init.sls` as its kept in source control so it
+#       can replicate the same setup everywhere.
 #
 #
 # 4. Send this bootstrapper file, get new private IP first
@@ -64,12 +92,16 @@
 #     nova list
 #     scp /srv/opsconfigs/new-saltmaster.sh dhc-user@10.10.10.129:~
 #
-# Remember ...129 (in this example) is *also* called salt. Current salt master has public key to be accepted on it. 
-# Once the file is moved, we can SSH to the new VM. Note that we have to SSH from the current salt master as its the one that already
-# has your current private/public key for dhc-user already.
+# Remember ...129 (in this example) is *also* called salt. Current salt master has public
+# key to be accepted on it. Once the file is moved, we can SSH to the new VM. Note that
+# we have to SSH from the current salt master as its the one that already has your current
+# private/public key for dhc-user already.
 #
 #
 # 5. Launch this bootstrapper
+#
+# You must be on the new VM at this step. Copy to the new VM this file and you will be
+# just fine.
 #
 # This bootstrapper will initialize everything we need:
 # - Instal that node as a salt master

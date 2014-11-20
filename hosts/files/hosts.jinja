@@ -2,11 +2,11 @@
 # Managed by Salt stack. Do NOT EDIT directly!
 #
 127.0.0.1 localhost
-127.0.1.1 {{ hostName }}  {{ hostName }}.staging.wpdn
+127.0.1.1 {{ hostName }}.{{ level }}.wpdn  {{ hostName }}
 
 ## Provided by nodes pillar ##
 {% for node, args in pillar.get('nodes', {}).items() -%}
-{{ args.get('private') }}		{{ node }}  {{ node }}.local.wpdn	# Provided by pillar nodes
+{{ args.get('private') }}		{{ node }}.local.wpdn	{{ node }}
 {% endfor -%}
 ## /Provided by nodes pillar ##
 
@@ -27,7 +27,7 @@
 {%- if grains['nodename'] == 'salt' -%}
 ##  Provided by mine.get network.ip_addrs  ##
 {%- for minion,addrs in salt['mine.get']('*', 'network.ip_addrs').items()|sort(attribute=0) %}
-{{ addrs[0] }}		{{ minion }}.{{ level }}.wpdn
+{{ addrs[0] }}		{{ minion }}.{{ level }}.wpdn	{{ minion }}
 {%- endfor %}
 ## /Provided by mine.get network.ip_addrs  ##
 {%- endif %}
