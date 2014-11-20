@@ -56,3 +56,4 @@ fi
 
 # echo "job ran successfully"
 rm $output
+
