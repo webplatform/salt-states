@@ -1,6 +1,5 @@
 # https://github.com/twitter/twemproxy#configuration
 # https://github.com/wikimedia/operations-puppet  in modules/nutcracker/
-
 include:
   - mmonit
   - code.packages

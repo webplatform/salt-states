@@ -1,4 +1,26 @@
+{%- set memcache_objects = salt['pillar.get']('infra:memcache_objects', []) -%}
+{%- set memcache_sessions = salt['pillar.get']('infra:memcache_sessions', []) -%}
+
+{%- if memcache_objects|count >= 1 -%}
 memcache:
+  listen: 127.0.0.1:11212
+  hash: md5
+  distribution: ketama
+  timeout: 250
+  preconnect: 'true'           # this is quoted on purpose
+  redis: 'false'               # same here
+  auto_eject_hosts: 'true'     # same here
+  server_retry_timeout: 30000
+  server_failure_limit: 3
+  server_connections: 2
+  servers:
+{%- for item in memcache_objects %}
+    - {{ item }}:11211:1
+{%- endfor %}
+{%- endif %}
+
+{% if memcache_sessions|count >= 1 -%}
+memcache_sessions:
   listen: 127.0.0.1:11211
   hash: md5
   distribution: ketama
@@ -10,5 +32,7 @@ memcache:
   server_failure_limit: 3
   server_connections: 2
   servers:
-    - 10.10.10.110:11211:2
-    - 10.10.10.112:11211:2
+{%- for item in memcache_sessions %}
+    - {{ item }}:11211:1
+{%- endfor %}
+{% endif -%}
