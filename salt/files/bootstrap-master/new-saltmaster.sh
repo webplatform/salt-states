@@ -148,6 +148,7 @@ echo " "
 echo "Bootstrapping a new Salt master"
 
 declare -r SALT_BIN=`which salt-call`
+declare -r DATE=`date`
 
 if [ -z "${SALT_BIN}" ]; then
   echo "Saltstack doesn’t seem to be installed on that machine"
@@ -237,14 +238,13 @@ echo " * Making sure the hosts file has 127.0.1.1 to declare our environment lev
 sed -i "s/^127.0.1.1 $(hostname)/127.0.1.1 salt.${level}.wpdn salt/g" /etc/hosts
 grep -q -e "salt" /etc/hosts || printf "127.0.1.1 salt.${level}.wpdn salt" >> /etc/hosts
 
-DISCOVERY=$(curl --silent -w "\n" https://discovery.etcd.io/new)
-
 (cat <<- _EOF_
-salt_cluster:
-  - discovery: ${DISCOVERY}
+# This salt master has been created on ${DATE}
+# via new-salt-master.sh script
+level: ${level}
 _EOF_
 ) > /etc/salt/grains
-  echo " * Added new grains, including ETCD discovery URL ${DISCOVERY}"
+  echo " * Added new grain; deployment level: ${level}"
 else
   echo " * Grains already exist on this (future) salt master, did not overwrite"
 fi

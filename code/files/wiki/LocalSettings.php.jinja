@@ -20,18 +20,6 @@ $wgServer = "//docs.".$siteTopLevelDomain;
 $wgCanonicalServer = "https://docs.".$siteTopLevelDomain;
 $wgCompatablesJsonFileUrl = "https://docs.".$siteTopLevelDomain."/compat/data.json";
 
-#
-# Redis session servers, managed by a Salt mine, network.ip_addrs at index 0
-#
-# To get the list, run from any salt minion:
-#
-#    salt-call mine.get 'roles:sessions' network.ip_addrs grain
-#
-$wpdRedisSessionServers		= array();
-{%- for minion,addrs in salt['mine.get']('roles:sessions', 'network.ip_addrs', expr_form='grain').items() %}
-$wpdRedisSessionServers[]	= '{{ addrs[0] }}:6379';	// {{ minion }}
-{%- endfor %}
-
 foreach(
   array_merge(
     glob( __DIR__ . '/../settings.d/*.php' ),

@@ -10,3 +10,13 @@ include:
 
 /srv/builder/etcd:
   file.directory
+
+# apt-get install python-dev libffi-dev libssl-dev
+# mkdir building-python-etcd
+# cd building-python-etcd/
+# git clone https://github.com/jplana/python-etcd.git
+# cd python-etcd
+# sudo python setup.py install
+#
+# Ref:
+#   - https://github.com/specialunderwear/debianize.sh

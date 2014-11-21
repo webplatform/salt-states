@@ -1,8 +1,9 @@
+127.0.1.1 {{ hostName }}.{{ level }}.wpdn {{ hostName }}
+127.0.0.1 localhost
+
 #
 # Managed by Salt stack. Do NOT EDIT directly!
 #
-127.0.0.1 localhost
-127.0.1.1 {{ hostName }}.{{ level }}.wpdn  {{ hostName }}
 
 ## Provided by nodes pillar ##
 {% for node, args in pillar.get('nodes', {}).items() -%}

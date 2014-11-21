@@ -4,7 +4,7 @@ base:
     - code.packages
     - salt
     - mmonit
-    - etcd
+#    - etcd
     - users
     - groups
     - sudo
@@ -29,8 +29,7 @@ base:
     - logrotate.remote-logs
     - mysql
     - php.composer
-#    - dns.server
-#      ^ Trying to NOT need it at all.
+    - dns.server
     - rsync
     - python
     - python.mysqldb

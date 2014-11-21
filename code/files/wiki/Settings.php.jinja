@@ -122,7 +122,7 @@ $wgObjectCaches['memcached-pecl'] = array(
     'class' => 'MemcachedPeclBagOStuff',
     'serializer' => 'php',                  // pkg igbinary should be installed, or use 'php'. As of 20141125 igbinary dont work, #TODO
     'persistent' => false,
-    'servers' => array('127.0.0.1:11211'),  // MCRouter/Nutcracker should be running locally
+    'servers' => array('127.0.0.1:11212'),  // MCRouter/Nutcracker should be running locally
     'server_failure_limit' => 1e9,
     'retry_timeout' => -1
 );
