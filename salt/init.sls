@@ -1,5 +1,3 @@
-{% set saltPublishQuery = salt.publish.publish('salt', 'grains.get', 'level') %}
-
 salt-minion:
   pkg:
     - installed
@@ -12,11 +10,8 @@ salt-minion:
 /etc/salt/minion.d/overrides.conf:
   file.managed:
     - source: salt://salt/files/minion-overrides.conf
-    - template: jinja
     - require:
       - pkg: salt-minion
-    - context:
-        level: {{ saltPublishQuery.salt }}
 
 zeromq-ppa:
   pkgrepo.managed:
@@ -32,6 +27,16 @@ salt-minion-deps:
   pkg.installed:
     - names:
       - python-pip
+
+{% if grains['nodename'] != 'salt' %}
+{% set saltPublishQuery = salt.publish.publish('salt', 'grains.get', 'level') %}
+/etc/salt/grains:
+  file.append:
+    - require:
+      - pkg: salt-minion
+    - text: |
+        level: {{ saltPublishQuery.salt }}
+{% endif %}
 
 {% if salt['pillar.get']('infra:salt_testing', false) == True %}
 # NOTE: salt salt pkg.get_repo "ppa:saltstack/salt"
