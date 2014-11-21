@@ -95,6 +95,9 @@ for key in ${!repos[@]}; do
         chown nobody:deployment /srv/code/${key}/repo/mediawiki
         (salt-call --local --log-level=quiet git.clone /srv/code/${key}/repo/mediawiki ${repos[${key}]} opts="${options[${key}]}" user="nobody")
         mkdir /srv/code/${key}/repo/settings.d
+        cd /srv/code/${key}/repo/mediawiki/extensions/WebPlatformDocs
+        (composer install)
+        cd /srv/code
       else
         echo " * Repo /srv/code/${key}/repo/mediawiki already cloned. Did nothing."
       fi

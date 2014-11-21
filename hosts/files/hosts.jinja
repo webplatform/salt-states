@@ -24,6 +24,10 @@
  #
  #    salt-call mine.get '*' network.ip_addrs grain
  #
+ # If data doesnt get updated, use:
+ #
+ #    salt '*' mine.send network.ip_addrs
+ #
  #}
 {%- if grains['nodename'] == 'salt' -%}
 ##  Provided by mine.get network.ip_addrs  ##
