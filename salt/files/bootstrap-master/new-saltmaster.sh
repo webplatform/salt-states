@@ -272,11 +272,11 @@ repos["pillar"]="ssh://renoirb@source.webplatform.org:29418/pillars"
 repos["runner"]="ssh://renoirb@source.webplatform.org:29418/runners"
 repos["opsconfigs"]="ssh://renoirb@source.webplatform.org:29418/opsconfigs"
 
-options["salt"]="--branch 201409-removing-private-data --quiet"
-options["private"]="--branch 201409-removing-private-data --quiet"
-options["pillar"]="--branch 201409-removing-private-data --quiet"
-options["runner"]="--quiet"
-options["opsconfigs"]="--quiet"
+options["salt"]="--branch 201409-removing-private-data --origin gerrit --quiet"
+options["private"]="--branch 201409-removing-private-data --origin gerrit --quiet"
+options["pillar"]="--branch 201409-removing-private-data --origin gerrit --quiet"
+options["runner"]="--origin gerrit --quiet"
+options["opsconfigs"]="--quiet --origin gerrit"
 
 
 echo "We will be cloning our new Salt master config repos:"
@@ -343,7 +343,11 @@ salt-key -a salt
 
 echo "Removing temporary SSH key"
 echo -e "\e[31mDID YOU REMOVE the SSH key in Gerrit??\e[0m"
+
 rm /home/dhc-user/.ssh/id_rsa{,.pub}
+
+clear
+echo -e "\e[31mBefore state.highstate, did you change renoirb uid?\e[0m"
 
 echo "Job’s done"
 exit 0
