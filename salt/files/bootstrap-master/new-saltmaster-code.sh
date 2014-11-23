@@ -24,6 +24,18 @@ if [ -z "${SALT_BIN}" ]; then
   exit 1
 fi
 
+echo "Setting file ownership on salt master checkouts"
+chown -R nobody:deployment /srv/{salt,pillar,private}
+find /srv/salt -type f -exec chmod 664 {} \;
+find /srv/pillar -type f -exec chmod 664 {} \;
+find /srv/private -type f -exec chmod 660 {} \;
+find /srv/salt -type d -exec chmod 775 {} \;
+find /srv/pillar -type d -exec chmod 775 {} \;
+find /srv/private -type d -exec chmod 770 {} \;
+chmod 755 /srv/salt/_grains/*.py
+
+echo "About to clone code..."
+
 cd /srv/code
 
 declare -A repos
