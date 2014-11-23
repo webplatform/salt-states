@@ -38,20 +38,17 @@ include:
       - user: {{ username }} 
 {% endfor %}
 
+## SecurityGroup port: TCP 4505 4506 @salt
 salt-master-deps:
   pkg.installed:
     - pkgs:
-      - python-git
       - python-dulwich
       - python-novaclient
-      - salt-cloud
       - python-libcloud
+      - python-cffi
+      - salt-cloud
       - salt-api
-
-## SecurityGroup port: TCP 4505 4506 @salt
-salt-master:
-  pkg:
-    - installed
+      - salt-master
 
 #/usr/local/bin/wpd-deploy:
 #  file.managed:

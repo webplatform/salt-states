@@ -10,5 +10,5 @@ $TTL 3600
 
 @		NS	salt.local.wpdn.
 
-salt		A	10.10.10.137	; make sure pillar infra:salt:master:private is adjusted
-masterdb	A	10.10.10.101	; make sure pillar infra:db:master:private is adjusted
+salt		A	10.10.10.221	; make sure pillar infra:salt:master:private is adjusted
+masterdb	A	10.10.10.228	; make sure pillar infra:db:master:private is adjusted

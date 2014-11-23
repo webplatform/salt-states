@@ -20,4 +20,4 @@ fi
 compass compile -e production --force
 node_modules/docpad/bin/docpad generate --env=production
 node_modules/gulp/bin/gulp.js minify --env=production
-tar cfj ../archives/package-$(date '+%Y%m%d%H%M').tar.bz2 out/
+tar cfj ../archives/package-$(date '+%Y%m%d%H').tar.bz2 out/

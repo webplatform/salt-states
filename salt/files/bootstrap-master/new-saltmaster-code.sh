@@ -137,5 +137,9 @@ for key in ${!repos[@]}; do
     fi
 done
 
+chown -R nobody:deployment /srv/code/
+find /srv/code -type f -exec chmod 664 {} \;
+find /srv/code -type d -exec chmod 775 {} \;
+
 echo "Job’s done"
 exit 0

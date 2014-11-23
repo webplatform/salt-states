@@ -10,5 +10,5 @@ $TTL 3600
 
 @		NS	salt.local.wpdn.
 
-salt		A     	10.10.10.137    ; Salt master
-db1		A       10.10.10.101
+salt		A     	10.10.10.211    ; Salt master
+db1		A       10.10.10.228

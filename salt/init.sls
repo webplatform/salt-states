@@ -13,20 +13,12 @@ salt-minion:
     - require:
       - pkg: salt-minion
 
-zeromq-ppa:
-  pkgrepo.managed:
-    - ppa: chris-lea/zeromq
-  pkg.installed:
-    - pkgs:
-      - libzmq3
-      - python-zmq
-    - require:
-      - pkgrepo: zeromq-ppa
-
 salt-minion-deps:
   pkg.installed:
-    - names:
+    - pkgs:
       - python-pip
+    - require:
+      - pkg: salt-minion
 
 {% if grains['nodename'] != 'salt' %}
 {% set saltPublishQuery = salt.publish.publish('salt', 'grains.get', 'level') %}
