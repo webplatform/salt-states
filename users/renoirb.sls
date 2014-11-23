@@ -6,12 +6,12 @@ include:
 
 renoirb:
   group.present:
-    - gid: 1017
+    - gid: 1007
   user.present:
     - fullname: Renoir Boulanger <renoir@w3.org>
     - workphone: +1514 560-9341
     - shell: /bin/bash
-    - uid: 1017
+    - uid: 1007
     - gid: 10001
     - groups:
       - renoirb

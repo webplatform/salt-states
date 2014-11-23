@@ -13,7 +13,7 @@ include:
     - template: jinja
     - context:
         level: {{ level }}
-        salt_master_ip: 10.10.10.137
+        salt_master_ip: {{ salt_master_ip }}
         # CANNOT set salt_master_ip to create new salt master
         # Looking if it works well to specify future salt master IP, before creation #TODO
         # #CHANGE_SALT_MASTER
