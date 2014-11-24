@@ -88,10 +88,6 @@ base:
     - specific.storage1
   'memcache*':
     - memcached
-  'redis*':
-    - redis
-  'redis-jobs1':
-    - redis.live
   'monitor*':
     - monitor.gmetad
     - monitor.web

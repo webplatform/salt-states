@@ -1,6 +1,6 @@
 include:
-  - rsync.secret
   - code.prereq
+  - rsync.secret
 
 /etc/apt/sources.list.d/webplatform.list:
   file.managed:
@@ -8,6 +8,8 @@ include:
         # Managed by Salt Stack at salt/webplatform/init.sls
         deb file:/srv/webplatform/apt ./
         # See also http://wpd-packages.objects.dreamhost.com/apt #TODO
+    - require:
+      - cmd: packages-rsync
 
 # @salt-master-dest
 packages-rsync:
@@ -17,3 +19,4 @@ packages-rsync:
     - require:
       - file: /etc/codesync.secret
       - file: webplatform-sources
+

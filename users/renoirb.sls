@@ -38,6 +38,8 @@ renoirb:
     - group: renoirb
     - mode: 600
     - source: salt://users/files/renoirb/sshconfig
+    - require:
+      - ssh_auth: renoirb_keys
 
 {% if grains['nodename'] == 'salt' %}
 preferences:
@@ -58,6 +60,8 @@ preferences:
     - user: renoirb
     - group: renoirb
     - mode: 0600
+    - require:
+      - ssh_auth: renoirb_keys
 
 /home/renoirb/.ssh/{{ key_name }}.pub:
   file.managed:
@@ -65,6 +69,8 @@ preferences:
     - user: renoirb
     - group: renoirb
     - mode: 0600
+    - require:
+      - ssh_auth: renoirb_keys
 {% endfor %}
 
 {% endif %}

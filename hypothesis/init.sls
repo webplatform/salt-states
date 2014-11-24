@@ -6,6 +6,7 @@ include:
   - nodejs
   - git
   - hypothesis.nginx
+  - mmonit
 
 /var/log/webplatform:
   file:
@@ -14,18 +15,15 @@ include:
     - user: renoirb
     - group: deployment
 
-monit-checker:
-  pkg:
-    - installed
-    - name: monit
-    - require_in:
-      - file: /etc/monit/conf.d/hypothesis
-      - file: /srv/webplatform/notes-server/service.sh
+/etc/monit/conf.d/hypothesis.conf:
   file:
     - managed
-    - name: /etc/monit/conf.d/hypothesis
     - template: jinja
     - source: salt://hypothesis/files/monit.conf.jinja
+    - require_in:
+      - file: /srv/webplatform/notes-server/service.sh
+    - require:
+      - service: monit
 
 hypothesis-service:
   service:

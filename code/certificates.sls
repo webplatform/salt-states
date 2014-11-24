@@ -1,6 +1,6 @@
 include:
-  - rsync.secret
   - code.prereq
+  - rsync.secret
 
 # @salt-master-dest
 certificates-rsync:

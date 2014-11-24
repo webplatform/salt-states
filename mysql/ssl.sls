@@ -1,3 +1,5 @@
+include:
+  - mysql.server
 
 # Reference
 #  - http://bridge.grumpy-troll.org/2013/04/mysql-ssltls-and-ubuntu.html
@@ -21,11 +23,14 @@ openssl-client-newkey:
     - name: /usr/bin/openssl req -newkey rsa:2048 -days 3600 -nodes -keyout client-key.pem -out client-req.pem -subj '/C=US/ST=MA/L=Cambridge/O=W3C/OU=WebPlatform Docs/CN={{ grains['host'] }}.staging.wpdn/emailAddress=team-webplatform-systems@w3.org'
     - require:
       - pkg: openssl-installed
+      - pkg: db-server
   file.managed:
     - name: /etc/mysql/client-req.pem
     - user: mysql
     - group: ops
     - mode: 640
+    - require:
+      - pkg: db-server
 
 openssl-client-key:
   cmd.run:
@@ -34,11 +39,14 @@ openssl-client-key:
     - cwd: /etc/mysql
     - require:
       - cmd: openssl-client-newkey
+      - pkg: db-server
   file.managed:
     - name: /etc/mysql/client-key.pem
     - user: mysql
     - group: ops
     - mode: 640
+    - require:
+      - pkg: db-server
 
 openssl-client-cert:
   cmd.run:
@@ -50,11 +58,14 @@ openssl-client-cert:
       - cmd: openssl-client-newkey
       - file: /etc/mysql/ca-cert.pem
       - file: /etc/mysql/ca-key.pem
+      - pkg: db-server
   file.managed:
     - name: /etc/mysql/client-cert.pem
     - user: mysql
     - group: ops
     - mode: 640
+    - require:
+      - pkg: db-server
 
 openssl-newkey:
   cmd.run:
@@ -64,11 +75,14 @@ openssl-newkey:
     - name: /usr/bin/openssl req -newkey rsa:2048 -days 3600 -nodes -keyout server-key.pem -out server-req.pem -subj '/C=US/ST=MA/L=Cambridge/O=W3C/OU=WebPlatform Docs/CN={{ grains['host'] }}.staging.wpdn/emailAddress=team-webplatform-systems@w3.org'
     - require:
       - pkg: openssl-installed
+      - pkg: db-server
   file.managed:
     - name: /etc/mysql/server-req.pem
     - user: mysql
     - group: mysql
     - mode: 640
+    - require:
+      - pkg: db-server
 
 openssl-key:
   cmd.run:
@@ -77,11 +91,14 @@ openssl-key:
     - cwd: /etc/mysql
     - require:
       - cmd: openssl-newkey
+      - pkg: db-server
   file.managed:
     - name: /etc/mysql/server-key.pem
     - user: mysql
     - group: mysql
     - mode: 640
+    - require:
+      - pkg: db-server
 
 openssl-cert:
   cmd.run:
@@ -93,11 +110,14 @@ openssl-cert:
       - cmd: openssl-newkey
       - file: /etc/mysql/ca-cert.pem
       - file: /etc/mysql/ca-key.pem
+      - pkg: db-server
   file.managed:
     - name: /etc/mysql/server-cert.pem
     - user: mysql
     - group: mysql
     - mode: 640
+    - require:
+      - pkg: db-server
 
 /etc/mysql/conf.d/ssl.cnf:
   file.managed:
@@ -107,6 +127,7 @@ openssl-cert:
     - source: salt://mysql/files/ssl.cnf
     - require:
       - cmd: openssl-newkey
+      - pkg: db-server
 
 /etc/mysql/ca-key.pem:
   file.managed:
@@ -114,6 +135,8 @@ openssl-cert:
     - group: mysql
     - mode: 640
     - contents_pillar: 'mysql:ssl:ca-key.pem'
+    - require:
+      - pkg: db-server
 
 /etc/mysql/ca-cert.pem:
   file.managed:
@@ -121,3 +144,6 @@ openssl-cert:
     - group: mysql
     - mode: 640
     - contents_pillar: 'mysql:ssl:ca-cert.pem'
+    - require:
+      - pkg: db-server
+

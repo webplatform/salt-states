@@ -1,4 +1,5 @@
 include:
+  - code.prereq
   - rsync.secret
   - code.certificates
 

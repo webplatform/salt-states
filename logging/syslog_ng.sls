@@ -3,7 +3,6 @@ syslog-requisites:
     - installed
     - names:
       - syslog-ng-core
-      - syslog-ng-mod-redis
 
 syslog-ng:
   service:

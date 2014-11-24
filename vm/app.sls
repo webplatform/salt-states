@@ -1,5 +1,4 @@
 include:
-  - php
   - code.wiki
   - code.certificates
   - code.packages
@@ -9,5 +8,4 @@ include:
   - code.www
   - code.root-com
   - code.specs
-  - nutcracker
 

@@ -78,7 +78,8 @@ sysstat:
       - pkg: sysstat
 
 resolvconf -u:
-  cmd.watch
+  cmd.run:
+    - unless: grep -q -e 'wpdn' /etc/resolv.conf
 
 /etc/profile.d/wpd_aliases.sh:
   file.managed:

@@ -1,7 +1,6 @@
 include:
-  - rsync.secret
   - code.prereq
-  - bots.lumberjack-web
+  - rsync.secret
 
 extend:
   /srv/webplatform/lumberjack-web:

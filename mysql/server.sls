@@ -9,19 +9,6 @@ salt-dependency:
       - pkg: db-server
       - file: /etc/mysql/debian.cnf
 
-/etc/mysql/debian.cnf:
-  file.managed:
-    - modes: 600
-    - source: salt://mysql/files/debian.cnf.jinja
-    - template: jinja
-    - require:
-      - pkg: db-server
-
-comment-mycnf-network-listener:
-  file.comment:
-    - regex: ^bind-address
-    - name: /etc/mysql/my.cnf
-
 db-server:
   pkg.installed:
     - names:
@@ -37,6 +24,21 @@ db-server:
     - enable: True
     - require:
       - pkg: db-server
+
+/etc/mysql/debian.cnf:
+  file.managed:
+    - modes: 600
+    - source: salt://mysql/files/debian.cnf.jinja
+    - template: jinja
+    - require:
+      - pkg: mysql
+
+comment-mycnf-network-listener:
+  file.comment:
+    - regex: ^bind-address
+    - name: /etc/mysql/my.cnf
+    - require:
+      - pkg: mysql
 
 {%- set configFiles = ['listener','unicode-server'] -%}
 {%- for f in configFiles %}

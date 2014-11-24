@@ -1,5 +1,6 @@
 include:
   - code.prereq
+  - rsync.secret
 
 /srv/webplatform/webplatform-com:
   file.recurse:
@@ -12,3 +13,4 @@ include:
       - group
     - require:
       - file: webplatform-sources
+      - file: /etc/codesync.secret
