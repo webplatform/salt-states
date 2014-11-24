@@ -27,11 +27,12 @@ include:
 #      - file: /usr/local/sbin/archive-noncommited.sh
 #      - file: /usr/bin/cronhelper.sh
 
-# rsync -a --no-perms --delete --filter '- .rsync-filter' --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/web25ee/docroot/ /srv/webplatform/web25ee/
-# rsync --dry-run -a --no-perms --delete --filter '- /srv/code/web25ee/docroot/.rsync-filter' --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/web25ee/docroot/ /srv/webplatform/web25ee/
+# rsync -a --no-perms --delete --filter '- .rsync-filter' --password-file=/etc/codesync.secret codesync@salt::code/web25ee/docroot/ /srv/webplatform/web25ee/
+# rsync --dry-run -a --no-perms --delete --filter '- /srv/code/web25ee/docroot/.rsync-filter' --password-file=/etc/codesync.secret codesync@salt::code/web25ee/docroot/ /srv/webplatform/web25ee/
+# @salt-master-dest
 sync-web25ee:
   cmd.run:
-    - name: rsync -a --no-perms --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/web25ee/docroot/ /srv/webplatform/web25ee/
+    - name: rsync -a --no-perms --password-file=/etc/codesync.secret codesync@salt::code/web25ee/docroot/ /srv/webplatform/web25ee/
     - require:
       - file: /etc/codesync.secret
       - file: webplatform-sources

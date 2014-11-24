@@ -3,9 +3,10 @@ include:
   - code.prereq
   - piwik.config
 
+# @salt-master-dest
 sync-piwik:
   cmd.run:
-    - name: "rsync -a --exclude 'tmp' --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.local.wpdn::code/piwik/repo/ /srv/webplatform/piwik/"
+    - name: "rsync -a --exclude 'tmp' --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/piwik/repo/ /srv/webplatform/piwik/"
     - user: root
     - group: root
     - require:

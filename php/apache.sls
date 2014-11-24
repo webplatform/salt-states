@@ -1,16 +1,6 @@
 include:
   - php
 
-php-apache:
-  pkg.installed:
-    - names:
-      - libapache2-mod-php5
+libapache2-mod-php5:
+  pkg.installed
 
-/etc/php5/apache2/php.ini:
-  file.managed:
-    - source: salt://php/php.ini
-    - user: root
-    - group: root
-    - mode: 644
-    - require:
-      - pkg: libapache2-mod-php5

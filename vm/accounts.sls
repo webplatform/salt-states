@@ -3,9 +3,10 @@ include:
   - code.prereq
   - cron
 
+# @salt-master-dest
 sync-dists:
   cmd.run:
-    - name: rsync -a --no-perms --delete --password-file=/etc/codesync.secret codesync@deployment.dho.wpdn::code/accounts/dists/ /srv/webplatform/auth/dists/
+    - name: rsync -a --no-perms --delete --password-file=/etc/codesync.secret codesync@salt::code/accounts/dists/ /srv/webplatform/auth/dists/
     - require:
       - file: /etc/codesync.secret
       - file: /srv/webplatform/auth/dists

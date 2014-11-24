@@ -2,10 +2,11 @@ include:
   - rsync.secret
   - code.prereq
 
+# @salt-master-dest
 dabblet-rsync:
   cmd:
     - run
-    - name: "rsync -a --exclude '.git' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.local.wpdn::code/dabblet/repo/ /srv/webplatform/dabblet/"
+    - name: "rsync -a --exclude '.git' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/dabblet/repo/ /srv/webplatform/dabblet/"
     - user: root
     - group: root
     - require:

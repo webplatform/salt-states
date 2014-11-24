@@ -8,9 +8,10 @@ include:
     - user: www-data
     - group: www-data
 
+# @salt-master-dest
 rsync-blog:
   cmd.run:
-    - name: "rsync -a  --exclude '.git' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.local.wpdn::code/blog/repo/ /srv/webplatform/blog/"
+    - name: "rsync -a  --exclude '.git' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/blog/repo/ /srv/webplatform/blog/"
     - user: root
     - group: root
     - require:

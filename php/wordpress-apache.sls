@@ -8,4 +8,4 @@ extend:
     service:
       - watch:
         - file: /etc/php5/mods-available/memcached.ini
-        - file: /etc/php5/mods-available/apc.ini
+        - file: /etc/php5/mods-available/apcu.ini

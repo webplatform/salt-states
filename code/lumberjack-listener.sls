@@ -9,10 +9,11 @@ include:
     - require:
       - file: webplatform-sources
 
+# @salt-master-dest
 lumberjack-listener-rsync:
   cmd:
     - run
-    - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.local.wpdn::code/bots/repo/listener/ /srv/webplatform/lumberjack-listener/"
+    - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/bots/repo/listener/ /srv/webplatform/lumberjack-listener/"
     - require:
       - file: /etc/codesync.secret
       - file: webplatform-sources

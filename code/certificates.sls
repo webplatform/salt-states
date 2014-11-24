@@ -2,10 +2,11 @@ include:
   - rsync.secret
   - code.prereq
 
+# @salt-master-dest
 certificates-rsync:
   cmd:
     - run
-    - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.local.wpdn::code/certificates/staging/ /etc/ssl/webplatform/"
+    - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/certificates/staging/ /etc/ssl/webplatform/"
     - require:
       - file: /etc/codesync.secret
       - file: webplatform-sources

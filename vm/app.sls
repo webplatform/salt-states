@@ -1,4 +1,5 @@
 include:
+  - php
   - code.wiki
   - code.certificates
   - code.packages
@@ -9,11 +10,4 @@ include:
   - code.root-com
   - code.specs
   - nutcracker
-  - php
 
-php5-igbinary:
-  pkg.installed:
-    - skip_verify: True
-    - require:
-      - pkg: php-pear
-      - file: /etc/apt/sources.list.d/webplatform.list

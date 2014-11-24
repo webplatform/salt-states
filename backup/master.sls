@@ -34,13 +34,14 @@ backup_location:
 #    - hour: 5
 #    - name: '[ -f /dev/backup1/backup-snap`date --date="4 days ago" "+%-d"` ] && lvremove -f /dev/backup1/backup-snap`date --date="4 days ago" "+%-d"`'
 
+# @salt-master-dest
 backup-salt-master:
   cron.present:
     - identifier: backup-salt-master
     - user: root
     - minute: 1
     - hour: 2
-    - name: 'rsync -a --no-perms --password-file=/etc/backup.secret backup@salt.local.wpdn::backup/ {{ deploymentBackupMountpoint }}/'
+    - name: 'rsync -a --no-perms --password-file=/etc/backup.secret backup@salt::backup/ {{ deploymentBackupMountpoint }}/'
     - require:
       - file: /etc/backup.secret
       - file: {{ deploymentBackupMountpoint }}

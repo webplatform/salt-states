@@ -1,10 +1,12 @@
 #vim: ai ft=yaml
+#
+# Ref:
+#   - http://docs.saltstack.com/en/latest/ref/states/top.html#other-ways-of-targeting-minions
+#
 base:
   '*':
-    - code.packages
     - salt
     - mmonit
-#    - etcd
     - users
     - groups
     - sudo
@@ -55,8 +57,6 @@ base:
     - mediawiki.appserver
     - mediawiki.scaler
     - logrotate.mediawiki-debug
-  'app3':
-    - mediawiki.jobrunner
   'backup*':
     - backup.master
   'blog*':

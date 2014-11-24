@@ -4,9 +4,10 @@ include:
   - php.buggenie
   - buggenie.config
 
+# @salt-master-dest
 buggenie-codesync:
   cmd.run:
-    - name: "rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt.local.wpdn::code/buggenie/repo/ /srv/webplatform/buggenie/"
+    - name: "rsync -a --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/buggenie/repo/ /srv/webplatform/buggenie/"
     - user: root
     - group: root
     - require:
