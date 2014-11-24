@@ -1,7 +1,6 @@
 scaler-packages:
-  pkg:
-    - installed
-    - names:
+  pkg.installed:
+    - pkgs:
       - imagemagick
       - ffmpeg2theora
       - librsvg2-bin

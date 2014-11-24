@@ -7,9 +7,15 @@ apache2:
       - pkg: apache2
     - watch:
       - pkg: apache2
-  pkg:
-    - installed
-    - name: apache2-mpm-prefork
+  pkg.installed:
+    - pkgs:
+      - apache2
+      - apache2-mpm-prefork
+
+# 00: TLD
+# 01: docs
+# 02: blog
+# 03: specs
 
 /etc/apache2/sites-enabled/000-default.conf:
   file.absent:

@@ -1,12 +1,12 @@
 python-swiftclient-install:
+  pkg.installed:
+    - pkgs:
+      - python-pip
+      - python-keystoneclient
   pip.installed:
     - name: python-swiftclient
     - require:
-      - pkg: python-pip
-  pkg.installed:
-    - names:
-      - python-pip
-      - python-keystoneclient
+      - pkg: python-swiftclient-install 
 
 /etc/profile.d/swift-dreamobjects.sh:
   file.managed:

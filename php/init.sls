@@ -1,15 +1,22 @@
 include:
   - php.composer
 
-php-basic:
+php-basic-deps:
   pkg.installed:
-    - names:
+    - pkgs:
       - php5-common
-      - php-pear
-      - php-apc
-      - php5-memcached
       - php5-redis
+      - php5-memcached
       - php5-intl
+      - libpcre3-dev
+      - php5-dev
+      - php-pear
+
+apcu:
+  pecl.installed:
+    - name: apcu
+    - require:
+      - pkg: php-basic-deps
 
 /etc/php5/mods-available/apc.ini:
   file.managed:
@@ -18,7 +25,7 @@ php-basic:
     - group: root
     - mode: 644
     - require:
-      - pkg: php-apc
+      - pecl: apcu
 
 /etc/php5/mods-available/memcached.ini:
   file.managed:
@@ -28,4 +35,4 @@ php-basic:
     - mode: 644
     - template: jinja
     - require:
-      - pkg: php5-memcached
+      - pkg: php-basic-deps

@@ -1,4 +1,4 @@
 include:
   - php.mediawiki
-  - fonts
+  - mediawiki.fonts
   - mysql

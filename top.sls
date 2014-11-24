@@ -54,26 +54,22 @@ base:
     - mediawiki
     - mediawiki.appserver
     - mediawiki.scaler
-    - webplatform.swift-dreamobjects
     - logrotate.mediawiki-debug
   'app3':
     - mediawiki.jobrunner
   'backup*':
     - backup.master
-    - webplatform.swift-dreamobjects
   'blog*':
     - php
     - nutcracker
     - wordpress
     - apache.blog
     - apache.status
-    - webplatform.swift-dreamobjects
   'bots':
     - bots.lumberjack-listener
   'code*':
     - gerrit
     - rsync
-    - webplatform.swift-dreamobjects
   'db*':
     - logwatch
     - mysql.server
@@ -88,7 +84,6 @@ base:
     - glusterfs.server
     - glusterfs.images_volume
     - glusterfs.appstorage
-    - webplatform.swift-dreamobjects
   'storage1*':
     - specific.storage1
   'memcache*':
@@ -111,7 +106,6 @@ base:
     - apache.project
     - apache.status
     - buggenie.mailqueue
-    - webplatform.swift-dreamobjects
   'piwik*':
     - piwik
     - nutcracker

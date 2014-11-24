@@ -2,9 +2,8 @@ include:
   - php
 
 php-mediawiki:
-  pkg:
-    - installed
-    - names:
+  pkg.installed:
+    - pkgs:
       - php5-curl
       - php5-mysqlnd
       - php5-xmlrpc
@@ -13,6 +12,5 @@ php-mediawiki:
 
 
 /etc/php5/apache2/conf.d/mail.ini:
-  file:
-    - managed
+  file.managed:
     - source: salt://php/files/mail.ini

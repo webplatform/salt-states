@@ -22,27 +22,25 @@ a2enmod mpm_prefork:
       - cmd: a2enmod rewrite
 
 buggenie-requirements:
-  pkg:
-    - installed
-    - names:
+  pkg.installed:
+    - pkgs:
       - php5-sqlite
 
-/etc/apache2/sites-available/project:
-  file:
-    - managed
+/etc/apache2/sites-available/project.conf:
+  file.managed:
     - source: salt://apache/project
     - user: root
     - group: root
     - mode: 444
-    - requires:
+    - require:
       - pkg: apache2
     - watch_in:
       - service: apache2
 
 /etc/apache2/sites-enabled/03-project.conf:
   file.symlink:
-    - target: /etc/apache2/sites-available/project
-    - requires:
-      - file: /etc/apache2/sites-available/project
+    - target: /etc/apache2/sites-available/project.conf
+    - require:
+      - file: /etc/apache2/sites-available/project.conf
     - watch_in:
       - service: apache2

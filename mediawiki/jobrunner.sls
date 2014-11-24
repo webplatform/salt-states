@@ -1,3 +1,6 @@
+include:
+  - php
+
 coreutils:
   pkg.installed
 
@@ -11,9 +14,10 @@ coreutils:
 ##
 mediawiki-runner-deps:
   pkg.installed:
-    - names:
-      - php5-memcached
+    - pkgs:
       - php5-mysqlnd
+    - require:
+      - sls: php 
 
 /srv/webplatform/wiki/mediawiki-runJobs.sh:
   file.managed:
