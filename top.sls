@@ -100,7 +100,6 @@ base:
   'monitor*':
     - monitor.gmetad
     - monitor.web
-    - apache.ganglia
     - apache.status
   'monitor':
     - specific.monitor
