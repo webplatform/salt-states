@@ -44,6 +44,9 @@ runcmd:
   - sysctl -p
   - apt-get install software-properties-common python-software-properties
   - add-apt-repository -y ppa:saltstack/salt
+  - apt-get update
+  - apt-get -y upgrade
+  - apt-get -y autoremove
 
 
 packages:

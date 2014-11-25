@@ -49,6 +49,7 @@ salt-master-deps:
       - salt-cloud
       - salt-api
       - salt-master
+      - jq
 
 #/usr/local/bin/wpd-deploy:
 #  file.managed:
@@ -56,6 +57,10 @@ salt-master-deps:
 #    - group: root
 #    - source: salt://salt/files/wpd-deploy
 #    - mode: 755
+
+/etc/salt/master.d/reactor.conf:
+  file.managed:
+    - source: salt://salt/files/reactor.conf
 
 /etc/salt/master.d/roots.conf:
   file.managed:

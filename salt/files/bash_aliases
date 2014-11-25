@@ -2,3 +2,4 @@
 wpd-deploy () { echo "Going to update roles for:"; sudo salt -G "roles:$@" grains.get roles; echo "Deploying..."; sudo salt -G "roles:$@" state.sls code; }
 alias wpd-flavor="nova flavor-list"
 alias wpd-secgroup="nova secgroup-list"
+wpd-event () { echo "About to dump events to stdout"; sudo salt-run state.event | while read -r tag data; do echo $tag; echo $data | jq -C .; done; }
