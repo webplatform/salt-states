@@ -1,12 +1,12 @@
-syslog-requisites:
-  pkg:
-    - installed
-    - names:
-      - syslog-ng-core
+include:
+  - mmonit
 
 syslog-ng:
-  service:
-    - running
+  pkg.installed:
+    - name: syslog-ng-core
+  service.running:
+    - require:
+      - pkg: syslog-ng 
 
 /etc/syslog-ng/conf.d/10-local1.conf:
   file.managed:
@@ -25,3 +25,11 @@ syslog-ng:
     - group: root
     - watch_in:
       - service: syslog-ng
+
+/etc/monit/conf.d/syslog-ng.conf:
+  file.managed:
+    - source: salt://logging/files/syslog-ng/monit.conf
+    - require:
+      - service: syslog-ng
+    - watch_in:
+      - service: monit

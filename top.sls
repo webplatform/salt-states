@@ -31,7 +31,7 @@ base:
     - logrotate.remote-logs
     - mysql
     - php.composer
-    - dns.server
+    - gdnsd
     - rsync
     - python
     - python.mysqldb

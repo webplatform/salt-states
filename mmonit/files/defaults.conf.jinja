@@ -4,7 +4,10 @@
 #
 # This file should contain only what’s common for EVERY nodes
 #
-
+#
+# Ref:
+#   - http://mmonit.com/monit/documentation/monit.html
+#
 check system {{ nodename }}
   if loadavg (1min) > 4 then alert
   if loadavg (5min) > 2 then alert
@@ -16,6 +19,7 @@ check system {{ nodename }}
 
 check process salt-minion
   with pidfile "/var/run/salt-minion.pid"
+  group salt
   start = "/usr/sbin/service salt-minion start"
   stop  = "/usr/sbin/service salt-minion stop"
   if not exist for 3 cycles then restart

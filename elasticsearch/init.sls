@@ -1,5 +1,8 @@
 # Based on https://github.com/ConsumerAffairs/salt-states/blob/master/elasticsearch.sls
 
+include:
+  - mmonit
+
 openjdk-7-jre-headless:
   pkg.installed
 
@@ -65,3 +68,12 @@ elasticsearch:
     - makedirs: True
     - required:
       - pkg: elasticsearch
+
+
+/etc/monit/conf.d/elasticsearch.conf:
+  file.managed:
+    - source: salt://elasticsearch/files/monit.conf
+    - require:
+      - service: elasticsearch
+    - watch_in:
+      - service: monit

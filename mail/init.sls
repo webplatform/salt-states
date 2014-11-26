@@ -1,3 +1,9 @@
+#
+# Ref:
+#   - https://github.com/Exim/exim/wiki/EximSecurity
+#   - http://www.exim.org/exim-html-current/doc/html/spec_html/ch-security_considerations.html
+#   - http://www.exim.org/exim-html-current/doc/html/spec_html/ch-the_exim_run_time_configuration_file.html
+#
 include:
   - mmonit
 
@@ -58,5 +64,5 @@ exim4:
 /etc/monit/conf.d/exim4.conf:
   file.managed:
     - source: salt://mail/files/exim4/monit.conf
-    - require:
+    - watch_in:
       - service: monit

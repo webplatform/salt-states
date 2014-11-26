@@ -1,3 +1,7 @@
+#
+# Ref:
+#   - http://infoheap.com/how-to-install-and-monitor-memcache-for-php-on-ubuntu-linux/
+#
 include:
   - mmonit
 
@@ -30,5 +34,5 @@ memcached-dependencies:
 /etc/monit/conf.d/memcached.conf:
   file.managed:
     - source: salt://memcached/files/monit.conf
-    - require:
+    - watch_in:
       - service: monit

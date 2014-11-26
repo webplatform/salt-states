@@ -60,5 +60,5 @@ etcd:
 /etc/monit/conf.d/etcd.conf:
   file.managed:
     - source: salt://etcd/files/monit.conf
-    - require:
+    - watch_in:
       - service: monit

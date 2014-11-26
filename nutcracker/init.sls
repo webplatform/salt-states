@@ -13,10 +13,9 @@ nutcracker:
   service.running:
     - enable: True
     - reload: True
-    - watch:
-      - file: /etc/nutcracker/conf/nutcracker.yml
     - require:
       - file: /etc/init/nutcracker.conf
+      - file: /etc/nutcracker/conf/nutcracker.yml
 
 /etc/nutcracker/conf:
   file.directory:
@@ -34,13 +33,17 @@ nutcracker:
     - template: jinja
     - require:
       - file: /etc/nutcracker/conf
+    - watch_in:
+      - service: nutcracker
 
 /etc/init/nutcracker.conf:
   file.managed:
     - source: salt://nutcracker/files/upstart.conf
+    - watch_in:
+      - service: nutcracker
 
 /etc/monit/conf.d/nutcracker.conf:
   file.managed:
     - source: salt://nutcracker/files/monit.conf
-    - require:
+    - watch_in:
       - service: monit

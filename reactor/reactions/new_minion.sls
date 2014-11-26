@@ -11,17 +11,26 @@
  #
  # act key can be one of: [accept,pend,reject]
  #
+ # `cmd.foo` and `local.foo` are aliases. In other words `cmd.pkg.upgrade`
+ # is the same as `local.pkg.upgrade`.
  #}
 {% if data['act'] == 'accept' %}
 upgrade_pkgs:
-  local.pkg.upgrade:
+  cmd.pkg.upgrade:
     - tgt: {{ data['id'] }}
     - ret: syslog
 
 send_ip_addrs:
-  local.mine.send:
+  cmd.mine.send:
     - tgt: '*'
     - arg: 
       - 'network.ip_addrs'
     - ret: syslog
+{% endif %}
+{% if data['act'] == 'reject' %}
+delete_ip_addrs:
+  cmd.mine.delete:
+    - tgt: '*'
+    - arg:
+      - 'network.ip_addrs'
 {% endif %}

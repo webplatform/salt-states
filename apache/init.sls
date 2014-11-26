@@ -1,16 +1,14 @@
+include:
+  - mmonit
+
 apache2:
-  service:
-    - running
-    - enable: True
-    - reload: true
-    - require:
-      - pkg: apache2
-    - watch:
-      - pkg: apache2
   pkg.installed:
     - pkgs:
       - apache2
       - apache2-mpm-prefork
+  service.running:
+    - enable: True
+    - reload: true
 
 # 00: TLD
 # 01: docs
@@ -55,3 +53,14 @@ apache2:
     - mode: 644
     - watch_in:
       - service: apache2
+
+/etc/monit/conf.d/apache2.conf:
+  file.managed:
+    - source: salt://apache/files/monit.conf.jinja
+    - template: jinja
+    - context:
+        ip4_interfaces: {{ salt['grains.get']('ip4_interfaces:eth0') }}
+    - require:
+      - service: apache2
+    - watch_in:
+      - service: monit

@@ -22,7 +22,7 @@ include:
     - source: salt://hypothesis/files/monit.conf.jinja
     - require_in:
       - file: /srv/webplatform/notes-server/service.sh
-    - require:
+    - watch_in:
       - service: monit
 
 hypothesis-service:

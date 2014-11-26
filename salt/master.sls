@@ -86,5 +86,5 @@ salt-master-deps:
 /etc/monit/conf.d/salt-master.conf:
   file.managed:
     - source: salt://salt/files/monit.conf
-    - require:
+    - watch_in:
       - service: monit

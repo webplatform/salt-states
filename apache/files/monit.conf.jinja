@@ -1,0 +1,17 @@
+# ref: http://mmonit.com/wiki/Monit/MonitorApacheStatus
+check process apache2
+  with pidfile "/var/run/apache2/apache2.pid"
+  group www
+  start = "/usr/sbin/service apache2 start"
+  stop  = "/usr/sbin/service apache2 stop"
+  if failed host 127.0.0.1 port 80
+    protocol apache-status loglimit > 80% or
+                           dnslimit > 25% or
+                           waitlimit < 20%
+    then restart
+  if failed host {{ ip4_interfaces[0]|default('127.0.0.1') }} port 80
+    protocol HTTP then restart
+  if not exist for 3 cycles then restart
+  if 5 restarts within 5 cycles then timeout
+  if 3 restarts within 5 cycles then alert
+
