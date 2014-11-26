@@ -14,6 +14,10 @@ buggenie-codesync:
       - file: /etc/codesync.secret
       - file: webplatform-sources
 
+/srv/webplatform/buggenie/installed:
+  file.managed:
+    - source: salt://code/files/buggenie/installed
+
 /srv/webplatform/buggenie:
   file.directory:
     - user: www-data

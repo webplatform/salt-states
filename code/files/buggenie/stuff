@@ -1,0 +1,6 @@
+root@project2:/srv/webplatform/buggenie# cat installed
+3.2, installed 15.02.2013 21:37
+root@project2:/srv/webplatform/buggenie# cat .remote_username
+Garbeeroot@project2:/srv/webplatform/buggenie# cat .remote_server
+http://project.webplatform.orgroot@project2:/srv/webplatform/buggenie# cat .remote_password_hash
+$2a$07$514b1de7e91e98e9c593buPyhOWkwGWzsfOhRSPT19KvqhxohDeearoot@project2:/srv/webplatform/buggenie#
