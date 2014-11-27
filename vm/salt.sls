@@ -27,7 +27,7 @@ libboost-program-options1.46.1:
   file.managed:
     - source: salt://code/files/web25ee/setup.sh
 
-# See also in code.piwik.config config patch
+# See also in code.piwik config patch
 /srv/code/piwik/repo/config/config.ini.php:
   file.managed:
     - template: jinja

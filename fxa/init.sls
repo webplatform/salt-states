@@ -1,6 +1,4 @@
 {% set svc = ['fxa-profile-server', 'fxa-content-server', 'fxa-auth-server', 'fxa-oauth-server'] -%}
-include:
-  - fxa.nginx
 
 fxa-deps:
   pkg.installed:

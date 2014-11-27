@@ -1,6 +1,7 @@
 include:
   - backup.db
   - webplatform.swift-dreamobjects
+  - mysql.server
 
 #
 # Things that are specific to master MySQL node
@@ -26,5 +27,5 @@ include:
   file.managed:
     - modes: 644
     - source: salt://mysql/minion.mysql.conf
-    - requires:
+    - require:
       - file: /etc/mysql/debian.cnf

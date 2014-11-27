@@ -1,6 +1,7 @@
 #
 # Ref:
 #   - http://infoheap.com/how-to-install-and-monitor-memcache-for-php-on-ubuntu-linux/
+#   - http://dormando.livejournal.com/495593.html
 #
 include:
   - mmonit
@@ -8,8 +9,7 @@ include:
 memcached:
   pkg:
     - installed
-  service:
-    - running
+  service.running:
     - enable: True
     - reload: True
     - watch:
@@ -23,8 +23,7 @@ memcached-dependencies:
       - libmemcached-tools
 
 /etc/memcached.conf:
-  file:
-    - managed
+  file.managed:
     - template: jinja
     - source: salt://memcached/memcached.conf
     - user: root

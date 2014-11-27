@@ -1,7 +1,6 @@
 include:
   - rsync.secret
   - code.prereq
-  - piwik.config
 
 # @salt-master-dest
 sync-piwik:
@@ -12,15 +11,31 @@ sync-piwik:
     - require:
       - file: /etc/codesync.secret
       - file: webplatform-sources
+      - file: piwik-perms
 
 piwik-perms:
   file.directory:
     - name: /srv/webplatform/piwik
     - user: www-data
     - group: www-data
-    - wait:
-      - pkg: sync-piwik
     - recurse:
       - user
       - group
 
+/srv/webplatform/piwik/tmp/sessions:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - mode: 755
+    - require:
+      - cmd: sync-piwik
+
+/srv/webplatform/piwik/config/config.ini.php:
+  file.managed:
+    - source: salt://code/files/piwik/config.ini.php.jinja
+    - template: jinja
+    - user: www-data
+    - group: www-data
+    - mode: 644
+    - require:
+      - cmd: sync-piwik

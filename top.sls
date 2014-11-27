@@ -39,8 +39,6 @@ base:
 #    - backup.salt_master
 #    - logging.syslog_ng
 #    - logging.udp2log
-#    - glusterfs
-#    - halite
 #    - backup.mediawiki_xml
   'app*':
     - php
@@ -79,13 +77,6 @@ base:
   'postgres*':
     - postgres
     - rsync
-  'storage*':
-    - glusterfs
-    - glusterfs.server
-    - glusterfs.images_volume
-    - glusterfs.appstorage
-  'storage1*':
-    - specific.storage1
   'memcache*':
     - memcached
   'monitor*':
@@ -113,11 +104,9 @@ base:
     - users.randall
   'elastic*':
     - elasticsearch
-  'webat25*':
-    - specific.webat25
-    - apache.status
   'accounts*':
     - fxa
   'hhvmbackend*':
     - hhvm
     - nutcracker
+

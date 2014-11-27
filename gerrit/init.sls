@@ -108,5 +108,5 @@ gerrit2:
 /etc/init.d/gerrit:
   file.symlink:
     - target: /var/lib/gerrit2/review_site/bin/gerrit.sh
-    - requires:
+    - require:
       - file: /var/lib/gerrit2/review_site/bin/gerrit.war
