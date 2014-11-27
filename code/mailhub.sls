@@ -6,7 +6,7 @@ include:
 # @salt-master-dest
 sync-hub-configs:
   cmd.run:
-    - name: rsync -a --exclude '.git' --delete --password-file=/etc/codesync.secret codesync@salt::code/mailhub/configs/ /srv/webplatform/mailhub/
+    - name: rsync -a --exclude '.git' --delete --password-file=/etc/codesync.secret codesync@salt::code/mailhub/repo/ /srv/webplatform/mailhub/
     - user: root
     - group: root
     - require:

@@ -1,3 +1,5 @@
+{%- set dabbletConfig = salt['pillar.get']('accounts:github:dabblet', {}) -%}
+
 include:
   - code.prereq
   - rsync.secret
@@ -13,6 +15,17 @@ dabblet-rsync:
       - file: /etc/codesync.secret
       - file: webplatform-sources
       - file: /srv/webplatform/dabblet
+
+/srv/webplatform/dabblet/keys.php:
+  file.managed:
+    - source: salt://code/files/dabblet/keys.php.jinja
+    - template: jinja
+    - context:
+        client_id: {{ dabbletConfig['client_id']|default('') }}
+        client_secret: {{ dabbletConfig['client_secret']|default('') }}
+        long_term_token: {{ dabbletConfig['long_term_token']|default('') }}
+    - require:
+      - cmd: dabblet-rsync
 
 /srv/webplatform/dabblet:
   file.directory:

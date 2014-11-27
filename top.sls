@@ -53,6 +53,7 @@ base:
     - apache.dabblet
     - apache.status
     - apache.specs
+    - apache.webat25
     - mediawiki
     - mediawiki.appserver
     - mediawiki.scaler

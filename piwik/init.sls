@@ -1,3 +1,9 @@
+{#
+ # Piwik Salt stack config
+ #
+ # See also:
+ #   - https://github.com/perusio/piwik-nginx.git
+ #}
 include:
   - cron
   - php

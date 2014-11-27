@@ -2,8 +2,7 @@ include:
   - apache
 
 /etc/apache2/sites-available/blog.conf:
-  file:
-    - managed
+  file.managed:
     - source: salt://apache/blog
     - user: root
     - group: root

@@ -60,9 +60,14 @@ declare -A options
 # x     specs/repo                                                           requires out and archives too
 # x     wiki/repo/mediawiki   @1.24wmf16-wpd                                 requires ../cache/ ../settings.d/
 # x     www/repo              see https://source.webplatform.org/r/#/c/13/   requires ../out/ ../archives/
+# x     mailhub/repo
+# x     web25ee/repo
 
 repos["blog"]="https://github.com/webplatform/webplatform-wordpress-theme.git"
 repos["bots"]="https://@source.webplatform.org/r/pierc.git"
+repos["mailhub"]="https://@source.webplatform.org/r/mailhub.git"
+#repos["web25ee"]="https://@source.webplatform.org/r/web25ee.git"
+repos["webat25"]="https://@source.webplatform.org:29418/webat25.git"
 repos["buggenie"]="https://github.com/webplatform/thebuggenie.git"
 repos["campaign-bookmarklet"]="https://github.com/webplatform/campaign-bookmarklet.git"
 repos["compat"]="https://github.com/webplatform/compatibility-data.git"
@@ -77,6 +82,9 @@ repos["notes-server"]="https://github.com/webplatform/notes-server.git"
 
 options["blog"]="--recurse-submodules --quiet"
 options["bots"]="--quiet"
+options["mailhub"]="--quiet"
+#options["web25ee"]="--quiet"
+options["webat25"]="--quiet"
 options["buggenie"]="--branch webplatform-customizations --quiet"
 options["campaign-bookmarklet"]="--quiet"
 options["compat"]="--quiet"
@@ -89,13 +97,15 @@ options["www"]="--quiet"
 options["notes-server"]="--quiet"
 
 #salt-call --local --log-level=quiet git.clone /srv/salt ssh://renoirb@source.webplatform.org:29418/salt-states  opts="--branch 201409-removing-private-data --quiet" user="dhc-user" identity="/home/dhc-user/.ssh/id_rsa"
+
 #salt-call --local --log-level=quiet git.remote_set $CODE_DIR/www/repo gerrit https://source.webplatform.org/r/www.webplatform.org
 #salt-call --local --log-level=quiet git.remote_set $CODE_DIR/notes-server/repo gerrit https://source.webplatform.org/r/notes-server
-#salt-call --local git.config_set setting_name=user.email setting_value="hostmaster@webplatform.org" is_global=True
-#salt-call --local git.config_set setting_name=user.name setting_value="WebPlatform Continuous Build user" is_global=True
-#salt-call --local git.config_set setting_name=core.editor setting_value=vim is_global=True
-#salt-call --local git.config_set setting_name=core.autocrlf setting_value=true is_global=True
 
+#salt-call --local --log-level=quiet git.config_set setting_name=user.email setting_value="hostmaster@webplatform.org" is_global=True
+#salt-call --local --log-level=quiet git.config_set setting_name=user.name setting_value="WebPlatform Continuous Build user" is_global=True
+
+salt-call --local --log-level=quiet git.config_set setting_name=core.editor setting_value=vim is_global=True
+salt-call --local --log-level=quiet git.config_set setting_name=core.autocrlf setting_value=true is_global=True
 
 echo "We will be cloning code repositories:"
 
@@ -107,8 +117,6 @@ for key in ${!repos[@]}; do
         chown nobody:deployment /srv/code/${key}/repo/mediawiki
         (salt-call --local --log-level=quiet git.clone /srv/code/${key}/repo/mediawiki ${repos[${key}]} opts="${options[${key}]}" user="nobody")
         mkdir /srv/code/${key}/repo/settings.d
-        cd /srv/code/${key}/repo/mediawiki/extensions/WebPlatformDocs
-        (composer install)
         cd /srv/code
       else
         echo " * Repo /srv/code/${key}/repo/mediawiki already cloned. Did nothing."

@@ -14,6 +14,6 @@ include:
   file.symlink:
     - target: /etc/apache2/sites-available/webat25.conf
     - require:
-      - file: /etc/apache2/sites-enabled/webat25.conf
+      - file: /etc/apache2/sites-available/webat25.conf
     - watch_in:
       - service: apache2

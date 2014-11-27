@@ -1,4 +1,3 @@
 include:
-  - code.blog
   - code.www
-
+  - code.web25ee
