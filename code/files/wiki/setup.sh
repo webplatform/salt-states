@@ -19,6 +19,7 @@ cd /srv/code/wiki/repo/mediawiki/extensions/WebPlatformDocs
 
 cd /srv/code/wiki
 
-touch .done
+## If we want to fork code based on which version of the setup was run, lets put 1 first
+echo '1' > .done
 
 exit 0
