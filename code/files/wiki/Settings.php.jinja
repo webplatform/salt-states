@@ -187,6 +187,15 @@ $wgFileExtensions = array( 'png', 'gif', 'jpg', 'jpeg', 'ppt', 'pdf', 'psd', 'mp
 ## TODO: Add more?
 require_once("$IP/extensions/AntiBot/AntiBot.php");
 
+#require_once( "$IP/extensions/Elastica/Elastica.php" );
+#require_once( "$IP/extensions/CirrusSearch/CirrusSearch.php" );
+#$wgDisableSearchUpdate = true;
+#$wgSearchType = 'CirrusSearch';
+#$wgCirrusSearchServers = array( '10.10.10.223' );
+## Update index?
+## - set wgDisableSearchUpdate to false
+## - refer to extensions/CirrusSearch/README
+
 require_once("$IP/extensions/Renameuser/Renameuser.php");
 
 ## Syntax Highlighting Extension
@@ -259,7 +268,7 @@ $wgPFEnableStringFunctions = true;  // Note: this must be after ParserFunctions 
 require_once("$IP/extensions/StringFunctionsEscaped/StringFunctionsEscaped.php"); #NEEDSTOBEADDED 
 
 ## Social Profile extension
-require_once("$IP/extensions/SocialProfile/SocialProfile.php"); #DISABLED, suggested, and not installed
+require_once("$IP/extensions/SocialProfile/SocialProfile.php"); # Make sure we applied mediawiki/patches/issue-19.path
 $wgUserProfileDisplay['friends'] = true;
 $wgUserProfileDisplay['foes'] = false;
 

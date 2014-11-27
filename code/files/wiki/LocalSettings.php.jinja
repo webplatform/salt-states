@@ -3,7 +3,23 @@
 
 ## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
 
-#error_reporting(E_ALL);
+#error_reporting( -1 );
+#ini_set( 'display_errors', 1 );
+#$wgDebugToolbar = true;
+
+#$wgShowExceptionDetails = true;
+
+##$logDir = '/vagrant/logs';
+##$wgDebugLogFile = "{$logDir}/mediawiki-debug.log";
+
+## Calls to deprecated methods will trigger E_USER_DEPRECATED errors
+## in the PHP error log.
+#$wgDevelopmentWarnings = true;
+
+## Expose debug info for SQL errors.
+#$wgDebugDumpSql = true;
+#$wgShowDBErrorBacktrace = true;
+#$wgShowSQLErrors = true;
 
 ## Deployment specific details
 {% if salt['grains.get']('level') == 'staging' -%}

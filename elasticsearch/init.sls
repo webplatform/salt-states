@@ -18,6 +18,7 @@
  #   - http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-service.html
  #
  # #TODO: Set minimum value ES_HEAP_SIZE=64m in /etc/defaults/elasticsearch
+ # #TODO: To use ElasticSearchi (Cirrus Search), we have to add `script.disable_dynamic: false` in elasticsearch.yml
  #}
 {%- set mem_int = grains['mem_total'] -%}
 {%- set mem_calc = (mem_int * 0.6)/1024 -%}
