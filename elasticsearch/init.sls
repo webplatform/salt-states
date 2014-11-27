@@ -1,4 +1,27 @@
-# Based on https://github.com/ConsumerAffairs/salt-states/blob/master/elasticsearch.sls
+{#
+ # ElasticSearch configuration
+ #
+ # Loosely based on ConsumerAffairs Chef ElasticSearch recipe
+ #
+ # === MEMORY
+ #
+ # Maximum amount of memory to use is automatically computed as one half of total available memory on the machine.
+ # You may choose to set it in your node/role configuration instead.
+ #
+ # ----
+ #
+ # See awesome Chef recipe:
+ #   - https://github.com/ConsumerAffairs/salt-states/blob/master/elasticsearch.sls
+ #   - https://github.com/elasticsearch/cookbook-elasticsearch/blob/master/attributes/default.rb
+ #
+ # Ref:
+ #   - http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-service.html
+ #
+ # #TODO: Set minimum value ES_HEAP_SIZE=64m in /etc/defaults/elasticsearch
+ #}
+{%- set mem_int = grains['mem_total'] -%}
+{%- set mem_calc = (mem_int * 0.6)/1024 -%}
+{%- set allocated_memory = mem_calc|int ~ 'm' -%}
 
 include:
   - mmonit
@@ -20,7 +43,7 @@ elasticsearch:
       - file: /etc/elasticsearch/elasticsearch.yml
       - file: /etc/default/elasticsearch
 
-
+#ES_HEAP_SIZE=64m #TODO
 /etc/elasticsearch/elasticsearch.yml:
   file.exists:
     - require:
@@ -34,11 +57,8 @@ elasticsearch:
 #    - required:
 #      - pkg: elasticsearch
 
-
 /etc/default/elasticsearch:
-  file.exists:
-    - require:
-      - pkg: elasticsearch
+  file.exists
 #  file.managed:
 #    - source: salt://elasticsearch/files/etc/default/elasticsearch.jinja
 #    - template: jinja
@@ -72,7 +92,11 @@ elasticsearch:
 
 /etc/monit/conf.d/elasticsearch.conf:
   file.managed:
-    - source: salt://elasticsearch/files/monit.conf
+    - source: salt://elasticsearch/files/monit.conf.jinja
+    - template: jinja
+    - context:
+        ip4_interfaces: {{ salt['grains.get']('ip4_interfaces:eth0') }}
+        elastic_port: 9200
     - require:
       - service: elasticsearch
     - watch_in:

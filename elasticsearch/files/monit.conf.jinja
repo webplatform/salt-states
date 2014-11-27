@@ -1,0 +1,26 @@
+# Ref: https://github.com/elasticsearch/cookbook-elasticsearch/blob/master/templates/default/elasticsearch.monitrc.conf.erb
+# #TODO Improve error email, good format example see ^ 
+check process elasticsearch
+  with pidfile "/var/run/elasticsearch.pid"
+  group elasticsearch
+  start = "/usr/sbin/service elasticsearch start" with timeout 60 seconds
+  stop  = "/usr/sbin/service elasticsearch stop"
+  if cpu > 90% for 5 cycles then alert
+  if totalmem > 90% for 15 cycles then alert
+  if loadavg(15min) greater than 10 for 50 cycles then alert
+  if not exist for 3 cycles then restart
+  if 5 restarts within 5 cycles then timeout
+  if 3 restarts within 5 cycles then alert
+
+check host elasticsearch_connection with address {{ ip4_interfaces[0]|default('0.0.0.0') }}
+  if failed url http://{{ ip4_interfaces[0]|default('0.0.0.0') }}:{{ elastic_port|default(9200) }}/
+  with timeout 15 seconds
+  then alert
+  group elasticsearch
+
+check host elasticsearch_cluster_health with address {{ ip4_interfaces[0]|default('0.0.0.0') }}
+  if failed url http://{{ ip4_interfaces[0]|default('0.0.0.0') }}:{{ elastic_port|default(9200) }}/_cluster/health
+    and content == 'green'
+    with timeout 60 seconds
+    then alert
+  group elasticsearch
