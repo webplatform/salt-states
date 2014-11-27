@@ -11,15 +11,13 @@ include:
 
 # @salt-master-dest
 lumberjack-listener-rsync:
-  cmd:
-    - run
+  cmd.run:
     - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/bots/repo/listener/ /srv/webplatform/lumberjack-listener/"
     - require:
       - file: /etc/codesync.secret
       - file: webplatform-sources
       - file: /srv/webplatform/lumberjack-listener
-  file:
-    - directory
+  file.directory:
     - name: /srv/webplatform/lumberjack-listener
     - user: www-data
     - group: www-data
@@ -31,7 +29,6 @@ lumberjack-listener-rsync:
       - mode
 
 chmod 755 /srv/webplatform/lumberjack-listener/LumberJack.py:
-  cmd:
-    - run
+  cmd.run:
     - require:
       - file: lumberjack-listener-rsync

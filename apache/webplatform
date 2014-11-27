@@ -63,7 +63,7 @@
     Options -Indexes
     Require all granted
   </Directory>
-  <Directory /srv/webplatform/bots/lumberjack>
+  <Directory /srv/webplatform/lumberjack-web>
     Require all granted
   </Directory>
 

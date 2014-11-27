@@ -45,7 +45,6 @@ base:
   'app*':
     - php
     - nutcracker
-    - bots.lumberjack-web
     - apache.webplatform_ssl
     - apache.webplatform_com
     - apache.webplatform

@@ -62,6 +62,8 @@ declare -A options
 # x     www/repo              see https://source.webplatform.org/r/#/c/13/   requires ../out/ ../archives/
 # x     mailhub/repo
 # x     web25ee/repo
+# x     webat25/repo          Static version of ^
+
 
 repos["blog"]="https://github.com/webplatform/webplatform-wordpress-theme.git"
 repos["bots"]="https://@source.webplatform.org/r/pierc.git"
