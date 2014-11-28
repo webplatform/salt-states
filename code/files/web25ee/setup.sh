@@ -1,6 +1,8 @@
 #!/bin/bash
 
-echo "Applying one-time manual changes to web25ee repo (www.webat25.org)"
+set -e
+
+echo "Setting things up with the webat25.org ExpressionEngine repo"
 
 cd /srv/code/web25ee
 
@@ -15,6 +17,7 @@ mkdir -p repo/images/avatars/uploads
 echo "Copying cache handler"
 cp /srv/code/packages/web25ee/_static_cache_handler.php repo/
 
-touch .done
+## If we want to fork code based on which version of the setup was run, lets put 1 first
+echo '1' > .done
 
 exit 0

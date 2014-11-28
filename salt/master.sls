@@ -7,7 +7,7 @@ include:
   - users
   - mmonit
 
-/srv/userdata.txt:
+/srv/opsconfigs/userdata.txt:
   file.managed:
     - source: salt://salt/files/userdata.txt.jinja
     - template: jinja
@@ -17,6 +17,14 @@ include:
         # CANNOT set salt_master_ip to create new salt master
         # Looking if it works well to specify future salt master IP, before creation #TODO
         # #CHANGE_SALT_MASTER
+
+/etc/profile.d/nova.sh:
+  file.managed:
+    - user: root
+    - group: deployment
+    - mode: 750
+    - template: jinja
+    - source: salt://webplatform/files/profile-nova.sh.jinja
 
 {% for username in users %}
 /home/{{ username }}/.bash_aliases:
@@ -57,6 +65,14 @@ salt-master-deps:
 #    - group: root
 #    - source: salt://salt/files/wpd-deploy
 #    - mode: 755
+
+/etc/ssh/sshd_config:
+  file.append:
+    - text: Banner /etc/issue.net
+
+/etc/issue.net:
+  file.managed:
+    - source: salt://salt/files/banner.txt
 
 /etc/salt/master.d/reactor.conf:
   file.managed:

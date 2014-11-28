@@ -46,6 +46,7 @@ piwik-geoip:
       - pkg: nginx
       - pkg: piwik-geoip
 
+# mailto.sh is part of cron/init.sls
 /usr/bin/piwik-archive.sh:
   file.managed:
     - mode: 755 

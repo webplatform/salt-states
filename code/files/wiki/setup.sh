@@ -1,6 +1,8 @@
 #!/bin/bash
 
-echo "Applying one-time manual changes to wiki repo"
+set -e
+
+echo "Setting things up with the MediaWiki repo"
 
 cd /srv/code/wiki
 
@@ -13,9 +15,9 @@ echo "Patching issue-19 for SocialProfile image patch"
 cd /srv/code/wiki/repo/mediawiki
 patch -p1 < patches/issue-19.patch
 
-echo "Installing manually composer dependencies that aren’t yet part of core MW"
-cd /srv/code/wiki/repo/mediawiki/extensions/WebPlatformDocs
-(composer install)
+#echo "Installing manually composer dependencies that aren’t yet part of core MW"
+#cd /srv/code/wiki/repo/mediawiki/extensions/WebPlatformDocs
+#(composer install)
 
 cd /srv/code/wiki
 

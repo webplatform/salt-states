@@ -1,8 +1,9 @@
-#
-# Ref:
-#   - http://infoheap.com/how-to-install-and-monitor-memcache-for-php-on-ubuntu-linux/
-#   - http://dormando.livejournal.com/495593.html
-#
+{#
+ # Ref:
+ #   - http://infoheap.com/how-to-install-and-monitor-memcache-for-php-on-ubuntu-linux/
+ #   - http://dormando.livejournal.com/495593.html
+ #   - https://code.google.com/p/memcached/wiki/SASLHowto
+ #}
 include:
   - mmonit
 

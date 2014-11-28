@@ -67,7 +67,8 @@ resolvconf -u:
 /etc/profile.d/wpd_aliases.sh:
   file.managed:
     - source: salt://webplatform/files/wpd_aliases.sh
-    - mode: 755
+    - group: deployment
+    - mode: 750
 
 /etc/apt/sources.list.d/wikimedia.list:
   file.managed:
@@ -95,6 +96,12 @@ resolvconf -u:
   file.managed:
     - source: salt://webplatform/files/wpd-autoupdate.sh
     - mode: 755
+
+/usr/local/bin/wpd-dependency-installer.sh:
+  file.managed:
+    - source: salt://webplatform/files/wpd-dependency-installer.sh
+    - mode: 755
+
 ##
 ##TODO Loop through web apps
 ##

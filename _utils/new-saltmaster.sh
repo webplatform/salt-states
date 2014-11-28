@@ -19,7 +19,7 @@
 # =========================================================================
 #
 # Note that you can run this bootstrapper on ANY vanilla Ubuntu 14.04 VM and
-# it should work just fine. This script takes into account that you might 
+# it should work just fine. This script takes into account that you might
 # might now have a master to start from. If that’s the case, make sure the
 # new VM is called "salt.staging.wpdn" (or "salt.production.wpdn") in the
 # `/etc/hosts` file and jump to step #5
@@ -44,7 +44,7 @@
 #
 #     vi /srv/salt/salt/master.sls
 #
-# Get the `salt_master_ip:` line. Edit with the IP address you expect nova will 
+# Get the `salt_master_ip:` line. Edit with the IP address you expect nova will
 # give (e.g. 10.10.10.129).  Run highstate on master
 #
 #     salt salt state.highstate
@@ -174,7 +174,7 @@ cat << _EOF_
  data.
 
  In order to import that sensitive data we need a temporary private-public
- keypair. With it, we’ll be able to fetch private data along with public. 
+ keypair. With it, we’ll be able to fetch private data along with public.
 
  You can create your own keypair and add them to this script yourself.
 
@@ -347,7 +347,13 @@ echo -e "\e[31mDID YOU REMOVE the SSH key in Gerrit??\e[0m"
 rm /home/dhc-user/.ssh/id_rsa{,.pub}
 
 clear
-echo -e "\e[31mBefore state.highstate, did you change renoirb uid?\e[0m"
 
-echo "Job’s done"
+echo ""
+echo "Step 1 of 3 completed!"
+echo ""
+echo "Next steps, run:"
+echo " salt-call --local state.highstate"
+echo " bash /srv/salt/_utils/new-saltmaster-packages.sh"
+echo ""
+
 exit 0

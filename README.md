@@ -1,5 +1,32 @@
 # WebPlatform server environment configuration
 
+## Making a new salt-master
+
+Send a copy of the `_utils/new-saltmaster.sh` to an empty Ubuntu 14.04 VM and run it as root.
+
+Once you are there, you should be able to finish with the three next steps.
+
+To have a fully functional salt master, run in the following order:
+
+Run those scripts as root:
+
+ * new-saltmaster.sh
+ * new-saltmaster-packages.sh
+ * salt-call --local state.highstate
+
+To deploy web apps, we are currently assuming that the salt master will host all the code repositories
+along with the dependency management tools installed.
+
+In order to allow us to have a VM to prepare each web app, the following has to be run on the salt master.
+We will eventually create a VM specifically for that later in this project.
+
+To be able to deploy web app code, run the two last commands:
+
+ * new-saltmaster-code.sh
+ * wpd-installers.sh
+
+NOTE: Process isn’t fully streamlined, you’ll have to search inside this repository for the files for now.
+
 
 ## Security groups configuration
 

@@ -11,7 +11,7 @@
 #
 # A salt master should have NO hardcoded files and configuration
 # but simply be booted bootstrapped by the three following components.
-# 
+#
 # 1. Salt configurations (so we can salt the salt master)
 # 2. The packages we share accross the infrastructure
 # 3. Cloning every webplatform.org software dependencies.
@@ -20,7 +20,7 @@
 declare -r SALT_BIN=`which salt`
 
 if [ -z "${SALT_BIN}" ]; then
-  echo "This machine isn’t a salt master" 
+  echo "This machine isn’t a salt master"
   exit 1
 fi
 
@@ -55,7 +55,7 @@ declare -A options
 # .     campaign-bookmarklet
 # x     compat/repo
 # x     dabblet/repo          @webplatform-customizations
-# .     docsprint-dashboard 
+# .     docsprint-dashboard
 # x     piwik/repo            @2.8.0 (upstream)
 # x     specs/repo                                                           requires out and archives too
 # x     wiki/repo/mediawiki   @1.24wmf16-wpd                                 requires ../cache/ ../settings.d/
@@ -80,6 +80,8 @@ repos["specs"]="https://github.com/webspecs/docs.git"
 repos["wiki"]="https://github.com/webplatform/mediawiki-core.git"
 repos["www"]="https://github.com/webplatform/www.webplatform.org.git"
 repos["notes-server"]="https://github.com/webplatform/notes-server.git"
+repos["webspecs_assets"]="https://github.com/webspecs/assets.git"
+repos["webspecs_docs"]="https://github.com/webspecs/docs.git"
 
 
 options["blog"]="--recurse-submodules --quiet"
@@ -97,6 +99,8 @@ options["specs"]="--quiet"
 options["wiki"]="--branch 1.24wmf16-wpd --recurse-submodules --quiet"
 options["www"]="--quiet"
 options["notes-server"]="--quiet"
+options["webspecs_assets"]="--quiet"
+options["webspecs_docs"]="--quiet"
 
 #salt-call --local --log-level=quiet git.clone /srv/salt ssh://renoirb@source.webplatform.org:29418/salt-states  opts="--branch 201409-removing-private-data --quiet" user="dhc-user" identity="/home/dhc-user/.ssh/id_rsa"
 
@@ -112,14 +116,13 @@ salt-call --local --log-level=quiet git.config_set setting_name=core.autocrlf se
 echo "We will be cloning code repositories:"
 
 for key in ${!repos[@]}; do
-    if [ "${key}" == "wiki" ]; then 
+    if [ "${key}" == "wiki" ]; then
       if [ ! -d "/srv/code/${key}/repo/mediawiki/.git" ]; then
         echo " * Cloning MediaWiki (its a special case)"
         mkdir -p /srv/code/${key}/repo/mediawiki
-        chown nobody:deployment /srv/code/${key}/repo/mediawiki
+        chown -R nobody:deployment /srv/code/${key}/repo/mediawiki
         (salt-call --local --log-level=quiet git.clone /srv/code/${key}/repo/mediawiki ${repos[${key}]} opts="${options[${key}]}" user="nobody")
         mkdir /srv/code/${key}/repo/settings.d
-        cd /srv/code
       else
         echo " * Repo /srv/code/${key}/repo/mediawiki already cloned. Did nothing."
       fi
@@ -127,20 +130,8 @@ for key in ${!repos[@]}; do
       if [ ! -d "/srv/code/${key}/repo/.git" ]; then
         echo " * Cloning into /srv/code/${key}/repo"
         mkdir -p /srv/code/${key}
-        chown nobody:deployment /srv/code/${key}
+        chown -R nobody:deployment /srv/code/${key}
         (salt-call --local --log-level=quiet git.clone /srv/code/${key}/repo ${repos[${key}]} opts="${options[${key}]}" user="nobody")
-        if [ -f "/srv/code/${key}/repo/Gemfile" ]; then
-          echo " * Running Gemfile dependencies"
-          cd /srv/code/${key}/repo/
-          (bundle install)
-          cd /srv/code 
-        fi
-        if [ -f "/srv/code/${key}/repo/generator/package.json" ]; then
-          echo " * Dealing with Robin’s difference with npm"
-          cd /srv/code/${key}/repo/generator
-          (npm install)
-          cd /srv/code
-        fi
       else
         echo " * Repo in /srv/code/${key}/repo already cloned. Did nothing."
       fi
@@ -151,5 +142,16 @@ chown -R nobody:deployment /srv/code/
 find /srv/code -type f -exec chmod 664 {} \;
 find /srv/code -type d -exec chmod 775 {} \;
 
-echo "Job’s done"
+echo "Now its time to run wpd-dependency-installer.sh"
+
+
+clear
+
+echo ""
+echo "Step 3 of 3 completed!"
+echo ""
+echo "Last step, install deployable code dependencies:"
+echo "  wpd-dependency-installer.sh"
+echo ""
+
 exit 0

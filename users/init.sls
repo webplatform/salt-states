@@ -6,14 +6,14 @@ include:
   - users.{{ username }}
 {% endfor %}
 
-#  ---- UNSURE ARE BELOW ----
+# Unsure:
 #  - users.jkomoros
 #  - users.julee
 #  - users.frozenice
 #  - users.garbee
 #  - users.pdsouza
 #
-# User ids #TODO:
+# User ids:
 # - 1005, shepazu
 # - 1006, tguild
 # - 1007, renoirb

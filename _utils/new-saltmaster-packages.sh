@@ -36,3 +36,14 @@ echo "Extracting our SSL certificates, you will be prompted a passphrase"
 gpg certificates.tar.gz.gpg
 tar xfz certificates.tar.gz
 mv certificates /srv/code/
+
+clear
+
+echo ""
+echo "Step 2 of 3 completed!"
+echo ""
+echo "Next step:"
+echo "  bash /srv/salt/_utils/new-saltmaster-code.sh"
+echo ""
+
+exit 0

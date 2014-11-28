@@ -30,6 +30,8 @@ piwik-perms:
     - require:
       - cmd: sync-piwik
 
+
+# See also in vm.salt
 /srv/webplatform/piwik/config/config.ini.php:
   file.managed:
     - source: salt://code/files/piwik/config.ini.php.jinja

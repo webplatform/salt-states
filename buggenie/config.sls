@@ -6,6 +6,7 @@ include:
     - user: www-data
     - group: www-data
 
+# See also in vm.salt #TODO
 buggenie-dbconfig:
   file.managed:
     - name: /srv/webplatform/buggenie/core/b2db_bootstrap.inc.php

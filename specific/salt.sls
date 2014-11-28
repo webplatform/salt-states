@@ -1,19 +1,3 @@
-/etc/ssh/sshd_config:
-  file.append:
-    - text: Banner /etc/issue.net
-
-/etc/issue.net:
-  file.managed:
-    - source: salt://environment/issue.net
-
-/etc/profile.d/nova.sh:
-  file.managed:
-    - user: root
-    - group: deployment
-    - mode: 640
-    - template: jinja
-    - source: salt://environment/files/nova-profile.sh.jinja
-
 /root/.my.cnf:
   file.managed:
     - template: jinja
@@ -34,3 +18,4 @@ build-deps:
       - bundler
       - php5-curl
       - dpkg-dev
+
