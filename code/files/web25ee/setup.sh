@@ -21,3 +21,4 @@ cp /srv/code/packages/web25ee/_static_cache_handler.php repo/
 echo '1' > .done
 
 exit 0
+

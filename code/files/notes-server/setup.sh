@@ -11,10 +11,12 @@ if [ -f ".done" ]; then
   exit 1
 fi
 
-chmod 775 repo/bootstrap
-chmod 775 repo/run
+sudo apt-get install -y python-pip python-virtualenv python-yaml python-dev build-essential python-mysqldb
+sudo chmod 775 repo/bootstrap
+sudo chmod 775 repo/run
 
 ## If we want to fork code based on which version of the setup was run, lets put 1 first
 echo '1' > .done
 
 exit 0
+

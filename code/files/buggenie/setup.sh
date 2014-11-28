@@ -12,9 +12,10 @@ if [ -f ".done" ]; then
   exit 1
 fi
 
-chmod 775 repo/tbg_cli
+sudo chmod 775 repo/tbg_cli
 
 ## If we want to fork code based on which version of the setup was run, lets put 1 first
 echo '1' > .done
 
 exit 0
+

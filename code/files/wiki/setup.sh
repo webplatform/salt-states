@@ -25,3 +25,4 @@ cd /srv/code/wiki
 echo '1' > .done
 
 exit 0
+

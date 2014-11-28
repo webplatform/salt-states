@@ -16,7 +16,9 @@ depFiles=( $(find /srv/code -maxdepth 4 -type f -regex ".*\(\(package\|composer\
 ##
 ## Add to the array the ones that doesn’t fit so far so we can handle them
 ##
-## 20141128: We should eventually have MediaWiki import those dependencies from the root, and not like that #TODO
+## 20141128:
+##   - We should eventually have MediaWiki import those dependencies from the root, and not like that #TODO
+##   - We do not support yet python and requirements.txt, we have to find the most popular convention among our apps that we deploy #TODO 
 depFiles+=('/srv/code/wiki/repo/mediawiki/extensions/WebPlatformDocs/composer.json')
 depFiles+=('/srv/code/wiki/repo/mediawiki/extensions/WebPlatformAuth/composer.json')
 
@@ -28,7 +30,6 @@ declare -A cmdDeps
 ## Note that the key (e.g. package_json) is a lowercased version of the file name
 ## and the file extension is replaced by an underscore.
 ## Both arrays should have matching keys in cmdDeps and cmdMaps
-##
 
 ##
 ## List the debian packages you need for each supported package manager
@@ -38,6 +39,7 @@ cmdDeps["composer_json"]="php5-curl:php5-cli"
 cmdDeps["bower_json"]="npm"
 cmdDeps["gemfile"]="bundler:ruby-full"
 cmdDeps["_gitmodules"]="git-core"
+cmdDeps["requirements_txt"]="python-virtualenv:python-pip"
 
 ##
 ## List the typical "install" command that should be run
@@ -47,6 +49,7 @@ cmdMaps["composer_json"]="composer install"
 cmdMaps["bower_json"]="bower install"
 cmdMaps["gemfile"]="bundle install"
 cmdMaps["_gitmodules"]="git submodule update --init --recursive"
+cmdMaps["requirements_txt"]="python-virtualenv:python-pip"
 
 
 # Source: http://superuser.com/questions/427318/test-if-a-package-is-installed-in-apt

@@ -9,15 +9,13 @@ include:
   - mmonit
 
 /var/log/webplatform:
-  file:
-    - directory
+  file.directory:
     - makedirs: True
     - user: renoirb
     - group: deployment
 
 /etc/monit/conf.d/hypothesis.conf:
-  file:
-    - managed
+  file.managed:
     - template: jinja
     - source: salt://hypothesis/files/monit.conf.jinja
     - require_in:
@@ -26,8 +24,7 @@ include:
       - service: monit
 
 hypothesis-service:
-  service:
-    - running
+  service.running:
     - name: hypothesis
     - enable: True
     - reload: true
@@ -93,7 +90,7 @@ hypothesis-compass-dep:
     - user: root
     - group: root
     - mode: 644
-    - requires:
+    - require:
       - file: /srv/webplatform/notes-server
       - file: /srv/webplatform/notes-server/h.ini
       - file: /srv/webplatform/notes-server/service.sh
