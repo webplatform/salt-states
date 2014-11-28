@@ -13,8 +13,7 @@ include:
 
 # @salt-master-dest
 packages-rsync:
-  cmd:
-    - run
+  cmd.run:
     - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/packages/apt/ /srv/webplatform/apt/"
     - require:
       - file: /etc/codesync.secret

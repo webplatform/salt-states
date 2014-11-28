@@ -1,4 +1,10 @@
-# source: https://github.com/kevva/states/blob/master/nginx/
+{#
+ # NGINX common states
+ #
+ # See also:
+ #   - https://github.com/kevva/states/blob/master/nginx/
+ #   - [Difference between NGINX versions](https://gist.github.com/jpetazzo/1152774)
+ #}
 nginx:
   pkg.installed:
     - pkgs:

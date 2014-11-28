@@ -1,3 +1,19 @@
+{#
+ # PHP FPM base configuration
+ #
+ # Notes:
+ #   - To know the non-swapped memory usage php5-fpm consumes, run:
+ #     (Note that the RSS column gives values in KiB)
+ #
+ #       ps -ylC php5-fpm --sort:rss
+ #
+ #     Total available RAM / ~ 80Mb per fpm process  = pm.max_children
+ #
+ # Ref:
+ #   - https://rtcamp.com/tutorials/php/fpm-status-page/
+ #   - https://rtcamp.com/tutorials/php/fpm-sysctl-tweaking/
+ #   - http://myshell.co.uk/index.php/adjusting-child-processes-for-php-fpm-nginx/
+ #}
 include:
   - mmonit
 
@@ -11,19 +27,21 @@ php5-fpm:
       - pkg: php5-fpm
 
 /etc/php5/fpm/pool.d/www.conf:
-  file.append:
-    - text: |
+  file.managed:
+    - contents: |
         ; Managed by Salt Stack from state php-fpm/init.sls
-        pm.max_children = 30
+        [www]
+        listen = 127.0.0.1:9000
+        user = www-data
+        group = www-data
+        chdir = /
+        pm = dynamic
+        pm.max_children = 25
         pm.start_servers = 10
         pm.min_spare_servers = 5
-        pm.max_spare_servers = 20
+        pm.max_spare_servers = 10
         pm.max_requests = 500
-        env[HOSTNAME] = $HOSTNAME
-        env[PATH] = /usr/local/bin:/usr/bin:/bin
-        env[TMP] = /tmp
-        env[TMPDIR] = /tmp
-        env[TEMP] = /tmp
+        pm.status_path = /status
     - require:
       - pkg: php5-fpm
     - watch_in:
