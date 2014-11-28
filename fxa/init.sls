@@ -1,12 +1,11 @@
 {% set svc = ['fxa-profile-server', 'fxa-content-server', 'fxa-auth-server', 'fxa-oauth-server'] -%}
+include:
+  - nodejs
 
 fxa-deps:
   pkg.installed:
     - names:
       - monit
-      - nodejs
-      - nodejs-legacy
-      - npm
       - libgmp-dev
 
 fxa-nodejs-deps:

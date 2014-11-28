@@ -80,10 +80,13 @@ repos["specs"]="https://github.com/webspecs/docs.git"
 repos["wiki"]="https://github.com/webplatform/mediawiki-core.git"
 repos["www"]="https://github.com/webplatform/www.webplatform.org.git"
 repos["notes-server"]="https://github.com/webplatform/notes-server.git"
-repos["webspecs_assets"]="https://github.com/webspecs/assets.git"
-repos["webspecs_docs"]="https://github.com/webspecs/docs.git"
-repos["webspecs_bikeshed"]="https://github.com/webspecs/bikeshed.git"
-repos["webspecs_index"]="https://github.com/webspecs/the-index.git"
+
+## Robin repository to deploy #TODO
+#repos["webspecs_bikeshed"]="https://github.com/webspecs/bikeshed.git"  branch webspecs
+#https://github.com/webspecs/assets.git"
+#https://github.com/webspecs/docs.git"
+#https://github.com/webspecs/the-index.git"
+#https://github.com/webspecs/publican.git
 
 options["blog"]="--recurse-submodules --quiet"
 options["bots"]="--quiet"
@@ -100,10 +103,6 @@ options["specs"]="--quiet"
 options["wiki"]="--branch 1.24wmf16-wpd --recurse-submodules --quiet"
 options["www"]="--quiet"
 options["notes-server"]="--quiet"
-options["webspecs_assets"]="--quiet"
-options["webspecs_docs"]="--quiet"
-options["webspecs_bikeshed"]="--branch webspecs --quiet"
-options["webspecs_index"]="--quiet"
 
 #salt-call --local --log-level=quiet git.clone /srv/salt ssh://renoirb@source.webplatform.org:29418/salt-states  opts="--branch 201409-removing-private-data --quiet" user="dhc-user" identity="/home/dhc-user/.ssh/id_rsa"
 
