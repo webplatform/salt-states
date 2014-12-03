@@ -36,11 +36,11 @@ php5-fpm:
         group = www-data
         chdir = /
         pm = dynamic
-        pm.max_children = 25
-        pm.start_servers = 10
+        pm.max_children = 20
+        pm.start_servers = 5
         pm.min_spare_servers = 5
         pm.max_spare_servers = 10
-        pm.max_requests = 500
+        pm.max_requests = 700
         pm.status_path = /status
     - watch_in:
       - service: php5-fpm

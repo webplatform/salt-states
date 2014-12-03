@@ -47,3 +47,9 @@ nutcracker:
     - source: salt://nutcracker/files/monit.conf
     - watch_in:
       - service: monit
+
+/usr/bin/wpd-nutcracker-monitor.py:
+  file.managed:
+    - source: salt://nutcracker/files/NutcrackerMonitor/ballgazer.py
+    - mode: 755
+
