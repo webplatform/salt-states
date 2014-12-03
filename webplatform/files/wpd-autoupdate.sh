@@ -5,60 +5,56 @@ if [ "$CODE_PATH" == "" ]; then
     exit 1
 fi
 
-logger -i -p local1.notice -t cron "[notice] Host `hostname` ran code auto-updater"
-
 if [ ! -d "$CODE_PATH" ]; then
-    MSG="[notice] Host `hostname` auto-updater -- no code directory found"
+    MSG="[notice] Host `hostname` autoupdater `pwd` -- no code directory found"
     logger -i -p local1.notice -t cron $MSG
     echo $MSG
     exit 2
 fi
 
-# @todo: generic username
-USER=$(whoami)
-output=$(mktemp)
+USER=`whoami`
 
-cd $CODE_PATH
+git fetch --all > /dev/null 2>&1
 
-# Check if $CODE_PATH is a git repository
-if [ ! -d "$CODE_PATH/.git" ]; then
-    MSG="[notice] Host `hostname` auto-updater -- no git repository found in $CODE_PATH"
-    logger -i -p local1.notice -t cron $MSG
-    echo $MSG
-    exit 3
-fi
+git_branch(){
+  echo $(git symbolic-ref HEAD 2> /dev/null || git rev-parse --short HEAD 2> /dev/null) | sed "s#refs/heads/##"
+}
 
-# @todo: what this done
-su -c 'git remote update' $USER > $output 2>&1
+GIT_REMOTE=`git remote show`
+GIT_BRANCH=`git_branch`
+GIT_HEAD_NAME=`git symbolic-ref HEAD 2> /dev/null`
 
-GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [[ $GIT_HEAD_NAME == "refs"* ]]; then
+  COUNT=`git rev-list ${GIT_BRANCH}...${GIT_REMOTE}/${GIT_BRANCH} --count`
+  if [[ $COUNT ==  1 ]]; then
 
-#
-# Source: http://stackoverflow.com/questions/3258243/git-check-if-pull-needed
-#
-COUNT=$(git rev-list HEAD...origin/$GIT_BRANCH --count)
+      git pull --rebase
 
-if [ "$COUNT" -ge  "1" ]; then
-    # @todo: or reset head ?
-    su -c 'git pull' $USER > $output 2>&1
+      ATTEMPT=$?
+      if [[ $ATTEMPT == 1 ]]; then
 
-    # @todo: execute other commands.
+          MSG="[notice] Host `hostname` autoupdate `pwd` has updates but cannot apply them. Did nothing."
+          logger -i -p local1.notice -t cron $MSG
 
-    #salt 'webat25*' state.sls code.webat25 >> $output 2>&1
-    #salt 'memcache*' cmd.run 'echo "flush_all" | nc localhost 11211'
-    #curl -H 'Fastly-Key: FASTLY_KEY' -H 'Content-Accept: application/json' -XPOST https://api.fastly.com/service/SERVICE_ID/purge_all
+      else
 
-    MSG="[notice] Host `hostname` auto-update -- updated"
-    logger -i -p local1.notice -t cron $MSG
-    echo $MSG
+          MSG="[notice] Host `hostname` autoupdate `pwd` updated"
+          logger -i -p local1.notice -t cron $MSG
+
+      fi
+
+  else
+
+      MSG="[notice] Host `hostname` autoupdate `pwd` nothing to do"
+      logger -i -p local1.notice -t cron $MSG
+
+  fi
+
 else
-    MSG="[notice] Host `hostname` auto-updater -- no new commit, nothing to do"
-    logger -i -p local1.notice -t cron $MSG
-    echo $MSG
-    exit 0
-fi
 
-cat $output
-rm $output
+    MSG="[notice] Host `hostname` autoupdate `pwd` detached HEAD, nothing to do"
+    logger -i -p local1.notice -t cron $MSG
+
+fi
 
 exit 0

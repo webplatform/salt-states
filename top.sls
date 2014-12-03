@@ -104,7 +104,7 @@ base:
     - users.randall
     - hypothesis
     - hypothesis.nginx
-    - accounts.nginx
+    - fxa.nginx
   'elastic*':
     - elasticsearch
   'accounts*':

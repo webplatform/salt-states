@@ -69,5 +69,5 @@ monit:
     - user: ubuntu
     - group: ubuntu
     - mode: 755
-    - require:
+    - require_in:
       - file: /etc/monit/conf.d/fxa-profile-server

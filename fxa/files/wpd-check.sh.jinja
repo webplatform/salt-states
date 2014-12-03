@@ -28,11 +28,9 @@
 #   - http://spin.atomicobject.com/2010/11/30/monitoring-and-management-with-monit-and-nagios/
 #   - http://mmonit.com/monit/documentation/monit.html#generic__send_expect_  (in case I want to get diretly through TCP)
 
-#set -e
 #curl --version | grep -Po '\s\d+?\.\d+?\.?\d+?\.?\d+?\s'
-#token='3a9458a6e4da60974414ed4b0f9818ed11ca2b3ccf61cf0aa16344449eb678bd'
 #check=$(curl --connect-timeout 9 -sL -H "Authorization: Bearer $token" 'https://profile.accounts.webplatform.org/v1/email' | grep email)
-token='6bbbdba6b87a46b6a9d1f34ba133c144d243481abf6b53b2d379fb11b7d50ea7'
+token='{{ salt['pillar.get']('accounts:fxa:monit:oauth_token', '') }}'
 check=$(curl --connect-timeout 9 -A 'curl/7.35.0 wpd-check/1.0' -sL -H "Authorization: Bearer $token" 'http://localhost:8081/v1/session/read' | grep email)
 
 if [[ -n "$check" ]] ; then
