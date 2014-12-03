@@ -1,21 +1,7 @@
-nginx:
-  pkg:
-    - latest
-  service:
-    - running
-    - watch:
-      - file: nginxconf
-  pkgrepo.managed:
-    - ppa: nginx/stable
-    - require_in:
-      - pkg: nginx
+include:
+  - nginx
 
-nginxconf:
+/etc/nginx/sites-enabled/notes:
   file.managed:
-    - name: /etc/nginx/sites-enabled/notes
-    - source: salt://hypothesis/files/nginx.notes.jinja
+    - source: salt://hypothesis/files/vhost.nginx.conf.jinja
     - template: jinja
-
-/etc/nginx/sites-enabled/default:
-  file:
-    - absent

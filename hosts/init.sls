@@ -6,3 +6,4 @@
     - context:
         level: {{ salt['grains.get']('level', 'production') }}
         hostName: {{ salt['grains.get']('host', 'ubuntu') }}
+        hosts_entries: {{ salt['pillar.get']('infra:hosts_entries', {}) }}

@@ -31,7 +31,7 @@ php5-fpm:
     - contents: |
         ; Managed by Salt Stack from state php-fpm/init.sls
         [www]
-        listen = 127.0.0.1:9000
+        listen = {{ salt['grains.get']('ipaddr', '127.0.0.1') }}:9000
         user = www-data
         group = www-data
         chdir = /
@@ -42,8 +42,6 @@ php5-fpm:
         pm.max_spare_servers = 10
         pm.max_requests = 500
         pm.status_path = /status
-    - require:
-      - pkg: php5-fpm
     - watch_in:
       - service: php5-fpm
 
@@ -52,10 +50,10 @@ php5-fpm:
     - source: salt://php-fpm/files/monit.conf.jinja
     - template: jinja
     - context:
-        ip4_interfaces: {{ salt['grains.get']('ip4_interfaces:eth0') }}
+        ip4_interface: {{ salt['grains.get']('ipaddr', '127.0.0.1') }}
         fpm_port: 9000
     - require:
-      - service: php5-fpm
+      - pkg: php5-fpm
     - watch_in:
       - service: monit
 

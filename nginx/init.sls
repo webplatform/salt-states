@@ -5,6 +5,9 @@
  #   - https://github.com/kevva/states/blob/master/nginx/
  #   - [Difference between NGINX versions](https://gist.github.com/jpetazzo/1152774)
  #}
+include:
+  - mmonit
+
 nginx:
   pkg.installed:
     - pkgs:
@@ -35,3 +38,20 @@ nginx-superseeds-apache:
     - require:
       - pkg: nginx
 
+nginx-ppa:
+  pkgrepo.managed:
+    - ppa: nginx/stable
+    - require_in:
+      - pkg: nginx
+
+
+/etc/monit/conf.d/nginx.conf:
+  file.managed:
+    - source: salt://nginx/files/monit.conf.jinja
+    - template: jinja
+    - context:
+        ip4_interfaces: {{ salt['grains.get']('ip4_interfaces:eth0') }}
+    - require:
+      - service: nginx
+    - watch_in:
+      - service: monit

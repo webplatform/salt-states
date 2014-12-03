@@ -1,13 +1,8 @@
-{#
- # Piwik Salt stack config
- #
- # See also:
- #   - https://github.com/perusio/piwik-nginx.git
- #}
 include:
   - cron
   - php
   - mysql
+  - piwik.php-fpm
 
 php-piwik:
   pkg.installed:
@@ -36,16 +31,6 @@ piwik-geoip:
     - require:
       - pkg: piwik-geoip
 
-/etc/nginx/conf.d/geoip.conf:
-  file.managed:
-    - source: salt://piwik/files/nginx.geoip.conf
-    - user: root
-    - group: root
-    - mode: 644
-    - require:
-      - pkg: nginx
-      - pkg: piwik-geoip
-
 # mailto.sh is part of cron/init.sls
 /usr/bin/piwik-archive.sh:
   file.managed:
@@ -53,6 +38,8 @@ piwik-geoip:
     - user: www-data
     - group: www-data
     - source: salt://piwik/files/piwik-archive.sh
+    - require:
+      - pkg: php-basic-deps
   cron.present:
     - identifier: piwik-archive
     - user: www-data
@@ -60,24 +47,4 @@ piwik-geoip:
     - require:
       - file: /usr/bin/piwik-archive.sh
       - file: /etc/profile.d/mailto.sh
-      - file: /etc/nginx/conf.d/geoip.conf
-
-
-/etc/nginx/sites-available/piwik:
-  file.managed:
-    - source: salt://piwik/files/vhost.nginx.conf.jinja
-    - template: jinja
-    - context:
-        site: piwik
-    - watch_in:
-      - service: nginx
-    - require:
-      - pkg: nginx
-
-/etc/nginx/sites-enabled/piwik:
-  file.symlink:
-    - target: /etc/nginx/sites-available/piwik
-    - require:
-      - pkg: nginx
-      - file: /etc/nginx/sites-available/piwik
 

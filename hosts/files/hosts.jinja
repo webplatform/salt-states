@@ -1,40 +1,69 @@
 127.0.1.1 {{ hostName }}.{{ level }}.wpdn {{ hostName }}
 127.0.0.1 localhost
+{##
 
-#
-# Managed by Salt stack. Do NOT EDIT directly!
-#
+  WebPlatform hosts file
 
-## Provided by nodes pillar ##
-{% for node, args in pillar.get('nodes', {}).items() -%}
-{{ args.get('private') }}		{{ node }}.local.wpdn	{{ node }}
+  This file requires three keys:
+  - hostName (e.g. salt)
+  - level (e.g. staging)
+  - hosts_entries
+
+##}
+##
+## Managed by Salt stack. Do NOT EDIT directly!
+##
+{##
+
+  Data given by pillar `salt['pillar.get']('infra:hosts_entries', {})`
+
+      hosts_entries = {'salt': '10.10.10.211', 'masterdb': '10.10.10.150'}
+
+##}
+##
+## From pillar 'infra:hosts_entries'
+##
+##     salt-call pillar.get infra:hosts_entries
+##
+## Data we had at last highstate:
+##
+##     "{{ hosts_entries }}"
+##
+{% for name,ip_addr in hosts_entries.items() -%}
+{{ ip_addr }}		{{ name }}.local.wpdn	{{ name }}
 {% endfor -%}
-## /Provided by nodes pillar ##
+## /From pillar 'infra:hosts_entries' ##
+{##
 
-{#
- # Data given by `salt['mine.get']('*', 'network.ip_addrs')` looks like this:
- #
- # foo = [('project', ['10.10.10.1']),('foo', ['10.10.10.2'])]
- #
- # To sort the list in alphabetical order based on the node name, we do:
- #
- # foo|sort(attribute=0)
- #
- # To get the list, run from any salt minion:
- #
- #    salt-call mine.get '*' network.ip_addrs grain
- #
- # If data doesnt get updated, use:
- #
- #    salt '*' mine.send network.ip_addrs
- #
- #}
+  Data given by `salt['mine.get']('*', 'network.ip_addrs')` looks like this:
+ 
+      foo = [('project', ['10.10.10.1']),('foo', ['10.10.10.2'])]
+
+  To sort the list in alphabetical order based on the VM hostname, we do:
+
+      foo|sort(attribute=0)
+
+  If data doesn’t get updated, on salt-master run:
+
+     salt \* mine.send network.ip_addrs
+
+##}
+
 {%- if grains['nodename'] == 'salt' -%}
-##  Provided by mine.get network.ip_addrs  ##
-{%- for minion,addrs in salt['mine.get']('*', 'network.ip_addrs').items()|sort(attribute=0) %}
+{%- set mine_data = salt['mine.get']('*', 'network.ip_addrs').items()|sort(attribute=0) -%}
+##
+## Mine network.ip_addrs:
+##
+##     salt-call mine.get \* network.ip_addrs
+##
+## Data we had at last highstate:
+##
+##     "{{ mine_data }}"
+##
+{%- for minion,addrs in mine_data %}
 {{ addrs[0] }}		{{ minion }}.{{ level }}.wpdn	{{ minion }}
 {%- endfor %}
-## /Provided by mine.get network.ip_addrs  ##
+## /Mine network.ip_addrs  ##
 {%- endif %}
 
 # The following lines are desirable for IPv6 capable hosts
@@ -44,9 +73,5 @@ ff00::0 ip6-mcastprefix
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 ff02::3 ip6-allhosts
-
-# Managed by Salt stack, appended entries
-# START managed hosts -DO-NOT-EDIT---
-# END managed hosts
 
 ## vim: ai st=4

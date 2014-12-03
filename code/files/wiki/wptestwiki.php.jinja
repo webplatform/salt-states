@@ -1,37 +1,62 @@
 <?php
 # vi set ai syntax=php
+{%- set db_creds      = salt['pillar.get']('accounts:wiki:db') -%}
+{%- set db_servers    = salt['pillar.get']('infra:db_servers:mysql:slaves', []) -%}
+{%- set secrets       = salt['pillar.get']('accounts:wiki:secrets') -%}
+{%- set swift_backend = salt['pillar.get']('accounts:swift:dreamhost') %}
 
-// Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
-// Ensure you change `salt/code/files/wptestwiki.php.jinja` instead
+## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+## Ensure you change `salt/code/files/wpwiki.php.jinja` instead
 
 if ( !defined( 'MEDIAWIKI' ) ) {
         exit;
 }
 
+##
+## Pillar db_servervs
+##
+##     salt-call pillar.get infra:db_servers:mysql:slaves
+##
+## Data we had at last highstate:
+##
+##     "{{ db_servers }}"
+##
+## NOTE: Ideally it would be salt mine. But its not reliable. We cannot get reliable data after adding/removing VMs
+##
 ##################### database settings #####################
 $wgDBname = "wptestwiki";
+##
+## The Master DB server, the only one who should receive writes to
+##
 $wgDBservers = array(
-        array(
-                'host'     => "{{ salt['pillar.get']('accounts:wiki:db:hostname', 'localhost') }}",
+        array(  'host'     => "{{ db_creds.hostname|default('localhost') }}",
                 'dbname'   => $wgDBname,
-                'user'     => "{{ salt['pillar.get']('accounts:wiki:db:username', 'root') }}",
-                'password' => "{{ salt['pillar.get']('accounts:wiki:db:password', '') }}",
+                'user'     => "{{ db_creds.username|default('root') }}",
+                'password' => "{{ db_creds.password|default('') }}",
                 'type'     => "mysql",
                 'flags'    => DBO_DEFAULT,
-                'load'     => 0,
-        ),
+                'load'     => 0 # <-- What makes MediaWiki to
+                                #     know if he can send writes to
+        )
 );
-#if ( !$wgCommandLineMode ) {
-#        $wgDBservers[] = array(
-#                'host'     => "db5.dho.wpdn",
-#                'dbname'   => $wgDBname,
-#                'user'     => "{{ salt['pillar.get']('accounts:wiki:db:username', 'root') }}",
-#                'password' => "{{ salt['pillar.get']('accounts:wiki:db:password', '') }}",
-#                'type'     => "mysql",
-#                'flags'    => DBO_DEFAULT,
-#                'load'     => 1,
-#        );
-#}
+{% if db_servers is iterable and db_servers|count >= 1 -%}
+if ( !$wgCommandLineMode ) {
+##
+## The secondary DB servers. Only reads.
+##
+{% for ip_addr in db_servers -%}
+$wgDBservers[] = array(
+                'host'     => "{{ ip_addr }}",
+                'dbname'   => $wgDBname,
+                'user'     => "{{ db_creds.username|default('root') }}",
+                'password' => "{{ db_creds.password|default('') }}",
+                'type'     => "mysql",
+                'flags'    => DBO_DEFAULT,
+                'load'     => 1
+        );
+{%- endfor %}
+}
+{%- endif %}
 ##################### database settings #####################
 
 $wgArticlePath = '/test/$1';

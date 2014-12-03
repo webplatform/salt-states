@@ -2,6 +2,9 @@ include:
   - rsync.secret
   - code.prereq
 
+#//github.com/piwik/piwik.git
+#2.9.1
+
 # @salt-master-dest
 sync-piwik:
   cmd.run:
@@ -27,6 +30,7 @@ piwik-perms:
     - user: www-data
     - group: www-data
     - mode: 755
+    - makedirs: True
     - require:
       - cmd: sync-piwik
 

@@ -31,7 +31,7 @@ mediawiki_cron_1:
     - identifier: mediawiki-runjobs-1
     - user: dhc-user
     - minute: random
-    - name: "/srv/webplatform/wiki/mediawiki-runJobs.sh #1st run"
+    - name: "/srv/webplatform/wiki/mediawiki-runJobs.sh #1st run foo"
     - require:
       - file: /srv/webplatform/wiki/mediawiki-runJobs.sh
 

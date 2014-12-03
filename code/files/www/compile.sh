@@ -16,6 +16,10 @@ cd /srv/code/www/repo
 if [ ! -d "../archives/" ]; then
   mkdir ../archives/
 fi
+chmod +x node_modules/docpad/bin/docpad
+chmod +x node_modules/gulp/bin/gulp.js
+
+chown -R nobody:deployment out/
 
 compass compile -e production --force
 node_modules/docpad/bin/docpad generate --env=production

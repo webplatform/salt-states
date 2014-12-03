@@ -5,7 +5,6 @@
 include:
   - nodejs
   - git
-  - hypothesis.nginx
   - mmonit
 
 /var/log/webplatform:

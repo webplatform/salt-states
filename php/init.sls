@@ -8,6 +8,7 @@ php-basic-deps:
       - php5-intl
       - libpcre3-dev
       - php5-dev
+      - php5-cli
 
 php5-memcached:
   pkg.installed:

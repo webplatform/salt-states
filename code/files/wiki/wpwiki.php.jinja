@@ -1,19 +1,33 @@
 <?php
 # vi set ai syntax=php
 {%- set db_creds      = salt['pillar.get']('accounts:wiki:db') -%}
-{%- set db_servers    = salt['mine.get']('roles:db', 'network.ip_addrs', expr_form='grain').items() -%}
+{%- set db_servers    = salt['pillar.get']('infra:db_servers:mysql:slaves', []) -%}
 {%- set secrets       = salt['pillar.get']('accounts:wiki:secrets') -%}
 {%- set swift_backend = salt['pillar.get']('accounts:swift:dreamhost') %}
 
-# Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
-# Ensure you change `salt/code/files/wpwiki.php.jinja` instead
+## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+## Ensure you change `salt/code/files/wpwiki.php.jinja` instead
 
 if ( !defined( 'MEDIAWIKI' ) ) {
         exit;
 }
 
+##
+## Pillar db_servervs
+##
+##     salt-call pillar.get infra:db_servers:mysql:slaves
+##
+## Data we had at last highstate:
+##
+##     "{{ db_servers }}"
+##
+## NOTE: Ideally it would be salt mine. But its not reliable. We cannot get reliable data after adding/removing VMs
+##
 ##################### database settings #####################
 $wgDBname = "wpwiki";
+##
+## The Master DB server, the only one who should receive writes to
+##
 $wgDBservers = array(
         array(  'host'     => "{{ db_creds.hostname|default('localhost') }}",
                 'dbname'   => $wgDBname,
@@ -21,15 +35,18 @@ $wgDBservers = array(
                 'password' => "{{ db_creds.password|default('') }}",
                 'type'     => "mysql",
                 'flags'    => DBO_DEFAULT,
-                'load'     => 0,
+                'load'     => 0 # <-- What makes MediaWiki to
+                                #     know if he can send writes to
         )
 );
-{% if db_servers|count >= 2 %}{# Two or more because the first should already be taken #}
+{% if db_servers is iterable and db_servers|count >= 1 -%}
 if ( !$wgCommandLineMode ) {
-{% for name,ipList in db_servers -%}
-{%- if name != 'db1' %}
+##
+## The secondary DB servers. Only reads.
+##
+{% for ip_addr in db_servers -%}
 $wgDBservers[] = array(
-                'host'     => "{{ ipList[0] }}", # {{ name }}
+                'host'     => "{{ ip_addr }}",
                 'dbname'   => $wgDBname,
                 'user'     => "{{ db_creds.username|default('root') }}",
                 'password' => "{{ db_creds.password|default('') }}",
@@ -37,11 +54,10 @@ $wgDBservers[] = array(
                 'flags'    => DBO_DEFAULT,
                 'load'     => 1
         );
-{% endif -%}
-{%- endfor -%}
+{%- endfor %}
 }
 {%- endif %}
-##################### database settings #####################
+##################### /database settings #####################
 
 $wgArticlePath = '/wiki/$1';
 $wgScriptPath  = '/w';

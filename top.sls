@@ -63,6 +63,7 @@ base:
     - wordpress
     - apache.blog
     - apache.status
+    - bots.lumberjack-listener
   'bots':
     - bots.lumberjack-listener
   'code*':
@@ -72,8 +73,6 @@ base:
     - logwatch
     - mysql.server
     - rsync
-  'db1':
-    - specific.master-db
   'postgres*':
     - postgres
     - rsync
@@ -94,14 +93,18 @@ base:
     - apache.status
     - buggenie.mailqueue
   'piwik*':
+    - piwik.nginx
+    - php-fpm
     - piwik
     - nutcracker
   'mail*':
     - logwatch
     - mail.mailhub
   'notes*':
-    - hypothesis
     - users.randall
+    - hypothesis
+    - hypothesis.nginx
+    - accounts.nginx
   'elastic*':
     - elasticsearch
   'accounts*':

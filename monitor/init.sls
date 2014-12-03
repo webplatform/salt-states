@@ -25,7 +25,7 @@ ganglia-monitor_service:
 
 /etc/ganglia/conf.d:
   file.directory:
-    - createdirs: True
+    - makedirs: True
 
 /etc/init.d/ganglia-monitor:
   file.managed:
