@@ -12,5 +12,5 @@ script
    cd /srv/webplatform/auth/fxa-oauth-server
    export NODE_ENV=prod
    export CONFIG_FILES=./config/prod.json
-   exec su -s /bin/bash -c 'node_modules/grunt-cli/bin/grunt server 2>&1 | bunyan -o short' ubuntu >> /var/log/fxa/fxa-oauth-server.log 2>&1
+   exec su -s /bin/bash -c 'node_modules/grunt-cli/bin/grunt server 2>&1 | bunyan -o short' {{ svc_user }} >> /var/log/fxa/fxa-oauth-server.log 2>&1
 end script

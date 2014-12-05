@@ -1,4 +1,6 @@
-{% set svc = ['fxa-profile-server', 'fxa-content-server', 'fxa-auth-server', 'fxa-oauth-server'] -%}
+{%- set svc = ['fxa-profile-server', 'fxa-content-server', 'fxa-auth-server', 'fxa-oauth-server'] -%}
+{%- set svc_user = 'dhc-user' -%}
+{%- set svc_group = 'dhc-user' -%}
 include:
   - nodejs
   - mmonit
@@ -20,8 +22,13 @@ fxa-nodejs-deps:
 /etc/init/{{ service }}.conf:
   file.managed:
     - source: salt://fxa/files/{{ service }}.init
+    - template: jinja
+    - context:
+        svc_user: {{ svc_user }}
+        svc_group: {{ svc_group }}
     - require:
       - pkg: monit
+      - pkg: nodejs
 
 /etc/monit/conf.d/{{ service }}:
   file.managed:
@@ -33,8 +40,8 @@ fxa-nodejs-deps:
 
 /srv/webplatform/auth/{{ service }}:
   file.directory:
-    - user: dhc-user
-    - group: dhc-user
+    - user: {{ svc_user }}
+    - group: {{ svc_group }}
     - require:
       - file: /etc/init/{{ service }}.conf
 {% endfor %}
@@ -42,15 +49,15 @@ fxa-nodejs-deps:
 /var/log/fxa/:
   file:
     - directory
-    - user: dhc-user
-    - group: dhc-user
+    - user: {{ svc_user }}
+    - group: {{ svc_group }}
 
 /srv/webplatform/auth/profile-check.sh:
   file.managed:
     - source: salt://fxa/files/wpd-check.sh.jinja
     - template: jinja
-    - user: dhc-user
-    - group: dhc-user
+    - user: {{ svc_user }}
+    - group: {{ svc_group }}
     - mode: 755
     - require_in:
       - file: /etc/monit/conf.d/fxa-profile-server
