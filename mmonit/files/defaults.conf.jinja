@@ -8,6 +8,9 @@
 # Ref:
 #   - http://mmonit.com/monit/documentation/monit.html
 #
+#{% set hostname = grains['fqdn'] %}
+# Host {{ hostname }}
+
 check system {{ nodename }}
   if loadavg (1min) > 4 then alert
   if loadavg (5min) > 2 then alert

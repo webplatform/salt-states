@@ -20,3 +20,4 @@ install-composer:
     - cwd: /root/
     - watch:
       - cmd: get-composer
+

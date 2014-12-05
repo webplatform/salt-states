@@ -5,6 +5,12 @@
 include:
   - users
 
+/var/log/webplatform:
+  file.directory:
+    - makedirs: True
+    - user: www-data
+    - group: deployment
+
 /srv/webplatform:
   file:
     - directory

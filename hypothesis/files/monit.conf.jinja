@@ -1,14 +1,29 @@
-check host elasticsearch-remote with address "localhost"
-  if failed port 9200 protocol HTTP
+{#
+ # Expected variables and values:
+ #   - hypothesis_host: '127.0.0.1'
+ #   - hypothesis_port: 8000
+ #   - elastic_host: '10.10.10.2'
+ #   - elastic_port: 9002
+ #}
+check process hypothesis
+  matching "notes-server"
+  start program = "/usr/sbin/service hypothesis start"
+  stop program =  "/usr/sbin/service hypothesis stop"
+  if failed port {{ hypothesis_port }}
+    type TCP with timeout 10 seconds
+    then restart
+  if 5 restarts with 5 cycles then timeout
+
+check host elasticsearch-remote with address "{{ elastic_host }}"
+  if failed port {{ elastic_port }} protocol HTTP
     request "/_aliases"
     with timeout 10 seconds
     then alert
- 
-check host hypothesis-service with address "localhost"
+
+check host hypothesis-available with address "{{ hypothesis_host }}"
   start program = "/usr/sbin/service hypothesis start"
-  stop program = "/usr/sbin/service hypothesis stop"
-  if failed port 5000 protocol HTTP
-    request /
-    with timeout 10 seconds
+  stop program =  "/usr/sbin/service hypothesis stop"
+  if failed port {{ hypothesis_port }}
+    protocol HTTP request "/ruok" with timeout 10 seconds
     then restart
  

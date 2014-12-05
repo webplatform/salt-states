@@ -1,38 +1,45 @@
-#
-# Reference:
-#  - https://github.com/hypothesis/h/blob/develop/INSTALL.Ubuntu.rst
-#
+{#
+ # Nice to have?:
+ #  - http://circus.readthedocs.org/en/latest/usecases/
+ #
+ # Ref:
+ #  - http://docs.gunicorn.org/en/latest/deploy.html
+ #  - https://github.com/hypothesis/h/blob/develop/INSTALL.Ubuntu.rst
+ #}
 include:
+  - webplatform
   - nodejs
   - git
   - mmonit
 
-/var/log/webplatform:
-  file.directory:
-    - makedirs: True
-    - user: renoirb
-    - group: deployment
+ln -s /usr/bin/nodejs /usr/bin/node:
+  cmd.run:
+    - unless: test -f /usr/bin/node
 
+# https://notes.webplatformstaging.org/ruok
+# http://localhost:8000/ruok
 /etc/monit/conf.d/hypothesis.conf:
   file.managed:
     - template: jinja
     - source: salt://hypothesis/files/monit.conf.jinja
-    - require_in:
+    - context:
+        elastic_host: {{ salt['pillar.get']('infra:elasticsearch:private') }}
+        elastic_port: {{ salt['pillar.get']('infra:elasticsearch:port') }}
+        hypothesis_host: {{ salt['pillar.get']('infra:notes:host', '127.0.0.1') }}
+        hypothesis_port: {{ salt['pillar.get']('infra:notes:port', 8000) }}
+    - require:
       - file: /srv/webplatform/notes-server/service.sh
     - watch_in:
       - service: monit
+      - service: hypothesis
 
-hypothesis-service:
+hypothesis:
   service.running:
-    - name: hypothesis
     - enable: True
     - reload: true
-    - unless: test -f /srv/webplatform/notes-server/h.ini
     - require:
       - pkg: hypothesis-dependencies
       - file: /etc/init/hypothesis.conf
-    - watch:
-      - file: /srv/webplatform/notes-server/h.ini
 
 hypothesis-dependencies:
   pkg.installed:
@@ -55,14 +62,6 @@ hypothesis-dependencies:
     - require:
       - pkg: ruby-full
 
-# pip install pyyaml
-# http://acervulus.info/2012/how-to-install-sass-on-ubuntu-precise-12-04-lts/
-## Install required python dependencies via pip
-#pip-dependencies:
-#  cmd:
-#    - run
-#    - name: pip install -r /srv/webplatform/notes-server/requirements.txt
-
 hypothesis-compass-dep:
   gem.installed:
     - name: compass
@@ -73,11 +72,7 @@ hypothesis-compass-dep:
 # Make SURE this file exists, its required
 # by the /etc/init/hypothesis.conf init script 
 /srv/webplatform/notes-server/h.ini:
-  file.managed:
-    - template: jinja
-    - source: salt://hypothesis/files/h.ini.jinja
-    - require:
-      - file: /srv/webplatform/notes-server
+  file.exists
 
 /srv/webplatform/notes-server:
   file.directory:
@@ -91,8 +86,8 @@ hypothesis-compass-dep:
     - mode: 644
     - require:
       - file: /srv/webplatform/notes-server
-      - file: /srv/webplatform/notes-server/h.ini
       - file: /srv/webplatform/notes-server/service.sh
+      - file: /var/log/webplatform
 
 /srv/webplatform/notes-server/service.sh:
   file.managed:
@@ -100,6 +95,7 @@ hypothesis-compass-dep:
     - mode: 755
     - require:
       - file: /srv/webplatform/notes-server
+      - file: /srv/webplatform/notes-server/h.ini
 
 npm-packages:
   npm.installed:

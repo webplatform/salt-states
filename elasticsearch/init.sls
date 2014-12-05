@@ -13,9 +13,11 @@
  # See awesome Chef recipe:
  #   - https://github.com/ConsumerAffairs/salt-states/blob/master/elasticsearch.sls
  #   - https://github.com/elasticsearch/cookbook-elasticsearch/blob/master/attributes/default.rb
+ #   - https://github.com/elasticsearch/cookbook-elasticsearch/blob/master/templates/default/elasticsearch.monitrc.conf.erb
  #
  # Ref:
  #   - http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-service.html
+ #   - http://www.xmsxmx.com/elasticsearch-cluster-configuration-best-practices/
  #
  # #TODO: Set minimum value ES_HEAP_SIZE=64m in /etc/defaults/elasticsearch
  # #TODO: To use ElasticSearchi (Cirrus Search), we have to add `script.disable_dynamic: false` in elasticsearch.yml

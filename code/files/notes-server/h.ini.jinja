@@ -3,13 +3,17 @@
 use: egg:notes_server
 
 api.endpoint: /api
-api.key: {{ salt['pillar.get']('infra:notes:url', 'http://127.0.0.1:5000') }}
+api.key: {{ notes_url }}
 
 api.secret: {{ salt['pillar.get']('accounts:notes:secret', 'NOTASECRET') }}
 webplatform.client_id: {{ salt['pillar.get']('accounts:notes:client_id', 'af626da2c9106504') }}
 webplatform.client_secret: {{ salt['pillar.get']('accounts:notes:client_secret', '30b57cda3bb7f94beb132565e136b9965a58d86b151cd9e3c10b01e1651e72e2') }}
+webplatform.accounts_auth: {{ accounts_auth }}
+webplatform.accounts_token: {{ accounts_token }}
+webplatform.accounts_session: {{ accounts_session }}
 
-es.host: {{ salt['pillar.get']('infra:notes:elastic_endpoint', 'http://127.0.0.1:9200') }}
+
+es.host: {{ elastic_endpoint|default('http://127.0.0.1:9200') }}
 es.index: notes
 
 multiauth.policies: h.auth.local.oauth h.api
@@ -18,7 +22,7 @@ pyramid.includes:
     pyramid_mailer
     pyramid_tm
 
-mail.default_sender: "Annotation Daemon" <{{ salt['pillar.get']('infra:notes:sender_email', 'root@localhost') }}>
+mail.default_sender: "WebPlatform Specs Notes Archiver" <{{ salt['pillar.get']('infra:notes:sender_email', 'root@localhost') }}>
 mail.host: {{ salt['pillar.get']('infra:notes:sender_relay', 'localhost') }}
 
 webassets.base_dir: notes_server:static
@@ -63,3 +67,4 @@ formatter = generic
 
 [formatter_generic]
 format = %(asctime)s [%(process)d] [%(levelname)s] %(message)s
+

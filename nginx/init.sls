@@ -4,6 +4,9 @@
  # See also:
  #   - https://github.com/kevva/states/blob/master/nginx/
  #   - [Difference between NGINX versions](https://gist.github.com/jpetazzo/1152774)
+ #   - [Strong SSL security on NGINX](https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html)
+ #   - http://nginx.org/en/docs/http/ngx_http_core_module.html#variables
+ #   - http://www.cyberciti.biz/faq/custom-nginx-maintenance-page-with-http503/
  #}
 include:
   - mmonit
