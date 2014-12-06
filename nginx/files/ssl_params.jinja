@@ -20,8 +20,8 @@ ssl_stapling_verify on;
 resolver 8.8.4.4 8.8.8.8 valid=300s;
 resolver_timeout 10s;
 
-ssl_prefer_server_ciphers on;
-ssl_dhparam /etc/ssl/certs/dhparam.pem;
+#ssl_prefer_server_ciphers on;
+#ssl_dhparam /etc/ssl/certs/dhparam.pem;
 
 ## HSTS: Tell browser that we Exclusively accept SSL connections
 #add_header Strict-Transport-Security "max-age=63072000; includeSubDomains";

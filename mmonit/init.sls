@@ -16,6 +16,8 @@ monit:
       - file: /etc/monit/conf.d
     - context:
         nodename: {{ grains['fqdn'] }}
+        monit_pw: {{ salt['pillar.get']('accounts:monit:admin_password', 'somethingrandom') }}
+        monit_port: 2812
 
 /etc/monit/conf.d:
   file.directory:

@@ -27,26 +27,13 @@ server {
     root                /srv/webplatform/notes-server/notes_server/static/;
     server_name         notes.webplatform.org notes.webplatformstaging.org;
 
-    server_tokens off;
-    access_log    /var/log/nginx/notes.access.log;
-    error_log     /var/log/nginx/notes.error.log;
+    include             common_params;
+    include             ssl_params;
 
     # All static files will be served directly?
     # See: http://stackoverflow.com/questions/19515132/nginx-cache-static-files#answer-20843725 and Joost van der Laan
 
     rewrite ^/$              https://$host/stream   permanent;
-
-    error_page 500 /errors/500.html;
-    error_page 502 /errors/502.html;
-    error_page 503 /errors/503.html;
-    error_page 504 /errors/500.html;
-    error_page 505 /errors/500.html;
-    error_page 403 /errors/403.html;
-    error_page 404 /errors/404.html;
-    location ^~ /errors/ {
-        internal;
-        root /srv/webplatform;
-    }
 
     # See also:
     #  - https://www.varnish-cache.org/docs/3.0/tutorial/websockets.html

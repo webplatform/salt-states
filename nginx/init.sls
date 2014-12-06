@@ -47,6 +47,19 @@ nginx-ppa:
     - require_in:
       - pkg: nginx
 
+/etc/nginx/ssl_params:
+  file.managed:
+    - source: salt://nginx/files/ssl_params.jinja
+    - template: jinja
+    - require:
+      - pkg: nginx
+
+/etc/nginx/common_params:
+  file.managed:
+    - source: salt://nginx/files/common_params
+    - template: jinja
+    - require:
+      - pkg: nginx
 
 /etc/monit/conf.d/nginx.conf:
   file.managed:

@@ -1,0 +1,92 @@
+server {
+    listen        80;
+    server_tokens off;
+    server_name   accounts.{{ tld }};
+    return        301 https://accounts.{{ tld }}$request_uri;
+}
+
+server {
+    listen        80;
+    server_tokens off;
+    server_name   api.accounts.{{ tld }};
+    return        301 https://api.accounts.{{ tld }}$request_uri;
+}
+
+server {
+    listen        80;
+    server_tokens off;
+    server_name   oauth.accounts.{{ tld }};
+    return        301 https://oauth.accounts.{{ tld }}$request_uri;
+}
+
+server {
+    listen        80;
+    server_tokens off;
+    server_name   profile.accounts.{{ tld }};
+    return        301 https://profile.accounts.{{ tld }}$request_uri;
+}
+
+server {
+    listen       443 ssl spdy;
+    server_name  accounts.{{ tld }};
+
+    include      common_params;
+    include      ssl_params;
+
+    location / {
+      proxy_pass http://127.0.0.1:3030;
+    }
+
+    ssl on;
+    ssl_certificate     /etc/ssl/webplatform/accounts.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201404.key;
+}
+
+server {
+    listen       443 ssl spdy;
+    server_name  api.accounts.{{ tld }};
+
+    include      common_params;
+    include      ssl_params;
+
+    location / {
+      proxy_pass http://127.0.0.1:9000;
+    }
+
+    ssl on;
+    ssl_certificate     /etc/ssl/webplatform/accounts.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201404.key;
+}
+
+server {
+    listen       443 ssl spdy;
+    server_name  oauth.accounts.{{ tld }};
+
+    include      common_params;
+    include      ssl_params;
+
+    location / {
+      proxy_pass http://127.0.0.1:9010;
+    }
+
+    ssl on;
+    ssl_certificate     /etc/ssl/webplatform/accounts.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201404.key;
+}
+
+server {
+    listen       443 ssl spdy;
+    server_name  profile.accounts.{{ tld }};
+
+    include      common_params;
+    include      ssl_params;
+
+    location / {
+      proxy_pass http://127.0.0.1:8081;  # Need to change back to localhost
+    }
+
+    ssl on;
+    ssl_certificate     /etc/ssl/webplatform/accounts.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201404.key;
+}
+
