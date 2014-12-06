@@ -141,8 +141,8 @@ for key in ${!repos[@]}; do
 done
 
 chown -R nobody:deployment /srv/code/
-find /srv/code -type f -exec chmod 664 {} \;
-find /srv/code -type d -exec chmod 775 {} \;
+#find /srv/code -type f -exec chmod 664 {} \;
+#find /srv/code -type d -exec chmod 775 {} \;
 
 echo "Now its time to run wpd-dependency-installer.sh"
 
