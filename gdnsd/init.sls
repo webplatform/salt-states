@@ -9,13 +9,18 @@ gdnsd:
   service.running:
     - enable: True
     - reload: True
-    - watch:
-      - file: /etc/gdnsd/zones
-  file.recurse:
-    - name: /etc/gdnsd/zones
-    - source: salt://gdnsd/files/zones/{{ level }}
+  file.managed:
+    - name: /etc/gdnsd/zones/{{ level }}.wpdn
+    - source: salt://gdnsd/files/zonefile.wpdn.jinja
+    - template: jinja
     - require:
       - pkg: gdnsd
+    - watch_in:
+      - service: gdnsd
+    - context:
+        gdnsd_timestamp: {{ salt['pillar.get']('infra:gdnsd_timestamp', '2014121200') }}
+        level: {{ level }}
+        hosts_entries: {{ salt['pillar.get']('infra:hosts_entries', []) }}
 
 /etc/monit/conf.d/gdnsd.conf:
   file.managed:

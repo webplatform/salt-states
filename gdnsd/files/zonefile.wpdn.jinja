@@ -1,0 +1,44 @@
+; vi: ai syntax=bindzone tabstop=4 softtabstop=4 shiftwidth=4
+$TTL 3600
+@   SOA salt.{{ level }}.wpdn. hostmaster.webplatform.org. (
+      {{ gdnsd_timestamp }} ; serial
+      7200       ; refresh
+      30M        ; retry
+      3D         ; expire
+      900        ; ncache
+)
+
+@		NS	salt.{{ level }}.wpdn.
+
+;
+; Hosts entries
+;
+;     salt-call pillar.get infra:hosts_entries
+;
+; Data we had at last highstate:
+;
+; {{ hosts_entries.items() }}
+;
+{% for name,ip_addr in hosts_entries.items() %}
+{%- if ip_addr -%}
+{{ name }}		A	{{ ip_addr }}
+{% endif -%}
+{% endfor %}
+
+
+{% set mine_data = salt['mine.get']('*', 'network.ip_addrs').items()|sort(attribute=0) -%}
+;
+;  Mine network.ip_addrs:
+;
+;      salt-call mine.get \* network.ip_addrs
+;
+;  Data we had at last highstate:
+;
+;  {{ mine_data }}
+;
+{%- if mine_data %}
+{%- for minion,addrs in mine_data %}
+{{ minion }}		A	{{ addrs[0] }}
+{%- endfor %}
+{%- endif %}
+

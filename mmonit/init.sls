@@ -1,3 +1,7 @@
+{#
+ # Ref:
+ #   - https://mmonit.com/monit/documentation/monit.html
+ #}
 monit:
   pkg:
     - installed
@@ -18,6 +22,7 @@ monit:
         nodename: {{ grains['fqdn'] }}
         monit_pw: {{ salt['pillar.get']('accounts:monit:admin_password', 'somethingrandom') }}
         monit_port: 2812
+        salt_master_ip: {{ salt['pillar.get']('infra:hosts_entries:salt', '127.0.0.1') }}
 
 /etc/monit/conf.d:
   file.directory:

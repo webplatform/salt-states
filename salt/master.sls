@@ -1,6 +1,6 @@
 {%- set users = salt['pillar.get']('users', {}) -%}
 {%- set level = salt['grains.get']('level', 'production') -%}
-{%- set salt_master_ip = salt['pillar.get']('infra:salt:master:private') -%}
+{%- set salt_master_ip = salt['pillar.get']('infra:hosts_entries:salt') -%}
 
 include:
   - salt
