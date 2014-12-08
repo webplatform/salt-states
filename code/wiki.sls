@@ -3,7 +3,7 @@ include:
   - code.prereq
   - rsync.secret
 
-{%- set envNames = ['wpwiki', 'wptestwiki'] -%}
+{%- set envNames = ['wpwiki'] -%}
 
 {% for env in envNames %}
 
