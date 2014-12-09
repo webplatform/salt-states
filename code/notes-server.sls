@@ -40,6 +40,10 @@ rsync-hypothesis:
         accounts_auth: {{ salt['pillar.get']('infra:accounts:auth', 'https://oauth.accounts.webplatform.org/v1/authorization') }}
         accounts_token: {{ salt['pillar.get']('infra:accounts:token', 'https://oauth.accounts.webplatform.org/v1/token') }}
         accounts_session: {{ salt['pillar.get']('infra:accounts:session', 'https://profile.accounts.webplatform.org/v1/session') }}
+        accounts_session_read: {{ salt['pillar.get']('infra:accounts:session_read', 'https://profile.accounts.webplatform.org/v1/session/read') }}
+        accounts_session_recover: {{ salt['pillar.get']('infra:accounts:session_recover', 'https://profile.accounts.webplatform.org/v1/session/recover') }}
+        accounts_client_id: {{ salt['pillar.get']('accounts:notes:client_id', 'af626da2c9106504') }}
+        accounts_client_secret: {{ salt['pillar.get']('accounts:notes:client_secret', '30b57cda3bb7f94beb132565e136b9965a58d86b151cd9e3c10b01e1651e72e2') }}
     - require:
       - file: /srv/webplatform/notes-server
       - cmd: rsync-hypothesis

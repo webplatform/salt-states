@@ -6,11 +6,13 @@ api.endpoint: /api
 api.key: {{ notes_url }}
 
 api.secret: {{ salt['pillar.get']('accounts:notes:secret', 'NOTASECRET') }}
-webplatform.client_id: {{ salt['pillar.get']('accounts:notes:client_id', 'af626da2c9106504') }}
-webplatform.client_secret: {{ salt['pillar.get']('accounts:notes:client_secret', '30b57cda3bb7f94beb132565e136b9965a58d86b151cd9e3c10b01e1651e72e2') }}
-webplatform.accounts_auth: {{ accounts_auth }}
-webplatform.accounts_token: {{ accounts_token }}
-webplatform.accounts_session: {{ accounts_session }}
+
+webplatform.client_id: {{ accounts_client_id }}
+webplatform.client_secret: {{ accounts_client_secret }}
+webplatform.authorize: {{ accounts_auth }}
+webplatform.token: {{ accounts_token }}
+webplatform.session_read: {{ accounts_session_read }}
+webplatform.session_recover: {{ accounts_session_recover }}
 
 
 es.host: {{ elastic_endpoint|default('http://127.0.0.1:9200') }}

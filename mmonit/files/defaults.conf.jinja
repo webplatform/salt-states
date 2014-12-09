@@ -48,6 +48,7 @@ set mailserver mailtrap.io
   username 263449d09cda1e8fd  # #TODO hardcoded password
   password 34fb58c208f207
   using sslauto
+  using timeout 10 seconds
 
 set mail-format { from: monit@{{ nodename }} }
 set alert hostmaster@webplatformstaging.org not on { pid ppid }  # #TODO hardcoded domain name
