@@ -37,7 +37,10 @@ piwik-geoip:
     - mode: 755 
     - user: www-data
     - group: www-data
-    - source: salt://piwik/files/piwik-archive.sh
+    - source: salt://piwik/files/piwik-archive.sh.jinja
+    - template: jinja
+    - context:
+        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }} 
     - require:
       - pkg: php-basic-deps
   cron.present:
