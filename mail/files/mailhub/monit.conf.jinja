@@ -1,0 +1,42 @@
+#
+# Amavis; an interface between SMTP and Anti virus
+# Service config: /etc/amavis/conf.d/20-debian_defaults
+# TCP port: 10024
+#
+check process amavis
+  with pidfile "/var/run/amavis/amavisd.pid"
+  group mail
+  start = "/usr/sbin/service amavis start"
+  stop  = "/usr/sbin/service amavis stop"
+  if failed port 10024 type TCP then restart
+  if not exist for 3 cycles then restart
+  if 3 restarts within 5 cycles then alert
+  if 5 restarts within 5 cycles then timeout
+
+check process opendkim
+  with pidfile "/var/run/opendkim/opendkim.pid"
+  group mail
+  start = "/usr/sbin/service opendkim start"
+  stop  = "/usr/sbin/service opendkim stop"
+  if failed unixsocket /var/run/opendkim/opendkim.sock type TCP then restart
+  if not exist for 3 cycles then restart
+  if 3 restarts within 5 cycles then alert
+  if 5 restarts within 5 cycles then timeout
+
+check process dovecot
+  with pidfile "/var/run/dovecot/master.pid"
+  group mail
+  start = "/usr/sbin/service dovecot start"
+  stop  = "/usr/sbin/service dovecot stop"
+  if 3 restarts within 5 cycles then alert
+  if 5 restarts within 5 cycles then timeout
+
+check process postfix
+  with pidfile "/var/spool/postfix/pid/master.pid"
+  group mail
+  start = "/usr/sbin/service postfix start"
+  stop  = "/usr/sbin/service postfix stop"
+  if failed port 25 protocol SMTP then restart
+  if 3 restarts within 5 cycles then alert
+  if 5 restarts within 5 cycles then timeout
+

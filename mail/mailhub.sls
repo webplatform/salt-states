@@ -1,11 +1,19 @@
+{#
+ # WebPlatform SMTP relay
+ #
+ # Ref:
+ #   - http://www.amavis.org/README.postfix.html
+ #}
 exclude:
   - id: /etc/exim4/passwd.client
   - id: /etc/exim4/update-exim4.conf.conf
   - id: /usr/sbin/update-exim4.conf
   - id: exim4
+  - id: /etc/monit/conf.d/exim4.conf
 
 include:
   - postfix
+  - mmonit
 
 purge-exim:
   pkg.purged:
@@ -17,7 +25,7 @@ purge-exim:
 
 mailhub-required-pkgs:
   pkg.installed:
-    - names:
+    - pkgs:
       - amavisd-new
       - spamassassin
       - clamav-daemon
@@ -40,7 +48,6 @@ mailhub-required-pkgs:
       - unp
       - pax
       - clamav-freshclam
-      - mailgraph
       - librrds-perl
       - clamav
       - libnet-cidr-perl
@@ -51,9 +58,6 @@ mailhub-required-pkgs:
       - libmime-tools-perl
       - libio-stringy-perl
       - cabextract
-      - dovecot-sieve
-      - dovecot-core
-      - dovecot-common
       - ripole
       - spamc
       - dkms
@@ -61,58 +65,81 @@ mailhub-required-pkgs:
       - spf-tools-perl
       - opendkim
       - opendkim-tools
+      - swaks
 
-#refresh-clam:
-#  cmd:
-#    - run
-#    - name: freshclam
-#    - require:
-#      - pkg: clamav-freshclam
-
-mailhub-services:
-  service:
-    - running
-    - names:
-      - spamassassin
-      - opendkim
-      - clamav-daemon
-      - amavis
-      - dovecot
-    - enable: True
-    - reload: true
+mailgraph-viewer:
+  pkg.installed:
+    - pkgs:
+      - mailgraph
+      - apache2
     - require:
-      - pkg: spamassassin
-      - pkg: opendkim
-      - pkg: clamav-daemon
-      - pkg: amavisd-new
-      - pkg: dovecot-core
-    - watch:
-      - pkg: spamassassin
-      - pkg: opendkim
-      - pkg: clamav-daemon
-      - pkg: amavisd-new
-      - pkg: dovecot-core
+      - pkg: mailhub-required-pkgs
+  service.running:
+    - name: apache2
+    - reload: True
+    - enabled: True
+  cmd.run:
+    - name: a2enmod cgid
+    - unless: test -f /etc/apache2/mods-enabled/cgid.load
+  file.managed:
+    - name: /etc/apache2/sites-enabled/000-default.conf
+    - source: salt://mail/files/mailhub/apache2.vhost.conf.jinja
+    - template: jinja
+    - watch_in:
+      - service: mailgraph-viewer
+
+opendkim:
+  pkg.installed:
+    - pkgs:
+      - opendkim-tools
+      - opendkim
+    - require:
+      - pkg: mailhub-required-pkgs
+  service.running:
+    - enable: True
+    - reload: True
+
+dovecot-core:
+  pkg.installed:
+    - pkgs:
+      - dovecot-sieve
+      - dovecot-core
+      - dovecot-common
+    - require:
+      - pkg: mailhub-required-pkgs
+  service.running:
+    - name: dovecot
+    - enable: True
+    - reload: True
+
+{%- set services = ['spamassassin','clamav-daemon','amavis'] -%}
+{%- for svcName in services %}
+{{ svcName }}:
+  service.running:
+    - enable: True
+    - reload: True
+    - require:
+      - pkg: mailhub-required-pkgs
+{% endfor %}
 
 usermod -a -G amavis clamav:
-  cmd:
-    - run
-    - require:
-      - pkg: clamav
-      - pkg: amavisd-new
+  cmd.run:
+    - unless: grep -q -e '^amavis.*clamav$' /etc/group
+    - require_in:
+      - service: clamav-daemon 
 
 /etc/default/opendkim:
   file:
     - uncomment
     - regex: SOCKET="local:/var/run/opendkim/opendkim.sock"
-    - require:
-      - pkg: opendkim
+    - require_in:
+      - service: opendkim
 
 postfix-access-opendkim:
   user.present:
     - name: postfix
     - require:
-      - pkg: postfix
-      - pkg: opendkim
+      - pkg: mailhub-required-pkgs
       - file: /etc/default/opendkim
     - groups:
       - opendkim
@@ -121,10 +148,26 @@ postfix-access-opendkim:
   file.managed:
     - source: salt://mail/files/amavis/conf.d/node_id
     - require:
-      - pkg: amavisd-new
+      - pkg: mailhub-required-pkgs
 
 /etc/amavis/conf.d/15-content_filter_mode:
   file.managed:
     - source: salt://mail/files/amavis/conf.d/content_filter_mode
     - require:
-      - pkg: amavisd-new
+      - pkg: mailhub-required-pkgs
+
+## Not enabling it because first run is long
+#Freshclam first run:
+#  cmd.run:
+#    - unless: test -d /var/lib/clamav
+#    - name: freshclam
+#    - require_in:
+#      - service: clamav-daemon
+
+/etc/monit/conf.d/mailhub.conf:
+  file.managed:
+    - source: salt://mail/files/mailhub/monit.conf.jinja
+    - template: jinja
+    - watch_in:
+      - service: monit
+

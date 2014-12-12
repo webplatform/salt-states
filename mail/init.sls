@@ -66,3 +66,4 @@ exim4:
     - source: salt://mail/files/exim4/monit.conf
     - watch_in:
       - service: monit
+
