@@ -58,6 +58,7 @@ salt-master-deps:
       - salt-api
       - salt-master
       - jq
+      - swaks
 
 #/usr/local/bin/wpd-deploy:
 #  file.managed:

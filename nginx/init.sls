@@ -7,6 +7,9 @@
  #   - [Strong SSL security on NGINX](https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html)
  #   - http://nginx.org/en/docs/http/ngx_http_core_module.html#variables
  #   - http://www.cyberciti.biz/faq/custom-nginx-maintenance-page-with-http503/
+ #   - [All static files will be served directly?](http://stackoverflow.com/questions/19515132/nginx-cache-static-files#answer-20843725)
+ #   - https://www.varnish-cache.org/docs/3.0/tutorial/websockets.html
+ #   - http://thruflo.com/post/23226473852/websockets-varnish-nginx
  #}
 include:
   - mmonit
