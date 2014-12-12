@@ -38,7 +38,8 @@ webassets.static_view: True
 [server:main]
 use: egg:gunicorn
 worker_class: gevent
-
+port: {{ salt['pillar.get']('infra:notes:port', 8000) }}
+host: {{ salt['pillar.get']('infra:notes:host', '127.0.0.1') }}
 
 [loggers]
 keys = root, gunicorn.error
