@@ -64,8 +64,7 @@ declare -A options
 # x     web25ee/repo
 # x     webat25/repo          Static version of ^
 
-
-repos["blog"]="https://github.com/webplatform/webplatform-wordpress-theme.git"
+repos["blog"]="https://source.webplatform.org/r/wordpress-theme"
 repos["bots"]="https://@source.webplatform.org/r/pierc.git"
 repos["mailhub"]="https://@source.webplatform.org/r/mailhub.git"
 #repos["web25ee"]="https://@source.webplatform.org/r/web25ee.git"
@@ -88,7 +87,7 @@ repos["notes-server"]="https://github.com/webplatform/notes-server.git"
 #https://github.com/webspecs/the-index.git"
 #https://github.com/webspecs/publican.git
 
-options["blog"]="--recurse-submodules --quiet"
+options["blog"]="--branch 201412-autoinstall --recurse-submodules --quiet"
 options["bots"]="--quiet"
 options["mailhub"]="--quiet"
 #options["web25ee"]="--quiet"

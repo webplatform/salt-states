@@ -26,9 +26,11 @@ $wgShowExceptionDetails = true;
 $siteTopLevelDomain = 'webplatformstaging.org';
 $wgPiwikIDSite = 0;
 $wgSitename = "WebPlatform Docs [STAGING]";
+$wgDefaultRobotPolicy = 'noindex,nofollow';
 {% else -%}
 $siteTopLevelDomain = 'webplatform.org';
 $wgSitename = "WebPlatform Docs";
+$wgDefaultRobotPolicy = 'index,follow';
 {% endif %}
 
 ## ref: http://www.mediawiki.org/wiki/Manual:$wgCanonicalServer

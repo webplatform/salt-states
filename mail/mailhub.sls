@@ -77,7 +77,7 @@ mailgraph-viewer:
   service.running:
     - name: apache2
     - reload: True
-    - enabled: True
+    - enable: True
   cmd.run:
     - name: a2enmod cgid
     - unless: test -f /etc/apache2/mods-enabled/cgid.load

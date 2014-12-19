@@ -3,18 +3,20 @@
 
 # Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
 
-#error_reporting(E_ALL);
+require_once('lib/main.php');
+
+# http://www.one-tab.com/page/74i1sP-XSVCyJts_AjzpIQ
+#error_reporting( -1 );
+#ini_set( 'display_errors', 1 );
 
 ## Deployment specific details
 {% if salt['grains.get']('level') == 'staging' -%}
 $siteTopLevelDomain = 'webplatformstaging.org';
+$wpd['meta_robots'] = 'noindex,nofollow';
 {% else -%}
 $siteTopLevelDomain = 'webplatform.org';
 {% endif %}
 
-require_once('lib/main.php');
-
-$wpd['memcache_array'] = array('localhost:11211');
 $wpd['pagespeed_key'] = "{{ salt['pillar.get']('accounts:blog:secrets:googlepagespeed', '') }}";
 $wpd['piwik_url'] = 'https://stats.' . $siteTopLevelDomain . '/';
 
@@ -46,8 +48,8 @@ define('W3TC_EDGE_MODE', true); // Added by W3 Total Cache
 define('WP_DEFAULT_THEME', 'webplatform');
 
 #define('DISABLE_CACHE', true);
-define('WP_DEBUG_LOG', false);
-define('WP_DEBUG', false);
+define('WP_DEBUG_LOG', true);
+define('WP_DEBUG', true);
 
 /**
  * Database configuration

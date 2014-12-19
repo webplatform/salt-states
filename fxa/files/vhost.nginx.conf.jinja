@@ -34,7 +34,7 @@ server {
     include      ssl_params;
 
     location / {
-      proxy_pass http://127.0.0.1:3030;
+      proxy_pass http://{{ fxa_content_host|default('127.0.0.1') }}:{{ fxa_content_port|default(3030) }};
     }
 
     ssl on;
@@ -50,7 +50,7 @@ server {
     include      ssl_params;
 
     location / {
-      proxy_pass http://127.0.0.1:9000;
+      proxy_pass http://{{ fxa_auth_host|default('127.0.0.1') }}:{{ fxa_auth_port|default(9000) }};
     }
 
     ssl on;
@@ -66,7 +66,7 @@ server {
     include      ssl_params;
 
     location / {
-      proxy_pass http://127.0.0.1:9010;
+      proxy_pass http://{{ fxa_oauth_host|default('127.0.0.1') }}:{{ fxa_oauth_port|default(9010) }};
     }
 
     ssl on;
@@ -82,7 +82,7 @@ server {
     include      ssl_params;
 
     location / {
-      proxy_pass http://127.0.0.1:8081;  # Need to change back to localhost
+      proxy_pass http://{{ fxa_profile_host|default('127.0.0.1') }}:{{ fxa_profile_port|default(8081) }};  # Need to change back to localhost
     }
 
     ssl on;

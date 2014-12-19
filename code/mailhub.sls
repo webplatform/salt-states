@@ -37,6 +37,9 @@ postfix-dir:
     - watch_in:
       - service: postfix
 
+#/etc/postfix/certs must be root #TODO
+#/srv/webplatform must be owned by root:root #TODO
+
 /etc/opendkim.conf:
   file.symlink:
     - target: /srv/webplatform/mailhub/etc/opendkim.conf

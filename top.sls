@@ -105,7 +105,6 @@ base:
     - hypothesis
     - hypothesis.nginx
     - fxa.nginx
-    - fxa
   'elastic*':
     - elasticsearch
   'accounts*':

@@ -7,6 +7,8 @@ include:
     - source: salt://code/files/blog/robots.txt
     - user: www-data
     - group: www-data
+    - require:
+      - cmd: rsync-blog
 
 # @salt-master-dest
 rsync-blog:
