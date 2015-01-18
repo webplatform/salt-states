@@ -25,7 +25,8 @@ apache2:
     - user: root
     - group: deployment
     - mode: 755
-    - source: salt://apache/files/wpd-apache-watchdog
+    - template: jinja
+    - source: salt://apache/files/wpd-apache-watchdog.jinja
   cron.present:
     - identifier: apache-watchdog
     - user: root

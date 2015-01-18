@@ -112,6 +112,15 @@ dovecot-core:
     - enable: True
     - reload: True
 
+/etc/apache2/conf-enabled/performance.conf:
+  file.managed:
+    - contents: |
+        ServerName            {{ salt['grains.get']('nodename') }}
+        ServerLimit           2
+        MaxRequestWorkers     25
+    - watch_in:
+      - service: mailgraph-viewer
+
 {%- set services = ['spamassassin','clamav-daemon','amavis'] -%}
 {%- for svcName in services %}
 {{ svcName }}:

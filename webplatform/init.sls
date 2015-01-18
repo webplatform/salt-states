@@ -40,6 +40,10 @@ include:
         domain {{ level }}.wpdn
         nameserver 8.8.8.8
 
+remove-whoopsie:
+  pkg.purged:
+    - name: whoopsie
+
 /etc/resolvconf/resolv.conf.d/head:
   file.managed:
     - contents: |

@@ -17,6 +17,7 @@ salt-minion-deps:
   pkg.installed:
     - pkgs:
       - python-pip
+      - python-psutil
     - require:
       - pkg: salt-minion
 

@@ -21,6 +21,7 @@ include:
 # - 1009, vivien
 # - 1010, darobin
 # - 1011, tripu
+# - 1012, gerald
 # - 1150, estheban
 # - 1151, laner
 # - 1152

@@ -33,8 +33,7 @@ fi
 
 # try three times to get an HTTP response; exit if we get at least one
 for attempt in 1 2 3 ; do
-    ( echo 'HEAD / HTTP/1.0'
-      echo 'Host: www.webplatform.org'
+    ( echo 'HEAD /server-status HTTP/1.0'
       echo 'User-Agent: W3C/apache-watchdog'
       echo
     ) | nc -w 5 localhost 80 2> /dev/null | egrep -q '^HTTP/... [0-9][0-9][0-9] ' && exit 0

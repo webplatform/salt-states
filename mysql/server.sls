@@ -13,7 +13,7 @@ salt-dependency:
 db-server:
   pkg.installed:
     - pkgs:
-      - mariadb-server-10.1
+      - mariadb-server
       - galera
       - percona-toolkit
       - percona-xtrabackup

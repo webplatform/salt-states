@@ -38,3 +38,4 @@ rsync-blog:
     - group: www-data
     - require:
       - cmd: rsync-blog
+

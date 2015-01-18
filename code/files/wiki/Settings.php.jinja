@@ -12,6 +12,7 @@
  #}
 {%- set log_dest = salt['mine.get']('roles:salt', 'network.ip_addrs', expr_form='grain').items()[0] -%}
 {%- set log_dest_port = 8420 %}{# ## SecurityGroup port: UDP 8420 @salt demux.py  #}
+{%- set reCaptchaKeys = salt['pillar.get']('accounts:recaptcha') -%}
 
 ## Common settings
 ## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
@@ -237,8 +238,11 @@ $wgCaptchaTriggers['create']        = false;
 $wgCaptchaTriggers['addurl']        = false;
 $wgCaptchaTriggers['createaccount'] = true;
 $wgCaptchaTriggers['badlogin']      = false;
-#require_once( "$IP/extensions/ConfirmEdit/WpdCaptcha.php"); #TODO, refactor
-#$wgCaptchaClass = 'WpdCaptcha';
+
+require_once( "$IP/extensions/ConfirmEdit/ReCaptcha.php" );
+$wgCaptchaClass = 'ReCaptcha';
+$wgReCaptchaPublicKey  = '{{ reCaptchaKeys.get('key') }}';
+$wgReCaptchaPrivateKey = '{{ reCaptchaKeys.get('secret') }}';
 
 ## Page mass-delete
 require_once("$IP/extensions/Nuke/Nuke.php");
@@ -247,8 +251,6 @@ require_once("$IP/extensions/Nuke/Nuke.php");
 #require_once("$IP/extensions/Comments/Comments.php");
 #$wgCommentsEnabledNS = array(NS_MAIN);
 #require_once("$IP/extensions/WebPlatformDocs/extensions/SectionComments/SectionComments.php"); #TODO, REFACTOR, see WebPlatformDocs/main.php
-
-#require_once("$IP/extensions/WebPlatformSearchAutocomplete/WebPlatformSearchAutocomplete.php"); #TODO, refactor
 
 ## Sub-page list
 require_once("$IP/extensions/SubPageList3/SubPageList3.php");

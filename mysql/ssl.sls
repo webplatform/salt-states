@@ -10,6 +10,10 @@ include:
 #  - openssl req -newkey rsa:2048 -days 3600 -nodes -keyout server-key.pem -out server-req.pem
 #  - openssl rsa -in server-key.pem -out server-key.pem
 #  - openssl x509 -req -in server-req.pem -days 3600 -CA ca-cert.pem -CAkey ca-key.pem -set_serial 01 -out server-cert.pem
+#
+# Improvement roadmap:
+#   - Move what is related to a SSL certificate, not only MySQL would benefit from what is here
+#
 
 openssl-installed:
   pkg.installed:
@@ -20,7 +24,7 @@ openssl-client-newkey:
     - stateful: True
     - cwd: /etc/mysql
     - unless: test -s /etc/mysql/client-req.pem
-    - name: /usr/bin/openssl req -newkey rsa:2048 -days 3600 -nodes -keyout client-key.pem -out client-req.pem -subj '/C=US/ST=MA/L=Cambridge/O=W3C/OU=WebPlatform Docs/CN={{ grains['host'] }}.staging.wpdn/emailAddress=team-webplatform-systems@w3.org'
+    - name: /usr/bin/openssl req -newkey rsa:2048 -days 3600 -nodes -keyout client-key.pem -out client-req.pem -subj '/C=US/ST=MA/L=Cambridge/O=W3C/OU=WebPlatform Docs/CN={{ grains['host'] }}/emailAddress=team-webplatform-systems@w3.org'
     - require:
       - pkg: openssl-installed
       - pkg: db-server
@@ -72,7 +76,7 @@ openssl-newkey:
     - stateful: True
     - cwd: /etc/mysql
     - unless: test -s /etc/mysql/server-req.pem
-    - name: /usr/bin/openssl req -newkey rsa:2048 -days 3600 -nodes -keyout server-key.pem -out server-req.pem -subj '/C=US/ST=MA/L=Cambridge/O=W3C/OU=WebPlatform Docs/CN={{ grains['host'] }}.staging.wpdn/emailAddress=team-webplatform-systems@w3.org'
+    - name: /usr/bin/openssl req -newkey rsa:2048 -days 3600 -nodes -keyout server-key.pem -out server-req.pem -subj '/C=US/ST=MA/L=Cambridge/O=W3C/OU=WebPlatform Docs/CN={{ grains['host'] }}/emailAddress=team-webplatform-systems@w3.org'
     - require:
       - pkg: openssl-installed
       - pkg: db-server

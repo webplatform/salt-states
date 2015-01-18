@@ -4,6 +4,7 @@ include:
   - php.wordpress-apache
   - php.wordpress
   - mysql
+  - wordpress.wp-cli
 
 {% from "apache/module.sls" import a2mod %}
 {{ a2mod('ssl') }}
