@@ -27,6 +27,7 @@ if [ -z "${SALT_BIN}" ]; then
 fi
 
 echo "Setting file ownership on salt master checkouts"
+chmod -R 775 /srv/code
 chown -R nobody:deployment /srv/{salt,pillar,private,code}
 find /srv/salt -type f -exec chmod 664 {} \;
 find /srv/pillar -type f -exec chmod 664 {} \;
@@ -118,18 +119,18 @@ for key in ${!repos[@]}; do
     if [ "${key}" == "wiki" ]; then
       if [ ! -d "/srv/code/${key}/repo/mediawiki/.git" ]; then
         echo " * Cloning MediaWiki (its a special case)"
-        mkdir -p /srv/code/${key}/repo/mediawiki
         chown -R nobody:deployment /srv/code/${key}/repo/mediawiki
+        mkdir -m 775 -p /srv/code/${key}/repo/mediawiki
         (salt-call --local --log-level=quiet git.clone /srv/code/${key}/repo/mediawiki ${repos[${key}]} opts="${options[${key}]}" user="renoirb")
-        mkdir /srv/code/${key}/repo/settings.d
+        mkdir -m 775 /srv/code/${key}/repo/settings.d
       else
         echo " * Repo /srv/code/${key}/repo/mediawiki already cloned. Did nothing."
       fi
     else
       if [ ! -d "/srv/code/${key}/repo/.git" ]; then
         echo " * Cloning into /srv/code/${key}/repo"
-        mkdir -p /srv/code/${key}
         chown -R nobody:deployment /srv/code/${key}
+        mkdir -m 775 -p /srv/code/${key}
         (salt-call --local --log-level=quiet git.clone /srv/code/${key}/repo ${repos[${key}]} opts="${options[${key}]}" user="renoirb")
       else
         echo " * Repo in /srv/code/${key}/repo already cloned. Did nothing."
@@ -137,14 +138,13 @@ for key in ${!repos[@]}; do
     fi
 done
 
+clear
+
 chown -R nobody:deployment /srv/code/
 find /srv/code -type f -exec chmod 664 {} \;
 find /srv/code -type d -exec chmod 775 {} \;
 
 echo "Now its time to run wpd-dependency-installer.sh"
-
-
-clear
 
 echo ""
 echo "Step 3 of 3 completed!"

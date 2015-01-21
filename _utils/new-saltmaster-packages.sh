@@ -32,12 +32,13 @@ while read FILE; do swift download wpd-packages $FILE ; done < filesList
 rm filesList
 chown -R nobody:deployment /srv/code/packages
 
+clear
+
+echo ""
 echo "Extracting our SSL certificates, you will be prompted a passphrase"
 gpg certificates.tar.gz.gpg
 tar xfz certificates.tar.gz
 mv certificates /srv/code/
-
-clear
 
 echo ""
 echo "Step 2 of 3 completed!"
