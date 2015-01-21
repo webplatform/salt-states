@@ -66,7 +66,8 @@ $wgMaxShellMemory = 1024 * 512;
 ##     https://github.com/wikimedia/operations-puppet/tree/production/templates/varnish
 ## Frontend cache settings
 $wgUseSquid = true;
-$wgSquidServers = array( 'api.fastly.com:80' );
+$wgSquidServers = array();
+#$wgUsePrivateIPs = true;
 
 ## Send log messages through UDP to {{ log_dest[0] }}
 ## Configured by Salt stack in code/wiki.sls
@@ -75,28 +76,31 @@ $wpdUdp2logDest = '{{ log_dest[1][0]|default('salt') }}:{{ log_dest_port }}';
 
 ## ref: http://www.mediawiki.org/wiki/Manual:$wgDebugLogGroups
 $wgDebugLogGroups = array(
-  'resresourceloader' => "udp://$wpdUdp2logDest/resresourceloader",
-  'UserThrottle' => "udp://$wpdUdp2logDest/UserThrottle",
-  'cite' => "udp://$wpdUdp2logDest/cite",
-  'thumbnail' => "udp://$wpdUdp2logDest/thumbnail",
-  'testing' => "udp://$wpdUdp2logDest/testing",
-  'jobqueue' => "udp://$wpdUdp2logDest/jobqueue/web",
-  'mkdir' => "udp://$wpdUdp2logDest/mkdir",
-  'slow-parse' => "udp://$wpdUdp2logDest/slow-parse",
-  'exception' => "udp://$wpdUdp2logDest/exception",
-  'session' => "udp://$wpdUdp2logDest/session",
-  'badblock' => "udp://$wpdUdp2logDest/badblock",
-  'SpamBlacklistHit' => "udp://$wpdUdp2logDest/spam-blacklist",
-  'SpamRegex' => "udp://$wpdUdp2logDest/spam-regex",
-  'ValidationStatistic' => "udp://$wpdUdp2logDest/valid",
-  'OutputBuffer' => "udp://$wpdUdp2logDest/buffer",
-  'exec' => "udp://$wpdUdp2logDest/exec",
-  'runJobs' => "udp://$wpdUdp2logDest/runJobs",
-  'memcached' => "udp://$wpdUdp2logDest/memcached",
-  'memcached-serious' => "udp://$wpdUdp2logDest/memcached-serious",
-  'lc-recache' => "udp://$wpdUdp2logDest/lc-recache",
-  'generated-pp-node-count' => "udp://$wpdUdp2logDest/generated-pp-node-count",
-  'api' => "udp://$wpdUdp2logDest/api"
+   'SpamBlacklist' => "udp://$wpdUdp2logDest/spam",
+   'recentchanges' => "udp://$wpdUdp2logDest/recentchanges",
+   'warning' => "udp://$wpdUdp2logDest/warning",
+   'runJobs' => "udp://$wpdUdp2logDest/runJobs",
+   'redis' => "udp://$wpdUdp2logDest/redis",
+   'JobQueueRedis' => "udp://$wpdUdp2logDest/JobQueueRedis",
+   'memcached' => "udp://$wpdUdp2logDest/memcached",
+   'memcached-serious' => "udp://$wpdUdp2logDest/memcached-serious",
+   'squid' => "udp://$wpdUdp2logDest/squid",
+   'loginSessions' => "udp://$wpdUdp2logDest/session",
+   'UserThrottle' => "udp://$wpdUdp2logDest/UserThrottle",
+   'cite' => "udp://$wpdUdp2logDest/cite",
+   'thumbnail' => "udp://$wpdUdp2logDest/thumbnail",
+   'mkdir' => "udp://$wpdUdp2logDest/mkdir",
+   'slow-parse' => "udp://$wpdUdp2logDest/slow-parse",
+   'exception' => "udp://$wpdUdp2logDest/exception",
+   'session' => "udp://$wpdUdp2logDest/session",
+   'badblock' => "udp://$wpdUdp2logDest/badblock",
+   'SpamRegex' => "udp://$wpdUdp2logDest/spam",
+   'ValidationStatistic' => "udp://$wpdUdp2logDest/valid",
+   'OutputBuffer' => "udp://$wpdUdp2logDest/buffer",
+   'exec' => "udp://$wpdUdp2logDest/exec",
+   'lc-recache' => "udp://$wpdUdp2logDest/lc-recache",
+   'generated-pp-node-count' => "udp://$wpdUdp2logDest/generated-pp-node-count",
+   'api' => "udp://$wpdUdp2logDest/api",
 );
 
 $wgDBtype = "mysql";
@@ -185,8 +189,17 @@ $wgFileExtensions = array( 'png', 'gif', 'jpg', 'jpeg', 'ppt', 'pdf', 'psd', 'mp
 
 ## Anti bots
 ## Has a very basic plugin that checks form application/x-www-form-urlencoded.
-## TODO: Add more?
-require_once("$IP/extensions/AntiBot/AntiBot.php");
+## #TODO: Code traps ourselves and enable them through here
+#require_once("$IP/extensions/AntiBot/AntiBot.php");
+
+## Check user to jail out spammers
+require_once("$IP/extensions/CheckUser/CheckUser.php");
+$wgGroupPermissions['sysop']['checkuser'] = true;
+$wgGroupPermissions['sysop']['checkuser-log'] = true;
+
+## Account Audit, keeps record of last login, needs database update though.
+## #TODO Analyze impacts before enabling
+#require_once("$IP/extensions/AccountAudit/AccountAudit.php");
 
 #require_once( "$IP/extensions/Elastica/Elastica.php" );
 #require_once( "$IP/extensions/CirrusSearch/CirrusSearch.php" );
@@ -235,7 +248,7 @@ include_once("$IP/extensions/AdminLinks/AdminLinks.php");
 require_once( "$IP/extensions/ConfirmEdit/ConfirmEdit.php" );
 $wgCaptchaTriggers['edit']          = false;
 $wgCaptchaTriggers['create']        = false;
-$wgCaptchaTriggers['addurl']        = false;
+$wgCaptchaTriggers['addurl']        = true;
 $wgCaptchaTriggers['createaccount'] = true;
 $wgCaptchaTriggers['badlogin']      = false;
 
@@ -243,6 +256,24 @@ require_once( "$IP/extensions/ConfirmEdit/ReCaptcha.php" );
 $wgCaptchaClass = 'ReCaptcha';
 $wgReCaptchaPublicKey  = '{{ reCaptchaKeys.get('key') }}';
 $wgReCaptchaPrivateKey = '{{ reCaptchaKeys.get('secret') }}';
+$wgGroupPermissions['autoconfirmed']['skipcaptcha'] = true;
+$ceAllowConfirmedEmail = true;
+$wgAccountCreationThrottle = 6;
+
+## Emergency mode, ask captcha to all anonymous and new accounts
+#$wgCaptchaTriggers['edit']          = true;
+#$wgCaptchaTriggers['create']        = true;
+
+## SpamBlacklist
+## See also wiki pages that contains the lists themselves:
+##  * MediaWiki:Email-blacklist
+##  * MediaWiki:Email-whitelist
+##  * MediaWiki:Spam-blacklist
+##  * MediaWiki:Spam-whitelist
+require_once( "$IP/extensions/SpamBlacklist/SpamBlacklist.php" );
+$wgBlacklistSettings = array();
+$wgBlacklistSettings['spam']['files'][] = "[[MediaWiki:Spam-blacklist]]";
+$wgBlacklistSettings['spam']['files'][] = "https://meta.wikimedia.org/w/index.php?title=Spam_blacklist&action=raw&sb_ver=1";
 
 ## Page mass-delete
 require_once("$IP/extensions/Nuke/Nuke.php");
@@ -251,6 +282,8 @@ require_once("$IP/extensions/Nuke/Nuke.php");
 #require_once("$IP/extensions/Comments/Comments.php");
 #$wgCommentsEnabledNS = array(NS_MAIN);
 #require_once("$IP/extensions/WebPlatformDocs/extensions/SectionComments/SectionComments.php"); #TODO, REFACTOR, see WebPlatformDocs/main.php
+
+require_once("$IP/extensions/WebPlatformSearchAutocomplete/WebPlatformSearchAutocomplete.php");
 
 ## Sub-page list
 require_once("$IP/extensions/SubPageList3/SubPageList3.php");
@@ -267,7 +300,7 @@ include_once("$IP/extensions/SemanticInternalObjects/SemanticInternalObjects.php
 ## StringFunctionsEscaped
 require_once("$IP/extensions/ParserFunctions/ParserFunctions.php");
 $wgPFEnableStringFunctions = true;  // Note: this must be after ParserFunctions and before StringFunctionsEscaped
-require_once("$IP/extensions/StringFunctionsEscaped/StringFunctionsEscaped.php"); #NEEDSTOBEADDED 
+require_once("$IP/extensions/StringFunctionsEscaped/StringFunctionsEscaped.php"); #NEEDSTOBEADDED
 
 ## Social Profile extension
 require_once("$IP/extensions/SocialProfile/SocialProfile.php"); # Make sure we applied mediawiki/patches/issue-19.path
