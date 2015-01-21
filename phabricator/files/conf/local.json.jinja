@@ -1,11 +1,24 @@
 {
-  "phabricator.base-uri": "https:\/\/project.webplatformstaging.org"
-  ,"mysql.user": "phabricator"
-  ,"mysql.pass": "p8nM0n76eT"
-  ,"mysql.host": "masterdb.local.wpdn"
-  ,"phd.log-directory": "/var/log/hhvm"
-  ,"policy.allow-public": true
-  ,"auth.require-approval": false
-  ,"metamta.mail-adapter": "PhabricatorMailImplementationPHPMailerAdapter"
-  ,"phpmailer.mailer": "smtp"
+  "security.require-https": true,
+  "phabricator.base-uri": "https:\/\/source.webplatform.org",
+  "mysql.user": "root",
+  "mysql.pass": "",
+  "mysql.host": "localhost",
+  "phd.log-directory": "\/var\/log\/hhvm",
+  "diffusion.ssh-user": "git",
+  "phd.user": "www-data",
+  "policy.allow-public": true,
+  "metamta.mail-adapter": "PhabricatorMailImplementationPHPMailerAdapter",
+  "phpmailer.mailer": "smtp",
+  "phpmailer.smtp-host": "10.10.10.38",
+  "phabricator.timezone": "America\/New_York",
+  "metamta.default-address": "notifier-phabricator@webplatform.org",
+  "metamta.domain": "source.webplatform.org",
+  "repository.default-local-path": "\/srv\/gitrepos",
+  "pygments.enabled": true,
+  "storage.local-disk.path": "\/srv\/storage\/phabricator",
+  "phabricator.show-prototypes": true,
+  "auth.require-email-verification": false,
+  "auth.require-approval": true,
+  "auth.login-message": "Phabricator instance is locked down while we are configuring it"
 }

@@ -266,17 +266,17 @@ cd /srv
 declare -A repos
 declare -A options
 
-repos["salt"]="ssh://renoirb@source.webplatform.org:29418/salt-states"
-repos["private"]="ssh://renoirb@source.webplatform.org:29418/pillars-private"
-repos["pillar"]="ssh://renoirb@source.webplatform.org:29418/pillars"
-repos["runner"]="ssh://renoirb@source.webplatform.org:29418/runners"
-repos["opsconfigs"]="ssh://renoirb@source.webplatform.org:29418/opsconfigs"
+repos["salt"]="git@source.webplatform.org:salt-states.git"
+repos["private"]="git@source.webplatform.org:pillars-private.git"
+repos["pillar"]="git@source.webplatform.org:pillars.git"
+repos["runner"]="git@source.webplatform.org:runners.git"
+repos["opsconfigs"]="git@source.webplatform.org:opsconfigs.git"
 
-options["salt"]="--branch 201409-removing-private-data --origin gerrit --quiet"
-options["private"]="--branch 201409-removing-private-data --origin gerrit --quiet"
-options["pillar"]="--branch 201409-removing-private-data --origin gerrit --quiet"
-options["runner"]="--origin gerrit --quiet"
-options["opsconfigs"]="--quiet --origin gerrit"
+options["salt"]="--branch 201409-removing-private-data --quiet"
+options["private"]="--branch 201409-removing-private-data --quiet"
+options["pillar"]="--branch 201409-removing-private-data --quiet"
+options["runner"]="--quiet"
+options["opsconfigs"]="--quiet"
 
 
 echo "We will be cloning our new Salt master config repos:"

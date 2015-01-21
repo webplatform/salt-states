@@ -1,0 +1,21 @@
+#!/bin/sh
+
+#
+# SSH+Git handler
+#
+# Managed by Salt Stack.
+# Original file is in phabricator repo resources/sshd/phabricator-ssh-hook.sh
+# Goes to /usr/sbin/phabricator-ssh-hook.sh
+
+# NOTE: Replace this with the username that you expect users to connect with.
+VCSUSER="git"
+
+# NOTE: Replace this with the path to your Phabricator directory.
+ROOT="/srv/webplatform/source/phabricator"
+
+if [ "$1" != "$VCSUSER" ];
+then
+  exit 1
+fi
+
+exec "$ROOT/bin/ssh-auth" $@

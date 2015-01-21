@@ -64,11 +64,11 @@ declare -A options
 # x     web25ee/repo
 # x     webat25/repo          Static version of ^
 
-repos["blog"]="https://source.webplatform.org/r/wordpress-theme"
-repos["bots"]="https://@source.webplatform.org/r/pierc.git"
-repos["mailhub"]="https://@source.webplatform.org/r/mailhub.git"
-#repos["web25ee"]="https://@source.webplatform.org/r/web25ee.git"
-repos["webat25"]="https://@source.webplatform.org:29418/webat25.git"
+repos["blog"]="https://github.com/webplatform/blog-service.git"
+repos["bots"]="git@source.webplatform.org:pierc.git"
+repos["mailhub"]="git@source.webplatform.org:mailhub.git"
+repos["web25ee"]="git@source.webplatform.org:web25ee.git"
+repos["webat25"]="git@source.webplatform.org:webat25.git"
 repos["buggenie"]="https://github.com/webplatform/thebuggenie.git"
 repos["campaign-bookmarklet"]="https://github.com/webplatform/campaign-bookmarklet.git"
 repos["compat"]="https://github.com/webplatform/compatibility-data.git"
@@ -78,7 +78,7 @@ repos["piwik"]="https://github.com/piwik/piwik.git"
 repos["specs"]="https://github.com/webspecs/docs.git"
 repos["wiki"]="https://github.com/webplatform/mediawiki-core.git"
 repos["www"]="https://github.com/webplatform/www.webplatform.org.git"
-repos["notes-server"]="https://github.com/webplatform/notes-server.git"
+repos["notes-server"]="https://github.com/webplatform/annotation-service.git"
 
 ## Robin repository to deploy #TODO
 #repos["webspecs_bikeshed"]="https://github.com/webspecs/bikeshed.git"  branch webspecs
@@ -87,7 +87,7 @@ repos["notes-server"]="https://github.com/webplatform/notes-server.git"
 #https://github.com/webspecs/the-index.git"
 #https://github.com/webspecs/publican.git
 
-options["blog"]="--branch 201412-autoinstall --recurse-submodules --quiet"
+options["blog"]="--recurse-submodules --quiet"
 options["bots"]="--quiet"
 options["mailhub"]="--quiet"
 #options["web25ee"]="--quiet"
@@ -102,11 +102,6 @@ options["specs"]="--quiet"
 options["wiki"]="--branch 1.24wmf16-wpd --recurse-submodules --quiet"
 options["www"]="--quiet"
 options["notes-server"]="--quiet"
-
-#salt-call --local --log-level=quiet git.clone /srv/salt ssh://renoirb@source.webplatform.org:29418/salt-states  opts="--branch 201409-removing-private-data --quiet" user="dhc-user" identity="/home/dhc-user/.ssh/id_rsa"
-
-#salt-call --local --log-level=quiet git.remote_set $CODE_DIR/www/repo gerrit https://source.webplatform.org/r/www.webplatform.org
-#salt-call --local --log-level=quiet git.remote_set $CODE_DIR/notes-server/repo gerrit https://source.webplatform.org/r/notes-server
 
 #salt-call --local --log-level=quiet git.config_set setting_name=user.email setting_value="hostmaster@webplatform.org" is_global=True
 #salt-call --local --log-level=quiet git.config_set setting_name=user.name setting_value="WebPlatform Continuous Build user" is_global=True
