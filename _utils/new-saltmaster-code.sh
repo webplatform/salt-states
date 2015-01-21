@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 #
 # Bootstrapping a new WebPlatform salt master (step 3)
 #
@@ -25,7 +27,7 @@ if [ -z "${SALT_BIN}" ]; then
 fi
 
 echo "Setting file ownership on salt master checkouts"
-chown -R nobody:deployment /srv/{salt,pillar,private}
+chown -R nobody:deployment /srv/{salt,pillar,private,code}
 find /srv/salt -type f -exec chmod 664 {} \;
 find /srv/pillar -type f -exec chmod 664 {} \;
 find /srv/private -type f -exec chmod 660 {} \;
@@ -106,8 +108,9 @@ options["notes-server"]="--quiet"
 #salt-call --local --log-level=quiet git.config_set setting_name=user.email setting_value="hostmaster@webplatform.org" is_global=True
 #salt-call --local --log-level=quiet git.config_set setting_name=user.name setting_value="WebPlatform Continuous Build user" is_global=True
 
+#salt-call --local --log-level=quiet git.config_set setting_name=core.autocrlf setting_value=true is_global=True
+
 salt-call --local --log-level=quiet git.config_set setting_name=core.editor setting_value=vim is_global=True
-salt-call --local --log-level=quiet git.config_set setting_name=core.autocrlf setting_value=true is_global=True
 
 echo "We will be cloning code repositories:"
 
@@ -117,7 +120,7 @@ for key in ${!repos[@]}; do
         echo " * Cloning MediaWiki (its a special case)"
         mkdir -p /srv/code/${key}/repo/mediawiki
         chown -R nobody:deployment /srv/code/${key}/repo/mediawiki
-        (salt-call --local --log-level=quiet git.clone /srv/code/${key}/repo/mediawiki ${repos[${key}]} opts="${options[${key}]}" user="nobody")
+        (salt-call --local --log-level=quiet git.clone /srv/code/${key}/repo/mediawiki ${repos[${key}]} opts="${options[${key}]}" user="renoirb")
         mkdir /srv/code/${key}/repo/settings.d
       else
         echo " * Repo /srv/code/${key}/repo/mediawiki already cloned. Did nothing."
@@ -127,7 +130,7 @@ for key in ${!repos[@]}; do
         echo " * Cloning into /srv/code/${key}/repo"
         mkdir -p /srv/code/${key}
         chown -R nobody:deployment /srv/code/${key}
-        (salt-call --local --log-level=quiet git.clone /srv/code/${key}/repo ${repos[${key}]} opts="${options[${key}]}" user="nobody")
+        (salt-call --local --log-level=quiet git.clone /srv/code/${key}/repo ${repos[${key}]} opts="${options[${key}]}" user="renoirb")
       else
         echo " * Repo in /srv/code/${key}/repo already cloned. Did nothing."
       fi
@@ -135,8 +138,8 @@ for key in ${!repos[@]}; do
 done
 
 chown -R nobody:deployment /srv/code/
-#find /srv/code -type f -exec chmod 664 {} \;
-#find /srv/code -type d -exec chmod 775 {} \;
+find /srv/code -type f -exec chmod 664 {} \;
+find /srv/code -type d -exec chmod 775 {} \;
 
 echo "Now its time to run wpd-dependency-installer.sh"
 

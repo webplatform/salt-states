@@ -30,13 +30,13 @@
 ##     "{{ hosts_entries }}"
 ##
 {% for name,ip_addr in hosts_entries.items() -%}
-{{ ip_addr }}		{{ name }}.local.wpdn	{{ name }}
+{{ ip_addr }}		{{ name }}	{{ name }}.local.wpdn
 {% endfor -%}
 ## /From pillar 'infra:hosts_entries' ##
 {##
 
   Data given by `salt['mine.get']('*', 'network.ip_addrs')` looks like this:
- 
+
       foo = [('project', ['10.10.10.1']),('foo', ['10.10.10.2'])]
 
   To sort the list in alphabetical order based on the VM hostname, we do:
