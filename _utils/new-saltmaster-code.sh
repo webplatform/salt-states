@@ -119,8 +119,8 @@ for key in ${!repos[@]}; do
     if [ "${key}" == "wiki" ]; then
       if [ ! -d "/srv/code/${key}/repo/mediawiki/.git" ]; then
         echo " * Cloning MediaWiki (its a special case)"
-        chown -R nobody:deployment /srv/code/${key}/repo/mediawiki
         mkdir -m 775 -p /srv/code/${key}/repo/mediawiki
+        chown -R nobody:deployment /srv/code/${key}/repo/mediawiki
         (salt-call --local --log-level=quiet git.clone /srv/code/${key}/repo/mediawiki ${repos[${key}]} opts="${options[${key}]}" user="renoirb")
         mkdir -m 775 /srv/code/${key}/repo/settings.d
       else
@@ -129,8 +129,8 @@ for key in ${!repos[@]}; do
     else
       if [ ! -d "/srv/code/${key}/repo/.git" ]; then
         echo " * Cloning into /srv/code/${key}/repo"
-        chown -R nobody:deployment /srv/code/${key}
         mkdir -m 775 -p /srv/code/${key}
+        chown -R nobody:deployment /srv/code/${key}
         (salt-call --local --log-level=quiet git.clone /srv/code/${key}/repo ${repos[${key}]} opts="${options[${key}]}" user="renoirb")
       else
         echo " * Repo in /srv/code/${key}/repo already cloned. Did nothing."
