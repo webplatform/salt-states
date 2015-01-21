@@ -74,7 +74,11 @@ salt-master-deps:
 
 /etc/issue.net:
   file.managed:
-    - source: salt://salt/files/banner.txt
+    - source: salt://salt/files/banner.txt.jinja
+    - template: jinja
+    - context:
+        level: {{ level }}
+        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
 
 /etc/salt/master.d/reactor.conf:
   file.managed:

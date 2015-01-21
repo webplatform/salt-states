@@ -34,13 +34,13 @@ piwik-geoip:
 # mailto.sh is part of cron/init.sls
 /usr/bin/piwik-archive.sh:
   file.managed:
-    - mode: 755 
+    - mode: 755
     - user: www-data
     - group: www-data
     - source: salt://piwik/files/piwik-archive.sh.jinja
     - template: jinja
     - context:
-        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }} 
+        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
     - require:
       - pkg: php-basic-deps
   cron.present:
