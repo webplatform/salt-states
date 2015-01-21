@@ -43,7 +43,7 @@ include:
     - mode: 640
     - template: jinja
     - require:
-      - user: {{ username }} 
+      - user: {{ username }}
 {% endfor %}
 
 ## SecurityGroup port: TCP 4505 4506 @salt
@@ -59,7 +59,7 @@ salt-master-deps:
       - salt-master
       - jq
       - swaks
-      - guntls-bin
+      - gnutls-bin
 
 #/usr/local/bin/wpd-deploy:
 #  file.managed:
