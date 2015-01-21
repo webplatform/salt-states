@@ -40,8 +40,8 @@ bootcmd:
 
 runcmd:
   - sed -i "s/127.0.0.1 localhost/127.0.1.1 $(hostname).{{ level }}.wpdn $(hostname)\n127.0.0.1 localhost/" /etc/hosts
-  - grep -q -e 'disable_ipv6' /etc/sysctl.conf || printf "net.ipv6.conf.all.disable_ipv6 = 1\nnet.ipv6.conf.default.disable_ipv6 = 1\n" >> /etc/sysctl.conf
-  - sysctl -p
+#  - grep -q -e 'disable_ipv6' /etc/sysctl.conf || printf "net.ipv6.conf.all.disable_ipv6 = 1\nnet.ipv6.conf.default.disable_ipv6 = 1\n" >> /etc/sysctl.conf
+#  - sysctl -p
   - apt-get install software-properties-common python-software-properties
   - add-apt-repository -y ppa:saltstack/salt
   - apt-get update
