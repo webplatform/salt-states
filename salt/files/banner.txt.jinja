@@ -1,5 +1,7 @@
 
 
+
+
                             _    _      _    ______ _       _    __
                            | |  | |    | |   | ___ \ |     | |  / _|
                            | |  | | ___| |__ | |_/ / | __ _| |_| |_ ___  _ __ _ __ ___
@@ -10,23 +12,19 @@
 
                            WebPlatform SSH Jumper                             {{ level }}
 
-# Connecting with SSH
 
-Not ALL VMs in an environment has a publicly available IP address. To connect
-to them, you have to configure your local SSH client to use the salt master as
+Not ALL VMs in an environment has a publicly available IP address.
+To connect to them, you have to configure your local SSH client to use the salt master as
 a proxy. SSHing to a VM is done in the following way:
 
     ssh app1.{{ level }}.wpdn
 
 In this example, app1.{{ level }}.wdpn is visible only from the salt master and the private
-network. If the the jumppox can resolve to a name (e.g. gdnsd or hosts file entry) you can
-access it too, but you have to have a "Proxy".
+network. All you need to do is add the following to your `~/.ssh/config`:
 
-To access VMs via SSH inside this network, you have to configure this in your `~/.ssh/config`:
-
-    ## Use salt as a Jump box
+    ## Use salt.{{ tld }} as a Jump box
     ##
-    ## Reference:
+    ## Ref:
     ##   - http://serverfault.com/questions/337274
     ##   - https://wikitech.wikimedia.org/wiki/Help:Access#Using_ProxyCommand_ssh_option
     ##   - http://blog.pluralsight.com/linux-ssh-jumpbox
