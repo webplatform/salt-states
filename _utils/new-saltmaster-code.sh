@@ -27,7 +27,7 @@ if [ -z "${SALT_BIN}" ]; then
 fi
 
 echo "Setting file ownership on salt master checkouts"
-chmod -R 775 /srv/code
+chmod 775 /srv/code
 chown -R nobody:deployment /srv/{salt,pillar,private,code}
 find /srv/salt -type f -exec chmod 664 {} \;
 find /srv/pillar -type f -exec chmod 664 {} \;
@@ -142,8 +142,8 @@ done
 clear
 
 chown -R nobody:deployment /srv/code/
-find /srv/code -type f -exec chmod 664 {} \;
-find /srv/code -type d -exec chmod 775 {} \;
+find /srv/code -type f -exec chmod go+w {} \;
+find /srv/code -type d -exec chmod go+x {} \;
 
 echo ""
 echo "Step 3 of 3 completed!"
