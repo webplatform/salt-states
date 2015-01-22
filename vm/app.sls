@@ -6,6 +6,5 @@ include:
   - code.dabblet
   - code.www
   - code.root-com
-  - code.specs
   - code.webat25
 

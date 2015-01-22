@@ -50,12 +50,12 @@ libboost-program-options1.46.1:
     - group: deployment
     - mode: 774
 
-/srv/code/webspecs_bikeshed/setup.sh:
-  file.managed:
-    - source: salt://code/files/webspecs_bikeshed/setup.sh
-    - user: nobody
-    - group: deployment
-    - mode: 774
+#/srv/code/webspecs_bikeshed/setup.sh:
+#  file.managed:
+#    - source: salt://code/files/webspecs_bikeshed/setup.sh
+#    - user: nobody
+#    - group: deployment
+#    - mode: 774
 
 /srv/code/www/repo/compile.sh:
   file.managed:
@@ -64,12 +64,12 @@ libboost-program-options1.46.1:
     - user: nobody
     - group: deployment
 
-/srv/code/specs/repo/compile.sh:
-  file.managed:
-    - source: salt://code/files/specs/compile.sh
-    - mode: 775
-    - user: nobody
-    - group: deployment
+#/srv/code/specs/repo/compile.sh:
+#  file.managed:
+#    - source: salt://code/files/specs/compile.sh
+#    - mode: 775
+#    - user: nobody
+#    - group: deployment
 
 # See also in code.piwik
 /srv/code/piwik/repo/config/config.ini.php:
