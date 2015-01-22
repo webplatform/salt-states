@@ -78,6 +78,11 @@ base:
     - rsync
   'memcache*':
     - memcached
+  'redis*':
+    - redis.server
+  'session*':
+    - memcached
+    - redis.server
   'monitor*':
     - monitor.gmetad
     - monitor.web

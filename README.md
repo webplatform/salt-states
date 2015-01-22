@@ -76,4 +76,6 @@ To access them, add to your `~/.ssh/config`:
     Host *.staging.wpdn
       ProxyCommand ssh -e @ -o StrictHostKeyChecking=no -a -W %h:%p staging.wpdn
 
+## Config stashes
 
+See gist https://gist.github.com/renoirb/031667fa19062c773de5

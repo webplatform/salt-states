@@ -1,38 +1,83 @@
-{%- set memcache_objects = salt['pillar.get']('infra:memcache_objects', []) -%}
-{%- set memcache_sessions = salt['pillar.get']('infra:memcache_sessions', []) -%}
+{%- set alpha_memcache = salt['pillar.get']('infra:alpha_memcache', []) -%}
+{%- set alpha_redis = salt['pillar.get']('infra:alpha_redis', []) -%}
+{%- set sessions = salt['pillar.get']('infra:sessions', []) -%}
 
-{%- if memcache_objects|count >= 1 -%}
-memcache:
-  listen: 127.0.0.1:11212
+##
+## Nutcracker. A Redis+Memcached proxy
+##
+## Ref:
+##   - https://github.com/wikimedia/operations-puppet/blob/production/modules/nutcracker/manifests/init.pp
+##   - https://github.com/twitter/twemproxy#configuration
+##   - https://github.com/twitter/twemproxy/blob/b2cd3ad/notes/recommendation.md
+##
+## To validate config file:
+##     /usr/sbin/nutcracker --test-conf ...
+##
+
+{%- if alpha_memcache|count >= 1 -%}
+alpha_memcache:
+  listen: 127.0.0.1:11211
+  redis: false
   hash: md5
   distribution: ketama
   timeout: 250
-  preconnect: 'true'           # this is quoted on purpose
-  redis: 'false'               # same here
-  auto_eject_hosts: 'true'     # same here
+  preconnect: true
   server_retry_timeout: 30000
-  server_failure_limit: 3
-  server_connections: 2
+  server_failure_limit: 30
+  auto_eject_hosts: true
   servers:
-{%- for item in memcache_objects %}
-    - {{ item }}:11211:1
+{%- for item in alpha_memcache %}
+    - {{ item }}:11211
 {%- endfor %}
 {%- endif %}
 
-{% if memcache_sessions|count >= 1 -%}
-memcache_sessions:
-  listen: 127.0.0.1:11211
-  hash: md5
+{% if alpha_redis|count >= 1 -%}
+alpha_redis:
+  listen: 127.0.0.1:6379
+  redis: true
+  hash: fnv1a_64
   distribution: ketama
   timeout: 250
-  preconnect: 'true'           # this is quoted on purpose
-  redis: 'false'               # same here
-  auto_eject_hosts: 'true'     # same here
+  preconnect: true
   server_retry_timeout: 30000
-  server_failure_limit: 3
-  server_connections: 2
+  server_failure_limit: 30
+  auto_eject_hosts: true
   servers:
-{%- for item in memcache_sessions %}
-    - {{ item }}:11211:1
+{%- for item in alpha_redis %}
+    - {{ item }}:6379
 {%- endfor %}
 {% endif -%}
+
+{% if sessions|count >= 1 -%}
+sessions_redis:
+  listen: 127.0.0.1:6355
+  redis: true
+  hash: fnv1a_64
+  distribution: ketama
+  timeout: 250
+  preconnect: true
+  server_retry_timeout: 30000
+  server_failure_limit: 30
+  auto_eject_hosts: true
+  servers:
+{%- for item in sessions %}
+    - {{ item }}:6379
+{%- endfor %}
+{% endif -%}
+
+{% if sessions|count >= 1 -%}
+sessions_memcache:
+  listen: 127.0.0.1:11255
+  hash: fnv1a_64
+  distribution: ketama
+  timeout: 250
+  preconnect: true
+  server_retry_timeout: 30000
+  server_failure_limit: 30
+  auto_eject_hosts: true
+  servers:
+{%- for item in sessions %}
+    - {{ item }}:11211
+{%- endfor %}
+{% endif -%}
+

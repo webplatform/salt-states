@@ -67,44 +67,45 @@ declare -A options
 # x     web25ee/repo
 # x     webat25/repo          Static version of ^
 
-repos["blog"]="https://github.com/webplatform/blog-service.git"
+repos["blog"]="git@github.com:webplatform/blog-service.git"
+repos["buggenie"]="git@github.com:webplatform/thebuggenie.git"
+repos["dabblet"]="git@github.com:webplatform/dabblet.git"
+repos["piwik"]="git@github.com:piwik/piwik.git"
+repos["notes-server"]="git@github.com:webplatform/annotation-service.git"
 repos["bots"]="git@source.webplatform.org:pierc.git"
 repos["mailhub"]="git@source.webplatform.org:mailhub.git"
 repos["web25ee"]="git@source.webplatform.org:web25ee.git"
 repos["webat25"]="git@source.webplatform.org:webat25.git"
-repos["buggenie"]="https://github.com/webplatform/thebuggenie.git"
-repos["campaign-bookmarklet"]="https://github.com/webplatform/campaign-bookmarklet.git"
-repos["compat"]="https://github.com/webplatform/compatibility-data.git"
-repos["dabblet"]="https://github.com/webplatform/dabblet.git"
-repos["docsprint-dashboard"]="https://github.com/webplatform/DocSprintDashboard.git"
-repos["piwik"]="https://github.com/piwik/piwik.git"
-repos["specs"]="https://github.com/webspecs/docs.git"
-repos["wiki"]="https://github.com/webplatform/mediawiki-core.git"
-repos["www"]="https://github.com/webplatform/www.webplatform.org.git"
-repos["notes-server"]="https://github.com/webplatform/annotation-service.git"
+repos["campaign-bookmarklet"]="git@github.com:webplatform/campaign-bookmarklet.git"
+repos["compat"]="git@github.com:webplatform/compatibility-data.git"
+repos["docsprint-dashboard"]="git@github.com:webplatform/DocSprintDashboard.git"
+repos["specs"]="git@github.com:webspecs/docs.git"
+repos["wiki"]="git@github.com:webplatform/mediawiki-core.git"
+repos["www"]="git@github.com:webplatform/www.webplatform.org.git"
 
 ## Robin repository to deploy #TODO
-#repos["webspecs_bikeshed"]="https://github.com/webspecs/bikeshed.git"  branch webspecs
-#https://github.com/webspecs/assets.git"
-#https://github.com/webspecs/docs.git"
-#https://github.com/webspecs/the-index.git"
-#https://github.com/webspecs/publican.git
+#repos["webspecs_bikeshed"]="git@github.com:webspecs/bikeshed.git"  branch webspecs
+#git@github.com:webspecs/assets.git"
+#git@github.com:webspecs/docs.git"
+#git@github.com:webspecs/the-index.git"
+#git@github.com:webspecs/publican.git
 
 options["blog"]="--recurse-submodules --quiet"
+options["buggenie"]="--branch webplatform-customizations --quiet"
+options["dabblet"]="--branch webplatform-customizations --quiet"
+options["piwik"]="--branch 2.9.0 --recurse-submodules --quiet"
+options["notes-server"]="--quiet"
 options["bots"]="--quiet"
 options["mailhub"]="--quiet"
 options["web25ee"]="--quiet"
 options["webat25"]="--quiet"
-options["buggenie"]="--branch webplatform-customizations --quiet"
 options["campaign-bookmarklet"]="--quiet"
 options["compat"]="--quiet"
-options["dabblet"]="--branch webplatform-customizations --quiet"
 options["docsprint-dashboard"]="--quiet"
-options["piwik"]="--branch 2.9.0 --recurse-submodules --quiet"
 options["specs"]="--quiet"
-options["wiki"]="--branch 1.24wmf16-wpd --recurse-submodules --quiet"
+#options["wiki"]="--branch 1.24wmf16-wpd --recurse-submodules --quiet"
+options["wiki"]="--branch 1.24wmf16-wpd --quiet"
 options["www"]="--quiet"
-options["notes-server"]="--quiet"
 
 #salt-call --local --log-level=quiet git.config_set setting_name=user.email setting_value="hostmaster@webplatform.org" is_global=True
 #salt-call --local --log-level=quiet git.config_set setting_name=user.name setting_value="WebPlatform Continuous Build user" is_global=True
@@ -118,7 +119,7 @@ echo "We will be cloning code repositories:"
 for key in ${!repos[@]}; do
     if [ "${key}" == "wiki" ]; then
       if [ ! -d "/srv/code/${key}/repo/mediawiki/.git" ]; then
-        echo " * Cloning MediaWiki (its a special case)"
+        echo " * Cloning MediaWiki without dealing with gitmodules."
         mkdir -m 775 -p /srv/code/${key}/repo/mediawiki
         chown -R nobody:deployment /srv/code/${key}/repo/mediawiki
         (salt-call --local --log-level=quiet git.clone /srv/code/${key}/repo/mediawiki ${repos[${key}]} opts="${options[${key}]}" user="renoirb")
@@ -144,13 +145,14 @@ chown -R nobody:deployment /srv/code/
 find /srv/code -type f -exec chmod 664 {} \;
 find /srv/code -type d -exec chmod 775 {} \;
 
-echo "Now its time to run wpd-dependency-installer.sh"
-
 echo ""
 echo "Step 3 of 3 completed!"
 echo ""
 echo "Last step, install deployable code dependencies:"
-echo "  wpd-dependency-installer.sh"
+echo "  - As your normal user:"
+echo "      cd /srv/code/wiki/repo/mediawiki/; git submodule update --init --recursive"
+echo "  - Then, next step:"
+echo "      wpd-dependency-installer.sh"
 echo ""
-
+echo "... MediaWiki submodules are too heavy to run in this script."
 exit 0
