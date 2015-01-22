@@ -68,7 +68,7 @@ rsync-masterdb-backup:
     - user: root
     - minute: 1
     - hour: 2
-    - name: 'rsync -a --no-perms --password-file=/etc/backup.secret backup@masterdb.local.wpdn::backup/ {{ deploymentBackupMountpoint }}/'
+    - name: 'rsync -a --no-perms --password-file=/etc/backup.secret backup@masterdb::backup/ {{ deploymentBackupMountpoint }}/'
     - require:
       - file: /etc/backup.secret
       - file: {{ deploymentBackupMountpoint }}
