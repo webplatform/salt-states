@@ -7,6 +7,7 @@ base:
   '*':
     - salt
     - mmonit
+    - logrotate
     - users
     - groups
     - sudo
