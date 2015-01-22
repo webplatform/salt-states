@@ -1,3 +1,5 @@
+{%- set level = salt['grains.get']('level', 'production') -%}
+
 include:
   - code.prereq
   - rsync.secret
@@ -6,7 +8,7 @@ include:
 certificates-rsync:
   cmd:
     - run
-    - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/certificates/staging/ /etc/ssl/webplatform/"
+    - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/packages/certificates/{{ level }}/ /etc/ssl/webplatform/"
     - require:
       - file: /etc/codesync.secret
       - file: webplatform-sources
