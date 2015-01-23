@@ -1,0 +1,2 @@
+include:
+  - bots.lumberjack-listener

@@ -76,6 +76,40 @@ To access them, add to your `~/.ssh/config`:
     Host *.staging.wpdn
       ProxyCommand ssh -e @ -o StrictHostKeyChecking=no -a -W %h:%p staging.wpdn
 
+
+
 ## Config stashes
 
 See gist https://gist.github.com/renoirb/031667fa19062c773de5
+
+
+
+## Maintenance commands
+
+Here are a few commands that can be done with Salt Stack.
+
+Every commands here can be run manually.
+Ideally there should be always a salt state to enforce anything permanent.
+But sometimes we have to act quickly and update the states later.
+
+1. Rewrite a setting in one config file
+
+    salt app\* file.replace /etc/php5/apache2/php.ini pattern='expose_php = On' repl='expose_php = Off'
+
+2. Get to know what are the grants for one user
+
+    salt db\* mysql.user_grants accounts '%'
+
+3. Reload apache2 config (or any service)
+
+    salt app\* service.reload apache2
+
+4. Can we write to the filesystem?
+
+    salt bots cmd.run "touch /root/TestIfWeCabWrite && echo 'OK' || echo 'Writing to filesystem failed'"
+    salt bots cmd.run "rm /root/TestIfWeCabWrite && echo 'OK' || echo 'Writing to filesystem failed'"
+
+5. Upgrade Operating System packages (If it has a service, it’ll also handle its restart)
+
+    salt app\* pkg.upgrade
+

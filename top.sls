@@ -23,7 +23,7 @@ base:
     - xfs
     - sysctl
 #    - dhcp
-#    - logging
+    - logging
 #    - monitor
     - hosts
   'salt*':
@@ -38,8 +38,8 @@ base:
     - python.mysqldb
     - webplatform.swift-dreamobjects
 #    - backup.salt_master
-#    - logging.syslog_ng
-#    - logging.udp2log
+    - logging.syslog_ng
+    - logging.udp2log
 #    - backup.mediawiki_xml
   'app*':
     - php
@@ -64,9 +64,8 @@ base:
     - wordpress
     - apache.blog
     - apache.status
-    - bots.lumberjack-listener
-  'bots':
-    - bots.lumberjack-listener
+  'bots*':
+    - bots
   'code*':
     - gerrit
     - rsync

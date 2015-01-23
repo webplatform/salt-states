@@ -32,3 +32,18 @@ chmod 755 /srv/webplatform/lumberjack-listener/LumberJack.py:
   cmd.run:
     - require:
       - file: lumberjack-listener-rsync
+
+/srv/webplatform/lumberjack-listener/mysql_config.txt:
+  file.managed:
+    - source: salt://bots/files/lumberjack_mysql_config.txt.jinja
+    - template: jinja
+    - require:
+      - cmd: lumberjack-listener-rsync
+
+/srv/webplatform/lumberjack-listener/irc_config.txt:
+  file.managed:
+    - source: salt://bots/files/lumberjack_irc_config.txt.jinja
+    - template: jinja
+    - require:
+      - cmd: lumberjack-listener-rsync
+

@@ -11,3 +11,4 @@ rsyslog:
     - template: jinja
     - watch_in:
       - service: rsyslog
+
