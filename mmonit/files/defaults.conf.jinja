@@ -44,11 +44,8 @@ set httpd port {{ monit_port|default(2812) }} and
   allow @users readonly      # allow users of group 'users' to connect readonly
 {#allow {{ salt_master_ip|default('127.0.1.1') }} readonlyr#}
 
-set mailserver mailtrap.io
-  username 263449d09cda1e8fd  # #TODO hardcoded password
-  password 34fb58c208f207
-  using sslauto
+set mailserver mail.local.wpdn
   using timeout 10 seconds
 
 set mail-format { from: monit@{{ nodename }} }
-set alert hostmaster@webplatformstaging.org not on { pid ppid }  # #TODO hardcoded domain name
+set alert renoir+monitprod@w3.org not on { pid ppid }  # #TODO hardcoded domain name

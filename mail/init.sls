@@ -24,9 +24,9 @@ include:
     - require:
       - pkg: exim4
     - context:
-        smarthost: mailtrap.io
-        username: 263449d09cda1e8fd
-        password: 34fb58c208f207
+        smarthost: {{ salt['pillar.get']('accounts:smtp:hostname', 'localhost') }}
+        username: {{ salt['pillar.get']('accounts:smtp:username', '') }}
+        password: {{ salt['pillar.get']('accounts:smtp:password', '') }}
 
 /etc/exim4/update-exim4.conf.conf:
   file.managed:
@@ -39,7 +39,7 @@ include:
     - context:
         topLevelDomain: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
         fqdn: {{ salt['grains.get']('fqdn') }}
-        smarthost: mailtrap.io
+        smarthost: {{ salt['pillar.get']('accounts:smtp:hostname', 'localhost') }}
 
 /usr/sbin/update-exim4.conf:
   cmd.wait:

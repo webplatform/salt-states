@@ -14,9 +14,9 @@
 ##     /usr/sbin/nutcracker --test-conf ...
 ##
 
-{%- if alpha_memcache|count >= 1 -%}
+{% if alpha_memcache|count >= 1 -%}
 alpha_memcache:
-  listen: 127.0.0.1:11211
+  listen: 127.0.0.1:11255
   redis: false
   hash: md5
   distribution: ketama
@@ -27,29 +27,12 @@ alpha_memcache:
   auto_eject_hosts: true
   servers:
 {%- for item in alpha_memcache %}
-    - {{ item }}:11211
+    - {{ item }}:11211:1
 {%- endfor %}
 {%- endif %}
 
 {% if alpha_redis|count >= 1 -%}
 alpha_redis:
-  listen: 127.0.0.1:6379
-  redis: true
-  hash: fnv1a_64
-  distribution: ketama
-  timeout: 250
-  preconnect: true
-  server_retry_timeout: 30000
-  server_failure_limit: 30
-  auto_eject_hosts: true
-  servers:
-{%- for item in alpha_redis %}
-    - {{ item }}:6379
-{%- endfor %}
-{% endif -%}
-
-{% if sessions|count >= 1 -%}
-sessions_redis:
   listen: 127.0.0.1:6355
   redis: true
   hash: fnv1a_64
@@ -60,14 +43,15 @@ sessions_redis:
   server_failure_limit: 30
   auto_eject_hosts: true
   servers:
-{%- for item in sessions %}
-    - {{ item }}:6379
+{%- for item in alpha_redis %}
+    - {{ item }}:6379:1
 {%- endfor %}
-{% endif -%}
+{%- endif %}
 
 {% if sessions|count >= 1 -%}
-sessions_memcache:
-  listen: 127.0.0.1:11255
+sessions_redis:
+  listen: 127.0.0.1:6379
+  redis: true
   hash: fnv1a_64
   distribution: ketama
   timeout: 250
@@ -77,7 +61,23 @@ sessions_memcache:
   auto_eject_hosts: true
   servers:
 {%- for item in sessions %}
-    - {{ item }}:11211
+    - {{ item }}:6379:1
 {%- endfor %}
-{% endif -%}
+{%- endif %}
+
+{% if sessions|count >= 1 -%}
+sessions_memcache:
+  listen: 127.0.0.1:11211
+  hash: fnv1a_64
+  distribution: ketama
+  timeout: 250
+  preconnect: true
+  server_retry_timeout: 30000
+  server_failure_limit: 30
+  auto_eject_hosts: true
+  servers:
+{%- for item in sessions %}
+    - {{ item }}:11211:1
+{%- endfor %}
+{%- endif %}
 
