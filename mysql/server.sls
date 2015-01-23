@@ -8,7 +8,6 @@ salt-dependency:
     - name: python-mysqldb
     - require:
       - pkg: db-server
-      - file: /etc/mysql/debian.cnf
 
 db-server:
   pkg.installed:
@@ -26,13 +25,6 @@ db-server:
     - require:
       - pkg: db-server
 
-/etc/mysql/debian.cnf:
-  file.managed:
-    - modes: 600
-    - source: salt://mysql/files/debian.cnf.jinja
-    - template: jinja
-    - require:
-      - pkg: mysql
 
 comment-mycnf-network-listener:
   file.comment:
@@ -41,7 +33,15 @@ comment-mycnf-network-listener:
     - require:
       - pkg: mysql
 
-{%- set configFiles = ['listener','unicode-server'] -%}
+/etc/mysql/conf.d/replication.cnf:
+  file.managed:
+    - source: salt://mysql/files/replication.cnf.jinja
+    - template: jinja
+    - mode: 644
+    - watch_in:
+      - service: db-server
+
+{%- set configFiles = ['listener','unicode-server', 'pidfile'] -%}
 {%- for f in configFiles %}
 /etc/mysql/conf.d/{{ f }}.cnf:
   file.managed:

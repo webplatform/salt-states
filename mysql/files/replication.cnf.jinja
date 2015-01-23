@@ -1,0 +1,8 @@
+# Managed by Salt Stack, at mysql/server.sls
+# https://mariadb.com/kb/en/mariadb/documentation/managing-mariadb/replication/standard-replication/setting-up-replication/
+
+[mysqld]
+log-basename=mariadbrepl
+log-bin
+binlog-format=row
+server_id={{ salt['pillar.get']('server_id') }}

@@ -8,7 +8,7 @@ mariadb-apt-repo:
 
 mysql:
   pkg.installed:
-    - name: mariadb-client
+    - name: mariadb-client-10.1
     - require:
       - pkgrepo: mariadb-apt-repo
 
