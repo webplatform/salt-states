@@ -80,9 +80,10 @@ To access them, add to your `~/.ssh/config`:
 
 ## Config stashes
 
-See gist https://gist.github.com/renoirb/031667fa19062c773de5
-
-
+* https://gist.github.com/renoirb/031667fa19062c773de5
+* https://gist.github.com/renoirb/a66b533c46ef7a8de8e3
+* https://gist.github.com/renoirb/11258261
+* https://gist.github.com/renoirb/f90d0226d8882b50df0e
 
 ## Maintenance commands
 

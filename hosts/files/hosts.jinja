@@ -1,5 +1,6 @@
 127.0.1.1 {{ hostName }}.{{ level }}.wpdn {{ hostName }}
 127.0.0.1 localhost
+
 {##
 
   WebPlatform hosts file
@@ -48,23 +49,6 @@
      salt \* mine.send network.ip_addrs
 
 ##}
-
-{%- if grains['nodename'] == 'salt' -%}
-{%- set mine_data = salt['mine.get']('*', 'network.ip_addrs').items()|sort(attribute=0) -%}
-##
-## Mine network.ip_addrs:
-##
-##     salt-call mine.get \* network.ip_addrs
-##
-## Data we had at last highstate:
-##
-##     "{{ mine_data }}"
-##
-{%- for minion,addrs in mine_data %}
-{{ addrs[0] }}		{{ minion }}.{{ level }}.wpdn	{{ minion }}
-{%- endfor %}
-## /Mine network.ip_addrs  ##
-{%- endif %}
 
 # The following lines are desirable for IPv6 capable hosts
 ::1 ip6-localhost ip6-loopback
