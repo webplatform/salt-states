@@ -1,12 +1,13 @@
 <?php
-# vi set ai syntax=php
+
+## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+## source {{ source }}
+
 {%- set db_creds      = salt['pillar.get']('accounts:wiki:db') -%}
 {%- set db_servers    = salt['pillar.get']('infra:db_servers:mysql:slaves', []) -%}
 {%- set secrets       = salt['pillar.get']('accounts:wiki:secrets') -%}
 {%- set swift_backend = salt['pillar.get']('accounts:swift:dreamhost') %}
-
-## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
-## Ensure you change `salt/code/files/wpwiki.php.jinja` instead
+{%- set masterdb_ip   = salt['pillar.get']('infra:hosts_entries:masterdb') %}
 
 if ( !defined( 'MEDIAWIKI' ) ) {
         exit;
@@ -29,7 +30,7 @@ $wgDBname = "wpwiki";
 ## The Master DB server, the only one who should receive writes to
 ##
 $wgDBservers = array(
-        array(  'host'     => "{{ db_creds.hostname|default('localhost') }}",
+        array(  'host'     => "{{ masterdb_ip|default('localhost') }}",
                 'dbname'   => $wgDBname,
                 'user'     => "{{ db_creds.username|default('root') }}",
                 'password' => "{{ db_creds.password|default('') }}",
@@ -57,6 +58,7 @@ $wgDBservers[] = array(
 {%- endfor %}
 }
 {%- endif %}
+$wgDBtype = "mysql";
 ##################### /database settings #####################
 
 $wgArticlePath = '/wiki/$1';
@@ -122,7 +124,10 @@ $wgLocalFileRepo = array(
 );
 {% if swift_backend.password is defined -%}
 $wgLocalFileRepo['backend'] = 'local-ceph';
-$wgLocalFileRepo['zones']['public'] = array('url'=> '//www.'.$GLOBALS['siteTopLevelDomain'].'/w/public');
-$wgLocalFileRepo['zones']['thumb']  = array('url'=> '//www.'.$GLOBALS['siteTopLevelDomain'].'/w/thumb');
-$wgLocalFileRepo['zones']['temp']   = array('url'=> '//www.'.$GLOBALS['siteTopLevelDomain'].'/w/temp');
+$wgLocalFileRepo['zones']['public'] = array('url'=> '//static.'.$GLOBALS['siteTopLevelDomain'].'/w/public');
+$wgLocalFileRepo['zones']['thumb']  = array('url'=> '//static.'.$GLOBALS['siteTopLevelDomain'].'/w/thumb');
+$wgLocalFileRepo['zones']['temp']   = array('url'=> '//static.'.$GLOBALS['siteTopLevelDomain'].'/w/temp');
 {%- endif %}
+
+# vim: set ft=php expandtab:
+

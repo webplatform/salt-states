@@ -2,7 +2,6 @@ include:
   - rsync.secret
   - code.prereq
   - php.buggenie
-  - buggenie.config
 
 # @salt-master-dest
 buggenie-codesync:
@@ -33,4 +32,26 @@ buggenie-codesync:
     - makedirs: True
     - require:
       - cmd: buggenie-codesync
+
+/srv/webplatform/buggenie/core:
+  file.directory:
+    - user: www-data
+    - group: www-data
+
+buggenie-dbconfig:
+  file.managed:
+    - name: /srv/webplatform/buggenie/core/b2db_bootstrap.inc.php
+    - source: salt://code/files/buggenie/b2db_bootstrap.inc.php.jinja
+    - template: jinja
+    - user: nobody
+    - group: www-data
+    - require:
+      - file: /srv/webplatform/buggenie/core
+      - cmd: buggenie-codesync
+
+/var/www/robots.txt:
+  file.managed:
+    - source: salt://buggenie/files/robots.txt
+    - user: www-data
+    - group: www-data
 

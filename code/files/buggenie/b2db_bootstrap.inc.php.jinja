@@ -1,0 +1,18 @@
+<?php
+
+{%- set masterdb_ip   = salt['pillar.get']('infra:hosts_entries:masterdb', 'localhost') %}
+
+## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+## source {{ source }}
+
+## Debugging switches
+#error_reporting(E_ALL);
+#ini_set('display_errors', true);
+
+self::setUname("{{ salt['pillar.get']('accounts:buggenie:db:username', 'root') }}");
+self::setPasswd("{{ salt['pillar.get']('accounts:buggenie:db:password', '') }}");
+self::setTablePrefix("tbg3_");
+self::setDSN("mysql:host={{ masterdb_ip }};dbname={{ salt['pillar.get']('accounts:buggenie:db:database', 'buggenie') }}");
+
+# vim: set ft=php expandtab:
+

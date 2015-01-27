@@ -11,9 +11,10 @@ include:
       - cmd: rsync-blog
 
 # @salt-master-dest
+# do not put --delete in rsync. Otherwise it clears config caches too.
 rsync-blog:
   cmd.run:
-    - name: "rsync -a  --exclude '.git' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/blog/repo/ /srv/webplatform/blog/"
+    - name: "rsync -a  --exclude '.git' --no-perms --password-file=/etc/codesync.secret codesync@salt::code/blog/repo/ /srv/webplatform/blog/"
     - user: root
     - group: root
     - require:
@@ -34,6 +35,14 @@ rsync-blog:
   file.managed:
     - source: salt://code/files/blog/local.php.jinja
     - template: jinja
+    - user: www-data
+    - group: www-data
+    - require:
+      - cmd: rsync-blog
+
+/srv/webplatform/blog/wp-content/cache:
+  file.directory:
+    - makedirs: True
     - user: www-data
     - group: www-data
     - require:

@@ -1,5 +1,8 @@
 <?php
-# vi set ai syntax=php
+
+## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+## source {{ source }}
+
 {#
  # Data given by mine.get Salt function, data should look like this:
  #
@@ -10,22 +13,24 @@
  #    salt-call mine.get 'roles:salt' network.ip_addrs grain
  #
  #}
-{%- set log_dest = salt['mine.get']('roles:salt', 'network.ip_addrs', expr_form='grain').items()[0] -%}
+{%- set salt_master_ip = salt['pillar.get']('infra:hosts_entries:salt') -%}
 {%- set log_dest_port = 8420 %}{# ## SecurityGroup port: UDP 8420 @salt demux.py  #}
-{%- set reCaptchaKeys = salt['pillar.get']('accounts:recaptcha') -%}
-
-## Common settings
-## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
-## Unless you make changes in `salt/code/files/docs/Settings.php`
+{%- set reCaptchaKeys = salt['pillar.get']('accounts:recaptcha') %}
 
 ## How Wikimedia does it, take a look at:
 ##   * https://github.com/wikimedia/operations-mediawiki-config/tree/master/wmf-config
 ##   * https://github.com/wikimedia/operations-puppet/tree/production/modules
+##   * https://noc.wikimedia.org/conf/
+##   * https://noc.wikimedia.org/conf/highlight.php?file=mc.php
+##   * https://noc.wikimedia.org/conf/highlight.php?file=mc-labs.php
+##   * https://noc.wikimedia.org/conf/highlight.php?file=session.php
+##   * https://noc.wikimedia.org/conf/highlight.php?file=InitialiseSettings.php
+##   * https://noc.wikimedia.org/conf/highlight.php?file=CommonSettings.php
 ##
 ## Reference pages:
 ##   * http://www.mediawiki.org/wiki/Manual:Configuration_settings
-
-#$wgReadOnly = 'Currently backing up data, will be back shortly [http://status.webplatform.org/ our status page]';
+##   * https://www.mediawiki.org/wiki/Manual:Configuration_settings_(alphabetical)
+##
 
 $wgCacheDirectory = dirname($IP)."/cache";
 #$wgUploadDirectory = $IP"/images";
@@ -66,13 +71,12 @@ $wgMaxShellMemory = 1024 * 512;
 ##     https://github.com/wikimedia/operations-puppet/tree/production/templates/varnish
 ## Frontend cache settings
 $wgUseSquid = true;
-$wgSquidServers = array();
+$wgSquidServers = array("docs.{$siteTopLevelDomain}");  // To send purge
 #$wgUsePrivateIPs = true;
 
-## Send log messages through UDP to {{ log_dest[0] }}
 ## Configured by Salt stack in code/wiki.sls
-## Python log_dest variable holds: {{ log_dest }}
-$wpdUdp2logDest = '{{ log_dest[1][0]|default('salt') }}:{{ log_dest_port }}';
+## Python salt_master_ip variable holds: {{ salt_master_ip }}
+$wpdUdp2logDest = '{{ salt_master_ip|default('salt') }}:{{ log_dest_port }}';
 
 ## ref: http://www.mediawiki.org/wiki/Manual:$wgDebugLogGroups
 $wgDebugLogGroups = array(
@@ -85,7 +89,7 @@ $wgDebugLogGroups = array(
    'memcached' => "udp://$wpdUdp2logDest/memcached",
    'memcached-serious' => "udp://$wpdUdp2logDest/memcached-serious",
    'squid' => "udp://$wpdUdp2logDest/squid",
-   'loginSessions' => "udp://$wpdUdp2logDest/session",
+   'loginSessions' => "udp://$wpdUdp2logDest/loginSession",
    'UserThrottle' => "udp://$wpdUdp2logDest/UserThrottle",
    'cite' => "udp://$wpdUdp2logDest/cite",
    'thumbnail' => "udp://$wpdUdp2logDest/thumbnail",
@@ -103,8 +107,6 @@ $wgDebugLogGroups = array(
    'api' => "udp://$wpdUdp2logDest/api",
 );
 
-$wgDBtype = "mysql";
-
 ###### Production caching settings #####################
 ## ref: https://github.com/wikimedia/operations-mediawiki-config/blob/master/wmf-config/mc.php
 
@@ -117,21 +119,22 @@ $wgDBtype = "mysql";
 ##      http://www.mediawiki.org/wiki/Manual:$wgObjectCaches
 ##
 $wgMainCacheType = 'memcached-pecl';
-$wgMemCachedPersistent = true;
+$wgMemCachedPersistent = false;
 $wgMemCachedTimeout = 250000; # default is 100000
-$wgParserCacheType = 'memcached-pecl';
-$wgMessageCacheType = 'memcached-pecl';
-$wgUseMemCached = true;
-$wgMemCachedInstanceSize = 3072;
 $wgObjectCaches['memcached-pecl'] = array(
     'class' => 'MemcachedPeclBagOStuff',
-    'serializer' => 'php',                  // pkg igbinary should be installed, or use 'php'. As of 20141125 igbinary dont work, #TODO
+    'serializer' => 'php',
     'persistent' => false,
-    'servers' => array('127.0.0.1:11212'),  // MCRouter/Nutcracker should be running locally
+    'servers' => array( '127.0.0.1:11255' ),
     'server_failure_limit' => 1e9,
     'retry_timeout' => -1
 );
-#var_dump(CACHE_MEMCACHED);
+$wgObjectCaches['redis'] = array(
+    'class' => 'RedisBagOStuff',
+    'servers' => array( '127.0.0.1:6355' ),
+    'persistent' => true,
+);
+#$wgObjectCaches['memcached-pecl'][0]['serializer'] = 'igbinary'; // pkg igbinary should be installed, or use 'php'. As of 20141125 igbinary dont work, #TODO
 
 
 ##
@@ -140,9 +143,11 @@ $wgObjectCaches['memcached-pecl'] = array(
 ## If we want to have cross-datacenter session replication, Redis would
 ## be a good choice. In the meantime, let’s use the default.
 ##
-$wgSessionsInObjectCache = true;
-$wgSessionCacheType = 'memcached-pecl';
-
+#$wgObjectCaches['sessions'] = array(
+#        'class'   => 'RedisBagOStuff',
+#        'servers' => array( '127.0.0.1:6379' ),
+#);
+$wgMemCachedServers = array("127.0.0.1:11211");
 
 ##
 ## JOBS
@@ -283,7 +288,7 @@ require_once("$IP/extensions/Nuke/Nuke.php");
 #$wgCommentsEnabledNS = array(NS_MAIN);
 #require_once("$IP/extensions/WebPlatformDocs/extensions/SectionComments/SectionComments.php"); #TODO, REFACTOR, see WebPlatformDocs/main.php
 
-require_once("$IP/extensions/WebPlatformSearchAutocomplete/WebPlatformSearchAutocomplete.php");
+#require_once("$IP/extensions/WebPlatformSearchAutocomplete/WebPlatformSearchAutocomplete.php");
 
 ## Sub-page list
 require_once("$IP/extensions/SubPageList3/SubPageList3.php");
@@ -332,4 +337,6 @@ $wgGroupPermissions['*']['abusefilter-log'] = true;
 $wgGroupPermissions['sysop']['abusefilter-private'] = true;
 $wgGroupPermissions['sysop']['abusefilter-modify-restricted'] = true;
 $wgGroupPermissions['sysop']['abusefilter-revert'] = true;
+
+# vim: set ft=php expandtab:
 

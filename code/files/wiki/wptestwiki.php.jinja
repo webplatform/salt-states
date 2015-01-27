@@ -1,12 +1,12 @@
 <?php
-# vi set ai syntax=php
+
+## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+## source {{ source }}
+
 {%- set db_creds      = salt['pillar.get']('accounts:wiki:db') -%}
 {%- set db_servers    = salt['pillar.get']('infra:db_servers:mysql:slaves', []) -%}
 {%- set secrets       = salt['pillar.get']('accounts:wiki:secrets') -%}
 {%- set swift_backend = salt['pillar.get']('accounts:swift:dreamhost') %}
-
-## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
-## Ensure you change `salt/code/files/wpwiki.php.jinja` instead
 
 if ( !defined( 'MEDIAWIKI' ) ) {
         exit;
@@ -73,4 +73,6 @@ $wgWebPlatformAuth['client']['secret']         = '111111111111111111111111111111
 $wgSecretKey     = '{{ salt['pillar.get']('accounts:wiki:secrets:key', 'foo') }}';
 $wgUpgradeKey    = '{{ salt['pillar.get']('accounts:wiki:secrets:upgrade', 'bar') }}';
 $wgCaptchaSecret = '{{ salt['pillar.get']('accounts:wiki:secrets:captcha', 'baz') }}';
+
+# vim: set ft=php expandtab:
 

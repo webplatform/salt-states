@@ -77,9 +77,9 @@ libboost-program-options1.46.1:
     - template: jinja
     - source: salt://code/files/piwik/config.ini.php.jinja
 
-# See also in buggenie.config
+# See also in code.buggenie
 /srv/code/buggenie/repo/core/b2db_bootstrap.inc.php:
   file.managed:
-    - source: salt://buggenie/files/b2db_bootstrap.inc.php.jinja
+    - source: salt://code/files/buggenie/b2db_bootstrap.inc.php.jinja
     - template: jinja
 

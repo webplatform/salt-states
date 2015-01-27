@@ -32,6 +32,12 @@ renoirb:
     - require:
       - user: renoirb
 
+/home/renoirb/.vimrc:
+  file.managed:
+    - user: renoirb
+    - group: deployment
+    - source: salt://users/files/renoirb/vimrc
+
 /home/renoirb/.ssh/config:
   file.managed:
     - user: renoirb

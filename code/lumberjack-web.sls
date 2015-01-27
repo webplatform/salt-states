@@ -24,10 +24,12 @@ rsync-lumberjack-web:
       - mode
 
 /srv/webplatform/lumberjack-web/config.php:
-  file:
-    - managed
-    - source: salt://bots/files/lumberjack_config.php.jinja
+  file.managed:
+    - source: salt://code/files/lumberjack/config.php.jinja
     - template: jinja
+    - context:
+        db_creds:    {{ salt['pillar.get']('accounts:lumberjack:db') }}
+        masterdb_ip: {{ salt['pillar.get']('infra:hosts_entries:masterdb', 'localhost') }}
     - user: www-data
     - group: www-data
     - require:

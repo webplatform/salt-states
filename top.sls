@@ -106,7 +106,6 @@ base:
     - logwatch
     - mail.mailhub
   'notes*':
-    - users.randall
     - hypothesis
     - hypothesis.nginx
     - fxa.nginx

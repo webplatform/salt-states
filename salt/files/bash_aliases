@@ -3,6 +3,8 @@
 # ref: http://hardenubuntu.com/disable-services
 alias wpd-processes="initctl list | grep running"
 
+alias wpd-connections="netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n"
+
 wpd-deploy () { echo "Going to update roles for:"; sudo salt -G "roles:$@" grains.get roles; echo "Deploying..."; sudo salt -G "roles:$@" state.sls code; }
 alias wpd-flavor="nova flavor-list"
 alias wpd-secgroup="nova secgroup-list"

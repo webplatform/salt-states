@@ -35,14 +35,17 @@ chmod 755 /srv/webplatform/lumberjack-listener/LumberJack.py:
 
 /srv/webplatform/lumberjack-listener/mysql_config.txt:
   file.managed:
-    - source: salt://bots/files/lumberjack_mysql_config.txt.jinja
+    - source: salt://code/files/lumberjack/mysql_config.txt.jinja
     - template: jinja
+    - context:
+        db_creds:    {{ salt['pillar.get']('accounts:lumberjack:db') }}
+        masterdb_ip: {{ salt['pillar.get']('infra:hosts_entries:masterdb', 'localhost') }}
     - require:
       - cmd: lumberjack-listener-rsync
 
 /srv/webplatform/lumberjack-listener/irc_config.txt:
   file.managed:
-    - source: salt://bots/files/lumberjack_irc_config.txt.jinja
+    - source: salt://code/files/lumberjack/irc_config.txt.jinja
     - template: jinja
     - require:
       - cmd: lumberjack-listener-rsync

@@ -1,16 +1,32 @@
 <?php
-# vi set ai syntax=php
 
 ## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+## source {{ source }}
 
-error_reporting( -1 );
-ini_set( 'display_errors', 1 );
+#$wgReadOnly = 'In maintenance, will be back shortly. More details on [http://status.webplatform.org/ status.webplatform.org]';
+
+#error_reporting( -1 );
+#ini_set( 'display_errors', 1 );
+
+#$wgShowDebug = false;
 #$wgDebugToolbar = true;
 
-$wgShowExceptionDetails = true;
+#$wgDebugRedirects = false;
 
-##$logDir = '/vagrant/logs';
-##$wgDebugLogFile = "{$logDir}/mediawiki-debug.log";
+## Memcached
+#$wgMemCachedDebug = true;
+
+#$wgShowExceptionDetails = true;
+
+#$mwLogDir = __DIR__ . '/../logs';
+#$mwLogDir = '/vagrant/logs';
+
+#$wgDBerrorLog   = "{$mwLogDir}/dberror.log";
+#$wgDebugLogFile = "{$mwLogDir}/debug.log";
+#$wgRateLimitLog = "{$mwLogDir}/ratelimit.log";
+
+#$wgDebugLogGroups['exception']      = "{$mwLogDir}/exception.log";
+#$wgDebugLogGroups['resourceloader'] = "{$mwLogDir}/resourceloader.log";
 
 ## Calls to deprecated methods will trigger E_USER_DEPRECATED errors
 ## in the PHP error log.
@@ -34,8 +50,10 @@ $wgDefaultRobotPolicy = 'index,follow';
 {% endif %}
 
 ## ref: http://www.mediawiki.org/wiki/Manual:$wgCanonicalServer
-$wgServer = "//docs.".$siteTopLevelDomain;
-$wgCanonicalServer = "https://docs.".$siteTopLevelDomain;
+$wgServer = "http://docs.".$siteTopLevelDomain;
+#$wgServer = "https://docs.".$siteTopLevelDomain;
+#$wgCanonicalServer = "http://docs.".$siteTopLevelDomain;
+
 $wgCompatablesJsonFileUrl = "https://docs.".$siteTopLevelDomain."/compat/data.json";
 
 foreach(
@@ -49,3 +67,6 @@ foreach(
 
 require_once( "$IP/../LocalSettings.php" );
 require_once( "$IP/../../Settings.php" );
+
+# vim: set ft=php expandtab:
+

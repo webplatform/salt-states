@@ -1,0 +1,26 @@
+<?php
+
+## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+## source {{ source }}
+
+class config
+{
+        static $dbms_host =             "{{ masterdb_ip|default('localhost') }}";
+        static $dbms_port =             "{{ db_creds.port|default('3306') }}";
+        static $dbms_database =         "{{ db_creds.database|default('lumberjack') }}";
+        static $dbms_user =             "{{ db_creds.username|default('root') }}";
+        static $dbms_pass =             "{{ db_creds.password|default('') }}";
+
+        static $default_channel =       "webplatform";
+        static $default_number_of_lines = 50;
+
+        static $timezone =              "UTC";
+
+        static function get_db()
+        {
+                return new lumberjack_db( config::$dbms_host, config::$dbms_port, config::$dbms_database, config::$dbms_user, config::$dbms_pass, config::$timezone );
+        }
+}
+
+# vim: set ft=php expandtab:
+

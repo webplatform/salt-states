@@ -1,11 +1,17 @@
-<?php {%- set data = salt['pillar.get']('accounts:blog', {}) %}
-# vi set ai syntax=php
+<?php
 
-# Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+{%- set data = salt['pillar.get']('accounts:blog', {}) -%}
+{%- set db_creds      = salt['pillar.get']('accounts:blog:db') -%}
+{%- set db_servers    = salt['pillar.get']('infra:db_servers:mysql:slaves', []) -%}
+{%- set masterdb_ip   = salt['pillar.get']('infra:hosts_entries:masterdb', 'localhost') %}
+
+## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+## source {{ source }}
 
 require_once('lib/main.php');
 
-# http://www.one-tab.com/page/74i1sP-XSVCyJts_AjzpIQ
+## Debuging switches
+## http://www.one-tab.com/page/74i1sP-XSVCyJts_AjzpIQ
 #error_reporting( -1 );
 #ini_set( 'display_errors', 1 );
 
@@ -19,6 +25,7 @@ $siteTopLevelDomain = 'webplatform.org';
 
 $wpd['pagespeed_key'] = "{{ salt['pillar.get']('accounts:blog:secrets:googlepagespeed', '') }}";
 $wpd['piwik_url'] = 'https://stats.' . $siteTopLevelDomain . '/';
+$wpd['memcache_array'] = array('127.0.0.1:11255');
 
 /**
  * WebPlatform Blog
@@ -54,21 +61,23 @@ define('WP_DEBUG', false);
 /**
  * Database configuration
  */
-define('DB_CHARSET', 'utf8');
-define('DB_COLLATE', '');
-define('DB_NAME',    '{{ salt['pillar.get']('accounts:blog:db:database', 'wpblog') }}');
-define('DB_HOST',    '{{ salt['pillar.get']('accounts:blog:db:hostname', 'localhost') }}');
-define('DB_USER',    '{{ salt['pillar.get']('accounts:blog:db:username', 'root') }}');
-define('DB_PASSWORD','{{ salt['pillar.get']('accounts:blog:db:password', '') }}');
+define('DB_CHARSET',  "utf8");
+define('DB_COLLATE',  "");
+define('DB_HOST',     "{{ masterdb_ip }}");
+define('DB_NAME',     "{{ db_creds.database|default('wpblog') }}");
+define('DB_USER',     "{{ db_creds.username|default('root')   }}");
+define('DB_PASSWORD', "{{ db_creds.password|default('')       }}");
 
 
 // Generate new ones https://api.wordpress.org/secret-key/1.1/salt/
-define('AUTH_KEY',         '{{ salt['pillar.get']('accounts:blog:secrets:AUTH_KEY', '') }}');
-define('SECURE_AUTH_KEY',  '{{ salt['pillar.get']('accounts:blog:secrets:SECURE_AUTH_KEY', '') }}');
-define('LOGGED_IN_KEY',    '{{ salt['pillar.get']('accounts:blog:secrets:LOGGED_IN_KEY', '') }}');
-define('NONCE_KEY',        '{{ salt['pillar.get']('accounts:blog:secrets:NONCE_KEY', '') }}');
-define('AUTH_SALT',        '{{ salt['pillar.get']('accounts:blog:secrets:AUTH_SALT', '') }}');
-define('SECURE_AUTH_SALT', '{{ salt['pillar.get']('accounts:blog:secrets:SECURE_AUTH_SALT', '') }}');
-define('LOGGED_IN_SALT',   '{{ salt['pillar.get']('accounts:blog:secrets:LOGGED_IN_SALT', '') }}');
-define('NONCE_SALT',       '{{ salt['pillar.get']('accounts:blog:secrets:NONCE_SALT', '') }}');
+define('AUTH_KEY',         "{{ salt['pillar.get']('accounts:blog:secrets:AUTH_KEY', '') }}");
+define('SECURE_AUTH_KEY',  "{{ salt['pillar.get']('accounts:blog:secrets:SECURE_AUTH_KEY', '') }}");
+define('LOGGED_IN_KEY',    "{{ salt['pillar.get']('accounts:blog:secrets:LOGGED_IN_KEY', '') }}");
+define('NONCE_KEY',        "{{ salt['pillar.get']('accounts:blog:secrets:NONCE_KEY', '') }}");
+define('AUTH_SALT',        "{{ salt['pillar.get']('accounts:blog:secrets:AUTH_SALT', '') }}");
+define('SECURE_AUTH_SALT', "{{ salt['pillar.get']('accounts:blog:secrets:SECURE_AUTH_SALT', '') }}");
+define('LOGGED_IN_SALT',   "{{ salt['pillar.get']('accounts:blog:secrets:LOGGED_IN_SALT', '') }}");
+define('NONCE_SALT',       "{{ salt['pillar.get']('accounts:blog:secrets:NONCE_SALT', '') }}");
+
+# vim: set ft=php expandtab:
 
