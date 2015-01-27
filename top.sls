@@ -121,6 +121,6 @@ base:
     - nginx
   'roles:specs':
     - match: grain
-    - specs
+    - specs.nginx
 
 
