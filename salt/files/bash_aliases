@@ -1,4 +1,8 @@
 # Managed by salt stack
+
+# ref: http://hardenubuntu.com/disable-services
+alias wpd-processes="initctl list | grep running"
+
 wpd-deploy () { echo "Going to update roles for:"; sudo salt -G "roles:$@" grains.get roles; echo "Deploying..."; sudo salt -G "roles:$@" state.sls code; }
 alias wpd-flavor="nova flavor-list"
 alias wpd-secgroup="nova secgroup-list"

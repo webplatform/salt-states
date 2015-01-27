@@ -40,10 +40,6 @@ include:
         domain {{ level }}.wpdn
         nameserver 8.8.8.8
 
-remove-whoopsie:
-  pkg.purged:
-    - name: whoopsie
-
 /etc/resolvconf/resolv.conf.d/head:
   file.managed:
     - contents: |
@@ -55,11 +51,17 @@ remove-whoopsie:
     - require_in:
       - cmd: resolvconf -u
 
+# apport: ref: http://hardenubuntu.com/disable-services/disable-apport
 non-needed-softwares:
-  pkg.removed:
+  pkg.purged:
     - pkgs:
       - landscape-common
       - landscape-client
+      - whoopsie
+      - apport
+      - at
+      - avahi-daemon
+      - avahi-utils
 
 commonly-used-utilities:
   pkg.installed:
@@ -73,6 +75,14 @@ commonly-used-utilities:
 resolvconf -u:
   cmd.run:
     - unless: grep -q -e 'wpdn' /etc/resolv.conf
+
+/etc/apt/apt.conf.d/20auto-upgrades:
+  file.managed:
+    - source: salt://webplatform/files/20auto-upgrades
+
+/etc/default/irqbalance:
+  file.managed:
+    - source: salt://webplatform/files/irqbalance
 
 /etc/profile.d/wpd_aliases.sh:
   file.managed:

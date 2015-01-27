@@ -7,15 +7,15 @@
 include:
   - nginx
 
-/etc/nginx/conf.d/geoip.conf:
-  file.managed:
-    - source: salt://piwik/files/nginx.geoip.conf
-    - user: root
-    - group: root
-    - mode: 644
-    - require:
-      - pkg: nginx
-      - pkg: piwik-geoip
+#/etc/nginx/conf.d/geoip.conf:
+#  file.managed:
+#    - source: salt://piwik/files/nginx.geoip.conf
+#    - user: root
+#    - group: root
+#    - mode: 644
+#    - require:
+#      - pkg: nginx
+#      - pkg: piwik-geoip
 
 /etc/nginx/sites-available/piwik:
   file.managed:

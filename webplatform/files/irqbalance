@@ -1,0 +1,4 @@
+# File managed by Salt Stack. Do NOT edit manually!
+# ref: http://hardenubuntu.com/server-setup/disable-irqbalance
+ENABLED="0"
+ONESHOT="0"

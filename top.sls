@@ -117,4 +117,10 @@ base:
   'hhvmbackend*':
     - hhvm
     - nutcracker
+  'nginx*':
+    - nginx
+  'roles:specs':
+    - match: grain
+    - specs
+
 

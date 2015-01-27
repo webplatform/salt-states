@@ -1,0 +1,4 @@
+[mysqld]
+# ref: http://hardenubuntu.com/hardening/mysql/disable-local-infile
+local-infile=0
+

@@ -61,6 +61,15 @@ salt-master-deps:
       - swaks
       - gnutls-bin
 
+# ref: http://hardenubuntu.com/software/install-fail2ban
+setup-fail2ban:
+  pkg.installed:
+    - name: fail2ban
+  file.managed:
+    - source: salt://salt/files/fail2ban.conf
+    - name: /etc/fail2ban/jail.local
+
+
 #/usr/local/bin/wpd-deploy:
 #  file.managed:
 #    - user: root

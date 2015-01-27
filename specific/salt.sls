@@ -18,4 +18,5 @@ build-deps:
       - bundler
       - php5-curl
       - dpkg-dev
+      - php5-dev
 

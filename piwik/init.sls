@@ -12,6 +12,7 @@ php-piwik:
       - php5-curl
       - php5-mysqlnd
       - php-db
+      - php5-dev
 
 piwik-archive-requirements:
   pkg.installed:

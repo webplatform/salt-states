@@ -113,3 +113,7 @@ But sometimes we have to act quickly and update the states later.
 
     salt app\* pkg.upgrade
 
+6. Delete a user
+
+    salt \* user.delete foobar remove=True force=True
+

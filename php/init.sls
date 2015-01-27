@@ -9,6 +9,8 @@ php-basic-deps:
       - libpcre3-dev
       - php5-dev
       - php5-cli
+      - php5-redis
+      - php-wikidiff2
 
 php5-memcached:
   pkg.installed:
