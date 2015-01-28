@@ -59,7 +59,7 @@ nginx-ppa:
 
 /etc/nginx/common_params:
   file.managed:
-    - source: salt://nginx/files/common_params
+    - source: salt://nginx/files/common_params.jinja
     - template: jinja
     - require:
       - pkg: nginx

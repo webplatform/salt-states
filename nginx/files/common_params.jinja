@@ -1,3 +1,4 @@
+
 error_page 500 /errors/500.html;
 error_page 502 /errors/502.html;
 error_page 503 /errors/503.html;
@@ -5,13 +6,13 @@ error_page 504 /errors/500.html;
 error_page 505 /errors/500.html;
 error_page 403 /errors/403.html;
 error_page 404 /errors/404.html;
+
 location ^~ /errors/ {
     internal;
+    ## Which we expect to have static html error documents
+    ## as.. /srv/webplatform/errors/500.html
     root /srv/webplatform;
 }
 
 server_tokens off;
-access_log    /var/log/nginx/$server_name.access.log;
-error_log     /var/log/nginx/$server_name.error.log;
-
 
