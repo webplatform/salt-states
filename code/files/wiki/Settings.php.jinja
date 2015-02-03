@@ -35,9 +35,6 @@
 $wgCacheDirectory = dirname($IP)."/cache";
 #$wgUploadDirectory = $IP"/images";
 
-## WebPlatform Docs
-require_once("$IP/extensions/WebPlatformDocs/main.php");
-
 ## See DefaultSettings.php for details on each of them
 ## wfFixSessionID() in GlobalFunctions
 #$wgCookieExpiration = 180*86400;
@@ -223,10 +220,6 @@ $wgSyntaxHighlightDefaultLang = "html5";
 
 require_once("$IP/extensions/Cite/Cite.php");
 
-require_once("$IP/extensions/Vector/Vector.php");
-$wgDefaultUserOptions['vector-collapsiblenav'] = 1;
-$wgVectorUseSimpleSearch = true;
-
 require_once("$IP/extensions/WikiEditor/WikiEditor.php");
 $wgDefaultUserOptions['usebetatoolbar'] = 1;
 $wgDefaultUserOptions['usebetatoolbar-cgd'] = 1;
@@ -311,6 +304,9 @@ require_once("$IP/extensions/StringFunctionsEscaped/StringFunctionsEscaped.php")
 require_once("$IP/extensions/SocialProfile/SocialProfile.php"); # Make sure we applied mediawiki/patches/issue-19.path
 $wgUserProfileDisplay['friends'] = true;
 $wgUserProfileDisplay['foes'] = false;
+$wgUserProfileDisplay['avatar'] = false;
+$wgUserProfileThresholds['edits'] = $wgAutoConfirmCount;
+$wgEmailConfirmToEdit = true;
 
 ## NewSignupPage extension, for agreeing to site terms
 require_once("$IP/extensions/NewSignupPage/NewSignupPage.php"); #NEEDSTOBEADDED
@@ -337,6 +333,8 @@ $wgGroupPermissions['*']['abusefilter-log'] = true;
 $wgGroupPermissions['sysop']['abusefilter-private'] = true;
 $wgGroupPermissions['sysop']['abusefilter-modify-restricted'] = true;
 $wgGroupPermissions['sysop']['abusefilter-revert'] = true;
+
+require_once("$IP/extensions/WebPlatformMediaWikiExtensionBundle/main.php");
 
 # vim: set ft=php expandtab:
 

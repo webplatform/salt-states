@@ -22,6 +22,7 @@ php-pear:
     - require:
       - pkg: php-basic-deps
 
+# ref: http://pear.php.net/manual/en/guide.users.commandline.installing.php
 igbinary:
   pecl.installed:
     - version: 1.2.1
@@ -32,7 +33,7 @@ igbinary:
     - source: salt://php/files/igbinary.ini
   cmd.run:
     - name: php5enmod igbinary
-    - unless: test -f /etc/php5/apache2/conf.d/20-igbinary.ini 
+    - unless: test -f /etc/php5/apache2/conf.d/20-igbinary.ini
 
 apcu:
   pecl.installed:

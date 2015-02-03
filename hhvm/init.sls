@@ -46,6 +46,8 @@ hhvm-deps:
         ; Session
         hhvm.session.save_handler = memcached
         hhvm.session.path = 'localhost:11211'
+        hhvm.server.expose_hphp = false
+        hhvm.server.expose_xfb_server = false
     - require:
       - pkg: hhvm
 {% endfor %}

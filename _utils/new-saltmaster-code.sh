@@ -104,7 +104,7 @@ options["compat"]="--quiet"
 options["docsprint-dashboard"]="--quiet"
 options["specs"]="--quiet"
 #options["wiki"]="--branch 1.24wmf16-wpd --recurse-submodules --quiet"
-options["wiki"]="--branch 1.24wmf16-wpd --quiet"
+options["wiki"]="--branch wmf/1.25wmf15 --quiet"
 options["www"]="--quiet"
 
 #salt-call --local --log-level=quiet git.config_set setting_name=user.email setting_value="hostmaster@webplatform.org" is_global=True

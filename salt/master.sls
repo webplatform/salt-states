@@ -27,14 +27,6 @@ include:
     - source: salt://webplatform/files/profile-nova.sh.jinja
 
 {% for username in users %}
-/home/{{ username }}/.bash_aliases:
-  file.managed:
-    - source: salt://salt/files/bash_aliases
-    - user: {{ username }}
-    - group: {{ username }}
-    - require:
-      - user: {{ username }}
-
 /home/{{ username }}/.my.cnf:
   file.managed:
     - source: salt://environment/files/my.cnf.jinja
@@ -52,6 +44,7 @@ salt-master-deps:
     - pkgs:
       - python-dulwich
       - python-novaclient
+      - python-neutronclient
       - python-libcloud
       - python-cffi
       - salt-cloud
@@ -60,6 +53,7 @@ salt-master-deps:
       - jq
       - swaks
       - gnutls-bin
+      - monkeytail
 
 # ref: http://hardenubuntu.com/software/install-fail2ban
 setup-fail2ban:

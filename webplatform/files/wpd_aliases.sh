@@ -1,9 +1,13 @@
 # Managed by salt stack
+
+alias besu='sudo -H bash -l'
+alias scr='screen -dd -R'
+
+alias wpd-flavor="nova flavor-list"
+alias wpd-secgroup="nova secgroup-list"
 alias wpd-service-test='nc -vz '
 alias wpd-netstat='netstat -tulpn'
 alias wpd-gentoken='openssl rand -base64 32'
-alias besu='sudo -H bash -l'
-alias scr='screen -dd -R'
 
 # ref: http://www.commandlinefu.com/commands/view/3543/show-apps-that-use-internet-connection-at-the-moment.
 wpd-lsof-network-services() {
@@ -24,6 +28,18 @@ wpd-trailing-whitespace() {
   fi
 }
 
-wpd-git-search-file() { 
+wpd-git-search-file() {
   git log --all --name-only --pretty=format: | sort -u | grep "$1"
 }
+
+# ref: http://hardenubuntu.com/disable-services
+alias wpd-processes="initctl list | grep running"
+
+alias wpd-connections="netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n"
+
+wpd-deploy () { echo "Going to update roles for:"; sudo salt -G "roles:$@" grains.get roles; echo "Deploying..."; sudo salt -G "roles:$@" state.sls code; }
+wpd-salt-events () { echo "About to dump events to stdout"; sudo salt-run state.event | while read -r tag data; do echo $tag; echo $data | jq -C .; done; }
+
+#python -c 'import sys, yaml, json; json.dump(yaml.load(sys.stdin), sys.stdout, indent=2)' < foo.yaml > foo.json
+#python -c 'import sys, yaml, json; yaml.safe_dump(json.load(sys.stdin), sys.stdout, allow_unicode=True)' < foo.json > foo.yaml
+

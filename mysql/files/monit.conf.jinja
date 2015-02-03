@@ -5,7 +5,7 @@
 #       /usr/sbin/mysqld --print-defaults
 #
 check process mysql
-  with pidfile "/var/run/mysqld/mysqld.pid"
+  matching "mysql"
   group database
   start = "/usr/sbin/service mysql start"
   stop  = "/usr/sbin/service mysql stop"

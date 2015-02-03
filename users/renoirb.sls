@@ -28,7 +28,7 @@ renoirb:
     - user: renoirb
     - group: deployment
     - mode: 640
-    - source: salt://environment/gitconfig
+    - source: salt://users/files/renoirb/gitconfig
     - require:
       - user: renoirb
 
