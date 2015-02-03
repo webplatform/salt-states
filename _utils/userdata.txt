@@ -1,0 +1,32 @@
+#cloud-config
+
+manage_etc_hosts: false
+manage-resolv-conf: false
+
+locale: en_US.UTF-8
+timezone: America/New_York
+package_upgrade: true
+package_update: true
+package_reboot_if_required: true
+
+bootcmd:
+  - grep -q -e 'nameserver' /etc/resolvconf/resolv.conf.d/head || printf "nameserver 127.0.0.1\n" >> /etc/resolvconf/resolv.conf.d/head
+  - grep -q -e 'wpdn' /etc/resolvconf/resolv.conf.d/base || printf "search staging.wpdn\ndomain staging.wpdn\nnameserver 8.8.8.8" > /etc/resolvconf/resolv.conf.d/base
+  - grep -q -e 'wpdn' /etc/resolv.conf || resolvconf -u
+
+runcmd:
+  - sed -i "s/127.0.0.1 localhost/127.0.1.1 $(hostname).staging.wpdn $(hostname)\n127.0.0.1 localhost/" /etc/hosts
+  - sysctl -p
+  - apt-get install software-properties-common python-software-properties
+  - add-apt-repository -y ppa:saltstack/salt
+  - apt-get update
+  - apt-get -y upgrade
+  - apt-get -y autoremove
+
+
+packages:
+  - salt-minion
+  - salt-common
+  - salt-master
+
+# vim: et ts=2 sw=2 ft=yaml:

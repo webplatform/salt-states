@@ -1,19 +1,23 @@
 include:
   - mysql.server
 
-# Reference
-#  - http://bridge.grumpy-troll.org/2013/04/mysql-ssltls-and-ubuntu.html
-#  - https://mifosforge.jira.com/wiki/display/MIFOS/How+to+enable+MySQL+SSL+on+Ubuntu
-#  - http://dev.mysql.com/doc/refman/5.1/en/creating-ssl-certs.html
-#
-# Creating a certificate:
-#  - openssl req -newkey rsa:2048 -days 3600 -nodes -keyout server-key.pem -out server-req.pem
-#  - openssl rsa -in server-key.pem -out server-key.pem
-#  - openssl x509 -req -in server-req.pem -days 3600 -CA ca-cert.pem -CAkey ca-key.pem -set_serial 01 -out server-cert.pem
-#
-# Improvement roadmap:
-#   - Move what is related to a SSL certificate, not only MySQL would benefit from what is here
-#
+##
+## Sync SSL certificates across VMs
+##
+## Reference
+##  - http://bridge.grumpy-troll.org/2013/04/mysql-ssltls-and-ubuntu.html
+##  - https://mifosforge.jira.com/wiki/display/MIFOS/How+to+enable+MySQL+SSL+on+Ubuntu
+##  - http://dev.mysql.com/doc/refman/5.1/en/creating-ssl-certs.html
+##
+## Creating a certificate:
+##  - openssl req -newkey rsa:2048 -days 3600 -nodes -keyout server-key.pem -out server-req.pem
+##  - openssl rsa -in server-key.pem -out server-key.pem
+##  - openssl x509 -req -in server-req.pem -days 3600 -CA ca-cert.pem -CAkey ca-key.pem -set_serial 01 -out server-cert.pem
+##
+## Improvement roadmap:
+##   - Move what is related to a SSL certificate, not only MySQL would benefit from what is here
+##   - Use salt to generated based on a CA cert generated when created current salt master, then use to generate self-signed certs
+##
 
 openssl-installed:
   pkg.installed:
@@ -133,6 +137,15 @@ openssl-cert:
       - cmd: openssl-newkey
       - pkg: db-server
 
+
+
+##
+## Soon, use instead;
+##
+## ```bash
+##    salt -G 'roles:masterdb' tls.create_ca mysql CN='salt.production.wpdn' ST='MA' L='Cambridge' O='W3C' OU='WebPlatform Docs' emailAddress='team-webplatform-systems@w3.org’
+##    salt -G 'roles:masterdb' tls.create_self_signed_cert mysql CN='db1-masterdb.production.wpdn' ST='MA' L='Cambridge' O='W3C' OU='WebPlatform Docs' emailAddress='team-webplatform-systems@w3.org'
+## ```
 /etc/mysql/ca-key.pem:
   file.managed:
     - user: mysql

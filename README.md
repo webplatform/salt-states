@@ -8,24 +8,13 @@ Once you are there, you should be able to finish with the three next steps.
 
 To have a fully functional salt master, run in the following order:
 
-Run those scripts as root:
-
- * new-saltmaster.sh
- * new-saltmaster-packages.sh
- * salt-call --local state.highstate
+Run `_utils/new-saltmaster.sh` on new VM, and follow directions.
 
 To deploy web apps, we are currently assuming that the salt master will host all the code repositories
 along with the dependency management tools installed.
 
 In order to allow us to have a VM to prepare each web app, the following has to be run on the salt master.
 We will eventually create a VM specifically for that later in this project.
-
-To be able to deploy web app code, run the two last commands:
-
- * new-saltmaster-code.sh
- * wpd-installers.sh
-
-NOTE: Process isn’t fully streamlined, you’ll have to search inside this repository for the files for now.
 
 
 ## Security groups configuration
@@ -40,7 +29,7 @@ of a configuration line.
 For example, MediaWiki `Settings.php` has a line like this:
 
 ```php
-$wpdUdp2logDest = 'salt.local.wpdn:8420'; ## SecurityGroup port: UDP 8420 @salt demux.py
+$wpdUdp2logDest = 'salt:8420'; ## SecurityGroup port: UDP 8420 @salt demux.py
 ```
 
 All security groups are expected to allow local network communication exclusively by allowing
@@ -84,6 +73,14 @@ To access them, add to your `~/.ssh/config`:
 * https://gist.github.com/renoirb/a66b533c46ef7a8de8e3
 * https://gist.github.com/renoirb/11258261
 * https://gist.github.com/renoirb/f90d0226d8882b50df0e
+
+
+### Bookmarks
+
+* https://github.com/wikimedia/operations-puppet/blob/production/modules/varnish/templates/vcl/wikimedia.vcl.erb
+* https://github.com/wikimedia/operations-puppet/blob/production/manifests/role/redisdb.pp
+* https://github.com/wikimedia/operations-puppet/blob/production/manifests/role/memcached.pp
+* https://github.com/wikimedia/operations-puppet/blob/production/modules/nutcracker/manifests/init.pp
 
 ## Maintenance commands
 
