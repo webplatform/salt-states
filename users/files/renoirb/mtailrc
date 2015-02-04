@@ -1,0 +1,47 @@
+<group memcached>
+    prefix 'memcached: '
+    sudo yes
+    <file>
+        filename /mnt/logs/mw-logs/memcached.log
+    </file>
+    <file>
+        filename /mnt/logs/mw-logs/memcached-serious.log
+        prefix 'serious: '
+    </file>
+</group>
+<group warnings>
+    prefix 'warnings: '
+    sudo yes
+    <file>
+        filename /mnt/logs/mw-logs/exception.log
+    </file>
+    <file>
+        filename /mnt/logs/mw-logs/slow-parse.log
+    </file>
+    <file>
+        filename /mnt/logs/mw-logs/warning.log
+    </file>
+    <file>
+        filename /mnt/logs/apache_error.log
+    </file>
+</group>
+<group auth>
+    prefix 'auth: '
+    sudo yes
+    <file>
+        filename /mnt/logs/mw-logs/loginSession.log
+    </file>
+    <file>
+        filename /var/log/auth.log
+    </file>
+</group>
+<group caching>
+    prefix 'caching: '
+    sudo yes
+    <file>
+        filename /mnt/logs/mw-logs/squid.log
+    </file>
+    <file>
+        filename /mnt/logs/fastly.log
+    </file>
+</group>

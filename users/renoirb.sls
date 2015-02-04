@@ -26,7 +26,7 @@ renoirb:
 /home/renoirb/.gitconfig:
   file.managed:
     - user: renoirb
-    - group: deployment
+    - group: renoirb
     - mode: 640
     - source: salt://users/files/renoirb/gitconfig
     - require:
@@ -35,8 +35,22 @@ renoirb:
 /home/renoirb/.vimrc:
   file.managed:
     - user: renoirb
-    - group: deployment
+    - group: renoirb
     - source: salt://users/files/renoirb/vimrc
+
+{% if grains['nodename'] == 'salt' %}
+preferences:
+  pkg.installed:
+    - names:
+      - tig
+      - screen
+      - mtail
+
+/home/renoirb/.mtailrc:
+  file.managed:
+    - user: renoirb
+    - group: renoirb
+    - source: salt://users/files/renoirb/mtailrc
 
 /home/renoirb/.ssh/config:
   file.managed:
@@ -46,13 +60,6 @@ renoirb:
     - source: salt://users/files/renoirb/sshconfig
     - require:
       - ssh_auth: renoirb_keys
-
-{% if grains['nodename'] == 'salt' %}
-preferences:
-  pkg.installed:
-    - names:
-      - tig
-      - screen
 
 ##
 ## To get keys, try with command:
