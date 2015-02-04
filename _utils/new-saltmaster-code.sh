@@ -139,8 +139,6 @@ for key in ${!repos[@]}; do
     fi
 done
 
-clear
-
 chown -R nobody:deployment /srv/code/
 find /srv/code -type f -exec chmod go+w {} \;
 find /srv/code -type d -exec chmod go+x {} \;

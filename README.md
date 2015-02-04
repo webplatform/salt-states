@@ -115,3 +115,29 @@ But sometimes we have to act quickly and update the states later.
 
     salt \* user.delete foobar remove=True force=True
 
+7. New salt minion
+
+    nova boot --image Ubuntu-14.04-Trusty --user-data /srv/opsconfigs/userdata.txt --key_name renoirb-staging --flavor lightspeed --security-groups default,all,frontend app1
+    salt app1 file.touch /etc/salt/grains
+    salt app1 file.append /etc/salt/grains "level: staging"
+    salt app1 saltutil.sync_all
+    salt app1 grains.get level
+
+8. Assing a floating IP
+
+  Assuming our VM app1 has private IP 10.10.10.170 and we want floating IP of 173.236.254.223
+
+  * We need the floating IP id identifier (e.g. foo) in the 4 you’ll get. Technically the second value should be empty, that’s where we should see our VM private IP once its done. Identifier will be a UUID string
+
+        neutron floatingip-list | grep 173.236.254.223
+        | foo |      |  173.236.254.223  |    |
+
+  * We need to know which ethernet adapter to bind the floating IP to. We need the first value.
+
+        neutron port-list | grep 10.10.10.170
+        | bar |      | fa:16:3e:c1:6c:a0 | {"subnet_id": "...", "ip_address": "10.10.10.170"}
+
+  * We do have what we need to assign, enter them in this order:
+
+        neutron floatingip-associate --fixed-ip-address 10.10.10.170 foo bar
+
