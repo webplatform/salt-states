@@ -83,3 +83,10 @@ libboost-program-options1.46.1:
     - source: salt://code/files/buggenie/b2db_bootstrap.inc.php.jinja
     - template: jinja
 
+/srv/code/www/repo/docpad.js:
+  file.managed:
+    - template: jinja
+    - source: salt://code/files/www/docpad.js.jinja
+    - context:
+        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
+
