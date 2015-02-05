@@ -28,6 +28,11 @@ wpd-trailing-whitespace() {
   fi
 }
 
+# ref: http://stackoverflow.com/questions/26370185/how-do-criss-cross-merges-arise-in-git
+wpd-git-log() {
+  git log --graph --oneline --decorate --all
+}
+
 wpd-git-search-file() {
   git log --all --name-only --pretty=format: | sort -u | grep "$1"
 }

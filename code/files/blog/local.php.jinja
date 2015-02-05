@@ -70,14 +70,14 @@ define('DB_PASSWORD', "{{ db_creds.password|default('')       }}");
 
 
 // Generate new ones https://api.wordpress.org/secret-key/1.1/salt/
-define('AUTH_KEY',         "{{ salt['pillar.get']('accounts:blog:secrets:AUTH_KEY', '') }}");
-define('SECURE_AUTH_KEY',  "{{ salt['pillar.get']('accounts:blog:secrets:SECURE_AUTH_KEY', '') }}");
-define('LOGGED_IN_KEY',    "{{ salt['pillar.get']('accounts:blog:secrets:LOGGED_IN_KEY', '') }}");
-define('NONCE_KEY',        "{{ salt['pillar.get']('accounts:blog:secrets:NONCE_KEY', '') }}");
-define('AUTH_SALT',        "{{ salt['pillar.get']('accounts:blog:secrets:AUTH_SALT', '') }}");
-define('SECURE_AUTH_SALT', "{{ salt['pillar.get']('accounts:blog:secrets:SECURE_AUTH_SALT', '') }}");
-define('LOGGED_IN_SALT',   "{{ salt['pillar.get']('accounts:blog:secrets:LOGGED_IN_SALT', '') }}");
-define('NONCE_SALT',       "{{ salt['pillar.get']('accounts:blog:secrets:NONCE_SALT', '') }}");
+define('AUTH_KEY',         '{{ salt["pillar.get"]("accounts:blog:secrets:AUTH_KEY", "") }}');
+define('SECURE_AUTH_KEY',  '{{ salt["pillar.get"]("accounts:blog:secrets:SECURE_AUTH_KEY", "") }}');
+define('LOGGED_IN_KEY',    '{{ salt["pillar.get"]("accounts:blog:secrets:LOGGED_IN_KEY", "") }}');
+define('NONCE_KEY',        '{{ salt["pillar.get"]("accounts:blog:secrets:NONCE_KEY", "") }}');
+define('AUTH_SALT',        '{{ salt["pillar.get"]("accounts:blog:secrets:AUTH_SALT", "") }}');
+define('SECURE_AUTH_SALT', '{{ salt["pillar.get"]("accounts:blog:secrets:SECURE_AUTH_SALT", "") }}');
+define('LOGGED_IN_SALT',   '{{ salt["pillar.get"]("accounts:blog:secrets:LOGGED_IN_SALT", "") }}');
+define('NONCE_SALT',       '{{ salt["pillar.get"]("accounts:blog:secrets:NONCE_SALT", "") }}');
 
 # vim: set ft=php expandtab:
 

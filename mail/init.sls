@@ -61,7 +61,7 @@ exim4:
     - require:
       - pkg: exim4
 
-/etc/monit/conf.d/exim4.conf:
+/etc/monit/conf.d/mail.conf:
   file.managed:
     - source: salt://mail/files/exim4/monit.conf
     - watch_in:

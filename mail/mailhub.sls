@@ -4,16 +4,16 @@
  # Ref:
  #   - http://www.amavis.org/README.postfix.html
  #}
+include:
+  - mail
+  - postfix
+  - mmonit
+
 exclude:
   - id: /etc/exim4/passwd.client
   - id: /etc/exim4/update-exim4.conf.conf
   - id: /usr/sbin/update-exim4.conf
   - id: exim4
-  - id: /etc/monit/conf.d/exim4.conf
-
-include:
-  - postfix
-  - mmonit
 
 purge-exim:
   pkg.purged:
@@ -135,7 +135,7 @@ usermod -a -G amavis clamav:
   cmd.run:
     - unless: grep -q -e '^amavis.*clamav$' /etc/group
     - require_in:
-      - service: clamav-daemon 
+      - service: clamav-daemon
 
 /etc/default/opendkim:
   file:
@@ -173,10 +173,8 @@ postfix-access-opendkim:
 #    - require_in:
 #      - service: clamav-daemon
 
-/etc/monit/conf.d/mailhub.conf:
-  file.managed:
-    - source: salt://mail/files/mailhub/monit.conf.jinja
-    - template: jinja
-    - watch_in:
-      - service: monit
+extend:
+  /etc/monit/conf.d/mail.conf:
+    file.managed:
+      - source: salt://mail/files/mailhub/monit.conf.jinja
 
