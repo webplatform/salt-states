@@ -108,7 +108,6 @@ base:
   'notes*':
     - hypothesis
     - hypothesis.nginx
-    - fxa.nginx
   'elastic*':
     - elasticsearch
   'accounts*':

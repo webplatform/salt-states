@@ -12,38 +12,34 @@ include:
   - git
   - mmonit
 
-ln -s /usr/bin/nodejs /usr/bin/node:
-  cmd.run:
-    - unless: test -f /usr/bin/node
-
 # https://notes.webplatformstaging.org/ruok
 # http://localhost:8000/ruok
-/etc/monit/conf.d/hypothesis.conf:
-  file.managed:
-    - template: jinja
-    - source: salt://hypothesis/files/monit.conf.jinja
-    - context:
-        elastic_host: {{ salt['pillar.get']('infra:elasticsearch:private') }}
-        elastic_port: {{ salt['pillar.get']('infra:elasticsearch:port') }}
-        hypothesis_host: {{ salt['pillar.get']('infra:notes:host', '127.0.0.1') }}
-        hypothesis_port: {{ salt['pillar.get']('infra:notes:port', 8000) }}
-    - require:
-      - file: /srv/webplatform/notes-server/service.sh
-    - watch_in:
-      - service: monit
-      - service: hypothesis
-
-hypothesis:
-  service.running:
-    - enable: True
-    - reload: true
-    - require:
-      - pkg: hypothesis-dependencies
-      - file: /etc/init/hypothesis.conf
+#/etc/monit/conf.d/hypothesis.conf:
+#  file.managed:
+#    - template: jinja
+#    - source: salt://hypothesis/files/monit.conf.jinja
+#    - context:
+#        elastic_host: {{ salt['pillar.get']('infra:elasticsearch:private') }}
+#        elastic_port: {{ salt['pillar.get']('infra:elasticsearch:port') }}
+#        hypothesis_host: {{ salt['pillar.get']('infra:notes:host', '127.0.0.1') }}
+#        hypothesis_port: {{ salt['pillar.get']('infra:notes:port', 8000) }}
+#    - require:
+#      - file: /srv/webplatform/notes-server/service.sh
+#    - watch_in:
+#      - service: monit
+#      - service: hypothesis
+#
+#hypothesis:
+#  service.running:
+#    - enable: True
+#    - reload: true
+#    - require:
+#      - pkg: hypothesis-dependencies
+#      - file: /etc/init/hypothesis.conf
 
 hypothesis-dependencies:
   pkg.installed:
-    - names:
+    - pkgs:
       - python-yaml
       - python-dev
       - python-pip
@@ -54,6 +50,7 @@ hypothesis-dependencies:
       - ruby-full
       - build-essential
       - nodejs
+      - nodejs-legacy
       - npm
       - python-mysqldb
       - rubygems-integration
@@ -68,34 +65,34 @@ hypothesis-compass-dep:
     - require:
       - pkg: ruby-full
       - gem: sass
- 
+
 # Make SURE this file exists, its required
-# by the /etc/init/hypothesis.conf init script 
-/srv/webplatform/notes-server/h.ini:
-  file.exists
-
-/srv/webplatform/notes-server:
-  file.directory:
-    - makedirs: True
-
-/etc/init/hypothesis.conf:
-  file.managed:
-    - source: salt://hypothesis/files/upstart.conf
-    - user: root
-    - group: root
-    - mode: 644
-    - require:
-      - file: /srv/webplatform/notes-server
-      - file: /srv/webplatform/notes-server/service.sh
-      - file: /var/log/webplatform
-
-/srv/webplatform/notes-server/service.sh:
-  file.managed:
-    - source: salt://hypothesis/files/service.sh
-    - mode: 755
-    - require:
-      - file: /srv/webplatform/notes-server
-      - file: /srv/webplatform/notes-server/h.ini
+# by the /etc/init/hypothesis.conf init script
+#/srv/webplatform/notes-server/h.ini:
+#  file.exists
+#
+#/srv/webplatform/notes-server:
+#  file.directory:
+#    - makedirs: True
+#
+#/etc/init/hypothesis.conf:
+#  file.managed:
+#    - source: salt://hypothesis/files/upstart.conf
+#    - user: root
+#    - group: root
+#    - mode: 644
+#    - require:
+#      - file: /srv/webplatform/notes-server
+#      - file: /srv/webplatform/notes-server/service.sh
+#      - file: /var/log/webplatform
+#
+#/srv/webplatform/notes-server/service.sh:
+#  file.managed:
+#    - source: salt://hypothesis/files/service.sh
+#    - mode: 755
+#    - require:
+#      - file: /srv/webplatform/notes-server
+#      - file: /srv/webplatform/notes-server/h.ini
 
 npm-packages:
   npm.installed:
