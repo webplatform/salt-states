@@ -248,15 +248,15 @@ include_once("$IP/extensions/AdminLinks/AdminLinks.php");
 #require_once("$IP/extensions/EmailCapture/EmailCapture.php");  #TODO, find
 
 ## Captcha Extension
+## SSL, WATCHOUT, extensions/ConfirmEdit/ReCaptcha.class MUST have $useHttps=true;
+## sed -i '' -e's/\$useHttps\ \=/\$useHttps=true;\/\//g' extensions/ConfirmEdit/ReCaptcha.class.php
 require_once( "$IP/extensions/ConfirmEdit/ConfirmEdit.php" );
+require_once( "$IP/extensions/ConfirmEdit/ReCaptcha.php" );
 $wgCaptchaTriggers['edit']          = false;
 $wgCaptchaTriggers['create']        = false;
 $wgCaptchaTriggers['addurl']        = true;
 $wgCaptchaTriggers['createaccount'] = true;
 $wgCaptchaTriggers['badlogin']      = false;
-
-require_once( "$IP/extensions/ConfirmEdit/ReCaptcha.php" );
-$wgCaptchaClass = 'ReCaptcha';
 $wgReCaptchaPublicKey  = '{{ reCaptchaKeys.get('key') }}';
 $wgReCaptchaPrivateKey = '{{ reCaptchaKeys.get('secret') }}';
 $wgGroupPermissions['autoconfirmed']['skipcaptcha'] = true;

@@ -64,14 +64,6 @@ $wgDBtype = "mysql";
 $wgArticlePath = '/wiki/$1';
 $wgScriptPath  = '/w';
 
-#require_once("$IP/extensions/WebPlatformAuth/WebPlatformAuth.php");
-#$wgWebPlatformAuth['endpoints']['fxa_oauth']   = 'https://oauth.accounts.webplatform.org/v1/';
-#$wgWebPlatformAuth['endpoints']['fxa_profile'] = 'https://profile.accounts.webplatform.org/v1/';
-#$wgWebPlatformAuth['methods']['authorize']     = 'authorization';
-#$wgWebPlatformAuth['methods']['token']         = 'token';
-#$wgWebPlatformAuth['client']['id']             = '0000000000000000';
-#$wgWebPlatformAuth['client']['secret']         = '3333333333333333333333333333333333333333333333333333333333333333';
-
 $wgSecretKey     = '{{ secrets['key']|default('foo') }}';
 $wgUpgradeKey    = '{{ secrets['upgrade']|default('bar') }}';
 $wgCaptchaSecret = '{{ secrets['captcha']|default('baz') }}';
