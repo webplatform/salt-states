@@ -44,7 +44,7 @@ preferences:
     - names:
       - tig
       - screen
-      - mtail
+      - monkeytail
 
 /home/renoirb/.mtailrc:
   file.managed:

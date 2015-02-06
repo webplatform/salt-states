@@ -47,7 +47,7 @@ hypothesis-dependencies:
       - git
       - libpq-dev
       - make
-      - ruby-full
+      - ruby1.9.1-full
       - build-essential
       - nodejs
       - nodejs-legacy
@@ -56,15 +56,12 @@ hypothesis-dependencies:
       - rubygems-integration
   gem.installed:
     - name: sass
-    - require:
-      - pkg: ruby-full
 
 hypothesis-compass-dep:
   gem.installed:
     - name: compass
     - require:
-      - pkg: ruby-full
-      - gem: sass
+      - pkg: hypothesis-dependencies
 
 # Make SURE this file exists, its required
 # by the /etc/init/hypothesis.conf init script
