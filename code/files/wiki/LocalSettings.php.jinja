@@ -8,6 +8,10 @@
 #error_reporting( -1 );
 #ini_set( 'display_errors', 1 );
 
+$wpdConfig['alpha_memcache'] = array( '10.10.10.175:11211' );
+$wpdConfig['alpha_redis']    = array( '10.10.10.179:6379'  );
+$wpdConfig['sessions_redis'] = array( '10.10.10.177:6379'  );
+
 #$wgShowDebug = false;
 #$wgDebugToolbar = true;
 
@@ -18,11 +22,11 @@
 
 #$wgShowExceptionDetails = true;
 
-#$mwLogDir = __DIR__ . '/../logs';
+$mwLogDir = __DIR__ . '/../logs';
 #$mwLogDir = '/vagrant/logs';
 
-#$wgDBerrorLog   = "{$mwLogDir}/dberror.log";
-#$wgDebugLogFile = "{$mwLogDir}/debug.log";
+$wgDBerrorLog   = "{$mwLogDir}/dberror.log";
+$wgDebugLogFile = "{$mwLogDir}/debug.log";
 #$wgRateLimitLog = "{$mwLogDir}/ratelimit.log";
 
 #$wgDebugLogGroups['exception']      = "{$mwLogDir}/exception.log";
@@ -55,15 +59,6 @@ $wgServer = "http://docs.".$siteTopLevelDomain;
 #$wgCanonicalServer = "http://docs.".$siteTopLevelDomain;
 
 $wgCompatablesJsonFileUrl = "https://docs.".$siteTopLevelDomain."/compat/data.json";
-
-foreach(
-  array_merge(
-    glob( __DIR__ . '/../settings.d/*.php' ),
-    glob( __DIR__ . "/../local.d/*.php" )
-  ) as $conffile
-) {
-  include_once $conffile;
-}
 
 require_once( "$IP/../LocalSettings.php" );
 require_once( "$IP/../../Settings.php" );

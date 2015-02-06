@@ -118,21 +118,21 @@ $wgDebugLogGroups = array(
 $wgMainCacheType = 'memcached-pecl';
 $wgMemCachedPersistent = false;
 $wgMemCachedTimeout = 250000; # default is 100000
+$wgMemCachedServers = $wpdConfig['alpha_memcache'];
 $wgObjectCaches['memcached-pecl'] = array(
     'class' => 'MemcachedPeclBagOStuff',
     'serializer' => 'php',
     'persistent' => false,
-    'servers' => array( '127.0.0.1:11255' ),
+    'servers' => $wpdConfig['alpha_memcache'],
     'server_failure_limit' => 1e9,
     'retry_timeout' => -1
 );
 $wgObjectCaches['redis'] = array(
     'class' => 'RedisBagOStuff',
-    'servers' => array( '127.0.0.1:6355' ),
+    'servers' => $wpdConfig['alpha_redis'],
     'persistent' => true,
 );
 #$wgObjectCaches['memcached-pecl'][0]['serializer'] = 'igbinary'; // pkg igbinary should be installed, or use 'php'. As of 20141125 igbinary dont work, #TODO
-
 
 ##
 ## SESSIONS
@@ -144,7 +144,12 @@ $wgObjectCaches['redis'] = array(
 #        'class'   => 'RedisBagOStuff',
 #        'servers' => array( '127.0.0.1:6379' ),
 #);
-$wgMemCachedServers = array("127.0.0.1:11211");
+$wgSessionsInObjectCache = true;
+$wgSessionCacheType = 'sessions';
+$wgObjectCaches['sessions'] = array(
+        'class'   => 'RedisBagOStuff',
+        'servers' => $wpdConfig['sessions_redis'],
+);
 
 ##
 ## JOBS
