@@ -41,7 +41,8 @@ comment-mycnf-network-listener:
     - watch_in:
       - service: db-server
 
-{%- set configFiles = ['listener','unicode-server', 'pidfile', 'disable-infile'] -%}
+{#  evaluate if we add also below 'disable-infile' #TODO #}
+{%- set configFiles = ['listener','unicode-server', 'pidfile'] -%}
 {%- for f in configFiles %}
 /etc/mysql/conf.d/{{ f }}.cnf:
   file.managed:

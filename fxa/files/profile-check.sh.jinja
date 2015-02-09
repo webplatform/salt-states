@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# Managed by SaltStack, do NOT edit manually!
+# source {{ source }}
+
+#
+# This script is meant to check if the service answers in the ways dependent services would expect
+#
+# We can run it against:
+#  - the NodeJS daemon directly (i.e. using private IP and ports) to see if the service is fine
+#  - the public IP address (e.g. https://profile.accounts.webplatform.org/), so we can also know if the NGINX proxy is fine
+#
+# TODO:
+#  - Support more than one REST service
+#  - Create checks for other services
+#
+# See also:
+#   - salt/accounts/files/monit/fxa-profile-server
+#   - salt/accounts/files/profile-check.sh
+#
+# Reference:
+#   - http://unix.stackexchange.com/questions/84814/health-check-of-web-page-using-curl
+#   - http://nongnu.13855.n7.nabble.com/monit-Question-about-cpu-monitoring-and-quot-expect-quot-behaviour-td3981.html (i.e. Monit HTTP checks has not enough options)
+#   - http://www.guguncube.com/2959/monit-url-http-and-elasticsearch-checks
+#   - http://omgitsmgp.com/2013/09/07/a-monit-primer/
+#   - http://howtonode.org/deploying-node-upstart-monit
+#   - http://blog.blindgaenger.net/monitor_applications_with_monit.html
+#   - http://spin.atomicobject.com/2010/11/30/monitoring-and-management-with-monit-and-nagios/
+#   - http://mmonit.com/monit/documentation/monit.html#generic__send_expect_  (in case I want to get diretly through TCP)
+
+#curl --version | grep -Po '\s\d+?\.\d+?\.?\d+?\.?\d+?\s'
+#check=$(curl --connect-timeout 9 -sL -H "Authorization: Bearer $token" 'https://profile.accounts.webplatform.org/v1/email' | grep email)
+
+##
+## Other checks to implement #TODO
+##
+
+#curl -v -XPOST -H 'Content-Type: application/json' "https://api.accounts.webplatformstaging.org/v1/get_random_bytes"
+#>>{"data":"7df056289de212508c3c3f6b56baa0067cab9de19afed86fb5e8d2534a420c14"}
+
+#curl -H "Authorization: Bearer $token" -H 'Content-Type: application/json' "https://profile.accounts.webplatformstaging.org/v1/profile"
+#>>{"email":"renoir@w3.org","uid":"3e09d6df843341bc939a25223ab85ecf"}
+# NOTE the uid, here --------------^  its what $test_account_uid would be like
+
+#curl -XPOST -H 'Content-Type: application/json' "https://oauth.accounts.webplatformstaging.org/v1/verify" -d "{\"token\": \"$test_bearer_token\"}"
+#>>{"user":"3e09d6df843341bc939a25223ab85ecf","scope":["profile"],"email":"renoir@w3.org"}
+
+#curl -H 'Content-Type: application/json' "https://api.accounts.webplatformstaging.org/v1/account/status?uid=$test_account_uid"
+#>>{"exists":true}
+
+test_bearer_token="{{ salt['pillar.get']('accounts:fxa:monit:oauth_token', '') }}"
+
+profile_endpoint_host="{{ infra_pillar['auth']['host']|default('127.0.0.1') }}"
+profile_endpoint_port="{{ infra_pillar['auth']['port']|default(8081) }}"
+
+check=$(curl --connect-timeout 9 -A 'curl/7.35.0 profile-check/1.1' -sL -H "Authorization: Bearer $test_bearer_token" "http://$profile_endpoint_host:$profile_endpoint_port/v1/session/read" | grep email)
+
+if [[ -n "$check" ]] ; then
+#    echo "Service is working"
+exit 0
+else
+#    echo 'NOT Working!'
+exit 1
+fi

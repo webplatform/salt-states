@@ -26,4 +26,4 @@ check host hypothesis-available with address "{{ hypothesis_host }}"
   if failed port {{ hypothesis_port }}
     protocol HTTP request "/ruok" with timeout 10 seconds
     then restart
- 
+

@@ -1,0 +1,45 @@
+{
+  "env": "prod",
+  "listen": {
+    "host": "{{ infra_pillar['auth']['host'] }}",
+    "port": {{ infra_pillar['auth']['port'] }}
+  },
+  "contentServer": {
+    "url": "https://accounts.{{ tld }}"
+  },
+  "templateServer": {
+    "url": "https://accounts.{{ tld }}"
+  },
+  "publicUrl": "https://api.accounts.{{ tld }}",
+  "smtp": {
+    "host": "127.0.0.1",
+    "port": 25,
+    "sender": "WebPlatform Accounts <notifier-docs@webplatform.org>",
+    "redirectDomain": "{{ tld }}"
+  },
+  "db": {
+    "backend": "mysql"
+  },
+  "mysql": {
+    "master": {
+      "user": "{{ accounts_pillar['auth']['db']['username'] }}",
+      "password": "{{ accounts_pillar['auth']['db']['password'] }}",
+      "database": "{{ accounts_pillar['auth']['db']['database'] }}",
+      "host": "{{ masterdb_ip }}"
+    },
+    "slave": {
+      "user": "{{ accounts_pillar['auth']['db']['username'] }}",
+      "password": "{{ accounts_pillar['auth']['db']['password'] }}",
+      "database": "{{ accounts_pillar['auth']['db']['database'] }}",
+      "host": "{{ masterdb_ip }}"
+    }
+  },
+  "log": {
+    "level": "debug"
+  },
+  "verifierVersion": 0,
+  "bounces": {
+    "region": "us-east-1"
+  },
+  "customsUrl": "none"
+}

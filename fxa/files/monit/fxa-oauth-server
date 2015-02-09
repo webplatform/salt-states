@@ -1,8 +1,9 @@
-check host fxa-oauth-server with address "localhost"
+check host fxa-oauth-server with address "{{ infra_pillar['oauth']['host']|default('127.0.0.1') }}"
   start program = "/usr/sbin/service fxa-oauth-server start"
   stop program = "/usr/sbin/service fxa-oauth-server stop"
-  if failed port 9010 protocol HTTP
+  if failed port {{ infra_pillar['oauth']['port']|default('9010') }} protocol HTTP
     request /
     with timeout 15 seconds
     then restart
-    depends on nginx
+    depends on fxa-auth-server
+

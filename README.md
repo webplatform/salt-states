@@ -82,6 +82,13 @@ To access them, add to your `~/.ssh/config`:
 * https://github.com/wikimedia/operations-puppet/blob/production/manifests/role/memcached.pp
 * https://github.com/wikimedia/operations-puppet/blob/production/modules/nutcracker/manifests/init.pp
 
+
+### Useful related documentation
+
+* [Salt SLS renderers, including how to format dates](http://docs.saltstack.com/en/latest/ref/renderers/all/salt.renderers.jinja.html)
+* [strftime syntax](https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior)
+
+
 ## Maintenance commands
 
 Here are a few commands that can be done with Salt Stack.
@@ -140,4 +147,35 @@ But sometimes we have to act quickly and update the states later.
   * We do have what we need to assign, enter them in this order:
 
         neutron floatingip-associate --fixed-ip-address 10.10.10.170 foo bar
+
+9. Before updating salt states, ensure you have all IP addresses
+
+  * Get on any VM, locally (notice `salt-call`) what are the IP addresses it has from its neighboors
+
+        salt-call mine.get \* network.ip_addrs
+
+  * Ask every VMs what they have (basically it asks every node to ask themselves to their neighboors what they have)
+
+        salt \* mine.get \* network.ip_addrs
+
+  * Force an update of the mine
+
+        salt \* mine.flush
+        salt \* mine.update
+
+  * If the previous flush didn’t work, in that case lets restart all salt-minions so it’ll listen to what we mean
+
+        salt \* service.restart salt-minion
+        salt \* saltutil.sync_all
+        salt \* mine.update
+
+10. Get the IP addresses of a VM
+
+  * All adapters
+
+        salt \* grains.get ip4_interfaces
+
+  * Only the eth0 adapter
+
+        salt \* grains.get ip4_interfaces:eth0
 

@@ -14,6 +14,10 @@ wpd-lsof-network-services() {
   lsof -P -i -n | cut -f 1 -d " "| uniq | tail -n +2
 }
 
+wpd-openssl-read() {
+  openssl x509 -text -in $1 | more
+}
+
 wpd-lsof-socks(){
   lsof -P -i -n | less
 }
@@ -46,5 +50,5 @@ wpd-deploy () { echo "Going to update roles for:"; sudo salt -G "roles:$@" grain
 wpd-salt-events () { echo "About to dump events to stdout"; sudo salt-run state.event | while read -r tag data; do echo $tag; echo $data | jq -C .; done; }
 
 #python -c 'import sys, yaml, json; json.dump(yaml.load(sys.stdin), sys.stdout, indent=2)' < foo.yaml > foo.json
-#python -c 'import sys, yaml, json; yaml.safe_dump(json.load(sys.stdin), sys.stdout, allow_unicode=True)' < foo.json > foo.yaml
+#python -c 'import sys, yaml, json; yaml.safe_dump(json.load(sys.stdin),sys.stdout,allow_unicode=True,default_flow_style=False)' < foo.json > foo.yaml
 

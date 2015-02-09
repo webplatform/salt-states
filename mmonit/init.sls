@@ -18,11 +18,17 @@ monit:
     - require:
       - pkg: monit
       - file: /etc/monit/conf.d
+    - watch_in:
+      - service: monit
     - context:
         nodename: {{ grains['fqdn'] }}
         monit_pw: {{ salt['pillar.get']('accounts:monit:admin_password', 'somethingrandom') }}
         monit_port: 2812
         salt_master_ip: {{ salt['pillar.get']('infra:hosts_entries:salt', '127.0.0.1') }}
+  cmd.run:
+    - name: /usr/bin/monit -t
+    - watch_in:
+      - service: monit
 
 /etc/monit/conf.d:
   file.directory:

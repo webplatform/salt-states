@@ -2,6 +2,7 @@
 include:
   - code.prereq
   - rsync.secret
+  - users.app-user
 
 {%- set envNames = ['wpwiki','wptestwiki'] -%}
 
@@ -11,10 +12,20 @@ include:
   file.directory:
     - makedirs: True
 
+/srv/webplatform/wiki/{{ env }}/mediawiki/mirror.php:
+  file.managed:
+    - source: salt://code/files/wiki/mirror.php
+    - require:
+      - cmd: rsync-run-{{ env }}
+
 /srv/webplatform/wiki/{{ env }}/mediawiki/LocalSettings.php:
   file.managed:
     - source: salt://code/files/wiki/LocalSettings.php.jinja
     - template: jinja
+    - context:
+        alpha_memcache: {{ pillar['infra:alpha_memcache']|default(['127.0.0.1:11211']) }}
+        alpha_redis:    {{ pillar['infra:alpha_redis']|default(['127.0.0.1:6379']) }}
+        sessions_redis: {{ pillar['infra:sessions_redis']|default(['127.0.0.1:6379']) }}
 
 /srv/webplatform/wiki/{{ env }}/cache:
   file.directory:
@@ -63,6 +74,8 @@ rsync-run-{{ env }}:
     - name: /srv/webplatform/wiki/{{ env }}/LocalSettings.php
     - source: salt://code/files/wiki/{{ env }}.php.jinja
     - template: jinja
+    - user: www-data
+    - group: www-data
     - require:
       - file: /srv/webplatform/wiki/Settings.php
 
@@ -72,3 +85,5 @@ rsync-run-{{ env }}:
   file.managed:
     - source: salt://code/files/wiki/Settings.php.jinja
     - template: jinja
+    - user: www-data
+    - group: www-data

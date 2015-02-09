@@ -11,7 +11,7 @@
 #   - http://albertoconnor.ca/blog/2011/Sep/15/hosting-django-under-different-locations
 #   - http://upstart.ubuntu.com/cookbook/
 
-description "Notes"
+description "Notes server"
 
 start on (net-device-up
           and local-filesystems
@@ -19,11 +19,9 @@ start on (net-device-up
 stop on runlevel [!2345]
 
 respawn
-#setuid renoirb
-#setgid deployment
+setuid {{ svc_user }}
+setgid {{ svc_group }}
 
-script
-   cd /srv/webplatform/notes-server
-   export LOGFILE='/var/log/webplatform/notes.log'
-   exec ./run --reload --paste h.ini --log-config h.ini >> $LOGFILE 2>&1
-end script
+chdir /srv/webplatform/notes-server
+
+exec ./service.sh > service.log 2>&1

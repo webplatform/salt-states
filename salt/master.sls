@@ -13,6 +13,11 @@ include:
     - template: jinja
     - context:
         level: {{ level }}
+{% if level == 'production' %}
+        base64_yaml_level_line: bGV2ZWw6IHByb2R1Y3Rpb24=
+{% else %}
+        base64_yaml_level_line: bGV2ZWw6IHN0YWdpbmc=
+{% endif %}
         salt_master_ip: {{ salt_master_ip }}
         # CANNOT set salt_master_ip to create new salt master
         # Looking if it works well to specify future salt master IP, before creation #TODO

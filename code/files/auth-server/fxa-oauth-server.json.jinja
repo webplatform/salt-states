@@ -1,0 +1,35 @@
+{
+  "env": "prod",
+  "contentUrl": "https://accounts.{{ tld }}/oauth/",
+  "publicUrl": "https://oauth.accounts.{{ tld }}",
+  "browserid": {
+    "issuer": "api.accounts.{{ tld }}",
+    "verificationUrl": "https://verifier.accounts.firefox.com/verify"
+  },
+  "server": {
+    "host": "{{ infra_pillar['oauth']['host'] }}",
+    "port": {{ infra_pillar['oauth']['port'] }}
+  },
+  "db": {
+    "driver": "mysql"
+  },
+  "mysql": {
+    "user": "{{ accounts_pillar['oauth']['db']['username'] }}",
+    "password": "{{ accounts_pillar['oauth']['db']['password'] }}",
+    "database": "{{ accounts_pillar['oauth']['db']['database'] }}",
+    "host": "{{ masterdb_ip }}"
+  },
+  "clients": {{ oauth_clients|json }}
+  ,"logging": {
+    "handlers": {
+      "console": {
+        "formatter": "pretty"
+      }
+    },
+    "loggers": {
+      "fxa": {
+        "level": "debug"
+      }
+    }
+  }
+}

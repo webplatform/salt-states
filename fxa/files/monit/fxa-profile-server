@@ -1,18 +1,19 @@
-check host fxa-profile-server with address "localhost"
+check host fxa-profile-server with address "{{ infra_pillar['profile']['host']|default('127.0.0.1') }}"
   start program = "/usr/sbin/service fxa-profile-server start"
   stop program = "/usr/sbin/service fxa-profile-server stop"
-  if failed port 8081 protocol HTTP
+  if failed port {{ infra_pillar['profile']['port']|default('8081') }} protocol HTTP
     request /
     with timeout 10 seconds
     then restart
-    depends on nginx
+  depends on fxa-oauth-server
 
-# See in salt/fxa/checks.sls
-#        salt/fxa/files/profile-check.sh
-check program fxa-profile-server-check with path "/srv/webplatform/auth/profile-check.sh"
+# See in salt/fxa/monit.sls
+#        salt/fxa/files/profile-check.sh.jinja
+check program profile-check with path "/usr/local/bin/profile-check.sh"
   with timeout 20 seconds
   start program = "/usr/sbin/service fxa-profile-server start"
   stop program = "/usr/sbin/service fxa-profile-server stop"
-  if status != 0
+  if status != 0 for 5 cycles
     then restart
-    depends on fxa-profile-server
+  depends on fxa-profile-server
+

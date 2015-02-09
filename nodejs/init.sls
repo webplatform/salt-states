@@ -6,9 +6,13 @@ build-essential:
   pkg.installed
 
 nodejs:
-  pkg.installed
+  pkg.installed:
+    - pkgs:
+      - nodejs
+      - nodejs-legacy
 
 npm:
   pkg.installed:
     - require:
       - pkg: nodejs
+

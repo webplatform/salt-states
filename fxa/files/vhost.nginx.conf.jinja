@@ -34,12 +34,12 @@ server {
     include      ssl_params;
 
     location / {
-      proxy_pass http://{{ fxa_content_host|default('127.0.0.1') }}:{{ fxa_content_port|default(3030) }};
+      proxy_pass http://{{ infra_pillar['content']['host']|default('127.0.0.1') }}:{{ infra_pillar['content']['port']|default(3030) }};
     }
 
     ssl on;
-    ssl_certificate     /etc/ssl/webplatform/accounts.pem;
-    ssl_certificate_key /etc/ssl/webplatform/201404.key;
+    ssl_certificate     /etc/ssl/webplatform/ssl.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201407.key;
 }
 
 server {
@@ -50,12 +50,12 @@ server {
     include      ssl_params;
 
     location / {
-      proxy_pass http://{{ fxa_auth_host|default('127.0.0.1') }}:{{ fxa_auth_port|default(9000) }};
+      proxy_pass http://{{ infra_pillar['auth']['host']|default('127.0.0.1') }}:{{ infra_pillar['auth']['port']|default(9000) }};
     }
 
     ssl on;
-    ssl_certificate     /etc/ssl/webplatform/accounts.pem;
-    ssl_certificate_key /etc/ssl/webplatform/201404.key;
+    ssl_certificate     /etc/ssl/webplatform/ssl.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201407.key;
 }
 
 server {
@@ -66,12 +66,12 @@ server {
     include      ssl_params;
 
     location / {
-      proxy_pass http://{{ fxa_oauth_host|default('127.0.0.1') }}:{{ fxa_oauth_port|default(9010) }};
+      proxy_pass http://{{ infra_pillar['oauth']['host']|default('127.0.0.1') }}:{{ infra_pillar['oauth']['port']|default(9010) }};
     }
 
     ssl on;
-    ssl_certificate     /etc/ssl/webplatform/accounts.pem;
-    ssl_certificate_key /etc/ssl/webplatform/201404.key;
+    ssl_certificate     /etc/ssl/webplatform/ssl.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201407.key;
 }
 
 server {
@@ -82,11 +82,13 @@ server {
     include      ssl_params;
 
     location / {
-      proxy_pass http://{{ fxa_profile_host|default('127.0.0.1') }}:{{ fxa_profile_port|default(8081) }};  # Need to change back to localhost
+      proxy_pass http://{{ infra_pillar['profile']['host']|default('127.0.0.1') }}:{{ infra_pillar['profile']['port']|default(8081) }};
     }
 
     ssl on;
-    ssl_certificate     /etc/ssl/webplatform/accounts.pem;
-    ssl_certificate_key /etc/ssl/webplatform/201404.key;
+    ssl_certificate     /etc/ssl/webplatform/ssl.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201407.key;
 }
+
+# vim: ai ft=nginx tabstop=2 sw=2 noexpandtab:
 

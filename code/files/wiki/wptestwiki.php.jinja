@@ -30,7 +30,7 @@ $wgDBname = "wptestwiki";
 ## The Master DB server, the only one who should receive writes to
 ##
 $wgDBservers = array(
-        array(  'host'     => "{{ masterdb_ip|default('localhost') }}",
+        array(  'host'     => "{{ masterdb_ip|default('127.0.0.1') }}",
                 'dbname'   => $wgDBname,
                 'user'     => "{{ db_creds.username|default('root') }}",
                 'password' => "{{ db_creds.password|default('') }}",

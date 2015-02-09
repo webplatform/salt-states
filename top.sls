@@ -110,15 +110,22 @@ base:
   'notes*':
     - hypothesis
     - hypothesis.nginx
+    - fxa.nginx
   'elastic*':
     - elasticsearch
   'accounts*':
     - fxa
+  'phpbackend*':
+    - php-fpm
+    - nutcracker
   'hhvmbackend*':
     - hhvm
     - nutcracker
   'nginx*':
     - nginx
+    - fxa.nginx
+    - hypothesis.nginx
+    - specs.nginx
   'roles:specs':
     - match: grain
     - specs.nginx

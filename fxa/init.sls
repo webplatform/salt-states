@@ -1,12 +1,21 @@
 {%- set svc = ['fxa-profile-server', 'fxa-content-server', 'fxa-auth-server', 'fxa-oauth-server'] -%}
-{%- set svc_user = 'dhc-user' -%}
-{%- set svc_group = 'dhc-user' -%}
+{%- set svc_user = 'app-user' -%}
+{%- set svc_group = 'www-data' -%}
 include:
   - nodejs
-  - mmonit
+  - users.app-user
+  - fxa.monit
 
-libgmp-dev:
-  pkg.installed
+fxa-dependencies:
+  pkg.installed:
+    - pkgs:
+      - libgmp-dev
+      - git
+      - make
+      - build-essential
+      - nodejs
+      - nodejs-legacy
+      - npm
 
 fxa-nodejs-deps:
   npm.installed:
@@ -16,12 +25,12 @@ fxa-nodejs-deps:
       - bunyan
       - forever
     - require:
-      - pkg: libgmp-dev
+      - pkg: fxa-dependencies
 
-{% for service in svc %}
-/etc/init/{{ service }}.conf:
+{% for serviceName in svc %}
+/etc/init/{{ serviceName }}.conf:
   file.managed:
-    - source: salt://fxa/files/{{ service }}.init
+    - source: salt://fxa/files/{{ serviceName }}.init
     - template: jinja
     - context:
         svc_user: {{ svc_user }}
@@ -30,20 +39,12 @@ fxa-nodejs-deps:
       - pkg: monit
       - pkg: nodejs
 
-/etc/monit/conf.d/{{ service }}:
-  file.managed:
-    - source: salt://fxa/files/monit/{{ service }}
-    - require:
-      - pkg: monit
-    - require_in:
-      - service: monit
-
-/srv/webplatform/auth/{{ service }}:
+/srv/webplatform/auth-server/{{ serviceName }}:
   file.directory:
     - user: {{ svc_user }}
     - group: {{ svc_group }}
     - require:
-      - file: /etc/init/{{ service }}.conf
+      - file: /etc/init/{{ serviceName }}.conf
 {% endfor %}
 
 /var/log/fxa/:
@@ -52,12 +53,3 @@ fxa-nodejs-deps:
     - user: {{ svc_user }}
     - group: {{ svc_group }}
 
-/srv/webplatform/auth/profile-check.sh:
-  file.managed:
-    - source: salt://fxa/files/wpd-check.sh.jinja
-    - template: jinja
-    - user: {{ svc_user }}
-    - group: {{ svc_group }}
-    - mode: 755
-    - require_in:
-      - file: /etc/monit/conf.d/fxa-profile-server

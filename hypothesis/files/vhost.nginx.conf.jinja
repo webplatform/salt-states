@@ -5,16 +5,9 @@
  #}
 server {
     listen        80;
-    server_name   notes.webplatform.org;
+    server_name   notes.{{ tld }};
     server_tokens off;
-    return        301 https://notes.webplatform.org$request_uri;
-}
-
-server {
-    listen        80;
-    server_name   notes.webplatformstaging.org;
-    server_tokens off;
-    return        301 https://notes.webplatformstaging.org$request_uri;
+    return        301 https://notes.{{ tld }}$request_uri;
 }
 
 server {
@@ -23,19 +16,19 @@ server {
     ssl_certificate     /etc/ssl/webplatform/ssl.pem;
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
-    root                /srv/webplatform/notes-server/notes_server/static/;
-    server_name         notes.webplatform.org notes.webplatformstaging.org;
+    root         /srv/webplatform/notes-server/notes_server/static;
+    server_name  notes.{{ tld }};
 
-    include             common_params;
-    include             ssl_params;
+    include      common_params;
+    include      ssl_params;
 
-    rewrite ^/app/embed.js$  https://notes.webplatform.org/embed.js permanent;
+    rewrite      ^/app/embed.js$ /annotator.js permanent;
 
-    location ~ ^/assets/notes-server/(.*)$ {
-        alias                /srv/webplatform/notes-server/notes_server/static/$1;
-        expires              modified +1h;
-        proxy_ignore_headers Expires Set-Cookie Cache-Control;
+    location   = /annotator.js {
+      rewrite    ^/annotator.js$  /embed.js last;
     }
+
+    rewrite      ^/assets/notes-server/(.*)\? /$1;
 
     location / {
         proxy_pass       http://{{ hypothesis_host }}:{{ hypothesis_port }};
@@ -52,4 +45,6 @@ server {
         proxy_set_header Connection         "upgrade";
     }
 }
+
+# vim: ai ft=nginx tabstop=2 sw=2 noexpandtab:
 

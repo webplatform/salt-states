@@ -6,7 +6,7 @@
 export SMTP="{{ salt['pillar.get']('accounts:smtp:hostname', 'localhost') }}"
 #export SMTPUSERNAME="{{ salt['pillar.get']('accounts:smtp:username', 'login') }}"
 #export SMTPPASSWORD="{{ salt['pillar.get']('accounts:smtp:password', 'ChangeMe') }}"
-export TO='hello@renoirboulanger.com'
+export TO='team-webplatform-cronjobs@w3.org'
 
 ###################################
 export BIN='/usr/local/bin/pylinkvalidate.py'
@@ -24,18 +24,18 @@ fi
 # --smtp-username=$SMTPUSERNAME --smtp-password="$SMTPPASSWORD"
 
 ## Because... MediaWiki
-$BIN -N -m process -c -s $SMTP -a $TO -T 12 --subject="[check-pages] Wiki" -W error http://docs.webplatform.org/wiki/WPD:Policy
-$BIN -N -m process -c -s $SMTP -a $TO -T 12 --subject="[check-pages] Test wiki" -W error http://docs.webplatform.org/test/WPD:Policy
+$BIN -N -m process -c -s $SMTP -a $TO -T 12 --subject="[check-pages] Wiki" -i https://docs.webplatform.org/wiki/Special: -W error https://docs.webplatform.org/wiki/WPD:Policy
+$BIN -N -m process -c -s $SMTP -a $TO -T 12 --subject="[check-pages] Test wiki" -W error https://docs.webplatform.org/test/WPD:Policy
 
-$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] MW API recent changes" -W error http://docs.webplatform.org/w/api.php?action=query&list=recentchanges&rcprop=user%7Cparsedcomment%7Cflags%7Ctimestamp%7Ctitle%7Csizes%7Credirect%7Cids%7Cloginfo&rclimit=10
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] MW API recent changes" -W error https://docs.webplatform.org/w/api.php?action=query&list=recentchanges&rcprop=user%7Cparsedcomment%7Cflags%7Ctimestamp%7Ctitle%7Csizes%7Credirect%7Cids%7Cloginfo&rclimit=10
 $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Blog subdomain, random post" -W error http://blog.webplatform.org/2013/02/pointing-toward-the-future/#more-191
 $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Project subdomain login" -W error http://project.webplatform.org/login
-$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Tracking subdomain" -W error http://tracking.webplatform.org/
-$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] API Compat tables" -W error http://docs.webplatform.org/compat/data.json
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Tracking subdomain" -W error http://stats.webplatform.org/
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] API Compat tables" -W error https://docs.webplatform.org/compat/data.json
 $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Dreamhost OpenStack dashboard" -W error https://horizon.dho.webplatform.org/horizon/
-$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Campaign utility" -W error http://www.webplatform.org/campaign/use.html
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Campaign utility" -W error https://www.webplatform.org/campaign/use.html
 $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] DreamObjects is alive image over the IP" -W error https://64.90.32.4/wpd/internal/is-alive-sprite.gif
-$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Homepage" -W error http://www.webplatform.org/
+$BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] Homepage" -W error https://www.webplatform.org/
 $BIN -N -m process -c -s $SMTP -a $TO --subject="[check-pages] WebAt25" -W error http://www.webat25.org/
 
 ## Cannot run those ones yet

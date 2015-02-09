@@ -1,74 +1,39 @@
-# File managed by Salt Stack in hypothesis/init.sls DO NOT EDIT DIRECTLY!
 [app:main]
-use: egg:notes_server
+## File managed by Salt Stack in hypothesis/init.sls DO NOT EDIT DIRECTLY!
+## source: {{ source }}
 
-api.endpoint: /api
-api.key: {{ notes_url }}
+## _ __ ____ ____________________ ____ __ _
+##               IMPORTANT
+##
+## Replace the following into production.ini
+##
+## _ __ ____ ____________________ ____ __ _
 
-api.secret: {{ salt['pillar.get']('accounts:notes:secret', 'NOTASECRET') }}
+api.key: {{ notes_server_pillar['public_url']|default('http://127.0.0.1:8001/') }}
 
-webplatform.client_id: {{ accounts_client_id }}
-webplatform.client_secret: {{ accounts_client_secret }}
+api.secret: {{ notes_secrets_pillar['secret']|default('NOTASECRET1fIT0LDU') }}
 
-webplatform.authorize: {{ accounts_auth }}
-webplatform.token: {{ accounts_token }}
-webplatform.session_read: {{ accounts_session_read }}
-webplatform.session_recover: {{ accounts_session_recover }}
+webplatform.client_id: {{ notes_secrets_pillar['auth_client_id'] }}
+webplatform.client_secret: {{ notes_secrets_pillar['auth_client_secret'] }}
 
+webplatform.authorize: {{ auth_server_endpoints['auth']|default('https://oauth.accounts.webplatform.org/v1/authorization') }}
+webplatform.token: {{ auth_server_endpoints['token']|default('https://oauth.accounts.webplatform.org/v1/token') }}
+webplatform.session_read: {{ auth_server_endpoints['session_read']|default('https://profile.accounts.webplatform.org/v1/session/read') }}
+webplatform.session_recover: {{ auth_server_endpoints['session_recover']|default('https://profile.accounts.webplatform.org/v1/session/recover')}}
 
-es.host: {{ elastic_endpoint|default('http://127.0.0.1:9200') }}
+es.host: {{ notes_server_pillar['elastic_endpoint']|default('http://127.0.0.1:9200') }}
 es.index: notes
 
-multiauth.policies: h.auth.local.oauth h.api
+mail.default_sender: "WebPlatform Specs Notes Archiver" <{{ notes_server_pillar['sender_email']|default('root@localhost') }}>
+mail.host: {{ notes_server_pillar['sender_relay']|default('localhost') }}
 
-pyramid.includes:
-    pyramid_mailer
-    pyramid_tm
-
-mail.default_sender: "WebPlatform Specs Notes Archiver" <{{ salt['pillar.get']('infra:notes:sender_email', 'root@localhost') }}>
-mail.host: {{ salt['pillar.get']('infra:notes:sender_relay', 'localhost') }}
-
-webassets.base_dir: notes_server:static
-webassets.base_url: assets/notes-server
-webassets.bundles: notes_server:assets.yaml h:assets.yaml
-webassets.cache_max_age: 86400
-webassets.coffee_no_bare: True
-webassets.static_view: True
 
 
 [server:main]
 use: egg:gunicorn
 worker_class: gevent
-port: {{ salt['pillar.get']('infra:notes:port', 8000) }}
-host: {{ salt['pillar.get']('infra:notes:host', '127.0.0.1') }}
+port: {{ notes_server_pillar['port']|default(8000) }}
+host: {{ notes_server_pillar['host']|default('127.0.0.1') }}
 
-[loggers]
-keys = root, gunicorn.error
-
-
-[handlers]
-keys = console
-
-
-[formatters]
-keys = generic
-
-
-[logger_root]
-handlers = console
-
-
-[logger_gunicorn.error]
-handlers =
-qualname = gunicorn.error
-
-
-[handler_console]
-class = StreamHandler
-args = ()
-formatter = generic
-
-
-[formatter_generic]
-format = %(asctime)s [%(process)d] [%(levelname)s] %(message)s
+# vim: noai ft=ini:
 

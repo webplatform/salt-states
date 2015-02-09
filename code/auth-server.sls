@@ -1,0 +1,56 @@
+{%- set accounts_pillar = salt['pillar.get']('accounts:auth-server') -%}
+{%- set infra_pillar    = salt['pillar.get']('infra:auth-server') -%}
+
+include:
+  - rsync.secret
+  - code.prereq
+  - code.certificates
+  - users.app-user
+
+# @salt-master-dest
+sync-fxa-dists:
+  cmd.run:
+    - name: rsync -a --no-perms --delete --password-file=/etc/codesync.secret codesync@salt::code/auth-server/dists/ /srv/webplatform/appshomedir/dists/auth-server/
+    - require:
+      - file: /etc/codesync.secret
+      - file: /srv/webplatform/appshomedir/dists/auth-server
+      - file: webplatform-sources
+  file.directory:
+    - name: /srv/webplatform/appshomedir/dists/auth-server
+    - user: app-user
+    - group: www-data
+    - makedirs: True
+    - require:
+      - file: /srv/webplatform/appshomedir
+      - user: app-user
+    - recurse:
+      - user
+      - group
+
+
+{% set configFiles = [
+        ('fxa-profile-server', 'config/prod.json'),
+        ('fxa-oauth-server', 'config/prod.json'),
+        ('fxa-content-server', 'server/config/production.json'),
+        ('fxa-auth-server', 'config/prod.json') ] %}
+{% for appName, file in configFiles %}
+/srv/webplatform/auth-server/{{ appName }}:
+  file.directory
+
+/srv/webplatform/auth-server/{{ appName }}/{{ file }}:
+  file.managed:
+    - source: salt://code/files/auth-server/{{ appName }}.json.jinja
+    - template: jinja
+    - user: app-user
+    - group: www-data
+    - create: False
+    - context:
+        accounts_pillar: {{ accounts_pillar }}
+        infra_pillar: {{ infra_pillar }}
+        masterdb_ip: {{ salt['pillar.get']('infra:hosts_entries:masterdb', '127.0.0.1') }}
+        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
+        oauth_clients: {{ salt['pillar.get']('accounts:auth-server:oauth:clients', []) }}
+    - require:
+      - file: /srv/webplatform/auth-server/{{ appName }}
+
+{% endfor %}

@@ -1,5 +1,4 @@
 include:
-  - specs
   - nginx
 
 /etc/nginx/sites-enabled/01-specs:

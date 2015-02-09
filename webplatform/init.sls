@@ -69,6 +69,17 @@ commonly-used-utilities:
       - screen
       - htop
 
+vim-pkgs:
+  pkg.installed:
+    - names:
+      - vim
+      - vim-common
+  file.managed:
+    - name: /usr/share/vim/addons/syntax/nginx.vim
+    - source: salt://webplatform/files/vim/syntax/ft.nginx.vim
+    - require:
+      - pkg: vim-pkgs
+
 /usr/bin/timeout:
   file.exists
 
@@ -129,7 +140,7 @@ resolvconf -u:
 #{% set appCodePath = 'tmp' %}
 #{{ appNameUpdateId }}-crontab:
 #  cron.present:
-#    - identifier: {{ appNameUpdateId }} 
+#    - identifier: {{ appNameUpdateId }}
 #    - user: root
 #    - hour: '*/2'
 #    - name: "JOBNAME={{ appNameUpdateId }} CODE_PATH={{ appCodePath }} cronhelper.sh /usr/local/bin/wpd-autoupdate.sh"

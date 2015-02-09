@@ -32,7 +32,13 @@ while read FILE; do swift download wpd-packages $FILE ; done < filesList
 rm filesList
 chown -R nobody:deployment /srv/code/packages
 
-clear
+mkdir -p /srv/code/auth-server
+cp -r /srv/code/packages/auth-server/archives /srv/code/auth-server/dists
+chown -R nobody:deployment /srv/code/auth-server
+
+mkdir -p /srv/code/notes-server
+cp -r /srv/code/packages/notes-server/archives /srv/code/notes-server/dists
+chown -R nobody:deployment /srv/code/notes-server
 
 echo ""
 echo "Extracting our SSL certificates, you will be prompted a passphrase"

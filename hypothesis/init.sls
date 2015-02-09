@@ -1,3 +1,5 @@
+{%- set svc_user = 'app-user' -%}
+{%- set svc_group = 'www-data' -%}
 {#
  # Nice to have?:
  #  - http://circus.readthedocs.org/en/latest/usecases/
@@ -11,31 +13,30 @@ include:
   - nodejs
   - git
   - mmonit
+  - users.app-user
 
 # https://notes.webplatformstaging.org/ruok
 # http://localhost:8000/ruok
-#/etc/monit/conf.d/hypothesis.conf:
-#  file.managed:
-#    - template: jinja
-#    - source: salt://hypothesis/files/monit.conf.jinja
-#    - context:
-#        elastic_host: {{ salt['pillar.get']('infra:elasticsearch:private') }}
-#        elastic_port: {{ salt['pillar.get']('infra:elasticsearch:port') }}
-#        hypothesis_host: {{ salt['pillar.get']('infra:notes:host', '127.0.0.1') }}
-#        hypothesis_port: {{ salt['pillar.get']('infra:notes:port', 8000) }}
-#    - require:
-#      - file: /srv/webplatform/notes-server/service.sh
-#    - watch_in:
-#      - service: monit
-#      - service: hypothesis
-#
-#hypothesis:
-#  service.running:
-#    - enable: True
-#    - reload: true
-#    - require:
-#      - pkg: hypothesis-dependencies
-#      - file: /etc/init/hypothesis.conf
+/etc/monit/conf.d/hypothesis.conf:
+  file.managed:
+    - template: jinja
+    - source: salt://hypothesis/files/monit.conf.jinja
+    - context:
+        elastic_host: {{ salt['pillar.get']('infra:elasticsearch:private') }}
+        elastic_port: {{ salt['pillar.get']('infra:elasticsearch:port') }}
+        hypothesis_host: {{ salt['pillar.get']('infra:notes-server:host', '127.0.0.1') }}
+        hypothesis_port: {{ salt['pillar.get']('infra:notes-server:port', 8000) }}
+    - watch_in:
+      - service: monit
+      - service: hypothesis
+
+hypothesis:
+  service.running:
+    - enable: True
+    - reload: true
+    - require:
+      - pkg: hypothesis-dependencies
+      - file: /etc/init/hypothesis.conf
 
 hypothesis-dependencies:
   pkg.installed:
@@ -67,29 +68,22 @@ hypothesis-compass-dep:
 # by the /etc/init/hypothesis.conf init script
 #/srv/webplatform/notes-server/h.ini:
 #  file.exists
-#
-#/srv/webplatform/notes-server:
-#  file.directory:
-#    - makedirs: True
-#
-#/etc/init/hypothesis.conf:
-#  file.managed:
-#    - source: salt://hypothesis/files/upstart.conf
-#    - user: root
-#    - group: root
-#    - mode: 644
-#    - require:
-#      - file: /srv/webplatform/notes-server
-#      - file: /srv/webplatform/notes-server/service.sh
-#      - file: /var/log/webplatform
-#
-#/srv/webplatform/notes-server/service.sh:
-#  file.managed:
-#    - source: salt://hypothesis/files/service.sh
-#    - mode: 755
-#    - require:
-#      - file: /srv/webplatform/notes-server
-#      - file: /srv/webplatform/notes-server/h.ini
+
+/srv/webplatform/notes-server:
+  file.directory:
+    - makedirs: True
+
+
+/etc/init/hypothesis.conf:
+  file.managed:
+    - source: salt://hypothesis/files/upstart.conf.jinja
+    - template: jinja
+    - mode: 755
+    - context:
+        svc_user: {{ svc_user }}
+        svc_group: {{ svc_group }}
+    - require:
+      - file: /srv/webplatform/notes-server
 
 npm-packages:
   npm.installed:

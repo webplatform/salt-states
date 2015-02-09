@@ -1,0 +1,12 @@
+{
+  "port": {{ infra_pillar['content']['port'] }},
+  "env": "production",
+  "static_directory": "dist",
+  "page_template_subdirectory": "dist",
+  "public_url": "https://accounts.{{ tld }}",
+  "fxaccount_url": "https://api.accounts.{{ tld }}",
+  "oauth_url": "https://oauth.accounts.{{ tld }}",
+  "client_sessions": {
+    "secret": "{{ accounts_pillar['content']['client_sessions']|default('foobarbaz') }}"
+  }
+}

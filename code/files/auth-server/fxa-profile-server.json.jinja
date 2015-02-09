@@ -1,0 +1,23 @@
+{
+  "env": "prod",
+  "publicUrl": "https://profile.accounts.{{ tld }}",
+  "server": {
+    "host": "{{ infra_pillar['profile']['host'] }}",
+    "port": {{ infra_pillar['profile']['port'] }}
+  },
+  "db": {
+    "driver": "mysql"
+  },
+  "mysql": {
+    "user": "{{ accounts_pillar['profile']['db']['username'] }}",
+    "password": "{{ accounts_pillar['profile']['db']['password'] }}",
+    "database": "{{ accounts_pillar['profile']['db']['database'] }}",
+    "host": "{{ masterdb_ip }}"
+  },
+  "oauth": {
+    "url": "http://{{ infra_pillar['oauth']['host'] }}:{{ infra_pillar['oauth']['port'] }}/v1"
+  },
+  "log": {
+    "level": "debug"
+  }
+}
