@@ -16,6 +16,9 @@
  #}
 include:
   - mmonit
+  - php.composer
+  - users.app-user
+
 
 php5-fpm:
   pkg:
@@ -26,13 +29,18 @@ php5-fpm:
     - require:
       - pkg: php5-fpm
 
+
+/etc/php5/fpm/conf.d/30-overrides.ini:
+  file.managed:
+    - source: salt://php-fpm/files/overrides.ini
+
 /etc/php5/fpm/pool.d/www.conf:
   file.managed:
     - contents: |
         ; Managed by Salt Stack from state php-fpm/init.sls
         [www]
         listen = {{ salt['grains.get']('ipaddr', '127.0.0.1') }}:9000
-        user = www-data
+        user = app-user
         group = www-data
         chdir = /
         pm = dynamic
@@ -42,8 +50,11 @@ php5-fpm:
         pm.max_spare_servers = 10
         pm.max_requests = 700
         pm.status_path = /status
+    - require:
+      - user: app-user
     - watch_in:
       - service: php5-fpm
+
 
 /etc/monit/conf.d/php5-fpm.conf:
   file.managed:

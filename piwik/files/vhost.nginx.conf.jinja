@@ -1,70 +1,45 @@
 server {
-    listen 80;
+    listen        80;
+    server_name   stats.{{ tld }};
+    server_tokens off;
+    return        301 https://stats.{{ tld }}$request_uri;
+}
 
-    server_name stats.webplatform.org stats.webplatformstaging.org tracking.webplatform.org tracking.webplatformstaging.org;
-    index index.php index.html;
-    root /srv/webplatform/piwik;
+server {
+    listen              443 ssl spdy;
+    ssl                 on;
+    ssl_certificate     /etc/ssl/webplatform/ssl.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
-    access_log /var/log/nginx/piwik.access.log;
-    error_log /var/log/nginx/piwik.error.log notice;
+    root         /srv/webplatform/piwik/;
+    server_name  stats.{{ tld }};
 
-    charset utf-8;
+    include      common_params;
+    include      ssl_params;
 
-    location = /favicon.ico {
-        try_files /favicon.ico @empty;
+    ## Disallow any usage of piwik assets if referer is non valid.
+    #location ~* ^.+\.(?:jpg|png|css|gif|jpeg|js|swf)$ {
+    #    # Defining the valid referers.
+    #    valid_referers none blocked *.webplatform.org *.webplatformstaging.org;
+    #    if ($invalid_referer)  {
+    #         return 444;
+    #    }
+    #    expires max;
+    #    break;
+    #}
+
+    location / {
+        try_files $uri /index.php;
     }
 
-    location @empty {
-        empty_gif;
+    # Relay all index.php requests to fastcgi.
+    location ~* ^/(?:index|piwik)\.php$ {
+        fastcgi_pass {{ grains['ipaddr'] }}:9000;
+        include      fastcgi_params;
+        include      proxy_params;
     }
 
-    location ~ \.php$ {
-        set $no_cache 0;
-
-        proxy_set_header  X-Real-IP          $remote_addr;
-        proxy_set_header  X-Forwarded-For    $proxy_add_x_forwarded_for;
-        proxy_set_header  X-Forwarded-Proto  $scheme;
-        proxy_set_header  Host  $http_host;
-        proxy_set_header  X-NginX-Proxy  true;
-
-        if ($request_method !~ ^(GET|HEAD)$) {
-            set $no_cache 1;
-        }
-
-        if ($no_cache = 1) {
-            add_header Set-Cookie "_mcnc=1; Max-Age=2; Path=/";
-            add_header X-Microcachable "0";
-        }
-
-        if ($http_cookie ~* "_mcnc") {
-            set $no_cache 1;
-        }
-
-        fastcgi_param REMOTE_ADDR $http_x_real_ip;
-
-        fastcgi_no_cache $no_cache;
-        fastcgi_cache_bypass $no_cache;
-        #fastcgi_cache microcache;
-        fastcgi_cache_key $host$request_uri;
-        fastcgi_cache_valid 200 301 302 10m;
-        fastcgi_cache_use_stale updating error timeout invalid_header http_500;
-        fastcgi_pass_header Set-Cookie;
-        fastcgi_pass_header Cookie;
-        fastcgi_ignore_headers Cache-Control Expires Set-Cookie;
-
-        try_files $uri = 404;
-        fastcgi_pass {{ fastcgi_pass_value|default('unix:/var/run/php5-fpm.sock') }};
-        fastcgi_index index.php;
-        fastcgi_buffer_size 128k;
-        fastcgi_buffers 256 16k;
-        fastcgi_busy_buffers_size 256k;
-        fastcgi_temp_file_write_size 256k;
-        fastcgi_read_timeout 240;
-
-        include /etc/nginx/fastcgi_params;
-    }
-
-    ## Any other attempt to access PHP files returns a 404.
+    # Any other attempt to access PHP files returns a 404.
     location ~* ^.+\.php$ {
         return 404;
     }
@@ -74,3 +49,6 @@ server {
         return 200 "User-agent: *\nDisallow: /\n";
     }
 }
+
+# vim: ai ft=nginx tabstop=2 sw=2 noexpandtab:
+

@@ -3,6 +3,24 @@ include:
   - php
   - mysql
   - piwik.php-fpm
+  - nodejs
+  - users.app-user
+
+
+exclude:
+  - file: /etc/php5/mods-available/memcached.ini
+
+
+piwik-bower:
+  pkg.installed:
+    - name: npm
+    - require:
+      - pkg: nodejs
+  npm.installed:
+    - name: bower
+    - require:
+      - pkg: npm
+
 
 php-piwik:
   pkg.installed:
@@ -13,6 +31,9 @@ php-piwik:
       - php5-mysqlnd
       - php-db
       - php5-dev
+      - php5-geoip
+      - libgeoip-dev
+
 
 piwik-archive-requirements:
   pkg.installed:
@@ -20,23 +41,12 @@ piwik-archive-requirements:
       - php5-dev
       - build-essential
 
-piwik-geoip:
-  pkg.installed:
-    - pkgs:
-      - php5-geoip
-      - libgeoip-dev
-
-/etc/php5/mods-available/geoip.ini:
-  file.managed:
-    - source: salt://piwik/files/php.geoip.ini
-    - require:
-      - pkg: piwik-geoip
 
 # mailto.sh is part of cron/init.sls
 /usr/bin/piwik-archive.sh:
   file.managed:
     - mode: 755
-    - user: www-data
+    - user: app-user
     - group: www-data
     - source: salt://piwik/files/piwik-archive.sh.jinja
     - template: jinja
@@ -46,7 +56,7 @@ piwik-geoip:
       - pkg: php-basic-deps
   cron.present:
     - identifier: piwik-archive
-    - user: www-data
+    - user: app-user
     - minute: 5
     - require:
       - file: /usr/bin/piwik-archive.sh

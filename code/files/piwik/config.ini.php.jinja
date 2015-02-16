@@ -16,10 +16,69 @@ dbname        = {{ salt['pillar.get']('accounts:piwik:db:database', 'wpstats') }
 tables_prefix = piwik_
 
 [General]
-session_save_handler = dbtable
+;dbtable would be great it its broken for now, see also bootstrap.php
+;session_save_handler = "dbtable"
 trusted_hosts[] = "stats.webplatform.org"
 trusted_hosts[] = "stats.webplatformstaging.org"
-proxy_client_headers[]  = HTTP_X_FORWARDED_FOR
-proxy_host_headers[]    = HTTP_X_FORWARDED_HOST
+proxy_client_headers[]  = "HTTP_X_FORWARDED_FOR"
+proxy_host_headers[]    = "HTTP_X_FORWARDED_HOST"
 noreply_email_address   = {{ salt['pillar.get']('accounts:piwik:contact:email', 'team-webplatform-systems@w3.org') }}
+feedback_email_address  = {{ salt['pillar.get']('accounts:piwik:contact:email', 'team-webplatform-systems@w3.org') }}
+force_ssl = 1
+login_password_recovery_email_name = WebPlatform Stats
 
+; See also in salt://code/files/wiki/Settings.php.jinja variable $wgSquidServersNoPurge
+
+[PluginsInstalled]
+PluginsInstalled[] = "Login"
+PluginsInstalled[] = "CoreAdminHome"
+PluginsInstalled[] = "UsersManager"
+PluginsInstalled[] = "SitesManager"
+PluginsInstalled[] = "Installation"
+PluginsInstalled[] = "CorePluginsAdmin"
+PluginsInstalled[] = "CoreHome"
+PluginsInstalled[] = "CoreVisualizations"
+PluginsInstalled[] = "Proxy"
+PluginsInstalled[] = "API"
+PluginsInstalled[] = "ExamplePlugin"
+PluginsInstalled[] = "Widgetize"
+PluginsInstalled[] = "Transitions"
+PluginsInstalled[] = "LanguagesManager"
+PluginsInstalled[] = "Actions"
+PluginsInstalled[] = "Dashboard"
+PluginsInstalled[] = "MultiSites"
+PluginsInstalled[] = "Referrers"
+PluginsInstalled[] = "UserSettings"
+PluginsInstalled[] = "DevicesDetection"
+PluginsInstalled[] = "Goals"
+PluginsInstalled[] = "SEO"
+PluginsInstalled[] = "Events"
+PluginsInstalled[] = "UserCountry"
+PluginsInstalled[] = "VisitsSummary"
+PluginsInstalled[] = "VisitFrequency"
+PluginsInstalled[] = "VisitTime"
+PluginsInstalled[] = "VisitorInterest"
+PluginsInstalled[] = "ExampleAPI"
+PluginsInstalled[] = "ExampleRssWidget"
+PluginsInstalled[] = "Provider"
+PluginsInstalled[] = "Feedback"
+PluginsInstalled[] = "CoreUpdater"
+PluginsInstalled[] = "CoreConsole"
+PluginsInstalled[] = "ScheduledReports"
+PluginsInstalled[] = "UserCountryMap"
+PluginsInstalled[] = "Live"
+PluginsInstalled[] = "CustomVariables"
+PluginsInstalled[] = "PrivacyManager"
+PluginsInstalled[] = "ImageGraph"
+PluginsInstalled[] = "Annotations"
+PluginsInstalled[] = "MobileMessaging"
+PluginsInstalled[] = "Overlay"
+PluginsInstalled[] = "SegmentEditor"
+PluginsInstalled[] = "Insights"
+PluginsInstalled[] = "ZenMode"
+PluginsInstalled[] = "LeftMenu"
+PluginsInstalled[] = "Morpheus"
+PluginsInstalled[] = "Contents"
+PluginsInstalled[] = "BulkTracking"
+PluginsInstalled[] = "Resolution"
+PluginsInstalled[] = "DevicePlugins"

@@ -15,13 +15,6 @@ libboost-program-options1.46.1:
     - require:
       - file: /etc/apt/sources.list.d/webplatform.list
 
-/srv/code/piwik/setup.sh:
-  file.managed:
-    - source: salt://code/files/piwik/setup.sh
-    - user: nobody
-    - group: deployment
-    - mode: 774
-
 /srv/code/wiki/setup.sh:
   file.managed:
     - source: salt://code/files/wiki/setup.sh
@@ -70,12 +63,6 @@ libboost-program-options1.46.1:
 #    - mode: 775
 #    - user: nobody
 #    - group: deployment
-
-# See also in code.piwik
-/srv/code/piwik/repo/config/config.ini.php:
-  file.managed:
-    - template: jinja
-    - source: salt://code/files/piwik/config.ini.php.jinja
 
 # See also in code.buggenie
 /srv/code/buggenie/repo/core/b2db_bootstrap.inc.php:

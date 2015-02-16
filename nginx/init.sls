@@ -50,19 +50,14 @@ nginx-ppa:
     - require_in:
       - pkg: nginx
 
-/etc/nginx/ssl_params:
+{% for file in ['ssl_params', 'common_params', 'fastcgi_params'] %}
+/etc/nginx/{{ file }}:
   file.managed:
-    - source: salt://nginx/files/ssl_params.jinja
+    - source: salt://nginx/files/{{ file }}.jinja
     - template: jinja
     - require:
       - pkg: nginx
-
-/etc/nginx/common_params:
-  file.managed:
-    - source: salt://nginx/files/common_params.jinja
-    - template: jinja
-    - require:
-      - pkg: nginx
+{% endfor %}
 
 /etc/monit/conf.d/nginx.conf:
   file.managed:
@@ -74,3 +69,4 @@ nginx-ppa:
       - service: nginx
     - watch_in:
       - service: monit
+

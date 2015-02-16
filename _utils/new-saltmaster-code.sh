@@ -59,7 +59,6 @@ declare -A options
 # x     compat/repo
 # x     dabblet/repo          @webplatform-customizations
 # .     docsprint-dashboard
-# x     piwik/repo            @2.8.0 (upstream)
 # x     specs/repo                                                           requires out and archives too
 # x     wiki/repo/mediawiki   @1.24wmf16-wpd                                 requires ../cache/ ../settings.d/
 # x     www/repo              see https://source.webplatform.org/r/#/c/13/   requires ../out/ ../archives/
@@ -70,7 +69,6 @@ declare -A options
 repos["blog"]="git@github.com:webplatform/blog-service.git"
 repos["buggenie"]="git@github.com:webplatform/thebuggenie.git"
 repos["dabblet"]="git@github.com:webplatform/dabblet.git"
-repos["piwik"]="git@github.com:piwik/piwik.git"
 repos["notes-server"]="git@github.com:webplatform/annotation-service.git"
 repos["bots"]="git@source.webplatform.org:pierc.git"
 repos["mailhub"]="git@source.webplatform.org:mailhub.git"
@@ -93,7 +91,6 @@ repos["www"]="git@github.com:webplatform/www.webplatform.org.git"
 options["blog"]="--recurse-submodules --quiet"
 options["buggenie"]="--branch webplatform-customizations --quiet"
 options["dabblet"]="--branch webplatform-customizations --quiet"
-options["piwik"]="--branch 2.9.0 --recurse-submodules --quiet"
 options["notes-server"]="--quiet"
 options["bots"]="--quiet"
 options["mailhub"]="--quiet"

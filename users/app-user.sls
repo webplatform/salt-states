@@ -14,3 +14,18 @@ app-user:
     - group: www-data
     - require:
       - user: app-user
+
+/srv/webplatform/appshomedir/.ssh/id_ed25519:
+  file.managed:
+    - contents_pillar: sshkeys:wpdci:id_ed25519:private
+    - user: app-user
+    - group: app-user
+    - mode: 0600
+
+/srv/webplatform/appshomedir/.ssh/id_ed25519.pub:
+  file.managed:
+    - contents_pillar: sshkeys:wpdci:id_ed25519:public
+    - user: app-user
+    - group: app-user
+    - mode: 0600
+

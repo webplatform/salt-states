@@ -128,10 +128,10 @@ resolvconf -u:
     - source: salt://webplatform/files/wpd-autoupdate.sh
     - mode: 755
 
-/usr/local/bin/wpd-dependency-installer.sh:
-  file.managed:
-    - source: salt://webplatform/files/wpd-dependency-installer.sh
-    - mode: 755
+#/usr/local/bin/wpd-dependency-installer.sh:
+#  file.managed:
+#    - source: salt://webplatform/files/wpd-dependency-installer.sh
+#    - mode: 755
 
 ##
 ##TODO Loop through web apps

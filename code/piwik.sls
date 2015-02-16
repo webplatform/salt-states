@@ -1,47 +1,65 @@
 include:
   - rsync.secret
   - code.prereq
+  - code.certificates
+  - users.app-user
 
-#//github.com/piwik/piwik.git
-#2.9.1
 
-# @salt-master-dest
-sync-piwik:
-  cmd.run:
-    - name: "rsync -a --exclude 'tmp' --exclude '.git' --exclude '.svn' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/piwik/repo/ /srv/webplatform/piwik/"
-    - user: root
-    - group: root
+clone-piwik:
+  pkg.installed:
+    - name: git
+  git.latest:
+    - name: git@source.webplatform.org:piwik.git
+    - user: app-user
+    - target: /srv/webplatform/piwik
+    - identity: /srv/webplatform/.ssh/id_ed25519
+    - rev: 2.10.0-wpd
+    - submodules: True
+    - unless: test -f /srv/webplatform/piwik/config/config.ini.php
     - require:
-      - file: /etc/codesync.secret
-      - file: webplatform-sources
-      - file: piwik-perms
-
-piwik-perms:
+      - file: /srv/webplatform/piwik
+      - pkg: git
+      - file: /srv/webplatform/appshomedir/.ssh/id_ed25519
   file.directory:
     - name: /srv/webplatform/piwik
-    - user: www-data
+    - require:
+      - file: webplatform-sources
+    - user: app-user
     - group: www-data
     - recurse:
       - user
       - group
 
-/srv/webplatform/piwik/tmp/sessions:
+
+/srv/webplatform/piwik/tmp:
   file.directory:
-    - user: www-data
+    - user: app-user
     - group: www-data
-    - mode: 755
+    - mode: 775
     - makedirs: True
-    - require:
-      - cmd: sync-piwik
+    - recurse:
+      - user
+      - group
+      - mode
 
 
-# See also in vm.salt
 /srv/webplatform/piwik/config/config.ini.php:
   file.managed:
     - source: salt://code/files/piwik/config.ini.php.jinja
     - template: jinja
-    - user: www-data
+    - user: app-user
     - group: www-data
     - mode: 644
     - require:
-      - cmd: sync-piwik
+      - git: clone-piwik
+
+/srv/webplatform/piwik/bootstrap.php:
+  file.managed:
+    - source: salt://code/files/piwik/bootstrap.php.jinja
+    - template: jinja
+    - user: app-user
+    - group: www-data
+    - mode: 644
+    - require:
+      - git: clone-piwik
+

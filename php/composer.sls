@@ -1,8 +1,9 @@
 composer-min-deps:
-  pkg:
-    - installed
-    - names:
+  pkg.installed:
+    - pkgs:
       - php5-cli
+      - php5-curl
+      - php5-dev
       - curl
 
 get-composer:
@@ -11,8 +12,7 @@ get-composer:
     - unless: test -f /usr/local/bin/composer
     - cwd: /root/
     - require:
-      - pkg: php5-cli
-      - pkg: curl
+      - pkg: composer-min-deps
 
 install-composer:
   cmd.wait:

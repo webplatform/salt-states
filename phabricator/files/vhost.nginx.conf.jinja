@@ -39,7 +39,7 @@ server {
   }
   location ~ \.(hh|php)$ {
     fastcgi_keep_conn	on;
-    fastcgi_pass	10.10.10.117:9000;
+    fastcgi_pass	{{ grains['ipaddr'] }}:9000;
     fastcgi_index 	index.php;
     fastcgi_param	SCRIPT_FILENAME		$document_root$fastcgi_script_name;
 

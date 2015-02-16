@@ -1,7 +1,6 @@
 <?php
 
-header('Cache-Control: no-cache');
-header('Content-Type: application/json');
+header('Cache-Control: private, max-age=0, no-cache');
+header('Content-Type: text/plain; charset=UTF-8');
 
-echo json_encode($_SERVER, JSON_PRETTY_PRINT);
-
+var_dump($_SERVER);

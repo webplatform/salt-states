@@ -8,19 +8,32 @@
 #bash_version    :4.3
 #=========================================================================================================
 
+echo 'not ready to use'
+exit 1
+
+if [ "$CODE_PATH" == "" ]; then
+    echo "Please provide the CODE_PATH env variable"
+    exit 1
+fi
+
+if [ ! -d "$CODE_PATH" ]; then
+    MSG="[notice] Host `hostname` autoupdater `pwd` -- no code directory found"
+    logger -i -p local1.notice -t cron $MSG
+    echo $MSG
+    exit 2
+fi
+
 ##
 ## Array of every project dependency management manifests you want to deploy
 ##
-depFiles=( $(find /srv/code -maxdepth 4 -type f -regex ".*\(\(package\|composer\|bower\)\.json\|Gemfile\|\.gitmodules\)") )
+depFiles=( $(find $CODE_PATH -maxdepth 2 -type f -regex ".*\(\(package\|composer\|bower\)\.json\|Gemfile\|\.gitmodules\)") )
 
 ##
 ## Add to the array the ones that doesn’t fit so far so we can handle them
 ##
 ## 20141128:
 ##   - We should eventually have MediaWiki import those dependencies from the root, and not like that #TODO
-##   - We do not support yet python and requirements.txt, we have to find the most popular convention among our apps that we deploy #TODO 
-depFiles+=('/srv/code/wiki/repo/mediawiki/extensions/WebPlatformDocs/composer.json')
-depFiles+=('/srv/code/wiki/repo/mediawiki/extensions/WebPlatformAuth/composer.json')
+##   - We do not support yet python and requirements.txt, we have to find the most popular convention among our apps that we deploy #TODO
 
 #=========================================================================================================
 
@@ -60,7 +73,7 @@ is_installed() {
 install_for() {
   echo "  * Will install missing component $1"
   case "$1" in
-      bower) 
+      bower)
         sudo npm install -g bower
       ;;
       composer)
@@ -86,7 +99,7 @@ echo "About to run install on all dependency managers"
 
 for pathName in ${depFiles[@]}; do
     # Make sure the file exist
-    echo "Looking up ${pathName}:" 
+    echo "Looking up ${pathName}:"
     if [ -f "${pathName}" ]; then
 
       # Normalize dependency name to match with keys in cmdDeps and cmdMaps
@@ -110,7 +123,7 @@ for pathName in ${depFiles[@]}; do
           if ! is_installed "${depElement}"; then
             echo "  * ${depElement} is not installed, installing"
             (apt-get install -y ${depElement})
-          fi  
+          fi
         done
         # /Ensure we have required package to run installer
 
@@ -120,7 +133,7 @@ for pathName in ${depFiles[@]}; do
           install_for ${depName}
         fi
 
-        # Run the dependency  
+        # Run the dependency
         if [ ! -f "${depName}.log" ]; then
           echo "  * Launching ${commandString} in `pwd`"
           ( ${commandString} >>${depName}.log 2>&1 )
@@ -130,7 +143,7 @@ for pathName in ${depFiles[@]}; do
           echo "  * Dependencies already installed"
           echo ""
         fi
- 
+
       else
         echo "  * No dependency package defined for ${depName}"
         echo ""

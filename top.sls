@@ -115,9 +115,6 @@ base:
     - elasticsearch
   'accounts*':
     - fxa
-  'phpbackend*':
-    - php-fpm
-    - nutcracker
   'hhvmbackend*':
     - hhvm
     - nutcracker
