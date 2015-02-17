@@ -15,12 +15,23 @@ app-user:
     - require:
       - user: app-user
 
+/srv/webplatform/appshomedir/.ssh:
+  file.directory:
+    - createdirs: True
+    - user: app-user
+    - group: app-user
+    - mode: 0700
+    - require:
+      - file: /srv/webplatform/appshomedir
+
 /srv/webplatform/appshomedir/.ssh/id_ed25519:
   file.managed:
     - contents_pillar: sshkeys:wpdci:id_ed25519:private
     - user: app-user
     - group: app-user
     - mode: 0600
+    - require:
+      - file: /srv/webplatform/appshomedir/.ssh
 
 /srv/webplatform/appshomedir/.ssh/id_ed25519.pub:
   file.managed:
@@ -28,4 +39,6 @@ app-user:
     - user: app-user
     - group: app-user
     - mode: 0600
+    - require:
+      - file: /srv/webplatform/appshomedir/.ssh
 

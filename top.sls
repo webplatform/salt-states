@@ -100,6 +100,7 @@ base:
     - apache.status
     - buggenie.mailqueue
   'piwik*':
+    - users.app-user
     - piwik.nginx
     - php-fpm
     - piwik
