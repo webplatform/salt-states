@@ -2,11 +2,19 @@
 
 for i in `mysql -BNe 'show databases'`
 do
+	if [ "${i}" == "wptestwiki" ]
+	then
+		continue
+	fi
 	if [ "${i}" == "information_schema" ]
 	then
 		continue
 	fi
-	if [ "${i}" == "wptestwiki" ]
+	if [ "${i}" == "mysql" ]
+	then
+		continue
+	fi
+	if [ "${i}" == "performance_schema" ]
 	then
 		continue
 	fi
