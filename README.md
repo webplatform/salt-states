@@ -179,3 +179,15 @@ But sometimes we have to act quickly and update the states later.
 
         salt \* grains.get ip4_interfaces:eth0
 
+11. Create a database and privileges on masterdb. If there is replication, the secondary MySQL servers with replication will get the changes by themselves
+
+  * Create a database
+
+        salt -G 'roles:masterdb' mysql.db_create accounts utf8 utf8_general_ci
+
+  * Add database user and privileges
+
+        salt -G 'roles:masterdb' mysql.user_create accounts '%' foobarbaz
+        salt -G 'roles:masterdb' mysql.grant_add 'ALL' 'accounts.*' 'accounts' '%'
+        salt -G 'roles:masterdb' mysql.grant_add 'ALL' 'accounts_oauth.*' 'accounts' '%'
+

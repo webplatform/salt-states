@@ -25,6 +25,7 @@ $siteTopLevelDomain = 'webplatform.org';
 
 $wpd['pagespeed_key'] = "{{ salt['pillar.get']('accounts:blog:secrets:googlepagespeed', '') }}";
 $wpd['piwik_url'] = 'https://stats.' . $siteTopLevelDomain . '/';
+$wpd['piwik_id'] = 1;
 $wpd['memcache_array'] = array('127.0.0.1:11255');
 
 /**

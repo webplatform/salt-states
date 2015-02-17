@@ -1,7 +1,7 @@
 include:
   - python.mysqldb
   - mysql
-
+  - mmonit
 
 /etc/init/lumberjack.conf:
   file.managed:
@@ -24,4 +24,13 @@ lumberjack:
     - require:
       - pkg: python-mysqldb
       - file: /etc/init/lumberjack.conf
+
+/etc/monit/conf.d/lumberjack.conf:
+  file.managed:
+    - source: salt://bots/files/monit.conf.jinja
+    - template: jinja
+    - require:
+      - service: lumberjack
+    - watch_in:
+      - service: monit
 

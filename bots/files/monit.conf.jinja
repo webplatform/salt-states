@@ -1,0 +1,10 @@
+## Managed by Salt Stack. Do NOT edit manually!
+## Source {{ source }}
+check process LumberJack
+  matching "LumberJack"
+  start = "/usr/sbin/service lumberjack start"
+  stop  = "/usr/sbin/service lumberjack stop"
+  if not exist for 3 cycles then restart
+  if 3 restarts within 5 cycles then alert
+  if 5 restarts within 5 cycles then timeout
+
