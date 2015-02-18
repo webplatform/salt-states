@@ -35,6 +35,11 @@ php5-fpm:
     - source: salt://php/files/overrides.ini.jinja
     - template: jinja
 
+/etc/php5/fpm/php.ini:
+  file.replace:
+    - pattern: '^memory_limit = 128M$'
+    - repl: 'memory_limit = 512M'
+
 /etc/php5/fpm/pool.d/www.conf:
   file.managed:
     - contents: |
@@ -45,6 +50,9 @@ php5-fpm:
         log_level = debug
         error_log = syslog
         syslog.facility = local1
+        ; Would be great if some variant of syntax below would work
+        ;php_admin_value[memory_limit] = 512M
+        ;catch_workers_output = yes
 
         [www]
         listen = {{ salt['grains.get']('ipaddr', '127.0.0.1') }}:9000

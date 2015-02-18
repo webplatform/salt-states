@@ -3,6 +3,6 @@ check host fxa-content-server with address "{{ infra_pillar['content']['host']|d
   stop program = "/usr/sbin/service fxa-content-server stop"
   if failed port {{ infra_pillar['content']['port']|default('3030') }} protocol HTTP
     request /
-    with timeout 10 seconds
+    with timeout 60 seconds
     then restart
 
