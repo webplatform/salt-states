@@ -191,3 +191,7 @@ But sometimes we have to act quickly and update the states later.
         salt -G 'roles:masterdb' mysql.grant_add 'ALL' 'accounts.*' 'accounts' '%'
         salt -G 'roles:masterdb' mysql.grant_add 'ALL' 'accounts_oauth.*' 'accounts' '%'
 
+12. Remove a file from multiple machines
+
+    salt \* file.remove /etc/monit/conf.d/exim4.conf
+
