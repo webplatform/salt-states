@@ -33,6 +33,7 @@ php-piwik:
       - php5-dev
       - php5-geoip
       - libgeoip-dev
+      - unzip
 
 
 piwik-archive-requirements:

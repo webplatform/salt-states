@@ -24,7 +24,7 @@ include:
 # - 1012, gerald
 # - 1150, estheban
 # - 1151, laner
-# - 1152
+# - 1152, justinlund
 # - 1153
 # - 1154
 # - 1155

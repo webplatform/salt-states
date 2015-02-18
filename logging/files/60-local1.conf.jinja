@@ -1,3 +1,5 @@
 # vim: filetype=conf
+# Send local1 log message to both salt master AND in file /var/log/local1.log
 # @salt-master-dest
-local1.* @salt
+local1.* @{{ salt_master_ip }}
+local1.* /var/log/local1.log

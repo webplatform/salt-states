@@ -4,6 +4,10 @@ login    = {{ salt['pillar.get']('accounts:piwik:superuser:username', 'admin') }
 password = {{ salt['pillar.get']('accounts:piwik:superuser:password', '') }}
 email    = {{ salt['pillar.get']('accounts:piwik:contact:email', 'team-webplatform-systems@w3.org') }}
 
+; Maintenance mode, see also maintenance_mode in General
+;[Tracker]
+;record_statistics = 0
+
 [log]
 log_writers[] = file
 log_level = DEBUG
@@ -16,6 +20,7 @@ dbname        = {{ salt['pillar.get']('accounts:piwik:db:database', 'wpstats') }
 tables_prefix = piwik_
 
 [General]
+;maintenance_mode = 1
 ;dbtable would be great it its broken for now, see also bootstrap.php
 ;session_save_handler = "dbtable"
 trusted_hosts[] = "stats.webplatform.org"

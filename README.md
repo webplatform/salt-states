@@ -125,10 +125,10 @@ But sometimes we have to act quickly and update the states later.
 7. New salt minion
 
     nova boot --image Ubuntu-14.04-Trusty --user-data /srv/opsconfigs/userdata.txt --key_name renoirb-staging --flavor lightspeed --security-groups default,all,frontend app1
-    salt app1 file.touch /etc/salt/grains
-    salt app1 file.append /etc/salt/grains "level: staging"
-    salt app1 saltutil.sync_all
+    salt-key -y -a app1
+    salt app1 test.ping
     salt app1 grains.get level
+    salt app1 state.highstate
 
 8. Assing a floating IP
 

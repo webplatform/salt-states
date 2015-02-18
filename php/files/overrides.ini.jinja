@@ -1,0 +1,14 @@
+; Managed by Salt Stack. Do NOT edit manually!
+; source: {{ source }}
+; Ensures we log PHP errors through syslog
+expose_php=Off
+
+error_reporting=E_ALL & ~E_DEPRECATED & ~E_STRICT
+
+log_errors=On
+error_log=syslog
+
+opcache.error_log=syslog
+opcache.log_verbosity_level=2
+
+html_errors=Off

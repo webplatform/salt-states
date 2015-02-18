@@ -9,6 +9,8 @@ rsyslog:
     - group: root
     - mode: 444
     - template: jinja
+    - context:
+        salt_master_ip: {{ salt['pillar.get']('infra:hosts_entries:salt', '127.0.0.1') }}
     - watch_in:
       - service: rsyslog
 
