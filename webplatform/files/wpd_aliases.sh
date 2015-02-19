@@ -32,6 +32,9 @@ wpd-trailing-whitespace() {
   fi
 }
 
+#List all commiters
+#git shortlog -sn
+
 # ref: http://stackoverflow.com/questions/26370185/how-do-criss-cross-merges-arise-in-git
 wpd-git-log() {
   git log --graph --oneline --decorate --all
@@ -48,6 +51,18 @@ alias wpd-connections="netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | un
 
 wpd-deploy () { echo "Going to update roles for:"; sudo salt -G "roles:$@" grains.get roles; echo "Deploying..."; sudo salt -G "roles:$@" state.sls code; }
 wpd-salt-events () { echo "About to dump events to stdout"; sudo salt-run state.event | while read -r tag data; do echo $tag; echo $data | jq -C .; done; }
+
+wpd-html-compact () {
+  if [ -f "$1" ]; then
+    cat $1 | tr '\t' ' ' | tr '\n' ' ' | sed 's/  //g' | sed 's/> </></g' > $1
+  fi
+}
+
+wpd-convert-yml-json () {
+  if [ -f "$1" ]; then
+    python -c 'import sys, yaml, json; json.dump(yaml.load(sys.stdin), sys.stdout, indent=2)' < $1 > $1.json
+  fi
+}
 
 #python -c 'import sys, yaml, json; json.dump(yaml.load(sys.stdin), sys.stdout, indent=2)' < foo.yaml > foo.json
 #python -c 'import sys, yaml, json; yaml.safe_dump(json.load(sys.stdin),sys.stdout,allow_unicode=True,default_flow_style=False)' < foo.json > foo.yaml
