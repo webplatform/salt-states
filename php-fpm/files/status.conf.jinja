@@ -21,7 +21,7 @@ server {
     }
 
     # ref: http://nginx.org/en/docs/http/ngx_http_stub_status_module.html
-    location /nginx-status {
+    location ~ /(nginx-)?status {
         access_log     off;
         allow          127.0.0.1;
         allow          127.0.1.1;
