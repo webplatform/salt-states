@@ -10,6 +10,7 @@
  #     Total available RAM / ~ 80Mb per fpm process  = pm.max_children
  #
  # Ref:
+ #   - https://github.com/perusio/php-fpm-example-config
  #   - https://rtcamp.com/tutorials/php/fpm-status-page/
  #   - https://rtcamp.com/tutorials/php/fpm-sysctl-tweaking/
  #   - http://myshell.co.uk/index.php/adjusting-child-processes-for-php-fpm-nginx/
@@ -21,8 +22,10 @@ include:
 
 
 php5-fpm:
-  pkg:
-    - installed
+  pkg.installed:
+    - pkgs:
+      - php5-fpm
+      - libfcgi0ldbl
   service.running:
     - enable: True
     - reload: True
@@ -39,6 +42,14 @@ php5-fpm:
   file.replace:
     - pattern: '^memory_limit = 128M$'
     - repl: 'memory_limit = 512M'
+
+/etc/nginx/conf.d/status.conf:
+  file.managed:
+    - source: salt://php-fpm/files/status.conf.jinja
+    - template: jinja
+    - require:
+      - service: php5-fpm
+      - service: nginx
 
 /etc/php5/fpm/pool.d/www.conf:
   file.managed:
@@ -60,11 +71,13 @@ php5-fpm:
         group = www-data
         chdir = /
         pm = dynamic
-        pm.max_children = 20
+        pm.max_children = 15
         pm.start_servers = 5
         pm.min_spare_servers = 5
         pm.max_spare_servers = 10
         pm.max_requests = 700
+        pm.status_path = /fcgi-status
+        ping.path = /fcgi-ping
     - require:
       - user: app-user
     - watch_in:
@@ -80,6 +93,7 @@ php5-fpm:
         fpm_port: 9000
     - require:
       - pkg: php5-fpm
+      - file: /etc/nginx/conf.d/status.conf
     - watch_in:
       - service: monit
 

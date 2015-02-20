@@ -1,7 +1,7 @@
 # http://tobias.is/blog/to-boldly-monitor-what-no-one-has-monitored-before/
 check process php5-fpm
   with pidfile "/var/run/php5-fpm.pid"
-  group php5-fpm
+  group fcgi
   start = "/usr/sbin/service php5-fpm start" with timeout 60 seconds
   stop  = "/usr/sbin/service php5-fpm stop"
   if failed host {{ ip4_interface|default('0.0.0.0') }} port {{ fpm_port|default(9000) }} type TCP then restart
