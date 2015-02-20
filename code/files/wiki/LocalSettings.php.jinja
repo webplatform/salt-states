@@ -7,6 +7,7 @@
 
 #error_reporting( -1 );
 #ini_set( 'display_errors', 1 );
+#if(isset($_GET['foo'])) { error_log('Foo test hit'); phpinfo(); die(); }
 
 $wpdConfig['alpha_memcache'] = array( '10.10.10.175:11211' );
 $wpdConfig['alpha_redis']    = array( '10.10.10.179:6379'  );

@@ -14,6 +14,8 @@ php-basic-deps:
 
 php5-memcached:
   pkg.installed:
+    - version: 2.2.0-wpd
+    - skip_verify: True
     - require:
       - pkg: php-basic-deps
 
