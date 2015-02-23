@@ -14,6 +14,7 @@ require_once('lib/main.php');
 ## http://www.one-tab.com/page/74i1sP-XSVCyJts_AjzpIQ
 #error_reporting( -1 );
 #ini_set( 'display_errors', 1 );
+##if(isset($_GET['foo'])) { error_log('Foo test hit on blog code'); phpinfo(); die(); }
 
 ## Deployment specific details
 {% if salt['grains.get']('level') == 'staging' -%}

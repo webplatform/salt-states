@@ -53,6 +53,9 @@ write_files:
     content: {{ base64_yaml_level_line }}
     path: /etc/salt/grains
 
+# The content property above ^ contains a base64 encoded string that contains "level: foo" (without quotes)
+# it was meant to make sure that cloudinit wouldn’t break because it was taking previous attempts as part
+# of the rest of this YAML document.
 
 ssh_import_id: [saltstack]
 apt_sources:

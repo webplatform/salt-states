@@ -8,11 +8,14 @@
 ## Debugging switches
 #error_reporting(E_ALL);
 #ini_set('display_errors', true);
+#if(isset($_GET['foo'])) { error_log('Foo test hit from project'); phpinfo(); die(); }
 
 self::setUname("{{ salt['pillar.get']('accounts:buggenie:db:username', 'root') }}");
 self::setPasswd("{{ salt['pillar.get']('accounts:buggenie:db:password', '') }}");
 self::setTablePrefix("tbg3_");
 self::setDSN("mysql:host={{ masterdb_ip }};dbname={{ salt['pillar.get']('accounts:buggenie:db:database', 'buggenie') }}");
+
+$siteTopLevelDomain = 'webplatformstaging.org';
 
 # vim: set ft=php expandtab:
 
