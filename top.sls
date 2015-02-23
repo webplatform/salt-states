@@ -80,11 +80,11 @@ base:
     - memcached
   'redis*':
     - redis.server
-    - specific.redis
+    - formula.redis
   'session*':
     - memcached
     - redis.server
-    - specific.redis
+    - formula.redis
   'monitor*':
     - monitor.gmetad
     - monitor.web
