@@ -20,3 +20,6 @@ include:
           if 3 restarts within 5 cycles then alert
           if 5 restarts within 5 cycles then timeout
 
+# Make sure file salt/files/gitfs.conf has https://github.com/webplatform/redis-formula.git
+# and that /etc/salt/master.d/gitfs.conf has a reference to it. @TODO
+

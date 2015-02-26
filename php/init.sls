@@ -11,6 +11,7 @@ php-basic-deps:
       - php5-cli
       - php5-redis
       - php5-curl
+      - php5-mcrypt
 
 php5-memcached:
   pkg.installed:
@@ -24,12 +25,12 @@ php-pear:
     - require:
       - pkg: php-basic-deps
 
-# ref: http://pear.php.net/manual/en/guide.users.commandline.installing.php
 igbinary:
-  pecl.installed:
-    - version: 1.2.1
+  pkg.installed:
+    - version: 1.2.1-wpd
+    - skip_verify: True
     - require:
-      - pkg: php-pear
+      - pkg: php-basic-deps
   file.managed:
     - name: /etc/php5/mods-available/igbinary.ini
     - source: salt://php/files/igbinary.ini

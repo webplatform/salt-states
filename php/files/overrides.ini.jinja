@@ -1,14 +1,39 @@
 ; Managed by Salt Stack. Do NOT edit manually!
 ; source: {{ source }}
-; Ensures we log PHP errors through syslog
-expose_php=Off
 
-error_reporting=E_ALL & ~E_DEPRECATED & ~E_STRICT
+; Dont expose ourselves needlessly
+expose_php = Off
+html_errors = Off
+display_errors = Off
+error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
 
-log_errors=On
-error_log=syslog
+; Ensure we have logging
+log_errors = On
+error_log = syslog
+opcache.error_log = syslog
+opcache.log_verbosity_level = 2
 
-opcache.error_log=syslog
-opcache.log_verbosity_level=2
+; Lets use same time zone as MIT
+date.timezone = America/New_York
 
-html_errors=Off
+; Prevent useless hanging
+default_socket_timeout = 1
+max_execution_time = 180
+memory_limit = 100M
+
+; Prevent PCRE from going crazy
+pcre.recursion_limit=1000
+
+; Maximum file size (also in squid)
+post_max_size = 100M
+upload_max_filesize = 100M
+
+; Magic quotes are a tool of evil
+magic_quotes_gpc = Off
+
+; Increasing session string entropy
+session.entropy_length = 64
+session.entropy_file = /dev/urandom
+
+; vim: ft=ini:
+
