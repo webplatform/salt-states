@@ -101,7 +101,6 @@ base:
     - buggenie.mailqueue
   'piwik*':
     - users.app-user
-    - piwik.nginx
     - php-fpm
     - piwik
     - nutcracker
@@ -110,8 +109,6 @@ base:
     - mail.mailhub
   'notes*':
     - hypothesis
-    - hypothesis.nginx
-    - fxa.nginx
   'elastic*':
     - elasticsearch
   'accounts*':
@@ -119,13 +116,11 @@ base:
   'hhvmbackend*':
     - hhvm
     - nutcracker
-  'nginx*':
+  'roles:nginx':
+    - match: grain
+    - users.app-user
     - nginx
     - fxa.nginx
     - hypothesis.nginx
     - specs.nginx
-  'roles:specs':
-    - match: grain
-    - specs.nginx
-
 
