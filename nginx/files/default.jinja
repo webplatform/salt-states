@@ -1,0 +1,42 @@
+server {
+    listen        80;
+    server_name   {{ tld }};
+
+    include      common_params;
+
+    return       301 https://www.{{ tld }}$request_uri;
+}
+
+server {
+    listen        443 ssl spdy;
+    server_name   {{ tld }};
+
+    include       common_params;
+
+    ssl                 on;
+    ssl_certificate     /etc/ssl/webplatform/ssl.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201407.key;
+    include             ssl_params;
+
+    return        301 https://www.{{ tld }}$request_uri;
+}
+
+server {
+    listen       443 ssl spdy;
+    server_name  www.{{ tld }};
+
+    ssl                 on;
+    ssl_certificate     /etc/ssl/webplatform/ssl.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201407.key;
+    include             ssl_params;
+
+    index     index.html;
+    root      /var/www;
+
+    include   common_params;
+
+    try_files $uri $uri/ =404;
+}
+
+# vim: ai ft=nginx tabstop=2 sw=2 noexpandtab:
+

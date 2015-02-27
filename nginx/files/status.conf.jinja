@@ -1,7 +1,8 @@
 server {
-    listen        80;
-    server_name   _;
-    include      common_params;
+    listen         80;
+    include        common_params;
+    root           /var/www;
+    try_files      $uri $uri/ =404;
 
     # ref: http://nginx.org/en/docs/http/ngx_http_stub_status_module.html
     location ~ /(nginx-)?status {

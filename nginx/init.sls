@@ -25,8 +25,14 @@ nginx:
     - require:
       - pkg: nginx-superseeds-apache
 
-/etc/nginx/sites-enabled/default:
-  file.absent
+/etc/nginx/sites-available/default:
+  file.managed:
+    - source: salt://nginx/files/default.jinja
+    - template: jinja
+    - context:
+        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
+    - require:
+      - pkg: nginx
 
 /etc/nginx/conf.d/status.conf:
   file.managed:
