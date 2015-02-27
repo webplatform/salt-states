@@ -68,8 +68,8 @@ php5-fpm:
         pm.min_spare_servers = 5
         pm.max_spare_servers = 10
         pm.max_requests = 700
-        pm.status_path = /fcgi-status
-        ping.path = /fcgi-ping
+        pm.status_path = /php-status
+        ping.path = /php-ping
     - require:
       - user: app-user
     - watch_in:

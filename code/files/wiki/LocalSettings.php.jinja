@@ -9,9 +9,9 @@
 #ini_set( 'display_errors', 1 );
 #if(isset($_GET['foo'])) { error_log('Foo test hit'); phpinfo(); die(); }
 
-$wpdConfig['alpha_memcache'] = array( '10.10.10.175:11211' );
-$wpdConfig['alpha_redis']    = array( '10.10.10.179:6379'  );
-$wpdConfig['sessions_redis'] = array( '10.10.10.177:6379'  );
+$wpdConfig['alpha_memcache'] = array( '127.0.0.1:11255' );
+$wpdConfig['alpha_redis']    = array( '127.0.0.1:6355'  );
+$wpdConfig['sessions_redis'] = array( '127.0.0.1:6379'  );
 
 ## TODO LATER!
 #$wpdConfig['alpha_memcache'] = {{ alpha_memcache|default('array("127.0.0.1:11211")') }};
