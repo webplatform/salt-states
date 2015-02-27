@@ -72,6 +72,11 @@ hypothesis-compass-dep:
 /srv/webplatform/notes-server:
   file.directory:
     - makedirs: True
+    - user: app-user
+    - group: www-data
+    - recurse:
+      - user
+      - group
 
 
 /etc/init/hypothesis.conf:

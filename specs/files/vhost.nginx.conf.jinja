@@ -1,14 +1,14 @@
 # Managed by Saltstack. Do NOT edit manually!
 # Refer to {{ source }}
 server {
-	server_name	{{ subDomainName }}.webplatform.org;
-	
+	server_name	{{ subDomainName }}.{{ tld }};
+
 	listen		80;
-	
-	index		index.html;
-	root		/srv/webplatform/webspecs/specs;
+
+	index		  index.html;
+	root		  /srv/webplatform/webspecs/specs;
 	include		common_params;
-	
+
 	location / {
 		try_files $uri $uri/ =404;
 	}

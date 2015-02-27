@@ -3,13 +3,21 @@
 include:
   - nginx
 
-/etc/nginx/sites-enabled/accounts:
+/etc/nginx/sites-available/accounts:
   file.managed:
     - source: salt://fxa/files/vhost.nginx.conf.jinja
     - template: jinja
     - context:
-        infra_pillar: {{ infra_pillar }}
         tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
+        infra_pillar: {{ infra_pillar }}
+    - require:
+      - pkg: nginx
+
+/etc/nginx/sites-enabled/10-accounts:
+  file.symlink:
+    - target: /etc/nginx/sites-available/accounts
     - watch_in:
       - service: nginx
+    - require:
+      - file: /etc/nginx/sites-available/accounts
 

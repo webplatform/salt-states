@@ -1,21 +1,13 @@
 server {
-    server_name   {{ subDomainName }}.webplatform.org;
+    server_name   {{ subDomainName }}.{{ tld }};
 
     listen        80;
     server_tokens off;
-    return        301 https://.webplatform.org$request_uri;
+    return        301 https://{{ subDomainName }}.{{ tld }}$request_uri;
 }
 
 server {
-    server_name   {{ subDomainName }}.webplatformstaging.org;
-
-    listen        80;
-    server_tokens off;
-    return        301 https://{{ subDomainName }}.webplatformstaging.org$request_uri;
-}
-
-server {
-  server_name {{ subDomainName }}.webplatform.org project.webplatformstaging.org;
+  server_name {{ subDomainName }}.{{ tld }};
 
   listen              443 ssl spdy;
   server_tokens off;
@@ -26,8 +18,8 @@ server {
   ssl_certificate     /etc/ssl/webplatform/ssl.pem;
   ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
-  access_log    /var/log/nginx/source.access.log;
-  error_log     /var/log/nginx/source.error.log;
+  access_log    /var/log/nginx/{{ subDomainName }}.access.log;
+  error_log     /var/log/nginx/{{ subDomainName }}.error.log;
 
   location / {
     index index.php;
@@ -56,7 +48,7 @@ server {
     fastcgi_param	SCRIPT_NAME		$fastcgi_script_name;
 
     fastcgi_param	GATEWAY_INTERFACE	CGI/1.1;
-    fastcgi_param	SERVER_SOFTWARE		nginx/$nginx_version;
+    fastcgi_param	SERVER_SOFTWARE		nginx;
 
     fastcgi_param	REQUEST_URI             $request_uri;
     fastcgi_param	DOCUMENT_ROOT           $document_root;

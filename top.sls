@@ -50,8 +50,6 @@ base:
     - apache.docs
     - apache.dabblet
     - apache.status
-    - apache.specs
-    - apache.webat25
     - mediawiki
     - mediawiki.appserver
     - mediawiki.scaler
@@ -123,4 +121,5 @@ base:
     - fxa.nginx
     - hypothesis.nginx
     - specs.nginx
+    - piwik.nginx
 

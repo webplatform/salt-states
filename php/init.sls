@@ -19,13 +19,16 @@ php5-memcached:
     - skip_verify: True
     - require:
       - pkg: php-basic-deps
+  cmd.run:
+    - name: php5enmod memcached
+    - unless: test -f /etc/php5/apache2/conf.d/20-memcached.ini
 
 php-pear:
   pkg.installed:
     - require:
       - pkg: php-basic-deps
 
-igbinary:
+php5-igbinary:
   pkg.installed:
     - version: 1.2.1-wpd
     - skip_verify: True
@@ -50,7 +53,7 @@ apcu:
     - group: root
     - mode: 644
     - require:
-      - pecl: igbinary
+      - pkg: php5-igbinary
   cmd.run:
     - name: php5enmod apcu
     - unless: test -f /etc/php5/apache2/conf.d/20-apcu.ini

@@ -1,21 +1,13 @@
 server {
-    server_name {{ subDomainName }}.webplatform.org;
+    server_name {{ subDomainName }}.{{ tld }};
 
     listen 80;
     server_tokens off;
-    return 301 https://{{ subDomainName }}.webplatform.org$request_uri;
+    return 301 https://{{ subDomainName }}.{{ tld }}$request_uri;
 }
 
 server {
-    server_name {{ subDomainName }}.webplatformstaging.org;
-
-    listen 80;
-    server_tokens off;
-    return 301 https://{{ subDomainName }}.webplatformstaging.org$request_uri;
-}
-
-server {
-  server_name {{ subDomainName }}.webplatform.org project.webplatformstaging.org;
+  server_name {{ subDomainName }}.{{ tld }};
 
   listen 443 ssl spdy;
   server_tokens off;

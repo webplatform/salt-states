@@ -45,11 +45,15 @@ fxa-nodejs-deps:
     - group: {{ svc_group }}
     - require:
       - file: /etc/init/{{ serviceName }}.conf
+    - makedirs: True
+    - recurse:
+      - user
+      - group
 {% endfor %}
 
-/var/log/fxa/:
-  file:
-    - directory
+/var/log/fxa:
+  file.directory:
+    - makedirs: True
     - user: {{ svc_user }}
     - group: {{ svc_group }}
 

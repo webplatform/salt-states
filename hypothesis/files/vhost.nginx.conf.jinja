@@ -5,9 +5,9 @@
  #}
 server {
     listen        80;
-    server_name   notes.{{ tld }};
+    server_name   {{ subDomainName }}.{{ tld }};
     server_tokens off;
-    return        301 https://notes.{{ tld }}$request_uri;
+    return        301 https://{{ subDomainName }}.{{ tld }}$request_uri;
 }
 
 server {
@@ -17,7 +17,7 @@ server {
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
     root         /srv/webplatform/notes-server/notes_server/static;
-    server_name  notes.{{ tld }};
+    server_name  {{ subDomainName }}.{{ tld }};
 
     include      common_params;
     include      ssl_params;

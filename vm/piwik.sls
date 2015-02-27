@@ -1,3 +1,3 @@
 include:
-  - code.piwik
+  - code.stats-server
 

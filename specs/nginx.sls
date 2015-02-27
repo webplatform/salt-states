@@ -1,12 +1,23 @@
 include:
   - nginx
 
-/etc/nginx/sites-enabled/01-specs:
+/etc/nginx/sites-available/specs:
   file.managed:
     - source: salt://specs/files/vhost.nginx.conf.jinja
     - template: jinja
-    - require:
-      - service: nginx
     - context:
+        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
         subDomainName: specs
+    - require:
+      - pkg: nginx
+
+/etc/nginx/sites-enabled/10-specs:
+  file.symlink:
+    - target: /etc/nginx/sites-available/specs
+    - watch_in:
+      - service: nginx
+    - require:
+      - file: /etc/nginx/sites-available/specs
+    - watch_in:
+      - service: nginx
 

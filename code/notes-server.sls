@@ -7,7 +7,7 @@ include:
 # @salt-master-dest
 sync-hypothesis-dists:
   cmd.run:
-    - name: rsync -a --no-perms --delete --password-file=/etc/codesync.secret codesync@salt::code/notes-server/dists/ /srv/webplatform/appshomedir/dists/notes-server/
+    - name: rsync -a --no-perms --delete --password-file=/etc/codesync.secret codesync@salt::code/packages/notes-server/dists/ /srv/webplatform/appshomedir/dists/notes-server/
     - require:
       - file: /etc/codesync.secret
       - file: /srv/webplatform/appshomedir/dists/notes-server

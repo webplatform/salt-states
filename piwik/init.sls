@@ -63,3 +63,14 @@ piwik-archive-requirements:
       - file: /usr/bin/piwik-archive.sh
       - file: /etc/profile.d/mailto.sh
 
+/srv/webplatform/stats-server/tmp:
+  file.directory:
+    - user: app-user
+    - group: www-data
+    - mode: 775
+    - makedirs: True
+    - recurse:
+      - user
+      - group
+      - mode
+

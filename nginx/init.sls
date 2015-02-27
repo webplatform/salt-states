@@ -1,3 +1,4 @@
+{%- set ip4_interfaces = salt['grains.get']('ip4_interfaces:eth0') -%}
 {#
  # NGINX common states
  #
@@ -25,9 +26,17 @@ nginx:
       - pkg: nginx-superseeds-apache
 
 /etc/nginx/sites-enabled/default:
-  file.absent:
+  file.absent
+
+/etc/nginx/conf.d/status.conf:
+  file.managed:
+    - source: salt://nginx/files/status.conf.jinja
+    - template: jinja
     - require:
       - pkg: nginx
+      - file: /etc/nginx/status.d
+    - watch_in:
+      - service: monit
 
 nginx-superseeds-apache:
   pkg.purged:
@@ -35,6 +44,12 @@ nginx-superseeds-apache:
       - apache2.2-bin
       - apache2.2-common
       - libapache2-mod-php5
+
+/etc/nginx/status.d:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - makedirs: True
 
 /var/cache/nginx:
   file.directory:
@@ -64,7 +79,7 @@ nginx-ppa:
     - source: salt://nginx/files/monit.conf.jinja
     - template: jinja
     - context:
-        ip4_interfaces: {{ salt['grains.get']('ip4_interfaces:eth0') }}
+        private_ip: {{ ip4_interfaces[0] }}
     - require:
       - service: nginx
     - watch_in:

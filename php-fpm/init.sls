@@ -19,7 +19,7 @@ include:
   - mmonit
   - php.composer
   - users.app-user
-
+  - php-fpm.nginx
 
 php5-fpm:
   pkg.installed:
@@ -42,14 +42,6 @@ php5-fpm:
   file.replace:
     - pattern: '^memory_limit = 128M$'
     - repl: 'memory_limit = 512M'
-
-/etc/nginx/conf.d/status.conf:
-  file.managed:
-    - source: salt://php-fpm/files/status.conf.jinja
-    - template: jinja
-    - require:
-      - service: php5-fpm
-      - service: nginx
 
 /etc/php5/fpm/pool.d/www.conf:
   file.managed:

@@ -1,8 +1,8 @@
 server {
     listen        80;
-    server_name   stats.{{ tld }};
+    server_name   {{ subDomainName }}.{{ tld }};
     server_tokens off;
-    return        301 https://stats.{{ tld }}$request_uri;
+    return        301 https://{{ subDomainName }}.{{ tld }}$request_uri;
 }
 
 server {
@@ -11,8 +11,8 @@ server {
     ssl_certificate     /etc/ssl/webplatform/ssl.pem;
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
-    root         /srv/webplatform/piwik/;
-    server_name  stats.{{ tld }};
+    root         /srv/webplatform/stats-server;
+    server_name  {{ subDomainName }}.{{ tld }};
 
     include      common_params;
     include      ssl_params;

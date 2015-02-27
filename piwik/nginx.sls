@@ -13,15 +13,15 @@ include:
     - template: jinja
     - context:
         tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
-    - watch_in:
-      - service: nginx
+        subDomainName: stats
     - require:
       - pkg: nginx
 
-/etc/nginx/sites-enabled/stats:
+/etc/nginx/sites-enabled/10-stats:
   file.symlink:
     - target: /etc/nginx/sites-available/stats
+    - watch_in:
+      - service: nginx
     - require:
-      - pkg: nginx
       - file: /etc/nginx/sites-available/stats
 

@@ -10,7 +10,7 @@ include:
 # @salt-master-dest
 sync-fxa-dists:
   cmd.run:
-    - name: rsync -a --no-perms --delete --password-file=/etc/codesync.secret codesync@salt::code/auth-server/dists/ /srv/webplatform/appshomedir/dists/auth-server/
+    - name: rsync -a --no-perms --delete --password-file=/etc/codesync.secret codesync@salt::code/packages/auth-server/dists/ /srv/webplatform/appshomedir/dists/auth-server/
     - require:
       - file: /etc/codesync.secret
       - file: /srv/webplatform/appshomedir/dists/auth-server

@@ -1,4 +1,4 @@
 #!/bin/bash -l
-cd /srv/webplatform/piwik
+cd /srv/webplatform/stats-server
 /usr/bin/logger -i -p local1.notice -t cron "[notice] Host `hostname` ran Piwik hourly archive"
 /usr/bin/php console core:archive --url=https://stats.{{ tld }}/
