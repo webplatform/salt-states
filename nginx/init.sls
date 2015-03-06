@@ -34,6 +34,14 @@ nginx:
     - require:
       - pkg: nginx
 
+/etc/nginx/sites-enabled/00-default:
+  file.symlink:
+    - target: /etc/nginx/sites-available/default
+    - watch_in:
+      - service: nginx
+    - require:
+      - file: /etc/nginx/sites-available/default
+
 /etc/nginx/conf.d/status.conf:
   file.managed:
     - source: salt://nginx/files/status.conf.jinja

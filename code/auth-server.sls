@@ -35,7 +35,8 @@ sync-fxa-dists:
         ('fxa-auth-server', 'config/prod.json') ] %}
 {% for appName, file in configFiles %}
 /srv/webplatform/auth-server/{{ appName }}:
-  file.directory
+  file.directory:
+    - makedirs: True
 
 /srv/webplatform/auth-server/{{ appName }}/{{ file }}:
   file.managed:
