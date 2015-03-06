@@ -6,8 +6,7 @@ include:
 
 # @salt-master-dest
 certificates-rsync:
-  cmd:
-    - run
+  cmd.run:
     - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/packages/certificates/{{ level }}/ /etc/ssl/webplatform/"
     - require:
       - file: /etc/codesync.secret

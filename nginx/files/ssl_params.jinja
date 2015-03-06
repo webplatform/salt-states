@@ -13,7 +13,6 @@ ssl_ciphers "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES
 
 ## Make sure those three lines exists in /etc/nginx/nginx.conf  #TODO enforce check
 #ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-#ssl_session_cache shared:SSL:10m;
 #ssl_prefer_server_ciphers on;
 
 ## We need to setup stapling #TODO
@@ -27,7 +26,7 @@ ssl_ciphers "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES
 #resolver_timeout 10s;
 
 ssl_session_cache shared:SSL:10m;
-#ssl_dhparam /etc/ssl/certs/dhparam.pem;
+ssl_dhparam /etc/ssl/webplatform/dhparam.pem;
 
 ## HSTS: Tell browser that we Exclusively accept SSL connections
 #add_header Strict-Transport-Security "max-age=63072000; includeSubDomains";
