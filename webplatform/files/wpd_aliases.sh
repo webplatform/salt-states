@@ -9,6 +9,10 @@ alias wpd-service-test='nc -vz '
 alias wpd-netstat='netstat -tulpn'
 alias wpd-gentoken='openssl rand -base64 32'
 
+wpd-memusage () {
+  ps -ylC "$@" --sort:rss | awk '!/RSS/ { s+=$8 } END { printf "%s\n", "Total memory used:"; printf "%dM\n", s/1024 }'
+}
+
 # ref: http://www.commandlinefu.com/commands/view/3543/show-apps-that-use-internet-connection-at-the-moment.
 wpd-lsof-network-services() {
   lsof -P -i -n | cut -f 1 -d " "| uniq | tail -n +2
