@@ -6,7 +6,7 @@ python-swiftclient-install:
   pip.installed:
     - name: python-swiftclient
     - require:
-      - pkg: python-swiftclient-install 
+      - pkg: python-swiftclient-install
 
 /etc/profile.d/swift-dreamobjects.sh:
   file.managed:

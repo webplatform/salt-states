@@ -10,18 +10,15 @@
  #
  # ----
  #
- # See awesome Chef recipe:
+ # See awesome formulas/recipes:
  #   - https://github.com/ConsumerAffairs/salt-states/blob/master/elasticsearch.sls
  #   - https://github.com/elasticsearch/cookbook-elasticsearch/blob/master/attributes/default.rb
  #   - https://github.com/elasticsearch/cookbook-elasticsearch/blob/master/templates/default/elasticsearch.monitrc.conf.erb
  #
- # Ref:
- #   - http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-service.html
- #   - http://www.xmsxmx.com/elasticsearch-cluster-configuration-best-practices/
- #
  # #TODO: Set minimum value ES_HEAP_SIZE=64m in /etc/defaults/elasticsearch
  # #TODO: To use ElasticSearchi (Cirrus Search), we have to add `script.disable_dynamic: false` in elasticsearch.yml
  #}
+{%- set elasticsearch_folders = ['/usr/share/elasticsearch/data', '/tmp/elasticsearch', '/var/lib/elasticsearch'] -%}
 {%- set mem_int = grains['mem_total'] -%}
 {%- set mem_calc = (mem_int * 0.6)/1024 -%}
 {%- set allocated_memory = mem_calc|int ~ 'm' -%}
@@ -32,12 +29,19 @@ include:
 openjdk-7-jre-headless:
   pkg.installed
 
+#chown -R dhc-user:dhc-user /usr/share/elasticsearch/data
+#chown -R dhc-user:dhc-user /tmp/elasticsearch
+#chown -R dhc-user:dhc-user /tmp/hsperfdata_elasticsearch
+#chown -R dhc-user:dhc-user /var/lib/elasticsearch
+#find / -type d -group elasticsearch -exec chown dhc-user:dhc-user {} \; 2>/dev/null
+
 elasticsearch:
+  pkgrepo.managed:
+    - name: deb http://packages.elasticsearch.org/elasticsearch/1.4/debian stable main
+    - key_url: https://packages.elasticsearch.org/GPG-KEY-elasticsearch
   pkg.installed:
-    - sources:
-      - elasticsearch: https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.4.deb
+    - version: 1.4.4
   service.running:
-    - name: elasticsearch
     - running: True
     - enable: True
     - require:
@@ -46,11 +50,47 @@ elasticsearch:
       - file: /etc/elasticsearch/elasticsearch.yml
       - file: /etc/default/elasticsearch
 
-#ES_HEAP_SIZE=64m #TODO
+python-elasticsearch:
+  pkg.installed:
+    - name: python-pip
+    - require:
+      - pkg: elasticsearch
+  pip.installed:
+    - name: elasticsearch
+
+#ES_HEAP_SIZE=64m #TODO, in /etc/default/elasticsearch?
 /etc/elasticsearch/elasticsearch.yml:
   file.exists:
     - require:
       - pkg: elasticsearch
+
+Give a hint of the nodename:
+  file.append:
+    - name: /etc/elasticsearch/elasticsearch.yml
+    - text: |
+        node.fqdn: {{ grains['fqdn'] }}
+        node.name: {{ grains['nodename'] }}
+        cluster.name: webplatform
+    - require:
+      - pkg: elasticsearch
+
+Override default ElasticSearch user:
+  file.append:
+    - name: /etc/default/elasticsearch
+    - text: |
+        ES_USER=dhc-user
+        ES_GROUP=dhc-user
+    - require:
+      - pkg: elasticsearch
+
+{% for es_folder in elasticsearch_folders %}
+chown -R dhc-user:dhc-user {{ es_folder }}:
+  cmd.run:
+    - onlyif: "test `stat -c %G {{ es_folder }}` != dhc-user"
+    - require:
+      - pkg: elasticsearch
+{% endfor %}
+
 #  file.managed:
 #    - source: salt://elasticsearch/files/etc/elasticsearch/elasticsearch.yml.jinja
 #    - template: jinja
@@ -82,17 +122,6 @@ elasticsearch:
 #    - required:
 #      - pkg: elasticsearch
 
-
-/usr/share/elasticsearch/data:
-  file.directory:
-    - user: elasticsearch
-    - group: elasticsearch
-    - mode: 755
-    - makedirs: True
-    - required:
-      - pkg: elasticsearch
-
-
 /etc/monit/conf.d/elasticsearch.conf:
   file.managed:
     - source: salt://elasticsearch/files/monit.conf.jinja
@@ -104,3 +133,4 @@ elasticsearch:
       - service: elasticsearch
     - watch_in:
       - service: monit
+

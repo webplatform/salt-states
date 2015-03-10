@@ -21,6 +21,7 @@ gdnsd:
         gdnsd_timestamp: {{ salt['pillar.get']('infra:gdnsd_timestamp', '2014121200') }}
         level: {{ level }}
         hosts_entries: {{ salt['pillar.get']('infra:hosts_entries', []) }}
+        elasticsearch_nodes: {{ salt['pillar.get']('infra:elasticsearch:nodes', []) }}
 
 /etc/monit/conf.d/gdnsd.conf:
   file.managed:

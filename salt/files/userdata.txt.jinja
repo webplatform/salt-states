@@ -35,15 +35,18 @@ package_reboot_if_required: true
 # This is run at EVERY boot, good to ensure things are at the right place
 #
 bootcmd:
+  - sysctl -w net.ipv6.conf.all.disable_ipv6=1
   - grep -q -e 'nameserver' /etc/resolvconf/resolv.conf.d/head || printf "nameserver {{ salt_master_ip }}\n" >> /etc/resolvconf/resolv.conf.d/head
   - grep -q -e 'wpdn' /etc/resolvconf/resolv.conf.d/base || printf "search {{ level }}.wpdn\ndomain {{ level }}.wpdn\nnameserver 8.8.8.8" > /etc/resolvconf/resolv.conf.d/base
   - grep -q -e 'wpdn' /etc/resolv.conf || resolvconf -u
 
 
 runcmd:
+  - sysctl -w net.ipv6.conf.all.disable_ipv6=1
   - sed -i "s/127.0.0.1 localhost/127.0.1.1 $(hostname).{{ level }}.wpdn $(hostname)\n127.0.0.1 localhost/" /etc/hosts
-  - grep -q -e 'disable_ipv6' /etc/sysctl.conf || printf "net.ipv6.conf.all.disable_ipv6 = 1\nnet.ipv6.conf.default.disable_ipv6 = 1\n" >> /etc/sysctl.conf
-  - sysctl -p
+  - add-apt-repository -y ppa:saltstack/salt
+  - apt-get update
+  - apt-get -y upgrade
   - apt-get -y autoremove
   - apt-get -y upgrade salt-minion
 
@@ -57,9 +60,6 @@ write_files:
 # it was meant to make sure that cloudinit wouldn’t break because it was taking previous attempts as part
 # of the rest of this YAML document.
 
-ssh_import_id: [saltstack]
-apt_sources:
-  - source: "ppa:saltstack/salt"
 
 
 packages:

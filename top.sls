@@ -7,7 +7,7 @@ base:
   '*':
     - salt
     - mmonit
-    - logrotate
+    - logrotate.jobs
     - users
     - groups
     - sudo
@@ -29,7 +29,6 @@ base:
   'salt*':
     - salt.master
     - specific.salt
-    - logrotate.remote-logs
     - mysql
     - php.composer
     - gdnsd
@@ -40,6 +39,7 @@ base:
 #    - backup.salt_master
     - logging.syslog_ng
     - logging.udp2log
+    - logging.remote-logs
 #    - backup.mediawiki_xml
   'app*':
     - php
@@ -53,9 +53,11 @@ base:
     - mediawiki
     - mediawiki.appserver
     - mediawiki.scaler
-    - logrotate.mediawiki-debug
+    - mediawiki.logrotate
   'backup*':
     - backup.master
+    - backup.nfs
+    - backup.elasticsearch
   'blog*':
     - php
     - nutcracker

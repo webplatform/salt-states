@@ -1,0 +1,4 @@
+#!/bin/bash
+
+tar -czvf /mnt/backup/elasticsearch-snapshot-$(date '+%Y%m%d').tar.gz {{ elasticsearch_nfs|default('/srv/exports/elasticsearch/snapshots') }}
+

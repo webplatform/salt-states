@@ -25,6 +25,11 @@ $TTL 3600
 {% endif -%}
 {% endfor %}
 
+{% for ip_addr in elasticsearch_nodes %}
+{%- if ip_addr -%}
+elasticsearch	A	{{ ip_addr }}
+{% endif -%}
+{% endfor %}
 
 {% set mine_data = salt['mine.get']('*', 'network.ip_addrs').items()|sort(attribute=0) -%}
 ;

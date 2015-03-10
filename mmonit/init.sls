@@ -1,7 +1,9 @@
-{#
- # Ref:
- #   - https://mmonit.com/monit/documentation/monit.html
- #}
+#
+# Monit service health checks
+#
+# Ref:
+#   - https://mmonit.com/monit/documentation/monit.html
+#
 monit:
   pkg:
     - installed
@@ -39,3 +41,4 @@ monit:
       - pkg: monit
     - watch_in:
       - service: monit
+
