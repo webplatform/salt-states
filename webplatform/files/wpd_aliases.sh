@@ -9,6 +9,11 @@ alias wpd-service-test='nc -vz '
 alias wpd-netstat='netstat -tulpn'
 alias wpd-gentoken='openssl rand -base64 32'
 
+wpd-nova-active () {
+  echo 'Listing only active VMs'
+  nova list --fields name,Networks --status ACTIVE
+}
+
 wpd-memusage () {
   ps -ylC "$@" --sort:rss | awk '!/RSS/ { s+=$8 } END { printf "%s\n", "Total memory used:"; printf "%dM\n", s/1024 }'
 }

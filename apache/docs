@@ -73,7 +73,8 @@
   Alias /w/images            "/srv/webplatform/wiki/images"
   Alias /w                   "/srv/webplatform/wiki/wpwiki/mediawiki"
 
-  Alias /compat /srv/webplatform/compat
+  Alias /compat              "/srv/webplatform/compat"
+  Alias /w/extensions/WebPlatformDocs  "/srv/webplatform/wiki/wpwiki/mediawiki/extensions/WebPlatformMediaWikiExtensionBundle"
 
   RedirectMatch permanent ^/wiki/(.+)/$ /wiki/$1
   RedirectMatch permanent ^/test/(.+)/$ /test/$1
