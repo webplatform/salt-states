@@ -36,16 +36,16 @@ $wpd['memcache_array'] = array('127.0.0.1:11255');
  *  * http://generatewp.com/wp-config/
  **/
 
-define('WP_HOME',    'http://blog.' . $siteTopLevelDomain);
-define('WP_SITEURL', 'http://blog.' . $siteTopLevelDomain . '/wordpress');
+define('WP_HOME',    'https://blog.' . $siteTopLevelDomain);
+define('WP_SITEURL', 'https://blog.' . $siteTopLevelDomain . '/wordpress');
 define('WP_CONTENT_DIR', $_SERVER['DOCUMENT_ROOT'] . '/wp-content');
-define('WP_CONTENT_URL', 'http://blog.' . $siteTopLevelDomain . '/wp-content');
-define('VHOST_URL', 'http://blog.' . $siteTopLevelDomain );
+define('WP_CONTENT_URL', 'https://blog.' . $siteTopLevelDomain . '/wp-content');
+define('VHOST_URL', 'https://blog.' . $siteTopLevelDomain );
 
 ## Enforce SSL:
 ##  * http://www.wpwhitesecurity.com/wordpress-security/definitive-guide-wordpress-ssl-setup/
-#define('FORCE_SSL_LOGIN', true);
-#define('FORCE_SSL_ADMIN', true);
+define('FORCE_SSL_LOGIN', true);
+define('FORCE_SSL_ADMIN', true);
 
 /**
  * Production friendly settings
