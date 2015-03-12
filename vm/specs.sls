@@ -1,2 +1,2 @@
 include:
-  - specs
+  - code.specs

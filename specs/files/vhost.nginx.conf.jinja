@@ -7,7 +7,7 @@ server {
   include     common_params;
 
   index       index.html;
-  root        /srv/webplatform/webspecs/specs;
+  root        /srv/webplatform/specs;
 
   location    / {
     try_files $uri $uri/ =404;
@@ -26,7 +26,7 @@ server {
   ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
   index		    index.html;
-  root		    /srv/webplatform/webspecs/specs;
+  root		    /srv/webplatform/specs;
 
   location    / {
     try_files $uri $uri/ =404;
