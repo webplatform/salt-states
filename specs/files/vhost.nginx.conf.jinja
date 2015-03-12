@@ -1,21 +1,15 @@
 # Managed by Saltstack. Do NOT edit manually!
 # Refer to {{ source }}
+
 server {
-  server_name {{ subDomainName }}.{{ tld }};
-  listen      80;
-
-  include     common_params;
-
-  index       index.html;
-  root        /srv/webplatform/specs;
-
-  location    / {
-    try_files $uri $uri/ =404;
-  }
+    listen        80;
+    server_tokens off;
+    server_name   specs.{{ tld }};
+    return        301 https://specs.{{ tld }}$request_uri;
 }
 
 server {
-	server_name {{ subDomainName }}.{{ tld }};
+  server_name specs.{{ tld }};
   listen      443 ssl spdy;
 
   include     common_params;

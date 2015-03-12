@@ -124,4 +124,7 @@ base:
     - hypothesis.nginx
     - specs.nginx
     - piwik.nginx
+  'roles:specs':
+    - match: grain
+    - specs
 
