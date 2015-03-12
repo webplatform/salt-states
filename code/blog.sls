@@ -11,7 +11,7 @@ include:
       - cmd: rsync-blog
 
 # @salt-master-dest
-# do not put --delete in rsync. Otherwise it clears config caches too.
+# do not put --delete in rsync. Otherwise it deletes images uploads and config caches too
 rsync-blog:
   cmd.run:
     - name: "rsync -a  --exclude '.git' --no-perms --password-file=/etc/codesync.secret codesync@salt::code/blog/repo/ /srv/webplatform/blog/"
@@ -30,6 +30,20 @@ rsync-blog:
       - user
       - group
       - mode
+
+# @salt-master-dest
+# Refer to rsync/init.sls
+wp-content-uploads:
+  cmd.run:
+    - name: "rsync -az --no-perms --password-file=/etc/codesync.secret /srv/webplatform/blog/wp-content/uploads/ codesync@salt::wp-content-uploads/"
+    - user: root
+    - group: root
+    - onlyif: test -d /srv/webplatform/blog/wp-content/uploads/
+    - require:
+      - file: /etc/codesync.secret
+      - file: webplatform-sources
+    - require_in:
+      - cmd: rsync-blog
 
 /srv/webplatform/blog/local.php:
   file.managed:

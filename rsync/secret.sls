@@ -1,4 +1,4 @@
-{% for share in pillar['rsync_shares'] %}
+{% for share in pillar['rsync']['shares'] %}
 {{ share['client secret file'] }}:
   file.managed:
     - template: jinja
@@ -7,5 +7,5 @@
     - group: root
     - mode: 600
     - context:
-      rsync_secret: "{{ pillar['rsync_secrets'][share['auth users']] }}"
+      rsync_secret: "{{ pillar['rsync']['secrets'][share['auth users']] }}"
 {% endfor %}

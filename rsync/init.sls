@@ -1,7 +1,7 @@
 include:
   - xinetd.rsyncd
 
-{% for share in pillar['rsync_shares'] %}
+{% for share in salt['pillar.get']('rsync:shares') %}
 {{ share['secrets file'] }}:
   file.managed:
     - template: jinja
@@ -10,7 +10,7 @@ include:
     - group: root
     - mode: 600
     - context:
-      rsync_secret: "{{ share['auth users'] }}:{{ pillar['rsync_secrets'][share['auth users']] }}"
+      rsync_secret: "{{ share['auth users'] }}:{{ pillar['rsync']['secrets'][share['auth users']] }}"
 {% endfor %}
 
 /etc/rsyncd.conf:

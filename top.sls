@@ -37,10 +37,10 @@ base:
     - python.mysqldb
     - webplatform.swift-dreamobjects
 #    - backup.salt_master
+#    - backup.mediawiki_xml
     - logging.syslog_ng
     - logging.udp2log
     - logging.remote-logs
-#    - backup.mediawiki_xml
   'app*':
     - php
     - nutcracker
