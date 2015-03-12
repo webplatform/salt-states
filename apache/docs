@@ -64,6 +64,10 @@
   RewriteRule ^/wiki$                              /w/index.php [R=301]
   RewriteRule ^/test$                              /t/index.php [R=301]
 
+  RewriteCond %{HTTPS}       !^on
+  RewriteCond %{REQUEST_URI} ^/(w|t)/skins/webplatform/fonts
+  RewriteRule ^(.*)$         https://docs.%{HTTP_HOST}/$1 [R,L]
+
   Alias /test                "/srv/webplatform/wiki/wptestwiki/mediawiki/index.php"
   Alias /t/skins/webplatform "/srv/webplatform/wiki/wptestwiki/mediawiki/extensions/WebPlatformMediaWikiExtensionBundle/skin"
   Alias /t/images            "/srv/webplatform/wiki/images"
