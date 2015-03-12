@@ -10,6 +10,8 @@ include:
         subDomainName: specs
     - require:
       - pkg: nginx
+    - watch_in:
+      - service: nginx
 
 /etc/nginx/sites-enabled/10-specs:
   file.symlink:

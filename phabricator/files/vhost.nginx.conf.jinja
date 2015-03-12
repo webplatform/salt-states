@@ -15,7 +15,7 @@ server {
   root /srv/webplatform/source/phabricator/webroot;
 
   ssl                 on;
-  ssl_certificate     /etc/ssl/webplatform/ssl.pem;
+  ssl_certificate     /etc/ssl/webplatform/public_wildcard_201407.pem;
   ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
   access_log    /var/log/nginx/{{ subDomainName }}.access.log;

@@ -12,6 +12,8 @@ include:
         infra_pillar: {{ infra_pillar }}
     - require:
       - pkg: nginx
+    - watch_in:
+      - service: nginx
 
 /etc/nginx/sites-enabled/10-accounts:
   file.symlink:

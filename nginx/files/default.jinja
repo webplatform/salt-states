@@ -14,7 +14,7 @@ server {
     include       common_params;
 
     ssl                 on;
-    ssl_certificate     /etc/ssl/webplatform/ssl.pem;
+    ssl_certificate     /etc/ssl/webplatform/public_wildcard_201407.pem;
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
     include             ssl_params;
 
@@ -26,7 +26,7 @@ server {
     server_name  www.{{ tld }};
 
     ssl                 on;
-    ssl_certificate     /etc/ssl/webplatform/ssl.pem;
+    ssl_certificate     /etc/ssl/webplatform/public_default_201407.pem;
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
     include             ssl_params;
 

@@ -9,7 +9,8 @@
 
 <VirtualHost *:443>
   SSLEngine on
-  SSLCertificateFile      /etc/ssl/webplatform/ssl.pem
+  SSLCertificateFile      /etc/ssl/webplatform/public_default_201407.pem
+  SSLCertificateKeyFile   /etc/ssl/webplatform/201407.key
 
   ServerAdmin 	hostmaster@webplatform.org
   ServerName  	docs.webplatform.org

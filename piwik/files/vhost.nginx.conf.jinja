@@ -8,7 +8,7 @@ server {
 server {
     listen              443 ssl spdy;
     ssl                 on;
-    ssl_certificate     /etc/ssl/webplatform/ssl.pem;
+    ssl_certificate     /etc/ssl/webplatform/public_wildcard_201407.pem;
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
     root         /srv/webplatform/stats-server;
@@ -49,6 +49,3 @@ server {
         return 200 "User-agent: *\nDisallow: /\n";
     }
 }
-
-# vim: ai ft=nginx tabstop=2 sw=2 noexpandtab:
-

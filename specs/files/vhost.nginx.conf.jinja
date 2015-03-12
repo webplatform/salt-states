@@ -1,15 +1,34 @@
 # Managed by Saltstack. Do NOT edit manually!
 # Refer to {{ source }}
 server {
-	server_name	{{ subDomainName }}.{{ tld }};
+  server_name {{ subDomainName }}.{{ tld }};
+  listen      80;
 
-	listen		80;
+  include     common_params;
 
-	index		  index.html;
-	root		  /srv/webplatform/webspecs/specs;
-	include		common_params;
+  index       index.html;
+  root        /srv/webplatform/webspecs/specs;
 
-	location / {
-		try_files $uri $uri/ =404;
-	}
+  location    / {
+    try_files $uri $uri/ =404;
+  }
+}
+
+server {
+	server_name {{ subDomainName }}.{{ tld }};
+  listen      443 ssl spdy;
+
+  include     common_params;
+  include     ssl_params;
+
+  ssl                 on;
+  ssl_certificate     /etc/ssl/webplatform/public_default_201407.pem;
+  ssl_certificate_key /etc/ssl/webplatform/201407.key;
+
+  index		    index.html;
+  root		    /srv/webplatform/webspecs/specs;
+
+  location    / {
+    try_files $uri $uri/ =404;
+  }
 }
