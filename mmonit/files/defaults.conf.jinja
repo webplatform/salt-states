@@ -45,15 +45,15 @@ set httpd port {{ monit_port|default(2812) }} signature disable and
   allow @users readonly      # allow users of group 'users' to connect readonly
   allow {{ salt_master_ip|default('127.0.1.1') }}
 
-set mailserver mail.webplatform.org
+set mailserver mail.local.wpdn
   using timeout 10 seconds
 
 set mail-format { from: notifier-monit@webplatform.org }
 
 ## ref: http://mmonit.com/monit/documentation/monit.html#Setting-an-event-filter
-set alert renoir+monit@w3.org not on { pid ppid instance }  # #TODO hardcoded domain name
+set alert team-webplatform-cronjobs+production@w3.org not on { pid ppid instance }  # #TODO hardcoded domain name
 
 {% if grains['level'] == 'production' %}
 ## #TODO remove hardcoded
-set mmonit http://monit:monit@10.10.10.80:8080/collector
+#set mmonit http://monit:monit@10.10.10.80:8080/collector
 {% endif %}
