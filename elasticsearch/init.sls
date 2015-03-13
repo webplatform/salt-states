@@ -15,6 +15,11 @@
  #   - https://github.com/elasticsearch/cookbook-elasticsearch/blob/master/attributes/default.rb
  #   - https://github.com/elasticsearch/cookbook-elasticsearch/blob/master/templates/default/elasticsearch.monitrc.conf.erb
  #
+ # MediaWiki and ElasticSearch?
+ #   - Not possible (for now) unless we open up security breach "dynamic scripting" (link below)
+ #   - https://www.mediawiki.org/wiki/Thread:Extension_talk:CirrusSearch/Is_it_possible_for_CirrusSearch_to_NOT_require_dynamic_scripting%3F
+ #   - https://git.wikimedia.org/blob/operations%2Fpuppet/production/modules%2Felasticsearch%2Ftemplates%2Felasticsearch.yml.erb#L469
+ #
  # #TODO: Set minimum value ES_HEAP_SIZE=64m in /etc/defaults/elasticsearch
  # #TODO: To use ElasticSearchi (Cirrus Search), we have to add `script.disable_dynamic: false` in elasticsearch.yml
  #}

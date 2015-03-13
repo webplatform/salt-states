@@ -212,7 +212,12 @@ $wgGroupPermissions['sysop']['checkuser-log'] = true;
 #require_once( "$IP/extensions/CirrusSearch/CirrusSearch.php" );
 #$wgDisableSearchUpdate = true;
 #$wgSearchType = 'CirrusSearch';
-#$wgCirrusSearchServers = array( '10.10.10.223' );
+#$wgCirrusSearchServers = $wpdConfig['elastic_nodes'];
+## DO NOT USE YET!
+##  - we’ll need a separate elasticsearch cluster :(
+##  - and/or enable Dynamic scripting http://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting.html#_enabling_dynamic_scripting
+##  - Put switch in ES for cors, and allow-hosts.
+##  - OR... use an ElasticSearch VM only for that.
 ## Update index?
 ## - set wgDisableSearchUpdate to false
 ## - refer to extensions/CirrusSearch/README

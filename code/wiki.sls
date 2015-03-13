@@ -1,3 +1,7 @@
+{%- set elastic_nodes = salt['pillar.get']('infra:elasticsearch:nodes') -%}
+{%- set alpha_memcache = salt['pillar.get']('infra:alpha_memcache') -%}
+{%- set alpha_redis = salt['pillar.get']('infra:alpha_redis') -%}
+{%- set sessions_redis = salt['pillar.get']('infra:sessions_redis') -%}
 # Include the common settings for the docs repo
 include:
   - code.prereq
@@ -23,9 +27,10 @@ include:
     - source: salt://code/files/wiki/LocalSettings.php.jinja
     - template: jinja
     - context:
-        alpha_memcache: {{ pillar['infra:alpha_memcache']|default(['127.0.0.1:11211']) }}
-        alpha_redis:    {{ pillar['infra:alpha_redis']|default(['127.0.0.1:6379']) }}
-        sessions_redis: {{ pillar['infra:sessions_redis']|default(['127.0.0.1:6379']) }}
+        elastic_nodes:  {{ elastic_nodes }}
+        alpha_memcache: {{ alpha_memcache }}
+        alpha_redis:    {{ alpha_redis }}
+        sessions_redis: {{ sessions_redis }}
 
 /srv/webplatform/wiki/{{ env }}/cache:
   file.directory:

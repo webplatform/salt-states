@@ -9,14 +9,17 @@
 #ini_set( 'display_errors', 1 );
 #if(isset($_GET['foo'])) { error_log('Foo test hit'); phpinfo(); die(); }
 
+$wpdConfig['elastic_nodes'] =  {{ elastic_nodes|json }};
 $wpdConfig['alpha_memcache'] = array( '127.0.0.1:11255' );
 $wpdConfig['alpha_redis']    = array( '127.0.0.1:6355'  );
 $wpdConfig['sessions_redis'] = array( '127.0.0.1:6379'  );
 
-## TODO LATER!
-#$wpdConfig['alpha_memcache'] = {{ alpha_memcache|default('array("127.0.0.1:11211")') }};
-#$wpdConfig['alpha_redis']    = {{ alpha_redis|default('array("127.0.0.1:6379")') }};
-#$wpdConfig['sessions_redis'] = {{ sessions_redis|default('array("127.0.0.1:6379")') }};
+## Or use pillars data. Might be useful if local node Nutcracker is problematic
+## Note that we are using PHP 5.4+ array notation [],
+## as much as what gets here is a list, it’ll be OK
+#$wpdConfig['alpha_memcache'] = {{ alpha_memcache|json }};
+#$wpdConfig['alpha_redis']    = {{ alpha_redis|json }};
+#$wpdConfig['sessions_redis'] = {{ sessions_redis|json }};
 
 #$wgShowDebug = false;
 #$wgDebugToolbar = true;
