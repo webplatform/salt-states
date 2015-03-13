@@ -10,7 +10,7 @@
   "policy.allow-public": true,
   "metamta.mail-adapter": "PhabricatorMailImplementationPHPMailerAdapter",
   "phpmailer.mailer": "smtp",
-  "phpmailer.smtp-host": "10.10.10.38",
+  "phpmailer.smtp-host": "{{ salt['pillar.get']('accounts:smtp:host', 'localhost') }}",
   "phabricator.timezone": "America\/New_York",
   "metamta.default-address": "notifier-phabricator@webplatform.org",
   "metamta.domain": "source.webplatform.org",

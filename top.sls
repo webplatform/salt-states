@@ -86,8 +86,8 @@ base:
     - redis.server
     - formula.redis
   'monitor*':
-    - monitor.gmetad
-    - monitor.web
+#    - monitor.gmetad
+#    - monitor.web
     - apache.status
   'monitor':
     - specific.monitor

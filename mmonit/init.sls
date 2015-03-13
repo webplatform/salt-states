@@ -23,7 +23,8 @@ monit:
     - watch_in:
       - service: monit
     - context:
-        nodename: {{ grains['fqdn'] }}
+        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
+        fqdn: {{ grains['fqdn'] }}
         monit_pw: {{ salt['pillar.get']('accounts:monit:admin_password', 'somethingrandom') }}
         monit_port: 2812
         salt_master_ip: {{ salt['pillar.get']('infra:hosts_entries:salt', '127.0.0.1') }}

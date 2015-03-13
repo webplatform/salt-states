@@ -48,16 +48,16 @@
 # groupadd -r phd
 # useradd -r -g phd -s /bin/bash -d /srv/webplatform/source/phabricator phd
 # useradd -r -s /bin/bash -d /srv/webplatform/source/phabricator git
-# 
+#
 # in /etc/sudoers
-# 
+#
 # git ALL=(phd) SETENV: NOPASSWD: /usr/bin/git-upload-pack, /usr/bin/git-receive-pack, git
-# 
+#
 # ref: https://secure.phabricator.com/book/phabricator/article/diffusion_hosting/
-# 
+#
 # in vipw -s
 # git:NP:16455::::::
-# 
+#
 # usermod -a -G www-data phd
 # chown -R phd:phd /var/tmp/phd/
 # chmod g+w /var/tmp/phd/pid
@@ -71,7 +71,7 @@
 #   'Maniphest Task': 'Task'
 #   'Pholio Mock': 'Mockup'
 #   'Real Name': 'Also Known As'
-# 
+#
 # # We don't host local docs or use the wiki :)
 # phabricator.uninstalled-applications:
 #   PhabricatorApplicationPhriction: true

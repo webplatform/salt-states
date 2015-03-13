@@ -8,10 +8,9 @@
 # Ref:
 #   - http://mmonit.com/monit/documentation/monit.html
 #
-#{% set hostname = grains['fqdn'] %}
-# Host {{ hostname }}
+# Host {{ fqdn }}
 
-check system {{ nodename }}
+check system {{ fqdn }}
   if loadavg (1min) > 4 then alert
   if loadavg (5min) > 2 then alert
   if memory usage > 85% then alert
@@ -45,6 +44,7 @@ set httpd port {{ monit_port|default(2812) }} signature disable and
   allow @users readonly      # allow users of group 'users' to connect readonly
   allow {{ salt_master_ip|default('127.0.1.1') }}
 
+## We relay email ONLY from local network anyway
 set mailserver mail.local.wpdn
   using timeout 10 seconds
 
@@ -53,7 +53,7 @@ set mail-format { from: notifier-monit@webplatform.org }
 ## ref: http://mmonit.com/monit/documentation/monit.html#Setting-an-event-filter
 set alert team-webplatform-cronjobs+production@w3.org not on { pid ppid instance }  # #TODO hardcoded domain name
 
-{% if grains['level'] == 'production' %}
+{#% if grains['level'] == 'production' %}
 ## #TODO remove hardcoded
 #set mmonit http://monit:monit@10.10.10.80:8080/collector
-{% endif %}
+{% endif %#}

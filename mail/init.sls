@@ -24,7 +24,7 @@ include:
     - require:
       - pkg: exim4
     - context:
-        smarthost: {{ salt['pillar.get']('accounts:smtp:hostname', 'localhost') }}
+        smarthost: {{ salt['pillar.get']('accounts:smtp:host', 'localhost') }}
         username: {{ salt['pillar.get']('accounts:smtp:username', '') }}
         password: {{ salt['pillar.get']('accounts:smtp:password', '') }}
 
@@ -39,7 +39,7 @@ include:
     - context:
         topLevelDomain: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
         fqdn: {{ salt['grains.get']('fqdn') }}
-        smarthost: {{ salt['pillar.get']('accounts:smtp:hostname', 'localhost') }}
+        smarthost: {{ salt['pillar.get']('accounts:smtp:host', 'localhost') }}
 
 /usr/sbin/update-exim4.conf:
   cmd.wait:
