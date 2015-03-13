@@ -46,8 +46,9 @@
   <Directory /var/www/>
     Options FollowSymLinks
     AllowOverride None
-    Order allow,deny
-    allow from all
+    Require all granted
+  </Directory>
+  <Directory /srv/webplatform/lumberjack-web>
     Require all granted
   </Directory>
 
@@ -57,30 +58,25 @@
   # alert, emerg.
   LogLevel warn
 
-  CustomLog /var/log/apache2/www_access.log combined
-
-  <Directory /srv/webplatform/wiki/images>
-    Options -Indexes
-    Require all granted
-  </Directory>
-  <Directory /srv/webplatform/lumberjack-web>
-    Require all granted
-  </Directory>
+  ErrorLog /var/log/apache2/error.log
+  CustomLog /var/log/apache2/access.log combined
 
   Alias /talk/chatlogs   /srv/webplatform/lumberjack-web
   Alias /chatlogs        /srv/webplatform/lumberjack-web
 
   RewriteEngine on
 
-  RedirectMatch ^/.well-known(.+) https://webplatform.org/.well-known$1
+  # Enforce well-known over SSL, under www.webplatform.org domain name
+  # Assuming we want to send to www.webplatform.org/.well-known/...
+  RedirectMatch ^/.well-known(.+) https://%{HTTP_HOST}/.well-known$1
 
-  RewriteRule   ^/docs/(.+)  http://docs.webplatform.org/wiki/$1  [R,L]
-  RedirectMatch ^/docs/?$    http://docs.webplatform.org/wiki/
-  RedirectMatch ^/wiki/?$    http://docs.webplatform.org/wiki/
+  RewriteRule   ^/docs/(.+)  https://docs.webplatform.org/wiki/$1  [R,L]
+  RedirectMatch ^/docs/?$    https://docs.webplatform.org/wiki/
+  RedirectMatch ^/wiki/?$    https://docs.webplatform.org/wiki/
 
   # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0174.html
   RewriteCond %{REQUEST_URI}        ^/(beginners|css|dom|concepts|accessibility|svg|html|javascript|apis)
-  RewriteRule ^(.*)$                http://docs.webplatform.org/wiki$1   [R=301,L]
+  RewriteRule ^(.*)$                https://docs.webplatform.org/wiki$1   [R=301,L]
 
   # Error pages
   ErrorDocument 404 /errors/404.html
@@ -89,6 +85,8 @@
   ErrorDocument 403 /errors/403.html
 </VirtualHost>
 
+
+# Allow non SSL view, but still enforce to go to www...
 <VirtualHost *:80>
   ServerAdmin 	hostmaster@webplatform.org
   ServerName  	webplatform.org
@@ -96,7 +94,8 @@
 
   RewriteEngine on
 
-  RewriteRule   ^/.well-known(.+) https://%{HTTP_HOST}/.well-known$1  [R,L]
+  # Enforce well-known over SSL, under www.webplatform.org domain name
+  RewriteRule   ^/.well-known(.+) https://www.%{HTTP_HOST}/.well-known$1  [R,L]
 
   RewriteCond   %{HTTP_HOST}   !^www\. [NC]
   RewriteCond   %{HTTP_HOST}   !^$

@@ -68,6 +68,9 @@
   RewriteCond %{REQUEST_URI} ^/(w|t)/skins/webplatform/fonts
   RewriteRule ^(.*)$         https://docs.%{HTTP_HOST}/$1 [R,L]
 
+  Alias /compat              "/srv/webplatform/compat"
+  Alias /w/extensions/WebPlatformDocs  "/srv/webplatform/wiki/wpwiki/mediawiki/extensions/WebPlatformMediaWikiExtensionBundle"
+
   Alias /test                "/srv/webplatform/wiki/wptestwiki/mediawiki/index.php"
   Alias /t/skins/webplatform "/srv/webplatform/wiki/wptestwiki/mediawiki/extensions/WebPlatformMediaWikiExtensionBundle/skin"
   Alias /t/images            "/srv/webplatform/wiki/images"
@@ -77,9 +80,6 @@
   Alias /w/skins/webplatform "/srv/webplatform/wiki/wpwiki/mediawiki/extensions/WebPlatformMediaWikiExtensionBundle/skin"
   Alias /w/images            "/srv/webplatform/wiki/images"
   Alias /w                   "/srv/webplatform/wiki/wpwiki/mediawiki"
-
-  Alias /compat              "/srv/webplatform/compat"
-  Alias /w/extensions/WebPlatformDocs  "/srv/webplatform/wiki/wpwiki/mediawiki/extensions/WebPlatformMediaWikiExtensionBundle"
 
   RedirectMatch permanent ^/wiki/(.+)/$ /wiki/$1
   RedirectMatch permanent ^/test/(.+)/$ /test/$1
