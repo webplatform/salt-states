@@ -53,7 +53,7 @@ clone-hypothesis:
     - user: app-user
     - group: www-data
     - context:
-        ## Expected keys: public_url, port, host, elastic_endpoint, sender_email, sender_relay
+        ## Expected keys: public_url, port, host, elastic_endpoint, sender_email
         notes_server_pillar: {{ salt['pillar.get']('infra:notes-server') }}
         ## Expected keys: auth, token, session, session_read, session_recover
         auth_server_endpoints: {{ salt['pillar.get']('infra:auth-server:endpoints') }}

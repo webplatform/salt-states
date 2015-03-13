@@ -88,6 +88,7 @@ base:
   'monitor*':
 #    - monitor.gmetad
 #    - monitor.web
+    - monitor.logstash_receptacle
     - apache.status
   'monitor':
     - specific.monitor
