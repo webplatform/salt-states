@@ -1,0 +1,8 @@
+{%- if grains['level'] == 'production' -%}
+webplatform.org					smtp:
+.production.wpdn				lurker:
+{%- else -%}
+webplatform.org					lurker:
+webplatformstaging.org	lurker:
+.staging.wpdn 					lurker:
+{%- endif -%}

@@ -9,6 +9,8 @@ include:
   - mail
   - postfix
   - mmonit
+  - groups.ops
+  - lurker.postfix
 
 exclude:
   - id: /etc/exim4/passwd.client
@@ -24,12 +26,22 @@ purge-exim:
       - exim4-config
       - exim4-daemon-light
 
-#spamassassin:
-#  pkg.installed
+collector:
+  user.present:
+    - fullname: EMail collector account
+    - shell: /usr/sbin/nologin
+    - createhome: False
+    - system: True
+    - groups:
+      - ops
+    - require:
+      - group: ops
+
 
 mailhub-required-pkgs:
   pkg.installed:
     - pkgs:
+      - mutt
       - amavisd-new
       - clamav-daemon
       - libnet-dns-perl
@@ -115,6 +127,38 @@ dovecot-core:
     - enable: True
     - reload: True
 
+{% for f in ['virtual', 'transport', 'relay_recipients'] %}
+/etc/postfix/{{ f }}:
+  file.managed:
+    - source: salt://mail/files/mailhub/etc/postfix/{{ f }}.jinja
+    - template: jinja
+    - require:
+      - pkg: postfix
+  cmd.wait:
+    - name: postmap /etc/postfix/{{ f }}
+    - watch:
+      - file: /etc/postfix/{{ f }}
+{% endfor %}
+
+/etc/postfix/master.cf:
+  file.managed:
+    - source: salt://mail/files/mailhub/etc/postfix/master.cf.jinja
+    - template: jinja
+    - context:
+        smtp_helo_name: mail.{{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
+    - require:
+      - pkg: postfix
+
+/etc/postfix/main.cf:
+  file.managed:
+    - source: salt://mail/files/mailhub/etc/postfix/main.cf.jinja
+    - template: jinja
+    - context:
+        smtp_helo_name: mail.{{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
+        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
+    - require:
+      - pkg: postfix
+
 /etc/apache2/conf-enabled/performance.conf:
   file.managed:
     - contents: |
@@ -124,7 +168,7 @@ dovecot-core:
     - watch_in:
       - service: mailgraph-viewer
 
-{%- set services = ['spamassassin','clamav-daemon','amavis'] -%}
+{%- set services = ['clamav-daemon','amavis'] -%}
 {%- for svcName in services %}
 {{ svcName }}:
   service.running:

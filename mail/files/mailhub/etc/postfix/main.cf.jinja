@@ -1,0 +1,206 @@
+#
+# File managed by Salt Stack. Do NOT edit manually!
+#
+############################################################
+# CONFIG AUTHOR: MARIUS GOLOGAN (marius.gologan@gmail.com) #
+#                RENOIR BOULANGER (renoir@w3.org)          #
+############################################################
+
+myorigin = {{ tld|default('webplatform.org') }}
+smtpd_banner = {{ smtp_helo_name|default('mail.webplatform.org') }} ESMTP ${stress?stressed} - WebPlatform
+biff = no
+
+# appending .domain is the MUA's job.
+append_dot_mydomain = yes
+
+# Uncomment the next line to generate "delayed mail" warnings
+delay_warning_time = ${stress?30}${stress:60}m
+
+readme_directory = no
+
+# TLS parameters
+smtp_tls_note_starttls_offer = yes
+smtpd_tls_received_header = yes
+tls_random_source = dev:/dev/urandom
+smtp_tls_protocols = TLSv1, SSLv3
+smtpd_tls_protocols = TLSv1, SSLv3
+smtp_tls_CApath = /etc/ssl/certs
+smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+smtpd_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+
+smtpd_tls_dh1024_param_file = /etc/postfix/certs/dh_1024.pem
+smtpd_tls_dh512_param_file = /etc/postfix/certs/dh_512.pem
+smtpd_tls_eecdh_grade = strong
+tls_preempt_cipherlist = no
+
+smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+smtp_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+smtp_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+
+smtpd_tls_session_cache_timeout = ${stress?7200}${stress:3600}s
+smtpd_tls_always_issue_session_ids = no
+
+smtpd_tls_loglevel = 1
+smtp_tls_loglevel = 1
+
+smtpd_use_tls = yes
+smtp_tls_ciphers = medium
+smtpd_tls_ciphers = medium
+smtpd_tls_received_header = yes
+
+smtpd_tls_security_level = may
+smtp_tls_security_level = may
+
+# DKIM
+milter_default_action = accept
+milter_protocol = 2
+smtpd_milters = unix:/var/run/opendkim/opendkim.sock
+
+non_smtpd_milters = $smtpd_milters
+
+# smtpd_tls_mandatory_ciphers = high
+# smtp_tls_mandatory_ciphers = high
+
+
+# See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
+# information on enabling SSL in the smtp client.
+
+smtpd_discard_ehlo_keyword_address_maps =
+	cidr:/etc/postfix/esmtp_access
+
+
+myhostname = {{ smtp_helo_name|default('mail.webplatform.org') }}
+# relayhost =
+mailbox_size_limit = ${stress?15728640}${stress:207357952}
+message_size_limit = ${stress?15728640}${stress:207357952}
+recipient_delimiter = +
+
+
+mydestination =
+#mydestination = $mydomain
+local_recipient_maps =
+virtual_alias_maps = hash:/etc/postfix/virtual regexp:/etc/postfix/virtual_alias
+# alias_maps = hash:/etc/aliases
+# alias_database = hash:/etc/aliases
+relay_domains = $mydomain
+parent_domain_matches_subdomains = debug_peer_list smtpd_access_maps
+
+
+transport_maps = hash:/etc/postfix/transport
+relay_recipient_maps = hash:/etc/postfix/relay_recipients
+
+
+smtpd_recipient_restrictions =
+	permit_mynetworks
+	reject_authenticated_sender_login_mismatch
+	permit_sasl_authenticated
+	reject_unauth_destination
+	check_recipient_access hash:/etc/postfix/recipient_access
+	reject_unknown_recipient_domain
+	reject_unverified_recipient
+
+unverified_recipient_reject_code = 550
+address_verify_relayhost =
+
+smtpd_helo_required = yes
+smtpd_helo_restrictions =
+	permit_mynetworks
+	permit_sasl_authenticated
+	${stress?check_sender_access regexp:/etc/postfix/sndr}
+	${stress?reject_invalid_helo_hostname}
+	${stress?reject_non_fqdn_helo_hostname}
+	check_helo_access regexp:/etc/postfix/dottld
+
+smtpd_sender_restrictions =
+	permit_mynetworks
+	permit_sasl_authenticated
+	reject_unknown_sender_domain
+	reject_non_fqdn_sender
+	reject_unknown_address
+
+# http://www.symantec.com/connect/articles/filtering-e-mail-postfix-and-procmail-part-two
+# http://www.postfix.org/postconf.5.html at smtpd_client_restrictions
+# http://www.postfix.org/postconf.5.html at check_sender_access
+# http://www.postfix.org/regexp_table.5.html
+# http://www.postfix.org/SMTPD_ACCESS_README.html
+# http://www.postfix.org/access.5.html
+smtpd_client_restrictions =
+	permit_mynetworks
+	permit_sasl_authenticated
+	check_recipient_access regexp:/etc/postfix/recipients
+	${stress?check_sender_access regexp:/etc/postfix/sndr}
+	check_client_access regexp:/etc/postfix/client
+	#check_sender_access hash:/etc/postfix/sender
+	check_sender_access regexp:/etc/postfix/dottld
+	check_client_access regexp:/etc/postfix/dottld
+	reject_invalid_hostname
+	reject_unauth_pipelining
+	reject_rhsbl_client zen.spamhaus.org
+	cidr:/etc/postfix/client.cidr
+
+postscreen_dnsbl_action = enforce
+postscreen_dnsbl_threshold = ${stress?1}${stress:0}
+#postscreen_dnsbl_sites = list.dnswl.org*-5
+
+header_checks = regexp:/etc/postfix/header
+body_checks = regexp:/etc/postfix/body
+content_filter = smtp-amavis:[127.0.0.1]:10024
+masquerade_domains = $mydomain
+masquerade_classes = envelope_sender,envelope_recipient,header_sender,header_recipient
+{% if grains['level'] == 'production' %}
+local_transport = error:local mail delivery is disabled
+{% endif %}
+smtpd_delay_reject = ${stress?no}${stress:yes}
+bounce_size_limit = ${stress?512}${stress:1024}
+queue_run_delay = ${stress?10}${stress:5}m
+minimal_backoff_time = ${stress?10}${stress:5}m
+maximal_backoff_time = ${stress?60}${stress:10}m
+mydomain = {{ tld|default('webplatform.org') }}
+smtpd_soft_error_limit = ${stress?1}${stress:3}
+smtpd_error_sleep_time = ${stress?1}${stress:3}s
+smtpd_hard_error_limit = ${stress?1}${stress:5}
+maximal_queue_lifetime = ${stress?1}${stress:5}d
+bounce_queue_lifetime = ${stress?1}${stress:3}h
+sender_dependent_relayhost_maps = hash:/etc/postfix/relayhost_maps
+sender_dependent_default_transport_maps =  hash:/etc/postfix/assips_maps
+
+smtpd_reject_footer =
+ Sorry, your host is not whitelisted and therefore not allowed to use us as an exit relay.
+ Refer to https://docs.{{ tld|default('webplatform.org') }}/wiki/WPD:Infrastructure/Components/email
+ Here are a few metrics:
+ Time: ($localtime), Client: ($client_address), Server: ($server_name).
+
+smtpd_sender_login_maps = hash:/etc/postfix/login_maps
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_authenticated_header = no
+default_process_limit = 1500
+
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 10.10.10.0/24 208.113.157.0/24
+
+# EXPERIMENTAL anti flood parameters:
+
+anvil_rate_time_unit = ${stress?360}${stress:60}s
+
+smtpd_client_connection_count_limit = ${stress?8}${stress:16}
+# The maximum number of connections that an SMTP client may make simultaneously.
+
+smtpd_client_connection_rate_limit = ${stress?40}${stress:80}
+# The maximum number of connections that an SMTP client may make in the time interval specified with anvil_rate_time_unit (default: 60s).
+
+smtpd_client_message_rate_limit = ${stress?40}${stress:80}
+# The maximum number of message delivery requests that an SMTP client may make in the time interval specified with anvil_rate_time_unit (default: 60s).
+
+smtpd_client_recipient_rate_limit = ${stress?40}${stress:80}
+# The maximum number of recipient addresses that an SMTP client may specify in the time interval specified with anvil_rate_time_unit (default: 60s).
+
+smtpd_client_new_tls_session_rate_limit = ${stress?40}${stress:80}
+# The maximum number of new TLS sessions (without using the TLS session cache) that an SMTP client may negotiate in the time interval specified with anvil_rate_time_unit (default: 60s).
+
+postscreen_access_list = permit_mynetworks,
+	cidr:/etc/postfix/postscreen_access.cidr

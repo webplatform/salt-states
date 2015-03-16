@@ -51,7 +51,7 @@ set mailserver mail.local.wpdn
 set mail-format { from: notifier-monit@webplatform.org }
 
 ## ref: http://mmonit.com/monit/documentation/monit.html#Setting-an-event-filter
-set alert team-webplatform-cronjobs+production@w3.org not on { pid ppid instance }  # #TODO hardcoded domain name
+set alert team-webplatform-cronjobs@w3.org not on { pid ppid instance }  # #TODO hardcoded domain name
 
 {#% if grains['level'] == 'production' %}
 ## #TODO remove hardcoded

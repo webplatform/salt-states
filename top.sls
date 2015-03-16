@@ -120,6 +120,8 @@ base:
   'mail*':
     - logwatch
     - mail.mailhub
+  'mail* AND not G@level:production':
+    - lurker.postfix
   'roles:elastic':
     - match: grain
     - elasticsearch.main_cluster
