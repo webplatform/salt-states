@@ -1,4 +1,5 @@
 #!/bin/bash
+{#
 
 # Managed by SaltStack, do NOT edit manually!
 # source {{ source }}
@@ -27,6 +28,7 @@
 #   - http://blog.blindgaenger.net/monitor_applications_with_monit.html
 #   - http://spin.atomicobject.com/2010/11/30/monitoring-and-management-with-monit-and-nagios/
 #   - http://mmonit.com/monit/documentation/monit.html#generic__send_expect_  (in case I want to get diretly through TCP)
+#
 
 #curl --version | grep -Po '\s\d+?\.\d+?\.?\d+?\.?\d+?\s'
 #check=$(curl --connect-timeout 9 -sL -H "Authorization: Bearer $token" 'https://profile.accounts.webplatform.org/v1/email' | grep email)
@@ -42,19 +44,24 @@
 #>>{"email":"renoir@w3.org","uid":"3e09d6df843341bc939a25223ab85ecf"}
 # NOTE the uid, here --------------^  its what $test_account_uid would be like
 
-#curl -XPOST -H 'Content-Type: application/json' "https://oauth.accounts.webplatformstaging.org/v1/verify" -d "{\"token\": \"$test_bearer_token\"}"
+#curl -XPOST -H 'Content-Type: application/json' "https://oauth.accounts.webplatformstaging.org/v1/verify" -d "{\"token\": \"$token\"}"
 #>>{"user":"3e09d6df843341bc939a25223ab85ecf","scope":["profile"],"email":"renoir@w3.org"}
 
 #curl -H 'Content-Type: application/json' "https://api.accounts.webplatformstaging.org/v1/account/status?uid=$test_account_uid"
 #>>{"exists":true}
 
-test_bearer_token="{{ salt['pillar.get']('accounts:fxa:monit:oauth_token', '') }}"
+token="{{ salt['pillar.get']('accounts:auth-server:profile:test_token', '') }}"
 
-profile_endpoint_host="{{ infra_pillar['auth']['host']|default('127.0.0.1') }}"
-profile_endpoint_port="{{ infra_pillar['auth']['port']|default(8081) }}"
+profile_endpoint_host="{{ infra_pillar['profile']['host']|default('127.0.0.1') }}"
+profile_endpoint_port="{{ infra_pillar['profile']['port']|default(8081) }}"
 
-check=$(curl --connect-timeout 9 -A 'curl/7.35.0 profile-check/1.1' -sL -H "Authorization: Bearer $test_bearer_token" "http://$profile_endpoint_host:$profile_endpoint_port/v1/session/read" | grep email)
+check=$(curl --connect-timeout 9 -A 'curl/7.35.0 profile-check/1.1' -sL -H "Authorization: Bearer $token" "http://${profile_endpoint_host}:${profile_endpoint_port}/v1/session/read" | grep email)
+#}
 
+test_bearer_token='6ddbdaa6b37a46f6a9d2f34ba1eec211dc43481abf6b53b2d379fb11b7d50ea7'
+test_uid='3e09d6df843341bc939a25223ab85ecf'
+
+check=$(curl --connect-timeout 9 -A 'curl/7.35.0 profile-check/1.1.1' -sL -k -H "Authorization: Bearer $test_bearer_token" -H 'Content-Type: application/json' "https://profile.accounts.webplatform.org/v1/session/read" | grep email)
 if [[ -n "$check" ]] ; then
 #    echo "Service is working"
 exit 0

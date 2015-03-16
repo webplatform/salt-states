@@ -4,7 +4,7 @@
 include:
   - nodejs
   - users.app-user
-  - fxa.monit
+  - .monit
 
 fxa-dependencies:
   pkg.installed:

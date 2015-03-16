@@ -92,10 +92,30 @@
     ServerName  	webplatform.org
     ServerAlias 	webplatformstaging.org
 
-    RewriteEngine on
-    RewriteCond   %{HTTP_HOST}   !^www\. [NC]
-    RewriteCond   %{HTTP_HOST}   !^$
-    RewriteRule   ^/?(.*)        https://www.%{HTTP_HOST}/$1 [L,R,NE]
+    DocumentRoot        /var/www
+
+    <Directory />
+      Options FollowSymLinks
+      AllowOverride None
+      Require all granted
+    </Directory>
+    <Directory /var/www>
+      Options FollowSymLinks
+      AllowOverride None
+      Require all granted
+    </Directory>
+
+    #RewriteEngine on
+    #RewriteCond   %{HTTP_HOST}    !^www\. [NC]
+    #RewriteCond   %{HTTP_HOST}    !^$
+    #RewriteCond   %{QUERY_STRING} !well-known
+    #RewriteRule   ^/?(.*)         https://www.%{HTTP_HOST}/$1 [L,R,NE]
+
+    # Error pages
+    ErrorDocument 404 /errors/404.html
+    ErrorDocument 503 /errors/503.html
+    ErrorDocument 500 /errors/500.html
+    ErrorDocument 403 /errors/403.html
 
     SSLEngine on
     SSLCertificateFile      /etc/ssl/webplatform/public_default_201407.pem
