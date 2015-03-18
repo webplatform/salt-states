@@ -42,53 +42,5 @@ server {
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 }
 
-server {
-    listen       443 ssl spdy;
-    server_name  api.accounts.{{ tld }};
-
-    include      common_params;
-    include      ssl_params;
-
-    location / {
-      proxy_pass http://{{ infra_pillar['auth']['host']|default('127.0.0.1') }}:{{ infra_pillar['auth']['port']|default(9000) }};
-    }
-
-    ssl on;
-    ssl_certificate     /etc/ssl/webplatform/public_accounts_subdomains_201404.pem;
-    ssl_certificate_key /etc/ssl/webplatform/201404.key;
-}
-
-server {
-    listen       443 ssl spdy;
-    server_name  oauth.accounts.{{ tld }};
-
-    include      common_params;
-    include      ssl_params;
-
-    location / {
-      proxy_pass http://{{ infra_pillar['oauth']['host']|default('127.0.0.1') }}:{{ infra_pillar['oauth']['port']|default(9010) }};
-    }
-
-    ssl on;
-    ssl_certificate     /etc/ssl/webplatform/public_accounts_subdomains_201404.pem;
-    ssl_certificate_key /etc/ssl/webplatform/201404.key;
-}
-
-server {
-    listen       443 ssl spdy;
-    server_name  profile.accounts.{{ tld }};
-
-    include      common_params;
-    include      ssl_params;
-
-    location / {
-      proxy_pass http://{{ infra_pillar['profile']['host']|default('127.0.0.1') }}:{{ infra_pillar['profile']['port']|default(8081) }};
-    }
-
-    ssl on;
-    ssl_certificate     /etc/ssl/webplatform/public_accounts_subdomains_201404.pem;
-    ssl_certificate_key /etc/ssl/webplatform/201404.key;
-}
-
 # vim: ai ft=nginx tabstop=2 sw=2 noexpandtab:
 

@@ -108,12 +108,8 @@ base:
   'mail*':
     - logwatch
     - mail.mailhub
-  'notes*':
-    - hypothesis
   'elastic*':
     - elasticsearch
-  'accounts*':
-    - fxa
   'hhvmbackend*':
     - hhvm
     - nutcracker
@@ -128,4 +124,12 @@ base:
   'roles:specs':
     - match: grain
     - specs
+  'roles:notes':
+    - match: grain
+    - hypothesis
+    - hypothesis.fxa_and_h_ssl_issue
+  'roles:accounts':
+    - match: grain
+    - fxa
+    - fxa.fxa_and_h_ssl_issue
 
