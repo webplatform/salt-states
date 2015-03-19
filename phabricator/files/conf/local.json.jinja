@@ -1,6 +1,6 @@
 {
   "security.require-https": true,
-  "phabricator.base-uri": "https:\/\/source.webplatform.org",
+  "phabricator.base-uri": "https:\/\/source.{{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}",
   "mysql.user": "root",
   "mysql.pass": "",
   "mysql.host": "localhost",
@@ -12,8 +12,8 @@
   "phpmailer.mailer": "smtp",
   "phpmailer.smtp-host": "{{ salt['pillar.get']('accounts:smtp:host', 'localhost') }}",
   "phabricator.timezone": "America\/New_York",
-  "metamta.default-address": "notifier-phabricator@webplatform.org",
-  "metamta.domain": "source.webplatform.org",
+  "metamta.default-address": "notifier-project@{{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}",
+  "metamta.domain": "source.{{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}",
   "repository.default-local-path": "\/srv\/gitrepos",
   "pygments.enabled": true,
   "storage.local-disk.path": "\/srv\/storage\/phabricator",
