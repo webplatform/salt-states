@@ -16,3 +16,6 @@ extend:
     file:
       - absent
 
+/etc/nginx/sites-enabled/default:
+  file.absent
+
