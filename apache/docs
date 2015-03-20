@@ -91,3 +91,6 @@
   ErrorDocument 502 /errors/502.html
   ErrorDocument 503 /errors/503.html
 </VirtualHost>
+
+# vim: et ai ts=2 sw=2 st=apache ft=apache
+

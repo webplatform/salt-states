@@ -1,6 +1,8 @@
 <?php
 
-{%- set masterdb_ip   = salt['pillar.get']('infra:hosts_entries:masterdb', 'localhost') %}
+{%  set db_creds      = salt['pillar.get']('accounts:buggenie:db') -%}
+{%- set masterdb_ip   = salt['pillar.get']('infra:hosts_entries:masterdb') -%}
+{%- set tld           = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
 
 ## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
 ## source {{ source }}
@@ -10,12 +12,12 @@
 #ini_set('display_errors', true);
 #if(isset($_GET['foo'])) { error_log('Foo test hit from project'); phpinfo(); die(); }
 
-self::setUname("{{ salt['pillar.get']('accounts:buggenie:db:username', 'root') }}");
-self::setPasswd("{{ salt['pillar.get']('accounts:buggenie:db:password', '') }}");
+self::setUname("{{ db_creds.username|default('root') }}");
+self::setPasswd("{{ db_creds.password|default('') }}");
 self::setTablePrefix("tbg3_");
-self::setDSN("mysql:host={{ masterdb_ip }};dbname={{ salt['pillar.get']('accounts:buggenie:db:database', 'buggenie') }}");
+self::setDSN("mysql:host={{ masterdb_ip }};dbname={{ db_creds.database|default('buggenie') }}");
 
-$siteTopLevelDomain = 'webplatformstaging.org';
+$siteTopLevelDomain = '{{ tld }}';
 
 # vim: set ft=php expandtab:
 

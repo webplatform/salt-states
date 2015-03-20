@@ -2,12 +2,10 @@
   ServerAdmin 	hostmaster@webplatform.org
   ServerName  	www.webat25.org
   ServerAlias 	webat25.org
-  ServerAlias   webat25.webplatformstaging.org
 
   DocumentRoot /srv/webplatform/webat25/
 
   Header set Cache-Control "max-age=86400, must-revalidate"
-  Header set X-Robots-Tag "noindex, nofollow"
 
   <Directory /srv/webplatform/webat25/>
     Options FollowSymLinks
@@ -26,3 +24,6 @@
 
   CustomLog /var/log/apache2/webat25_access.log combined
 </VirtualHost>
+
+# vim: et ai ts=2 sw=2 st=apache ft=apache
+

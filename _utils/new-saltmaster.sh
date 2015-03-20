@@ -272,9 +272,9 @@ repos["pillar"]="git@source.webplatform.org:pillars.git"
 repos["runner"]="git@source.webplatform.org:runners.git"
 repos["opsconfigs"]="git@source.webplatform.org:opsconfigs.git"
 
-options["salt"]="--branch 201409-removing-private-data --quiet"
-options["private"]="--branch 201409-removing-private-data --quiet"
-options["pillar"]="--branch 201409-removing-private-data --quiet"
+options["salt"]="--branch future-master --quiet"
+options["private"]="--branch future-master --quiet"
+options["pillar"]="--branch future-master --quiet"
 options["runner"]="--quiet"
 options["opsconfigs"]="--quiet"
 

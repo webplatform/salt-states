@@ -8,7 +8,7 @@ include:
   - code.packages
 {%- if rolesDict|length() >= 1 %}
 {% for roleName in rolesDict %}
-  - vm.{{ roleName }}
+  - roles.{{ roleName }}
 {% endfor %}
 {% endif %}
 

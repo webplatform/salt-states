@@ -3,6 +3,7 @@
 {%- set data = salt['pillar.get']('accounts:blog', {}) -%}
 {%- set db_creds      = salt['pillar.get']('accounts:blog:db') -%}
 {%- set db_servers    = salt['pillar.get']('infra:db_servers:mysql:slaves', []) -%}
+{%- set alpha_memcache = salt['pillar.get']('infra:alpha_memcache') -%}
 {%- set masterdb_ip   = salt['pillar.get']('infra:hosts_entries:masterdb', 'localhost') %}
 
 ## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
@@ -27,7 +28,7 @@ $siteTopLevelDomain = 'webplatform.org';
 $wpd['pagespeed_key'] = "{{ salt['pillar.get']('accounts:blog:secrets:googlepagespeed', '') }}";
 $wpd['piwik_url'] = 'https://stats.' . $siteTopLevelDomain . '/';
 $wpd['piwik_id'] = 1;
-$wpd['memcache_array'] = array('127.0.0.1:11255');
+$wpd['memcache_array'] = {{ alpha_memcache|json }};
 
 /**
  * WebPlatform Blog

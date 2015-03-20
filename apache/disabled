@@ -25,3 +25,6 @@
         ErrorDocument 404 /disabled.php
 
 </VirtualHost>
+
+# vim: et ai ts=2 sw=2 st=apache ft=apache
+

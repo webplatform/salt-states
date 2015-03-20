@@ -40,7 +40,7 @@
   DocumentRoot 	/srv/webplatform/dabblet/preview
 
   <Directory /srv/webplatform/dabblet/preview>
-    AllowOverride None 
+    AllowOverride None
     Require all granted
     RewriteEngine on
     RewriteBase   /
@@ -90,3 +90,6 @@ ErrorLog syslog:local1
   Alias /robots.txt /var/www/robots.txt
   Alias /wpdlogo.png /var/www/wpdlogo.png
 </VirtualHost>
+
+# vim: et ai ts=2 sw=2 st=apache ft=apache
+

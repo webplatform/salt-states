@@ -16,3 +16,6 @@ npm:
     - require:
       - pkg: nodejs
 
+# Use update-alternatives instead of nodejs-legacy #TODO
+#update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
+

@@ -1,8 +1,3 @@
-#vim: ai ft=yaml
-#
-# Ref:
-#   - http://docs.saltstack.com/en/latest/ref/states/top.html#other-ways-of-targeting-minions
-#
 base:
   '*':
     - salt
@@ -132,4 +127,6 @@ base:
     - match: grain
     - fxa
     - fxa.fxa_and_h_ssl_issue
+
+# vim: ai filetype=yaml tabstop=2 softtabstop=2 shiftwidth=2
 

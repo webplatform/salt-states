@@ -74,11 +74,8 @@ vim-pkgs:
     - names:
       - vim
       - vim-common
-  file.managed:
-    - name: /usr/share/vim/addons/syntax/nginx.vim
-    - source: salt://webplatform/files/vim/syntax/ft.nginx.vim
-    - require:
-      - pkg: vim-pkgs
+      - vim-syntax-docker
+      - vim-syntax-go
 
 /usr/bin/timeout:
   file.exists
@@ -108,20 +105,6 @@ resolvconf -u:
         deb http://ubuntu.wikimedia.org/ubuntu trusty main
         deb http://ubuntu.wikimedia.org/ubuntu trusty-updates main
         deb http://ubuntu.wikimedia.org/ubuntu trusty-security main
-
-#/etc/sysctl.conf:
-#  file.append:
-#    - text: |
-#        #
-#        ###################################################################
-#        # WebPlatform Docs; Attempt fixing memory allocation issue
-#        # Attempt on fixing "X invoked oom-killer: gfp_mask=, order=0, oom_adj=0"
-#        # http://askubuntu.com/questions/161521/why-does-my-server-freeze-everyday-at-the-same-time
-#        # http://www.hskupin.info/2010/06/17/how-to-fix-the-oom-killer-crashe-under-linux/
-#        # https://www.kernel.org/doc/Documentation/vm/overcommit-accounting
-#        vm.overcommit_memory = 2
-#        vm.overcommit_ratio = 80
-
 
 /usr/local/bin/wpd-autoupdate.sh:
   file.managed:

@@ -42,7 +42,7 @@ server {
   }
 
   location ^/wordpress/wp-admin {
-    add_header X-Foo "WordPRess Admin";
+    add_header X-Foo "WordPress Admin";
     rewrite ^/wordpress/wp-admin(.*) /wordpress/wp-admin/index.php?$1;
   }
 

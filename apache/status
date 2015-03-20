@@ -6,3 +6,6 @@
     Allow from 127.0.0.1
   </Location>
 </VirtualHost>
+
+# vim: et ai ts=2 sw=2 st=apache ft=apache
+

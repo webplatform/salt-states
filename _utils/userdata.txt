@@ -29,4 +29,5 @@ packages:
   - salt-common
   - salt-master
 
-# vim: et ts=2 sw=2 ft=yaml:
+# vim: ai filetype=yaml tabstop=2 softtabstop=2 shiftwidth=2
+

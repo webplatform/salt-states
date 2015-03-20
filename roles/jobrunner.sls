@@ -1,3 +1,3 @@
 include:
-  - vm.app
+  - roles.app
   - mediawiki.jobrunner

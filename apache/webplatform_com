@@ -48,3 +48,6 @@
   RewriteCond   %{HTTP_HOST}   !^$
   RewriteRule   ^/?(.*)        http://www.%{HTTP_HOST}/$1 [L,R,NE]
 </VirtualHost>
+
+# vim: et ai ts=2 sw=2 st=apache ft=apache
+

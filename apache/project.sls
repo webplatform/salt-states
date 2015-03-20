@@ -4,6 +4,7 @@ include:
 
 {% from "apache/module.sls" import a2mod %}
 {{ a2mod('rewrite') }}
+{{ a2mod('ssl') }}
 
 extend:
   apache2:
@@ -44,3 +45,7 @@ buggenie-requirements:
       - file: /etc/apache2/sites-available/project.conf
     - watch_in:
       - service: apache2
+
+/etc/apache2/mods-enabled/ssl.load:
+  file:
+    - exists
