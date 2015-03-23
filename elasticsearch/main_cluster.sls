@@ -1,10 +1,10 @@
 include:
   - elasticsearch
 
-Give a hint of the nodename:
-  file.append:
+elasticsearch-cluster-config-webplatform:
+  file.managed:
     - name: /etc/elasticsearch/elasticsearch.yml
-    - text: |
+    - contents: |
         node.fqdn: {{ grains['fqdn'] }}
         node.name: {{ grains['nodename'] }}
         cluster.name: webplatform

@@ -103,7 +103,7 @@ base:
   'mail*':
     - logwatch
     - mail.mailhub
-  'roles:elasticsearch':
+  'roles:elastic':
     - match: grain
     - elasticsearch.main_cluster
   'roles:jobrunner':

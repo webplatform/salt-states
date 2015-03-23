@@ -46,10 +46,10 @@ include:
 
 vim-syntax-pkgs:
   pkg.installed:
-    pkgs:
+    - pkgs:
       - vim-syntax-docker
       - vim-syntax-go
-    require:
+    - require:
       - pkg: vim-pkgs
 
 ## SecurityGroup port: TCP 4505 4506 @salt

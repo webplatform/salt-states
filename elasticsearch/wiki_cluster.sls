@@ -1,12 +1,14 @@
 include:
   - elasticsearch
 
-Give a hint of the nodename:
-  file.append:
+elasticsearch-cluster-config-wiki:
+  file.managed:
     - name: /etc/elasticsearch/elasticsearch.yml
-    - text: |
+    - contents: |
         node.fqdn: {{ grains['fqdn'] }}
         node.name: {{ grains['nodename'] }}
         cluster.name: wiki
+        script.disable_dynamic: false
     - require:
       - pkg: elasticsearch
+

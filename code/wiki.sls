@@ -1,4 +1,4 @@
-{%- set elastic_nodes = salt['pillar.get']('infra:elasticsearch:nodes') -%}
+{%- set elastic_nodes_wiki = salt['pillar.get']('infra:elasticsearch:nodes-wiki') -%}
 {%- set alpha_memcache = salt['pillar.get']('infra:alpha_memcache') -%}
 {%- set alpha_redis = salt['pillar.get']('infra:alpha_redis') -%}
 {%- set sessions_redis = salt['pillar.get']('infra:sessions_redis') -%}
@@ -27,7 +27,7 @@ include:
     - source: salt://code/files/wiki/LocalSettings.php.jinja
     - template: jinja
     - context:
-        elastic_nodes:  {{ elastic_nodes }}
+        elastic_nodes_wiki:  {{ elastic_nodes_wiki }}
         alpha_memcache: {{ alpha_memcache }}
         alpha_redis:    {{ alpha_redis }}
         sessions_redis: {{ sessions_redis }}
@@ -81,6 +81,8 @@ rsync-run-{{ env }}:
     - template: jinja
     - user: www-data
     - group: www-data
+    - context:
+        elastic_nodes_wiki:  {{ elastic_nodes_wiki }}
     - require:
       - file: /srv/webplatform/wiki/Settings.php
 

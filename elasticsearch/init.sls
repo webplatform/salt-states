@@ -69,16 +69,6 @@ python-elasticsearch:
     - require:
       - pkg: elasticsearch
 
-Give a hint of the nodename:
-  file.append:
-    - name: /etc/elasticsearch/elasticsearch.yml
-    - text: |
-        node.fqdn: {{ grains['fqdn'] }}
-        node.name: {{ grains['nodename'] }}
-        cluster.name: webplatform
-    - require:
-      - pkg: elasticsearch
-
 Override default ElasticSearch user:
   file.append:
     - name: /etc/default/elasticsearch
