@@ -6,6 +6,7 @@ include:
   - salt
   - users
   - mmonit
+  - webplatform
 
 /srv/opsconfigs/userdata.txt:
   file.managed:
@@ -43,6 +44,14 @@ include:
       - user: {{ username }}
 {% endfor %}
 
+vim-syntax-pkgs:
+  pkg.installed:
+    pkgs:
+      - vim-syntax-docker
+      - vim-syntax-go
+    require:
+      - pkg: vim-pkgs
+
 ## SecurityGroup port: TCP 4505 4506 @salt
 salt-master-deps:
   pkg.installed:
@@ -58,7 +67,6 @@ salt-master-deps:
       - jq
       - swaks
       - gnutls-bin
-      - monkeytail
 
 # ref: http://hardenubuntu.com/software/install-fail2ban
 setup-fail2ban:

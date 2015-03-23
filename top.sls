@@ -103,8 +103,12 @@ base:
   'mail*':
     - logwatch
     - mail.mailhub
-  'elastic*':
-    - elasticsearch
+  'roles:elasticsearch':
+    - match: grain
+    - elasticsearch.main_cluster
+  'roles:jobrunner':
+    - match: grain
+    - elasticsearch.wiki_cluster
   'hhvmbackend*':
     - hhvm
     - nutcracker

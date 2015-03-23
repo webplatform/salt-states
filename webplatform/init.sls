@@ -65,17 +65,16 @@ non-needed-softwares:
 
 commonly-used-utilities:
   pkg.installed:
-    - names:
+    - pkgs:
       - screen
       - htop
+      - monkeytail
 
 vim-pkgs:
   pkg.installed:
-    - names:
+    - pkgs:
       - vim
       - vim-common
-      - vim-syntax-docker
-      - vim-syntax-go
 
 /usr/bin/timeout:
   file.exists
