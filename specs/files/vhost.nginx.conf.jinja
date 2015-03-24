@@ -22,6 +22,11 @@ server {
   index		    index.html;
   root		    /srv/webplatform/specs;
 
+  # Should work fine, adjust with Robin #TODO
+  location    /hook {
+    proxy_pass http://{{ publican_backend_host }}:{{ publican_backend_port }};
+  }
+
   location    / {
     try_files $uri $uri/ =404;
   }

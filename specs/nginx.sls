@@ -8,6 +8,8 @@ include:
     - context:
         tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
         subDomainName: specs
+        publican_backend_host: {{ salt['pillar.get']('infra:publican:host', '127.0.0.1') }}
+        publican_backend_port: {{ salt['pillar.get']('infra:publican:port', 7002) }}
     - require:
       - pkg: nginx
     - watch_in:

@@ -3,7 +3,7 @@
 include:
   - groups
 {% for username in users %}
-  - users.{{ username }}
+  - .{{ username }}
 {% endfor %}
 
 # Unsure:
@@ -19,7 +19,7 @@ include:
 # - 1007, renoirb
 # - 1008, jean-gui
 # - 1009, vivien
-# - 1010, darobin
+# - 1010, robin
 # - 1011, tripu
 # - 1012, gerald
 # - 1150, estheban
