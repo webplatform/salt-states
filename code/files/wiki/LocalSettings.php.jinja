@@ -64,7 +64,8 @@ $wgDefaultRobotPolicy = 'index,follow';
 {% endif %}
 
 ## ref: http://www.mediawiki.org/wiki/Manual:$wgCanonicalServer
-$wgServer = "https://docs.".$siteTopLevelDomain;
+$wgServer = "//docs.".$siteTopLevelDomain;
+$wgCanonicalServer = "https://docs.".$siteTopLevelDomain;
 
 $wgCompatablesJsonFileUrl = "https://docs.".$siteTopLevelDomain."/compat/data.json";
 

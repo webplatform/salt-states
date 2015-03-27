@@ -40,16 +40,21 @@ $wgCacheDirectory = dirname($IP)."/cache";
 #$wgCookieExpiration = 180*86400;
 #$wgCookieDomain = "";
 #$wgCookiePath = "/";
-#$wgCookieSecure = "detect";
 #$wgDisableCookieCheck = false;
 #$wgCookiePrefix = false;
-#$wgCookieHttpOnly = true;
 #$wgCacheVaryCookies = array();
 #$wgSessionName = false;
 
+$wgCookieSecure = true;
+$wgCookieHttpOnly = true;
+$wgSecureLogin = true;
+$wgDBssl = true;
+
+## Find a way to keep session duration in sync with cookie #TODO
+## webplatform/ops#135 at https://github.com/webplatform/ops/issues/135
+$wgCookieExpiration = 3*3600;
+
 ## Upcoming improvements
-#$wgDBssl = true;
-#$wgSecureLogin = true;
 #$wgResourceLoaderUseESI = true;
 $wgIncludeLegacyJavaScript = false;
 $wgResourceLoaderExperimentalAsyncLoading = true;
@@ -62,6 +67,17 @@ $wgResourceLoaderExperimentalAsyncLoading = true;
 ##
 $wgDisableOutputCompression = true;
 
+# ref: https://github.com/wikimedia/operations-mediawiki-config/blob/master/wmf-config/CommonSettings.php#L945
+#$wgMaxSquidPurgeTitles = 500;
+#$wgInvalidateCacheOnLocalSettingsChange = false;
+#$wgCacheEpoch = '20130601000000';
+#$wgThumbnailEpoch = '20130601000000';
+
+# ref: https://github.com/wikimedia/operations-mediawiki-config/blob/master/wmf-config/CommonSettings.php#L305
+#$wgUseGzip = true;
+#$wgRCMaxAge = 30 * 86400;
+
+
 $wgMaxShellMemory = 1024 * 512;
 
 ## See https://github.com/wikimedia/operations-puppet/tree/production/modules/varnish/templates
@@ -69,6 +85,7 @@ $wgMaxShellMemory = 1024 * 512;
 ## Frontend cache settings
 $wgUseSquid = true;
 $wgSquidServers = array("docs.{$siteTopLevelDomain}");  // To send purge
+$wgVaryOnXFP = true;
 #$wgUsePrivateIPs = true;
 
 ## Configured by Salt stack in code/wiki.sls

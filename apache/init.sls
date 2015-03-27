@@ -15,10 +15,15 @@ apache2:
 # 02: blog
 # 03: specs
 
-/etc/apache2/sites-enabled/000-default.conf:
+
+{% for f in ['mods-enabled/deflate.conf'
+            ,'mods-enabled/deflate.load'
+            ,'sites-enabled/000-default.conf'] %}
+/etc/apache2/{{ f }}:
   file.absent:
     - watch_in:
       - service: apache2
+{% endfor %}
 
 /usr/local/sbin/wpd-apache-watchdog:
   file.managed:
@@ -35,25 +40,17 @@ apache2:
     - require:
       - file: /usr/local/sbin/wpd-apache-watchdog
 
-/etc/apache2/conf-enabled/performance.conf:
+{% for f in ['performance','security'] %}
+/etc/apache2/conf-enabled/{{ f }}.conf:
   file.managed:
-    - source: salt://apache/files/performance.conf.jinja
+    - source: salt://apache/files/{{ f }}.conf.jinja
     - template: jinja
     - user: root
     - group: root
     - mode: 644
     - watch_in:
       - service: apache2
-
-/etc/apache2/conf-enabled/security.conf:
-  file.managed:
-    - source: salt://apache/files/security.conf.jinja
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 644
-    - watch_in:
-      - service: apache2
+{% endfor %}
 
 /etc/monit/conf.d/apache2.conf:
   file.managed:
@@ -65,3 +62,4 @@ apache2:
       - service: apache2
     - watch_in:
       - service: monit
+
