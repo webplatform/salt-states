@@ -3,7 +3,7 @@ include:
 
 builder-dependencies:
   pkg.installed:
-    - names:
+    - pkgs:
       - make
       - ruby-full
       - build-essential
@@ -24,4 +24,5 @@ fpm-builder-deps:
       - fpm
       - fpm-cookery
     - require:
-      - pkg: ruby-full
+      - pkg: builder-dependencies
+

@@ -23,8 +23,13 @@ upgrade_pkgs:
 send_ip_addrs:
   cmd.mine.send:
     - tgt: '*'
-    - arg: 
+    - arg:
       - 'network.ip_addrs'
+    - ret: syslog
+
+sync_all:
+  cmd.saltutil.sync_all:
+    - tgt: {{ data['id'] }}
     - ret: syslog
 {% endif %}
 {% if data['act'] == 'reject' %}

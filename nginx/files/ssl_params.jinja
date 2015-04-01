@@ -23,6 +23,7 @@ ssl_ciphers "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES
 
 ## Cache resolvers. #TODO use SaltStack and local salt master as resolver #TODO
 #resolver 8.8.4.4 8.8.8.8 valid=300s;
+#resolver {{ salt_master_ip }} valid=300s;
 #resolver_timeout 10s;
 
 ssl_session_cache shared:SSL:10m;

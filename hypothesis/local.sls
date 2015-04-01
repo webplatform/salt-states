@@ -1,24 +1,25 @@
 {%- set level = salt['grains.get']('level', 'production') -%}
+{%- set port  = salt['pillar.get']('infra:notes-server:port', 8001) -%}
 {%- set tld   = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
 include:
   - nginx
 
-/etc/nginx/sites-available/notes:
+/etc/nginx/sites-available/local.notes:
   file.managed:
-    - source: salt://hypothesis/files/vhost.nginx.conf.jinja
+    - source: salt://hypothesis/files/nginx.local.conf.jinja
     - template: jinja
     - context:
         tld: {{ tld }}
         level: {{ level }}
-        subDomainName: notes
+        hypothesis_port: {{ port }}
     - require:
       - pkg: nginx
 
-/etc/nginx/sites-enabled/10-notes:
+/etc/nginx/sites-enabled/local.notes:
   file.symlink:
-    - target: /etc/nginx/sites-available/notes
+    - target: /etc/nginx/sites-available/local.notes
     - watch_in:
       - service: nginx
     - require:
-      - file: /etc/nginx/sites-available/notes
+      - file: /etc/nginx/sites-available/local.notes
 

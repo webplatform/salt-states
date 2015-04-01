@@ -28,7 +28,7 @@ $TTL 3600
 {% for ip_addr in elasticsearch_nodes %}
 {%- if ip_addr -%}
 elasticsearch	A	{{ ip_addr }}
-es.backend	A	{{ ip_addr }}
+es.backend		A	{{ ip_addr }}
 {% endif -%}
 {% endfor %}
 

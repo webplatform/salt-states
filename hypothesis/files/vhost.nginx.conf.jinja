@@ -1,8 +1,19 @@
-{#
- # Expected variables value:
- #   - hypothesis_host: '127.0.0.1'
- #   - hypothesis_port: 8001
- #}
+
+#
+# This is the public virtual host for {{ subDomainName }}.{{ tld }},
+# proxying requests to an internal webserver.
+#
+# Note that we call another NGINX virtual host, from the internal network,
+# without SSL, and with a different name than the publicly exposed
+#
+# Intention is that we can have multiple internal backends load-balanced
+# by this very virtual host.
+#
+# ===========================================================================
+#
+# Managed by Salt Stack. Do NOT Edit manually!
+# source: {{ source }}
+
 server {
     listen        80;
     server_name   {{ subDomainName }}.{{ tld }};
@@ -12,27 +23,21 @@ server {
 
 server {
     listen              443 ssl spdy;
+    server_name         {{ subDomainName }}.{{ tld }};
+
     ssl                 on;
     ssl_certificate     /etc/ssl/webplatform/public_default_201407.pem;
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
-    root         /srv/webplatform/notes-server/notes_server/static;
-    server_name  {{ subDomainName }}.{{ tld }};
+    root         /var/www;
 
     include      common_params;
     include      ssl_params;
 
-    rewrite      ^/app/embed.js$ /annotator.js permanent;
-
-    location   = /annotator.js {
-      rewrite    ^/annotator.js$  /embed.js last;
-    }
-
-    rewrite      ^/assets/notes-server/(.*)\? /$1;
-
     location / {
-        proxy_pass       http://{{ hypothesis_host }}:{{ hypothesis_port }};
-        proxy_set_header Host               $http_host;
+        proxy_pass       http://notes.backend.{{ level }}.wpdn;
+
+        # Note the absence of Host header
         proxy_set_header X-Real-IP          $remote_addr;
         proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto  $scheme;

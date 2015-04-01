@@ -1,3 +1,4 @@
+
 server {
     listen        80;
     server_name   {{ tld }};
@@ -22,6 +23,21 @@ server {
 }
 
 server {
+    listen              443 ssl spdy;
+    server_name         discuss.{{ tld }};
+
+    include             common_params;
+
+    ssl                 on;
+    ssl_certificate     /etc/ssl/webplatform/public_wildcard_201407.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201407.key;
+    include             ssl_params;
+    index               404.html;
+    root                /var/www/errors;
+		try_files           $uri $uri/ =404;
+}
+
+server {
     listen       443 ssl spdy;
     server_name  www.{{ tld }};
 
@@ -37,6 +53,4 @@ server {
 
     try_files $uri $uri/ =404;
 }
-
-# vim: ai ft=nginx tabstop=2 sw=2 noexpandtab:
 

@@ -115,22 +115,28 @@ base:
   'roles:nginx':
     - match: grain
     - users.app-user
-    - nginx
+    - nginx.public
     - fxa.nginx
     - hypothesis.nginx
     - specs.nginx
     - piwik.nginx
+    - monitor.nginx
   'roles:specs':
     - match: grain
     - specs
   'roles:notes':
     - match: grain
     - hypothesis
+    - hypothesis.local
     - hypothesis.fxa_and_h_ssl_issue
   'roles:accounts':
     - match: grain
     - fxa
     - fxa.fxa_and_h_ssl_issue
+  'roles:builder':
+    - match: grain
+    - builder
+    - nodejs
 
 # vim: ai filetype=yaml tabstop=2 softtabstop=2 shiftwidth=2
 
