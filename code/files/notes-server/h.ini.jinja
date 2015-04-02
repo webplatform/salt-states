@@ -25,7 +25,7 @@ es.host: {{ notes_server_pillar['elastic_endpoint']|default('http://127.0.0.1:92
 es.index: notes
 
 mail.default_sender: "WebPlatform Specs Notes Archiver" <{{ notes_server_pillar['sender_email']|default('root@localhost') }}>
-mail.host: {{ salt['pillar.get']('accounts:smtp:host', 'localhost') }}
+mail.host: {{ salt['pillar.get']('infra:hosts_entries:mail', 'localhost') }}
 
 
 

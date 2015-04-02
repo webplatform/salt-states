@@ -26,3 +26,20 @@ fpm-builder-deps:
     - require:
       - pkg: builder-dependencies
 
+hypothesis-required-gems:
+  cmd.run:
+    - name: gem install compass sass
+    - unless: /srv/webplatform/h/h.ini
+    - require:
+      - pkg: builder-dependencies
+
+hypothesis-npm-packages:
+  npm.installed:
+    - names:
+      - uglify-js
+      - clean-css
+      - coffee-script
+      - underscore-cli
+    - require:
+      - pkg: builder-dependencies
+

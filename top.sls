@@ -121,6 +121,7 @@ base:
     - specs.nginx
     - piwik.nginx
     - monitor.nginx
+    - discuss.nginx
   'roles:specs':
     - match: grain
     - specs
@@ -137,6 +138,20 @@ base:
     - match: grain
     - builder
     - nodejs
+  'roles:docker':
+    - match: grain
+    - webplatform.docker
+    - users.app-user
+  'roles:frontend':
+    - match: grain
+    - users.app-user
+    - nginx.public
+    - fxa.nginx
+    - hypothesis.nginx
+    - specs.nginx
+    - piwik.nginx
+    - monitor.nginx
+    - discuss.nginx
 
 # vim: ai filetype=yaml tabstop=2 softtabstop=2 shiftwidth=2
 

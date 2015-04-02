@@ -1,0 +1,41 @@
+
+#
+# This is the public virtual host for discuss.{{ tld }}
+#
+# ===========================================================================
+#
+# Managed by Salt Stack. Do NOT Edit manually!
+# source: {{ source }}
+
+server {
+    listen        80;
+    server_name   discuss.{{ tld }};
+
+    include      common_params;
+
+    return       301 https://discuss.{{ tld }}$request_uri;
+}
+
+server {
+    listen              443 ssl spdy;
+    ssl                 on;
+    ssl_certificate     /etc/ssl/webplatform/public_wildcard_201407.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201407.key;
+
+    server_name  discuss.{{ tld }};
+
+    include      common_params;
+    include      ssl_params;
+
+    # Use internal Docker runner instance exposed port
+    location / {
+        proxy_pass       http://{{ discuss_docker_host|default('127.0.0.1') }}:{{ discuss_docker_port|default(8000) }};
+
+        proxy_set_header Host               $http_host;
+        proxy_set_header X-Real-IP          $remote_addr;
+        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+
+        proxy_intercept_errors on;
+    }
+}
+
