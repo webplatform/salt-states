@@ -1,3 +1,5 @@
+{%  set level = salt['grains.get']('level', 'production') -%}
+{%- set tld   = salt['pillar.get']('infra:current:tld', 'webplatform.org') %}
 {#
  # Piwik Salt stack config
  #
@@ -12,8 +14,8 @@ include:
     - source: salt://piwik/files/vhost.nginx.conf.jinja
     - template: jinja
     - context:
-        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
-        subDomainName: stats
+        tld: {{ tld }}
+        level: {{ level }}
     - require:
       - pkg: nginx
     - watch_in:

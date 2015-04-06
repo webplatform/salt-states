@@ -1,0 +1,15 @@
+## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+## source {{ source }}
+
+publican:
+  image: webspecs/publican
+
+  restart: always
+
+  ports:
+    - "7002:{{ backend_port }}"
+
+  net: "host"
+
+# vim: et ts=2 sw=2 ft=yaml:
+

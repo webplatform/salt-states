@@ -4,7 +4,7 @@ include:
 
 /etc/nginx/sites-available/webplatform:
   file.managed:
-    - source: salt://nginx/files/default.jinja
+    - source: salt://webplatform/files/nginx/vhost.nginx.conf.jinja
     - template: jinja
     - context:
         tld: {{ tld }}

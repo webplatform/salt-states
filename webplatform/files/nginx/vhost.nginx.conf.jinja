@@ -1,0 +1,59 @@
+
+#
+# This is the public virtual host for {{ tld }} and www.{{ tld }}
+# proxying requests to an internal webserver.
+#
+# ===========================================================================
+#
+# Managed by Salt Stack. Do NOT Edit manually!
+# source: {{ source }}
+
+
+# Redirects webplatform.org not SSL to www.webplatform.org SSL (to Fastly)
+server {
+    listen        80;
+    server_name   {{ tld }};
+
+    include       common_params;
+
+    return        301 https://www.{{ tld }}$request_uri;
+}
+
+
+# Redirects webplatform.org SSL to www.webplatform.org SSL (to Fastly)
+# Uses EV SSL certificate
+server {
+    listen        443 ssl spdy;
+    server_name   {{ tld }};
+
+    ssl                 on;
+    ssl_certificate     /etc/ssl/webplatform/public_default_201407.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201407.key;
+
+    include       common_params;
+    include       ssl_params;
+
+    return        301 https://www.{{ tld }}$request_uri;
+}
+
+
+# Serve Fastly with static site
+# Uses EV SSL certificate
+server {
+    listen       443 ssl spdy;
+    server_name  www.{{ tld }};
+
+    ssl                 on;
+    ssl_certificate     /etc/ssl/webplatform/public_default_201407.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201407.key;
+
+    include       common_params;
+    include       ssl_params;
+
+    index         index.html;
+    root          /var/www;
+
+
+    try_files     $uri $uri/ =404;
+}
+

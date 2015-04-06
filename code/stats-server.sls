@@ -25,24 +25,8 @@ sync-piwik-dists:
       - user
       - group
 
-
-clone-piwik:
-  pkg.installed:
-    - name: git
-  git.latest:
-    - name: git@source.webplatform.org:piwik.git
-    - user: app-user
-    - target: /srv/webplatform/stats-server
-    - identity: /srv/webplatform/.ssh/id_ed25519
-    - rev: 2.10.0-wpd
-    - submodules: True
-    - unless: test -f /srv/webplatform/stats-server/config/config.ini.php
-    - require:
-      - file: /srv/webplatform/stats-server
-      - pkg: git
-      - file: /srv/webplatform/appshomedir/.ssh/id_ed25519
+/srv/webplatform/stats-server:
   file.directory:
-    - name: /srv/webplatform/stats-server
     - require:
       - file: webplatform-sources
     - user: app-user
@@ -50,7 +34,6 @@ clone-piwik:
     - recurse:
       - user
       - group
-
 
 /srv/webplatform/stats-server/config/config.ini.php:
   file.managed:
@@ -60,7 +43,7 @@ clone-piwik:
     - group: www-data
     - mode: 644
     - require:
-      - git: clone-piwik
+      - file: /srv/webplatform/stats-server
 
 /srv/webplatform/stats-server/bootstrap.php:
   file.managed:
@@ -70,5 +53,5 @@ clone-piwik:
     - group: www-data
     - mode: 644
     - require:
-      - git: clone-piwik
+      - file: /srv/webplatform/stats-server
 

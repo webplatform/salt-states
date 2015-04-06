@@ -1,0 +1,11 @@
+server {
+    listen 80 default_server;
+
+    root        /var/www;
+    server_name _; # This is just an invalid value which will never trigger on a real hostname.
+
+    include     common_params;
+
+    server_name_in_redirect off;
+}
+

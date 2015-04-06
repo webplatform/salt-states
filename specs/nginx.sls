@@ -1,3 +1,7 @@
+{%- set tld                   = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
+{%- set backend_port_publican = salt['pillar.get']('infra:backends:port:publican', 8002) -%}
+{%- set backends_publican     = salt['pillar.get']('infra:publican:backends', ['127.0.0.1']) %}
+
 include:
   - nginx
 
@@ -6,10 +10,9 @@ include:
     - source: salt://specs/files/vhost.nginx.conf.jinja
     - template: jinja
     - context:
-        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
-        subDomainName: specs
-        publican_backend_host: {{ salt['pillar.get']('infra:publican:host', '127.0.0.1') }}
-        publican_backend_port: {{ salt['pillar.get']('infra:publican:port', 7002) }}
+        tld: {{ tld }}
+        backends_publican: {{ backends_publican }}
+        backend_port_publican: {{ backend_port_publican }}
     - require:
       - pkg: nginx
     - watch_in:

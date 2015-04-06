@@ -1,0 +1,36 @@
+## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+## source {{ source }}
+
+# ref:
+#   - http://docs.docker.com/compose/
+#   - http://docs.docker.com/compose/yml/
+#   - https://github.com/cachethq/Cachet/blob/L5/config/cache.php
+#   - https://github.com/cachethq/Cachet/blob/L5/config/session.php
+
+status:
+
+  build: .
+
+  restart: always
+
+  ports:
+    - "8000:{{ backend_port }}"
+
+  environment:
+    DB_HOST: {{ masterdb_ip }}
+    DB_DATABASE: {{ db_creds.database|default('nocstatus') }}
+    DB_PASSWORD: {{ db_creds.password|default('') }}
+    DB_USERNAME: {{ db_creds.username|default('root') }}
+    CACHE_DRIVER: database
+    SESSION_DRIVER: database
+    MAIL_DRIVER: smtp
+    MAIL_HOST: {{ smtp }}
+
+  net: "host"
+
+  dns:
+    - {{ salt_master_ip }}
+
+
+# vim: et ts=2 sw=2 ft=yaml:
+

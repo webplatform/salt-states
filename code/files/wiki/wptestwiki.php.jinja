@@ -86,5 +86,13 @@ $wgSecretKey     = '{{ secrets['key']|default('foo') }}';
 $wgUpgradeKey    = '{{ secrets['upgrade']|default('bar') }}';
 $wgCaptchaSecret = '{{ secrets['captcha']|default('baz') }}';
 
+## In Settings.php we’ll load mediawiki-fxa-sso if those are available
+#$wgWebPlatformAuth['client']['id']             = '';
+#$wgWebPlatformAuth['client']['secret']         = '';
+#$wgWebPlatformAuth['endpoints']['fxa_oauth']   = 'https://oauth.accounts.TLD/v1/';
+#$wgWebPlatformAuth['endpoints']['fxa_profile'] = 'https://profile.accounts.TLD/v1/';
+#$wgWebPlatformAuth['methods']['authorize']     = 'authorization';
+#$wgWebPlatformAuth['methods']['token']         = 'token';
+
 # vim: set ft=php expandtab:
 

@@ -27,45 +27,12 @@ nginx:
     - require:
       - pkg: nginx-superseeds-apache
 
-/etc/nginx/sites-available/default:
-  file.managed:
-    - source: salt://nginx/files/default.jinja
-    - template: jinja
-    - context:
-        tld: {{ tld }}
-    - require:
-      - pkg: nginx
-
-/etc/nginx/sites-enabled/00-default:
-  file.symlink:
-    - target: /etc/nginx/sites-available/default
-    - watch_in:
-      - service: nginx
-    - require:
-      - file: /etc/nginx/sites-available/default
-
-/etc/nginx/conf.d/status.conf:
-  file.managed:
-    - source: salt://nginx/files/status.conf.jinja
-    - template: jinja
-    - require:
-      - pkg: nginx
-      - file: /etc/nginx/status.d
-    - watch_in:
-      - service: monit
-
 nginx-superseeds-apache:
   pkg.purged:
     - pkgs:
       - apache2.2-bin
       - apache2.2-common
       - libapache2-mod-php5
-
-/etc/nginx/status.d:
-  file.directory:
-    - user: www-data
-    - group: www-data
-    - makedirs: True
 
 /var/cache/nginx:
   file.directory:
@@ -81,14 +48,17 @@ nginx-ppa:
     - require_in:
       - pkg: nginx
 
-{% for file in ['sites-available/default','sites-enabled/00-default'] %}
+{% for file in ['sites-enabled/00-default',
+                'sites-available/default'] %}
 /etc/nginx/{{ file }}:
   file.absent:
     - require:
       - pkg: nginx
 {% endfor %}
 
-{% for file in ['ssl_params', 'common_params', 'fastcgi_params'] %}
+{% for file in ['ssl_params',
+                'common_params',
+                'fastcgi_params'] %}
 /etc/nginx/{{ file }}:
   file.managed:
     - source: salt://nginx/files/{{ file }}.jinja

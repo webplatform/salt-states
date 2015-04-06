@@ -1,3 +1,7 @@
+{%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
+{%- set backend_port = salt['pillar.get']('infra:backends:port:project', 8003) -%}
+{%- set backends = salt['pillar.get']('infra:project:backends', ['127.0.0.1']) %}
+
 include:
   - nginx
 
@@ -6,8 +10,9 @@ include:
     - source: salt://buggenie/files/vhost.nginx.conf.jinja
     - template: jinja
     - context:
-        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
-        subDomainName: project
+        tld: {{ tld }}
+        backends: {{ backends }}
+        backend_port: {{ backend_port }}
     - require:
       - pkg: nginx
 

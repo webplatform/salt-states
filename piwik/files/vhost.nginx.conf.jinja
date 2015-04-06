@@ -1,21 +1,38 @@
+
+#
+# This is the PUBLIC virtual host for stats.{{ tld }},
+# proxying requests to an internal webserver.
+#
+# Note that we call another NGINX virtual host, from the internal network,
+# without SSL, and with a different name than the publicly exposed
+#
+# Intention is that we can have multiple internal backends load-balanced
+# by this very virtual host.
+#
+# ===========================================================================
+#
+# Managed by Salt Stack. Do NOT Edit manually!
+# source: {{ source }}
+
+
 server {
-    listen        80;
-    server_name   {{ subDomainName }}.{{ tld }};
-    server_tokens off;
-    return        301 https://{{ subDomainName }}.{{ tld }}$request_uri;
+    listen      80;
+    server_name stats.{{ tld }};
+    include     common_params;
+    return      301 https://stats.{{ tld }}$request_uri;
 }
 
 server {
-    listen              443 ssl spdy;
+    listen      443 ssl spdy;
+    server_name stats.{{ tld }};
+
+    root        /var/www;
+    include     common_params;
+    include     ssl_params;
+
     ssl                 on;
     ssl_certificate     /etc/ssl/webplatform/public_wildcard_201407.pem;
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
-
-    root         /srv/webplatform/stats-server;
-    server_name  {{ subDomainName }}.{{ tld }};
-
-    include      common_params;
-    include      ssl_params;
 
     ## Disallow any usage of piwik assets if referer is non valid.
     #location ~* ^.+\.(?:jpg|png|css|gif|jpeg|js|swf)$ {
@@ -29,23 +46,29 @@ server {
     #}
 
     location / {
-        try_files $uri /index.php;
-    }
+        proxy_pass       http://stats.backend.{{ level }}.wpdn;
 
-    # Relay all index.php requests to fastcgi.
-    location ~* ^/(?:index|piwik)\.php$ {
-        fastcgi_pass {{ grains['ipaddr'] }}:9000;
-        include      fastcgi_params;
-        include      proxy_params;
-    }
+        # Note the absence of Host header
+        proxy_set_header X-Real-IP          $remote_addr;
+        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto  $scheme;
 
-    # Any other attempt to access PHP files returns a 404.
-    location ~* ^.+\.php$ {
-        return 404;
-    }
+        proxy_set_header HTTP_Country-Code  $geoip_country_code;
+        #[GEOIP_AREA_CODE] =>
+        #[GEOIP_REGION] =>
+        #[GEOIP_CITY] =>
+        #[GEOIP_LATITUDE] =>
+        #[GEOIP_LONGITUDE] =>
+        #[GEOIP_POSTAL_CODE] =>
+        #[GEOIP_COUNTRY_NAME] =>
+        #[GEOIP_ADDR] =>
 
-    ## No crawling of this site for bots that obey robots.txt.
-    location = /robots.txt {
-        return 200 "User-agent: *\nDisallow: /\n";
+        proxy_intercept_errors on;
+
+        # WebSocket support (nginx 1.4+)
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade            $http_upgrade;
+        proxy_set_header Connection         "upgrade";
     }
 }
+

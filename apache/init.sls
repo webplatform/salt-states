@@ -15,7 +15,6 @@ apache2:
 # 02: blog
 # 03: specs
 
-
 {% for f in ['mods-enabled/deflate.conf'
             ,'mods-enabled/deflate.load'
             ,'sites-enabled/000-default.conf'] %}
@@ -40,7 +39,8 @@ apache2:
     - require:
       - file: /usr/local/sbin/wpd-apache-watchdog
 
-{% for f in ['performance','security'] %}
+{% for f in ['performance',
+             'security'] %}
 /etc/apache2/conf-enabled/{{ f }}.conf:
   file.managed:
     - source: salt://apache/files/{{ f }}.conf.jinja

@@ -2,7 +2,7 @@
 {%- set port  = salt['pillar.get']('infra:notes-server:port', 8001) -%}
 {%- set tld   = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
 include:
-  - nginx
+  - nginx.local
 
 /etc/nginx/sites-available/local.notes:
   file.managed:

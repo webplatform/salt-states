@@ -1,7 +1,8 @@
 {%- set level = salt['grains.get']('level', 'production') -%}
 {%- set tld   = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
-{%- set host = salt['pillar.get']('infra:monitor:docker_host') -%}
-{%- set port = salt['pillar.get']('infra:monitor:docker_port') -%}
+{%- set backend_port = salt['pillar.get']('infra:backends:port:status', 8000) -%}
+{%- set backends = salt['pillar.get']('infra:status:backends', ['127.0.0.1']) %}
+
 include:
   - nginx
 
@@ -12,8 +13,8 @@ include:
     - context:
         tld: {{ tld }}
         level: {{ level }}
-        monitor_docker_port: {{ port }}
-        monitor_docker_host: {{ host }}
+        backend_port: {{ backend_port }}
+        backends: {{ backends }}
     - require:
       - pkg: nginx
 

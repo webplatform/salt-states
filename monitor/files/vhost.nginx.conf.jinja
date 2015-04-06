@@ -1,41 +1,53 @@
 
 #
-# This is the public virtual host for monitor.{{ tld }}
+# This is the PUBLIC virtual host for monitor.{{ tld }},
+# proxying requests to an internal webserver.
 #
 # ===========================================================================
 #
 # Managed by Salt Stack. Do NOT Edit manually!
 # source: {{ source }}
 
-server {
-    listen        80;
-    server_name   monitor.{{ tld }};
-
-    include      common_params;
-
-    return       301 https://monitor.{{ tld }}$request_uri;
+upstream backend_monitor {
+{%- for b in backends %}
+    server    {{ b }}:{{ backend_port }};
+{%- endfor %}
+    keepalive 16;
 }
 
 server {
-    listen              443 ssl spdy;
+    listen      80;
+    server_name monitor.{{ tld }};
+    include     common_params;
+    return      301 https://monitor.{{ tld }}$request_uri;
+}
+
+server {
+    listen      443 ssl spdy;
+    server_name monitor.{{ tld }};
+
+    root        /var/www;
+    include     common_params;
+    include     ssl_params;
+
     ssl                 on;
     ssl_certificate     /etc/ssl/webplatform/public_wildcard_201407.pem;
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
-    server_name  monitor.{{ tld }};
-
-    include      common_params;
-    include      ssl_params;
-
     # Use internal Docker runner instance exposed port
     location / {
-        proxy_pass       http://{{ monitor_docker_host|default('127.0.0.1') }}:{{ monitor_docker_port|default(8000) }};
+        proxy_pass       http://backend_monitor;
+        proxy_set_header Host $http_host;
 
-        proxy_set_header Host               $http_host;
-        proxy_set_header X-Real-IP          $remote_addr;
-        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+        proxy_set_header X-Real-IP       $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
         proxy_intercept_errors on;
+
+        # Backend keepalive
+        # ref: http://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
     }
 }
 

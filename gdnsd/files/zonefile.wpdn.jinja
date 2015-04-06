@@ -54,6 +54,17 @@ stats.backend	A	{{ ip_addr }}
 ;
 ;  {{ mine_data }}
 ;
+{#
+ # Make sure ONLY IP addresses that starts by 10.10 should get here, maybe with grain ip4_interfaces:eth0 #TODO
+ #
+ # Following Python wont work in Jinja
+ #
+ #     addr = [b for b in addrs if b.startswith('10.10') == True]
+ #     // addr[0] would contain what we want.
+ #
+ # ref:
+ #   - http://stackoverflow.com/questions/24041885/conditionally-join-a-list-of-strings-in-jinja
+ #}
 {%- if mine_data %}
 {%- for minion,addrs in mine_data %}
 {{ minion }}	A	{% for i in addrs %}{% if i|truncate(5, True, '') == '10.10' %}{{ i }}{% endif %}{% endfor %}

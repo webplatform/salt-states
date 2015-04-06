@@ -95,10 +95,11 @@ base:
     - apache.project
     - apache.status
     - buggenie.mailqueue
-  'piwik*':
+  'roles:piwik':
+    - match: grain
     - users.app-user
     - php-fpm
-    - piwik
+    - piwik.local
     - nutcracker
   'mail*':
     - logwatch
@@ -115,7 +116,7 @@ base:
   'roles:nginx':
     - match: grain
     - users.app-user
-    - nginx.public
+    - webplatform.nginx
     - fxa.nginx
     - hypothesis.nginx
     - specs.nginx
@@ -141,11 +142,10 @@ base:
   'roles:docker':
     - match: grain
     - webplatform.docker
-    - users.app-user
   'roles:frontend':
     - match: grain
     - users.app-user
-    - nginx.public
+    - webplatform.nginx
     - fxa.nginx
     - hypothesis.nginx
     - specs.nginx
