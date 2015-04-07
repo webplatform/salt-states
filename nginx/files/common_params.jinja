@@ -16,3 +16,6 @@ location ^~ /errors/ {
 
 server_tokens off;
 
+#resolver {{ salt_master_ip }} 8.8.4.4 8.8.8.8 valid=300s;
+#resolver_timeout 10s;
+

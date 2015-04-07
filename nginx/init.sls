@@ -1,4 +1,6 @@
 {%- set ip4_interfaces = salt['grains.get']('ip4_interfaces:eth0') -%}
+{%- set salt_master_ip = salt['pillar.get']('infra:hosts_entries:salt') -%}
+{%- set tld            = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
 {#
  # NGINX common states
  #
@@ -30,7 +32,7 @@ nginx:
     - source: salt://nginx/files/default.jinja
     - template: jinja
     - context:
-        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
+        tld: {{ tld }}
     - require:
       - pkg: nginx
 
@@ -84,6 +86,8 @@ nginx-ppa:
   file.managed:
     - source: salt://nginx/files/{{ file }}.jinja
     - template: jinja
+    - context:
+        salt_master_ip: {{ salt_master_ip }}
     - require:
       - pkg: nginx
 {% endfor %}

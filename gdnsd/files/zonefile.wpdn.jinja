@@ -28,6 +28,19 @@ $TTL 3600
 {% for ip_addr in elasticsearch_nodes %}
 {%- if ip_addr -%}
 elasticsearch	A	{{ ip_addr }}
+es.backend	A	{{ ip_addr }}
+{% endif -%}
+{% endfor %}
+
+{% for ip_addr in notes_nodes %}
+{%- if ip_addr -%}
+notes.backend	A	{{ ip_addr }}
+{% endif -%}
+{% endfor %}
+
+{% for ip_addr in stats_nodes %}
+{%- if ip_addr -%}
+stats.backend	A	{{ ip_addr }}
 {% endif -%}
 {% endfor %}
 
@@ -43,7 +56,7 @@ elasticsearch	A	{{ ip_addr }}
 ;
 {%- if mine_data %}
 {%- for minion,addrs in mine_data %}
-{{ minion }}		A	{{ addrs[0] }}
+{{ minion }}	A	{% for i in addrs %}{% if i|truncate(5, True, '') == '10.10' %}{{ i }}{% endif %}{% endfor %}
 {%- endfor %}
 {%- endif %}
 

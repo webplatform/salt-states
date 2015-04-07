@@ -83,6 +83,7 @@ resolvconf -u:
   cmd.run:
     - unless: grep -q -e 'wpdn' /etc/resolv.conf
 
+# ref: http://hardenubuntu.com/initial-setup/system-updates
 /etc/apt/apt.conf.d/20auto-upgrades:
   file.managed:
     - source: salt://webplatform/files/20auto-upgrades

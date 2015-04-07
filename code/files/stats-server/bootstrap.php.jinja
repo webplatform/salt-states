@@ -6,3 +6,6 @@
 #ini_set('session.save_handler', 'memcache');
 #ini_set('session.save_path',    'tcp://10.10.10.177:11211?persistent=1&amp;weight=1&amp;timeout=1&amp;retry_interval=15');
 
+
+#header('Cache-Control: no-cache'); die('<pre>'.print_r($_SERVER,1).'</pre>');
+

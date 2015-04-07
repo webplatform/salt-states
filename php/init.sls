@@ -1,3 +1,5 @@
+{%- set sessions_memcache = ['127.0.0.1:11211'] %}{# salt['pillar.get']('infra:sessions_memcache') -% #}
+
 include:
   - php.composer
 
@@ -65,5 +67,7 @@ apcu:
     - group: root
     - mode: 644
     - template: jinja
+    - context:
+        save_path: "{{ sessions_memcache|join(';') }}"
     - require:
       - pkg: php5-memcached

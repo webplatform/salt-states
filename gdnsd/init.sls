@@ -22,6 +22,8 @@ gdnsd:
         level: {{ level }}
         hosts_entries: {{ salt['pillar.get']('infra:hosts_entries', []) }}
         elasticsearch_nodes: {{ salt['pillar.get']('infra:elasticsearch:nodes', []) }}
+        notes_nodes: {{ salt['pillar.get']('infra:notes-server:nodes', []) }}
+        stats_nodes: {{ salt['pillar.get']('infra:stats-server:nodes', []) }}
 
 /etc/monit/conf.d/gdnsd.conf:
   file.managed:

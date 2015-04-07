@@ -1,17 +1,15 @@
 <IfModule mod_ssl.c>
   <VirtualHost _default_:443>
-    ServerAdmin 	hostmaster@webplatform.org
-    ServerAlias 	www.webplatform.org
-    ServerAlias 	www.webplatformstaging.org
+    ServerAlias 	 www.{{ tld }}
 
-    DocumentRoot	/var/www
+    DocumentRoot	 /var/www
 
     # Removing any cookies from here, we do not want them here
-    RequestHeader unset Cookie
-    Header unset Set-Cookie
+    RequestHeader  unset Cookie
+    Header         unset Set-Cookie
 
     # http://www.mnot.net/blog/2007/05/15/expires_max-age
-    ExpiresActive On
+    ExpiresActive  On
     ExpiresDefault "access plus 1 day"
     #Header set Cache-Control "max-age=3600, must-revalidate"  # Should be done already by ExpiresActive
 
@@ -67,19 +65,28 @@
 
     RewriteEngine on
 
-    RewriteRule   ^/docs/(.+)  https://docs.webplatform.org/wiki/$1  [R,L]
-    RedirectMatch ^/docs/?$    https://docs.webplatform.org/wiki/
-    RedirectMatch ^/wiki/?$    https://docs.webplatform.org/wiki/
+    # Enforce well-known SSL
+    RewriteCond   %{REQUEST_URI}     ^/.well-known
+    RewriteRule   ^/.well-known(.*)$ https://{{ tld }}/.well-known$1  [R=301,L]
+
+    ### Redirects for {{ tld }} ###
+    RewriteCond   %{REQUEST_METHOD} !PURGE
+    RewriteCond   %{REQUEST_URI}    ^/(wiki|docs)/?$
+    RewriteRule   ^/(wiki|docs)/?$  https://docs.{{ tld }}/wiki/Main_Page [R=301,L]
+    RewriteCond   %{REQUEST_METHOD} !PURGE
+    RewriteCond   %{REQUEST_URI}    ^/(wiki|docs)
+    RewriteRule   ^/(docs|wiki)(.*) https://docs.{{ tld }}/wiki$2  [R=301,L]
 
     # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0174.html
-    RewriteCond %{REQUEST_URI}        ^/(beginners|css|dom|concepts|accessibility|svg|html|javascript|apis)
-    RewriteRule ^(.*)$                https://docs.webplatform.org/wiki$1   [R=301,L]
+    RewriteCond   %{REQUEST_METHOD} !PURGE
+    RewriteCond   %{REQUEST_URI}    ^/(beginners|css|dom|concepts|accessibility|svg|html|javascript|apis)
+    RewriteRule   ^(.*)$            https://docs.{{ tld }}/wiki$1   [R=301,L]
 
-    # Error pages
-    ErrorDocument 404 /errors/404.html
-    ErrorDocument 503 /errors/503.html
-    ErrorDocument 500 /errors/500.html
-    ErrorDocument 403 /errors/403.html
+    # Error pages, let Fastly return error pages instead
+    #ErrorDocument 404 /errors/404.html
+    #ErrorDocument 503 /errors/503.html
+    #ErrorDocument 500 /errors/500.html
+    #ErrorDocument 403 /errors/403.html
 
     SSLEngine on
     SSLCertificateFile      /etc/ssl/webplatform/public_default_201407.pem
@@ -88,11 +95,17 @@
 
 
   <VirtualHost *:443>
-    ServerAdmin 	hostmaster@webplatform.org
-    ServerName  	webplatform.org
-    ServerAlias 	webplatformstaging.org
+    ServerName     {{ tld }}
+    DocumentRoot   /var/www
 
-    DocumentRoot        /var/www
+    # Removing any cookies from here, we do not want them here
+    RequestHeader  unset Cookie
+    Header         unset Set-Cookie
+
+    # http://www.mnot.net/blog/2007/05/15/expires_max-age
+    ExpiresActive  On
+    ExpiresDefault "access plus 1 day"
+    #Header set Cache-Control "max-age=3600, must-revalidate"  # Should be done already by ExpiresActive
 
     <Directory />
       Options FollowSymLinks
@@ -105,17 +118,36 @@
       Require all granted
     </Directory>
 
-    #RewriteEngine on
-    #RewriteCond   %{HTTP_HOST}    !^www\. [NC]
-    #RewriteCond   %{HTTP_HOST}    !^$
-    #RewriteCond   %{QUERY_STRING} !well-known
-    #RewriteRule   ^/?(.*)         https://www.%{HTTP_HOST}/$1 [L,R,NE]
+    RewriteEngine on
 
-    # Error pages
-    ErrorDocument 404 /errors/404.html
-    ErrorDocument 503 /errors/503.html
-    ErrorDocument 500 /errors/500.html
-    ErrorDocument 403 /errors/403.html
+    # Enforce well-known to be served as https://{{ tld }}/.well-known/...
+    RewriteCond   %{REQUEST_URI}      ^/.well-known
+    RewriteCond   %{REQUEST_FILENAME} -f
+    RewriteRule   ^/.well-known/(.*)  https://{{ tld }}/.well-known/$1    [R=301,L]
+
+    ### Redirects for {{ tld }} ###
+    RewriteCond   %{REQUEST_METHOD} !PURGE
+    RewriteCond   %{REQUEST_URI}    ^/(wiki|docs)/?$
+    RewriteRule   ^/(wiki|docs)/?$  https://docs.{{ tld }}/wiki/Main_Page [R=301,L]
+    RewriteCond   %{REQUEST_METHOD} !PURGE
+    RewriteCond   %{REQUEST_URI}    ^/(wiki|docs)
+    RewriteRule   ^/(docs|wiki)(.*) https://docs.{{ tld }}/wiki$2         [R=301,L]
+
+    # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0174.html
+    RewriteCond   %{REQUEST_METHOD} !PURGE
+    RewriteCond   %{REQUEST_URI}    ^/(beginners|css|dom|concepts|accessibility|svg|html|javascript|apis)
+    RewriteRule   ^(.*)$            https://docs.{{ tld }}/wiki$1         [R=301,L]
+
+    # Redirect anything else toward www...
+    RewriteCond   %{REQUEST_URI} !^/.well-known
+    RewriteCond   %{REQUEST_URI} !^/errors
+    RewriteRule   ^(.*)$         https://www.%{HTTP_HOST}$1               [L,R,NE]
+
+    # Error pages, served as static files
+    ErrorDocument 404 /errors/index.php?s=404
+    ErrorDocument 503 /errors/index.php?s=503
+    ErrorDocument 500 /errors/index.php?s=500
+    ErrorDocument 403 /errors/index.php?s=403
 
     SSLEngine on
     SSLCertificateFile      /etc/ssl/webplatform/public_default_201407.pem
@@ -124,3 +156,4 @@
 </IfModule>
 
 # vim: et ai ts=2 sw=2 st=apache ft=apache
+

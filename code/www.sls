@@ -43,3 +43,11 @@ docsprint-dashboard-rsync:
       - cmd: campaign-rsync
       - cmd: root-rsync
       - cmd: docsprint-dashboard-rsync
+
+/var/www/errors/index.php:
+  file.managed:
+    - source: salt://code/files/www/errors.php
+    - user: www-data
+    - group: www-data
+    - require:
+      - file: /var/www

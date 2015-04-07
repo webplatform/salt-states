@@ -1,7 +1,5 @@
-<VirtualHost _default_:80>
-  ServerAdmin 	hostmaster@webplatform.org
-  ServerName  	www.webplatform.org
-  ServerAlias 	www.webplatformstaging.org
+<VirtualHost *:80>
+  ServerName  	www.{{ tld }}
 
   DocumentRoot 	/var/www
 
@@ -52,13 +50,10 @@
     Require all granted
   </Directory>
 
-  ErrorLog syslog:local1
-
   # Possible values include: debug, info, notice, warn, error, crit,
   # alert, emerg.
-  LogLevel warn
-
-  ErrorLog /var/log/apache2/error.log
+  LogLevel  warn
+  ErrorLog  syslog:local1
   CustomLog /var/log/apache2/access.log combined
 
   Alias /talk/chatlogs   /srv/webplatform/lumberjack-web
@@ -66,40 +61,69 @@
 
   RewriteEngine on
 
-  # Enforce well-known over SSL, under www.webplatform.org domain name
-  # Assuming we want to send to www.webplatform.org/.well-known/...
-  RedirectMatch ^/.well-known(.+) https://%{HTTP_HOST}/.well-known$1
+  # Enforce well-known over SSL, under www.{{ tld }} domain name
+  # Assuming we want to send to www.{{ tld }}/.well-known/...
+  RewriteCond   %{REQUEST_URI}     ^/.well-known
+  RewriteRule   ^/.well-known(.*)$ https://{{ tld }}/.well-known$1  [R=301,L]
 
-  RewriteRule   ^/docs/(.+)  https://docs.webplatform.org/wiki/$1  [R,L]
-  RedirectMatch ^/docs/?$    https://docs.webplatform.org/wiki/
-  RedirectMatch ^/wiki/?$    https://docs.webplatform.org/wiki/
+  RedirectMatch ^/(wiki|docs)/?$  https://docs.{{ tld }}/wiki/Main_Page
+  RewriteCond   %{REQUEST_URI}    ^/(wiki|docs)
+  RewriteRule   ^/(docs|wiki)(.*) https://docs.{{ tld }}/wiki$2     [R=301,L]
 
   # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0174.html
-  RewriteCond %{REQUEST_URI}        ^/(beginners|css|dom|concepts|accessibility|svg|html|javascript|apis)
-  RewriteRule ^(.*)$                https://docs.webplatform.org/wiki$1   [R=301,L]
+  RewriteCond %{REQUEST_URI}      ^/(beginners|css|dom|concepts|accessibility|svg|html|javascript|apis)
+  RewriteRule ^(.*)$              https://docs.{{ tld }}/wiki$1     [R=301,L]
 
-  # Error pages
-  ErrorDocument 404 /errors/404.html
-  ErrorDocument 503 /errors/503.html
-  ErrorDocument 500 /errors/500.html
-  ErrorDocument 403 /errors/403.html
+  # Error pages, served as static PHP handler with appropriate HTTP headers
+  ErrorDocument 404 /errors/index.php?s=404
+  ErrorDocument 503 /errors/index.php?s=503
+  ErrorDocument 500 /errors/index.php?s=500
+  ErrorDocument 403 /errors/index.php?s=403
 </VirtualHost>
 
 
 # Allow non SSL view, but still enforce to go to www...
 <VirtualHost *:80>
-  ServerAdmin 	hostmaster@webplatform.org
-  ServerName  	webplatform.org
-  ServerAlias 	webplatformstaging.org
+  ServerName  	{{ tld }}
+
+  RequestHeader unset Cookie
+  Header        unset Set-Cookie
+
+  # http://www.mnot.net/blog/2007/05/15/expires_max-age
+  ExpiresActive  On
+  ExpiresDefault "access plus 1 day"
+
+  # Possible values include: debug, info, notice, warn, error, crit,
+  # alert, emerg.
+  LogLevel  warn
+  ErrorLog  syslog:local1
+  CustomLog /var/log/apache2/access.log combined
 
   RewriteEngine on
 
-  # Enforce well-known over SSL, under www.webplatform.org domain name
-  RewriteRule   ^/.well-known(.+) https://www.%{HTTP_HOST}/.well-known$1  [R,L]
+  # Enforce well-known over SSL
+  RewriteCond   %{REQUEST_URI}     ^/.well-known
+  RewriteRule   ^/.well-known(.*)$ https://%{HTTP_HOST}/.well-known$1  [R=301,L]
 
-  RewriteCond   %{HTTP_HOST}   !^www\. [NC]
-  RewriteCond   %{HTTP_HOST}   !^$
-  RewriteRule   ^/?(.*)        http://www.%{HTTP_HOST}/$1 [L,R,NE]
+  RewriteCond   %{REQUEST_METHOD}  !PURGE
+  RewriteCond   %{REQUEST_URI}     ^/(wiki|docs)/?$
+  RewriteRule   ^/(wiki|docs)/?$   https://docs.{{ tld }}/wiki/Main_Page [R=301,L]
+
+  RewriteCond   %{REQUEST_METHOD}  !PURGE
+  RewriteCond   %{REQUEST_URI}     ^/(wiki|docs)
+  RewriteRule   ^/(docs|wiki)(.*)  https://docs.{{ tld }}/wiki$2  [R=301,L]
+
+  # per http://lists.w3.org/Archives/Public/public-webplatform/2013Mar/0174.html
+  RewriteCond   %{REQUEST_METHOD}  !PURGE
+  RewriteCond   %{REQUEST_URI}     ^/(beginners|css|dom|concepts|accessibility|svg|html|javascript|apis)
+  RewriteRule   ^(.*)$             https://docs.{{ tld }}/wiki$1   [R=301,L]
+
+  # Redirect anything else toward www...
+  RewriteCond   %{HTTP_HOST}       !^www\. [NC]
+  RewriteCond   %{HTTP_HOST}       !^$
+  RewriteRule   ^/?(.*)            https://www.%{HTTP_HOST}/$1 [L,R,NE]
+
+  # No Error pages, Anything else should be handled elsewhere anyway
 </VirtualHost>
 
 # vim: et ai ts=2 sw=2 st=apache ft=apache

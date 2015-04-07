@@ -1,18 +1,25 @@
 <VirtualHost *:80>
-  ServerAdmin 	hostmaster@webplatform.org
   ServerName  	docs.webplatform.org
   ServerAlias 	docs.webplatformstaging.org
 
   RewriteEngine on
-  RewriteRule   ^/(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  RewriteCond   %{REQUEST_METHOD} !PURGE
+  RewriteCond   %{REQUEST_URI}    ^/$
+  RewriteRule   ^/$               https://%{HTTP_HOST}/wiki/Main_Page   [R=301,L]
+
+  RewriteCond   %{REQUEST_METHOD} !PURGE
+  RewriteCond   %{REQUEST_URI}    !^/$
+  RewriteCond   %{REQUEST_URI}    !^/(wiki|test)
+  RewriteRule   ^/(.*)$           https://%{HTTP_HOST}/wiki/$1          [R=301,L]
+
+  RewriteCond   %{REQUEST_METHOD}         !PURGE
+  RewriteCond   %{REQUEST_URI}            !^/$
+  RewriteCond   %{REQUEST_URI}            ^/(wiki|test|compat)
+  RewriteRule   ^/(wiki|test|compat)(.*)$ https://%{HTTP_HOST}/$1$2     [R=301,L]
 </VirtualHost>
 
 <VirtualHost *:443>
-  SSLEngine on
-  SSLCertificateFile      /etc/ssl/webplatform/public_default_201407.pem
-  SSLCertificateKeyFile   /etc/ssl/webplatform/201407.key
-
-  ServerAdmin 	hostmaster@webplatform.org
   ServerName  	docs.webplatform.org
   ServerAlias 	docs.webplatformstaging.org
 
@@ -58,16 +65,6 @@
 
   CustomLog /var/log/apache2/wiki_access.log combined
 
-  RewriteEngine On
-  RewriteCond %{REQUEST_URI}                       !^/(wiki|w|test|t|compat)/
-  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
-  RewriteRule ^/wiki$                              /w/index.php [R=301]
-  RewriteRule ^/test$                              /t/index.php [R=301]
-
-  RewriteCond %{HTTPS}       !^on
-  RewriteCond %{REQUEST_URI} ^/(w|t)/skins/webplatform/fonts
-  RewriteRule ^(.*)$         https://docs.%{HTTP_HOST}/$1 [R,L]
-
   Alias /compat              "/srv/webplatform/compat"
   Alias /w/extensions/WebPlatformDocs  "/srv/webplatform/wiki/wpwiki/mediawiki/extensions/WebPlatformMediaWikiExtensionBundle"
 
@@ -81,15 +78,33 @@
   Alias /w/images            "/srv/webplatform/wiki/images"
   Alias /w                   "/srv/webplatform/wiki/wpwiki/mediawiki"
 
+  RewriteEngine On
+
+  # ref: https://httpd.apache.org/docs/2.2/rewrite/intro.html#regex
+  #RewriteCond %{HTTP:X-Varnish}   ^[0123456789]+
+  #RewriteCond %{REQUEST_URI}      ^/(w|t)/skins
+  #RewriteRule ^/(w|t)/skins/(.*)$ https://%{HTTP_HOST}/$1/skins/$2?a=b [R=301,L]
+
+  RewriteCond   %{REQUEST_URI}    ^/$
+  RewriteRule   ^/$               https://%{HTTP_HOST}/wiki/Main_Page  [R=301,L]
+
+  RewriteCond %{REQUEST_URI}                       !^/(wiki|w|test|t|compat)
+  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+  RewriteRule ^/wiki$                              /w/index.php             [R=301]
+  RewriteRule ^/test$                              /t/index.php             [R=301]
+
   RedirectMatch permanent ^/wiki/(.+)/$ /wiki/$1
   RedirectMatch permanent ^/test/(.+)/$ /test/$1
-  RedirectMatch permanent ^/$           /wiki/
 
   ErrorDocument 403 /errors/403.html
   ErrorDocument 404 /errors/404.html
   ErrorDocument 500 /errors/500.html
   ErrorDocument 502 /errors/502.html
   ErrorDocument 503 /errors/503.html
+
+  SSLEngine on
+  SSLCertificateFile      /etc/ssl/webplatform/public_default_201407.pem
+  SSLCertificateKeyFile   /etc/ssl/webplatform/201407.key
 </VirtualHost>
 
 # vim: et ai ts=2 sw=2 st=apache ft=apache

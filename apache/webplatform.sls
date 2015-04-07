@@ -1,3 +1,5 @@
+{%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
+
 include:
   - apache
   - apache.headers
@@ -8,9 +10,12 @@ include:
 /etc/apache2/sites-available/webplatform.conf:
   file.managed:
     - source: salt://apache/webplatform
+    - template: jinja
     - user: root
     - group: root
     - mode: 444
+    - context:
+        tld: {{ tld }}
     - require:
       - pkg: apache2
     - watch_in:
@@ -23,3 +28,4 @@ include:
       - file: /etc/apache2/sites-available/webplatform.conf
     - watch_in:
       - service: apache2
+
