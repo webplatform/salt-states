@@ -1,7 +1,7 @@
 #
 # Managed by Salt stack. Do NOT EDIT directly!
 #
-dc_readhost='{{ topLevelDomain }}'
+dc_readhost='{{ tld }}'
 dc_other_hostnames='{{ fqdn }}'
 dc_eximconfig_configtype='satellite'
 dc_local_interfaces='127.0.0.1'
@@ -13,4 +13,4 @@ dc_use_split_config='false'
 dc_hide_mailname='true'
 dc_mailname_in_oh='true'
 dc_localdelivery='mail_spool'
-dc_smarthost='{{ smarthost }}'
+dc_smarthost='mail.local.wpdn'

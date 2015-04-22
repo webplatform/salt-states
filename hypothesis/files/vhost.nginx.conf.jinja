@@ -1,53 +1,53 @@
 
 #
-# This is the public virtual host for {{ subDomainName }}.{{ tld }},
-# proxying requests to an internal webserver.
+# This is the PUBLIC virtual host for notes.{{ tld }}
 #
 # Note that we call another NGINX virtual host, from the internal network,
 # without SSL, and with a different name than the publicly exposed
 #
-# Intention is that we can have multiple internal backends load-balanced
+# Intention is that we can have multiple internal upstreams load-balanced
 # by this very virtual host.
 #
 # ===========================================================================
 #
 # Managed by Salt Stack. Do NOT Edit manually!
 # source: {{ source }}
+#
 
-server {
-    listen        80;
-    server_name   {{ subDomainName }}.{{ tld }};
-    server_tokens off;
-    return        301 https://{{ subDomainName }}.{{ tld }}$request_uri;
+upstream upstream_hypothesis {
+{%- for b in upstreams %}
+    server    {{ b }}:{{ upstream_port }};
+{%- endfor %}
 }
 
 server {
-    listen              443 ssl spdy;
-    server_name         {{ subDomainName }}.{{ tld }};
+    listen      80;
+    server_name notes.{{ tld }};
+    include     common_params;
+    return      301 https://notes.{{ tld }}$request_uri;
+}
+
+server {
+    listen      443 ssl spdy;
+    server_name notes.{{ tld }};
+
+    root    /var/www/html;
+    include common_params;
+    include ssl_params;
 
     ssl                 on;
     ssl_certificate     /etc/ssl/webplatform/public_default_201407.pem;
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
-    root         /var/www;
-
-    include      common_params;
-    include      ssl_params;
-
     location / {
-        proxy_pass       http://notes.backend.{{ level }}.wpdn;
-
-        # Note the absence of Host header
-        proxy_set_header X-Real-IP          $remote_addr;
-        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto  $scheme;
-
+        proxy_pass             http://upstream_hypothesis;
+        include                proxy_params;
         proxy_intercept_errors on;
 
-        # WebSocket support (nginx 1.4+)
+        # WebSocket support plz
         proxy_http_version 1.1;
-        proxy_set_header Upgrade            $http_upgrade;
-        proxy_set_header Connection         "upgrade";
+        proxy_set_header   Upgrade    $http_upgrade;
+        proxy_set_header   Connection "upgrade";
     }
 }
 

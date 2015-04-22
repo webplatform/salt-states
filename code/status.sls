@@ -1,5 +1,5 @@
 {%- set dir = '/srv/webplatform/status' -%}
-{%- set backend_port = salt['pillar.get']('infra:backends:port:status', 8000) -%}
+{%- set upstream_port = salt['pillar.get']('upstream:cachet:port', 8000) -%}
 {%- set db_creds = salt['pillar.get']('accounts:status:db') -%}
 {%- set smtp = salt['pillar.get']('infra:hosts_entries:mail', 'mail.webplatform.org') -%}
 {%- set salt_master_ip = salt['pillar.get']('infra:hosts_entries:salt') -%}
@@ -24,7 +24,7 @@ include:
     - group: www-data
     - mode: 644
     - context:
-        backend_port: {{ backend_port }}
+        upstream_port: {{ upstream_port }}
         db_creds: {{ db_creds }}
         salt_master_ip: {{ salt_master_ip }}
         masterdb_ip: {{ masterdb_ip }}

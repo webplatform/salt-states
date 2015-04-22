@@ -1,9 +1,11 @@
 {%- set auth_server_ip = salt['pillar.get']('infra:auth-server:auth:host') -%}
-{%- set tld = salt['pillar.get']('infra:current:tld') -%}
+{%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
+
 #
 # After a few days of debugging, on a problem with the annotation-server and Python and SSL certificates
 # this should make accounts server to have no other NGINX vhost except the private ones.
 #
+
 include:
   - hosts
 

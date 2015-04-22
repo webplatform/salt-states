@@ -9,6 +9,7 @@
 ##
 ## _ __ ____ ____________________ ____ __ _
 
+api.endpoint: /api
 api.key: {{ notes_server_pillar['public_url']|default('http://127.0.0.1:8001/') }}
 
 api.secret: {{ notes_secrets_pillar['secret']|default('NOTASECRET1fIT0LDU') }}
@@ -25,7 +26,7 @@ es.host: {{ notes_server_pillar['elastic_endpoint']|default('http://127.0.0.1:92
 es.index: notes
 
 mail.default_sender: "WebPlatform Specs Notes Archiver" <{{ notes_server_pillar['sender_email']|default('root@localhost') }}>
-mail.host: {{ salt['pillar.get']('infra:hosts_entries:mail', 'localhost') }}
+mail.host: {{ smtp }}
 
 
 
@@ -33,7 +34,7 @@ mail.host: {{ salt['pillar.get']('infra:hosts_entries:mail', 'localhost') }}
 use: egg:gunicorn
 worker_class: gevent
 port: {{ notes_server_pillar['port']|default(8000) }}
-host: {{ notes_server_pillar['host']|default('127.0.0.1') }}
+host: 127.0.0.1
 
 # vim: ai syntax=conf tabstop=2 softtabstop=2 shiftwidth=2
 

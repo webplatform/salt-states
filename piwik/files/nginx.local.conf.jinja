@@ -1,14 +1,9 @@
 
 #
-# This is the internal network HTTP proxy for stats.{{ tld }}
-# served through non SSL as stats.backend.{{ level }}.wpdn
+# This is the INTERNAL network HTTP upstream for stats.{{ tld }}
 #
 # The purpose of this virtual host is to take care of every web application
-# specific FastCGI proxying, URL rewrites AND static files handling.
-#
-# Note that we override here the Host header to stats.{{ tld }} and override
-# the X-Forwarded-Protocol in purpose so that the public vhost and this one
-# works together to deliver publicly over SSL correctly.
+# runtime specific proxying, URL rewrites AND static files handling.
 #
 # Intention is that we can have multiple IPs internally to serve this web app.
 #
@@ -16,14 +11,13 @@
 #
 # Managed by Salt Stack. Do NOT Edit manually!
 # source: {{ source }}
+#
 
 server {
-    listen        80;
+    listen  {{ upstream_port }};
 
-    root         /srv/webplatform/stats-server;
-    server_name  stats.backend.{{ level }}.wpdn;
-
-    include      common_params;
+    root    /srv/webplatform/stats-server;
+    include common_params;
 
     location / {
         try_files $uri /index.php;
@@ -31,12 +25,13 @@ server {
 
     # Relay all index.php requests to fastcgi.
     location ~* ^/(?:index|piwik)\.php$ {
-        fastcgi_pass {{ grains['ipaddr'] }}:{{ piwik_port }};
+        fastcgi_pass 127.0.0.1:{{ fcgi_port }};
 
-        # Since this vhost is neither as SSL, nor with hostname stats.{{ tld }},
-        # we MUST rename it and ommit that we passed through non ssl internally.
+        # If we were to rewrite hostname header, we’d
+        # have to rename it and ommit that we passed through
+        # non ssl internally.
         # ... this one is specific to PHP php5-fpm
-        fastcgi_param HTTP_HOST stats.{{ tld }};
+        #fastcgi_param HTTP_HOST stats.{{ tld }};
 
         include      fastcgi_params;
         include      proxy_params;

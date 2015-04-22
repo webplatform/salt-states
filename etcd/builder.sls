@@ -11,7 +11,8 @@ include:
 /srv/builder/etcd:
   file.directory
 
-# apt-get install python-dev libffi-dev libssl-dev
+# apt-get install -y python-dev libffi-dev libssl-dev
+# pip install python-etcd
 # mkdir building-python-etcd
 # cd building-python-etcd/
 # git clone https://github.com/jplana/python-etcd.git

@@ -17,26 +17,26 @@ include:
 
 # https://notes.webplatformstaging.org/ruok
 # http://localhost:8000/ruok
-/etc/monit/conf.d/hypothesis.conf:
+/etc/monit/conf.d/h.conf:
   file.managed:
     - template: jinja
     - source: salt://hypothesis/files/monit.conf.jinja
     - context:
         elastic_host: {{ salt['pillar.get']('infra:elasticsearch:private') }}
         elastic_port: {{ salt['pillar.get']('infra:elasticsearch:port') }}
-        hypothesis_host: {{ salt['pillar.get']('infra:notes-server:host', '127.0.0.1') }}
+        hypothesis_host: 127.0.0.1
         hypothesis_port: {{ salt['pillar.get']('infra:notes-server:port', 8000) }}
     - watch_in:
       - service: monit
-      - service: hypothesis
+      - service: h
 
-hypothesis:
+h:
   service.running:
     - enable: True
     - reload: true
     - require:
       - pkg: hypothesis-dependencies
-      - file: /etc/init/hypothesis.conf
+      - file: /etc/init/h.conf
 
 hypothesis-dependencies:
   pkg.installed:
@@ -65,7 +65,7 @@ hypothesis-compass-dep:
       - pkg: hypothesis-dependencies
 
 # Make SURE this file exists, its required
-# by the /etc/init/hypothesis.conf init script
+# by the /etc/init/h.conf init script
 #/srv/webplatform/notes-server/h.ini:
 #  file.exists
 
@@ -79,9 +79,9 @@ hypothesis-compass-dep:
       - group
 
 
-/etc/init/hypothesis.conf:
+/etc/init/h.conf:
   file.managed:
-    - source: salt://hypothesis/files/upstart.conf.jinja
+    - source: salt://hypothesis/files/init.h.jinja
     - template: jinja
     - mode: 755
     - context:
@@ -89,6 +89,7 @@ hypothesis-compass-dep:
         svc_group: {{ svc_group }}
     - require:
       - file: /srv/webplatform/notes-server
+      - file: /var/log/webplatform
 
 npm-packages:
   npm.installed:

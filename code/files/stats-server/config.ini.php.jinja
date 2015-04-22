@@ -26,7 +26,6 @@ tables_prefix = piwik_
 trusted_hosts[] = "stats.webplatform.org"
 trusted_hosts[] = "tracking.webplatform.org"
 trusted_hosts[] = "stats.webplatformstaging.org"
-trusted_hosts[] = "stats.backend.production.wpdn"
 proxy_client_headers[]  = "HTTP_X_FORWARDED_FOR"
 proxy_host_headers[]    = "HTTP_X_FORWARDED_HOST"
 noreply_email_address   = {{ salt['pillar.get']('accounts:piwik:contact:email', 'team-webplatform-systems@w3.org') }}

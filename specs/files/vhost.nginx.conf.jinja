@@ -1,24 +1,31 @@
 
 #
-# This is the PUBLIC virtual host for specs.{{ tld }},
-# proxying requests to an internal webserver.
+# This is the PUBLIC virtual host for specs.{{ tld }}
+#
+# Note that we call another NGINX virtual host, from the internal network,
+# without SSL, and with a different name than the publicly exposed.
+#
+# Intention is that we can have multiple internal upstreams load-balanced
+# by this very virtual host.
 #
 # ===========================================================================
 #
 # Managed by Salt Stack. Do NOT edit manually!
 # source: {{ source }}
+#
 
-upstream backend_publican {
-{%- for b in backends_publican %}
-    server    {{ b }}:{{ backend_port_publican }};
+upstream upstream_publican {
+{%- for b in upstreams_publican %}
+    server    {{ b }}:{{ upstream_port_publican }};
 {%- endfor %}
 }
 
-upstream backend_specs {
-{%- for b in backends %}
-    server    {{ b }}:{{ backend_port }};
+upstream upstream_specs {
+    keepalive 16;
+
+{%- for b in upstreams %}
+    server    {{ b }}:{{ upstream_port }};
 {%- endfor %}
-    ddkeepalive 16;
 }
 
 server {
@@ -32,36 +39,32 @@ server {
     listen      443 ssl spdy;
     server_name specs.{{ tld }};
 
-    root        /var/www;
-    include     common_params;
-    include     ssl_params;
+    root    /var/www/html;
+    include common_params;
+    include ssl_params;
 
     ssl                 on;
     ssl_certificate     /etc/ssl/webplatform/public_default_201407.pem;
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
     location    /hook {
-        proxy_pass       http://backend_publican;
+        proxy_pass       http://upstream_publican;
         proxy_set_header Host $http_host;
     }
 
     location    / {
-        try_files @specs =404;
-    }
-
-    location @specs {
-        proxy_pass       http://backend_specs;
-        proxy_set_header Host $http_host;
-
-        proxy_set_header X-Real-IP       $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
+        proxy_pass             http://upstream_specs;
+        include                proxy_params;
         proxy_intercept_errors on;
+
+        proxy_redirect         http://specs.{{ tld }}:{{ upstream_port }} https://specs.{{ tld }};
 
         # Backend keepalive
         # ref: http://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive
         proxy_http_version 1.1;
-        proxy_set_header Connection "";
+        proxy_set_header   Connection "";
+
+        expires 1h;
     }
 }
 

@@ -1,7 +1,9 @@
-{%- set svc = ['fxa-profile-server', 'fxa-content-server', 'fxa-auth-server', 'fxa-oauth-server'] -%}
+{%- set svc = ['profile', 'content', 'auth', 'oauth'] -%}
 {%- set svc_user = 'app-user' -%}
 {%- set svc_group = 'www-data' -%}
+
 include:
+  - webplatform
   - nodejs
   - users.app-user
   - .monit
@@ -28,9 +30,9 @@ fxa-nodejs-deps:
       - pkg: fxa-dependencies
 
 {% for serviceName in svc %}
-/etc/init/{{ serviceName }}.conf:
+/etc/init/fxa-{{ serviceName }}.conf:
   file.managed:
-    - source: salt://fxa/files/{{ serviceName }}.init
+    - source: salt://fxa/files/init.{{ serviceName }}.jinja
     - template: jinja
     - context:
         svc_user: {{ svc_user }}
@@ -44,16 +46,10 @@ fxa-nodejs-deps:
     - user: {{ svc_user }}
     - group: {{ svc_group }}
     - require:
-      - file: /etc/init/{{ serviceName }}.conf
+      - file: /etc/init/fxa-{{ serviceName }}.conf
     - makedirs: True
     - recurse:
       - user
       - group
 {% endfor %}
-
-/var/log/fxa:
-  file.directory:
-    - makedirs: True
-    - user: {{ svc_user }}
-    - group: {{ svc_group }}
 

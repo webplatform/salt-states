@@ -7,8 +7,8 @@
  #}
 check process hypothesis
   matching "notes-server"
-  start program = "/usr/sbin/service hypothesis start"
-  stop program =  "/usr/sbin/service hypothesis stop"
+  start program = "/usr/sbin/service h start"
+  stop program =  "/usr/sbin/service h stop"
   if failed port {{ hypothesis_port }}
     type TCP with timeout 10 seconds
     then restart
@@ -21,8 +21,8 @@ check host elasticsearch-remote with address "{{ elastic_host }}"
     then alert
 
 check host hypothesis-available with address "{{ hypothesis_host }}"
-  start program = "/usr/sbin/service hypothesis start"
-  stop program =  "/usr/sbin/service hypothesis stop"
+  start program = "/usr/sbin/service h start"
+  stop program =  "/usr/sbin/service h stop"
   if failed port {{ hypothesis_port }}
     protocol HTTP request "/ruok" with timeout 10 seconds
     then restart

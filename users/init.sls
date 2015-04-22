@@ -2,6 +2,7 @@
 
 include:
   - groups
+  - .app-user
 {% for username in users %}
   - .{{ username }}
 {% endfor %}

@@ -14,7 +14,7 @@ templates:
   - "templates/web.ratelimited.template.yml"
 
 expose:
-  - "{{ backend_port }}:80"   # fwd host port 8001   to container port 80 (http)
+  - "{{ upstream_port }}:80"   # fwd host port 8001   to container port 80 (http)
   - "2222:22" # fwd host port 2222 to container port 22 (ssh)
 
 params:
@@ -29,7 +29,7 @@ env:
   LANG: en_US.UTF-8
   DISCOURSE_DEVELOPER_EMAILS: 'renoirb@gmail.com,renoir@w3.org'
   DISCOURSE_HOSTNAME: 'discuss.{{ tld }}'
-  DISCOURSE_SMTP_ADDRESS: {{ smtp_relay }}
+  DISCOURSE_SMTP_ADDRESS: {{ smtp }}
   DISCOURSE_SMTP_OPENSSL_VERIFY_MODE: none
 
 volumes:

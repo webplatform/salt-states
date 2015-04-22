@@ -1,3 +1,5 @@
+{%- set smtp = salt['pillar.get']('infra:hosts_entries:mail', 'mail.webplatform.org') -%}
+
 include:
   - rsync.secret
   - code.prereq
@@ -33,6 +35,8 @@ clone-hypothesis:
     - user: app-user
     - target: /srv/webplatform/notes-server
     - unless: test -f /srv/webplatform/notes-server/h.ini
+    - context:
+        smtp: {{ smtp }}
     - require:
       - file: /srv/webplatform/notes-server
       - pkg: git

@@ -1,7 +1,7 @@
-{%- set level = salt['grains.get']('level', 'production') -%}
-{%- set tld   = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
-{%- set host = salt['pillar.get']('infra:discuss:docker_host') -%}
-{%- set port = salt['pillar.get']('infra:discuss:docker_port') -%}
+{%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
+{%- set upstreams = salt['pillar.get']('upstream:discourse:nodes', ['127.0.0.1']) -%}
+{%- set upstream_port = salt['pillar.get']('upstream:discourse:port', 8000) %}
+
 include:
   - nginx
 
@@ -11,17 +11,14 @@ include:
     - template: jinja
     - context:
         tld: {{ tld }}
-        level: {{ level }}
-        discuss_docker_port: {{ port }}
-        discuss_docker_host: {{ host }}
+        upstreams: {{ upstreams }}
+        upstream_port: {{ upstream_port }}
     - require:
       - pkg: nginx
 
 /etc/nginx/sites-enabled/10-discuss:
   file.symlink:
     - target: /etc/nginx/sites-available/discuss
-    - watch_in:
-      - service: nginx
     - require:
       - file: /etc/nginx/sites-available/discuss
 

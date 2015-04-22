@@ -1,10 +1,18 @@
 {%- set tld = salt['grains.get']('infra:current:tld', 'webplatform.org') -%}
+
 include:
   - nginx
 
+#
+# This is the PUBLIC virtual host for **(|www)** subdomain proxying requests
+# to an internal webserver.
+#
+# ===========================================================================
+#
+
 /etc/nginx/sites-available/webplatform:
   file.managed:
-    - source: salt://webplatform/files/nginx/vhost.nginx.conf.jinja
+    - source: salt://webplatform/files/vhost.nginx.conf.jinja
     - template: jinja
     - context:
         tld: {{ tld }}
@@ -14,8 +22,6 @@ include:
 /etc/nginx/sites-enabled/00-webplatform:
   file.symlink:
     - target: /etc/nginx/sites-available/webplatform
-    - watch_in:
-      - service: nginx
     - require:
       - file: /etc/nginx/sites-available/webplatform
 

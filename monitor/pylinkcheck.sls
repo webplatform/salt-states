@@ -1,7 +1,7 @@
 pylinkchecker-requirements:
   pkg.installed:
     - names:
-      - python-gevent 
+      - python-gevent
       - python-pip
 
 pylinkvalidator:

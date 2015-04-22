@@ -1,15 +1,35 @@
 ## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
 ## source {{ source }}
 
-publican:
+# ref:
+#   - http://docs.docker.com/compose/
+#   - http://docs.docker.com/compose/yml/
+#
+# see similar state:
+#   - code/files/status/docker-compose.yml.jinja
+
+web:
   image: webspecs/publican
+
+  # Default in this container is bash, using command below runs
+  # publican server for us while allowing us to enter the original
+  # container image in case of need to understand what’s available.
+  command: bin/run.sh
+
+  # Make sure you have a data folder in the same
+  # directory as this file. Container expects the following
+  # in data/{logs,queue} AND also data/config.json
+  #volumes:
+  #  - data/:/srv/webplatform/specs/data
 
   restart: always
 
   ports:
-    - "7002:{{ backend_port }}"
+    - "{{ upstream_port }}:7002"
 
-  net: "host"
+  dns:
+    - {{ salt_master_ip }}
+    - 8.8.8.8
 
 # vim: et ts=2 sw=2 ft=yaml:
 

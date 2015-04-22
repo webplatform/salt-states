@@ -32,18 +32,6 @@ es.backend		A	{{ ip_addr }}
 {% endif -%}
 {% endfor %}
 
-{% for ip_addr in notes_nodes %}
-{%- if ip_addr -%}
-notes.backend	A	{{ ip_addr }}
-{% endif -%}
-{% endfor %}
-
-{% for ip_addr in stats_nodes %}
-{%- if ip_addr -%}
-stats.backend	A	{{ ip_addr }}
-{% endif -%}
-{% endfor %}
-
 {% set mine_data = salt['mine.get']('*', 'network.ip_addrs').items()|sort(attribute=0) -%}
 ;
 ;  Mine network.ip_addrs:

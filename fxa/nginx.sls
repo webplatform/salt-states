@@ -1,4 +1,4 @@
-{%- set infra_pillar    = salt['pillar.get']('infra:auth-server') %}
+{%- set infra_pillar = salt['pillar.get']('infra:auth-server') %}
 
 include:
   - nginx
@@ -12,14 +12,10 @@ include:
         infra_pillar: {{ infra_pillar }}
     - require:
       - pkg: nginx
-    - watch_in:
-      - service: nginx
 
 /etc/nginx/sites-enabled/10-accounts:
   file.symlink:
     - target: /etc/nginx/sites-available/accounts
-    - watch_in:
-      - service: nginx
     - require:
       - file: /etc/nginx/sites-available/accounts
 
@@ -32,13 +28,10 @@ include:
         infra_pillar: {{ infra_pillar }}
     - require:
       - pkg: nginx
-    - watch_in:
-      - service: nginx
 
 /etc/nginx/sites-enabled/10-accounts-apis:
   file.symlink:
     - target: /etc/nginx/sites-available/accounts-apis
-    - watch_in:
-      - service: nginx
     - require:
       - file: /etc/nginx/sites-available/accounts-apis
+

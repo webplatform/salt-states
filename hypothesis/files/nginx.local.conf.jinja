@@ -1,14 +1,9 @@
 
 #
-# This is the internal network HTTP proxy for notes.{{ tld }}
-# served through non SSL as notes.backend.{{ level }}.wpdn
+# This is the INTERNAL network HTTP upstream for notes.{{ tld }}
 #
 # The purpose of this virtual host is to take care of every web application
-# specific FastCGI proxying, URL rewrites AND static files handling.
-#
-# Note that we override here the Host header to notes.{{ tld }} and override
-# the X-Forwarded-Protocol in purpose so that the public vhost and this one
-# works together to deliver publicly over SSL correctly.
+# runtime specific proxying, URL rewrites AND static files handling.
 #
 # Intention is that we can have multiple IPs internally to serve this web app.
 #
@@ -16,39 +11,42 @@
 #
 # Managed by Salt Stack. Do NOT Edit manually!
 # source: {{ source }}
+#
 
 server {
-    listen        80;
-    server_name   notes.backend.{{ level }}.wpdn;
+    listen  {{ upstream_port }};
 
-    include      common_params;
+    root    /srv/webplatform/notes-server/notes_server/static;
+    include common_params;
 
-    root         /srv/webplatform/notes-server/notes_server/static;
+    rewrite ^/app/embed.js$ /annotator.js permanent;
 
-    rewrite      ^/app/embed.js$ /annotator.js permanent;
-
-    location   = /annotator.js {
-      rewrite    ^/annotator.js$  /embed.js last;
+    location = /annotator.js {
+      rewrite ^/annotator.js$  /embed.js last;
     }
 
-    rewrite      ^/assets/notes-server/(.*)\? /$1;
+    rewrite ^/assets/notes-server/(.*)\? /$1;
 
     location / {
-        proxy_pass       http://127.0.0.1:{{ hypothesis_port }};
+        proxy_pass http://127.0.0.1:{{ hypothesis_port }};
+        include    proxy_params;
 
-        # Since this vhost is neither as SSL, nor with hostname notes.webplatform.org,
-        # we MUST rename it and ommit that we passed through non ssl internally.
-        proxy_set_header Host notes.{{ tld }};
+        # Since we are not using SSL internally, we have to tell Python that we still
+        # want it to generate its URLs as https.
+        # ref: https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header
+        proxy_set_header X-Forwarded-Proto https;
 
-        proxy_set_header X-Real-IP          $remote_addr;
-        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+        # Those seems to help with GUnicorn "Broken pipe" socket errors.
+        # Assumption is that due to buffering because we have two NGINX servers
+        # handles requests to GUnicorn; the internal (this one) and the public frontend.
+        # Quoting GUnicorn docs: "If you want to be able to handle streaming request/responses or
+        # other fancy features like Web sockets, you need to turn off the proxy buffering".
+        # ref: http://gunicorn-docs.readthedocs.org/en/latest/deploy.html
+        proxy_buffering off;
 
-        proxy_intercept_errors on;
-
-        # WebSocket support (nginx 1.4+)
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade            $http_upgrade;
-        proxy_set_header Connection         "upgrade";
+        # If we were to use a different backend hostname, we’d have to force it
+        # like this. But lets not tamper with headers at all, nor use DNS.
+        #proxy_set_header Host notes.{{ tld }};
     }
 }
 

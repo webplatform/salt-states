@@ -1,10 +1,16 @@
-{%- set level = salt['grains.get']('level', 'production') -%}
-{%- set tld   = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
-{%- set backend_port = salt['pillar.get']('infra:backends:port:status', 8000) -%}
-{%- set backends = salt['pillar.get']('infra:status:backends', ['127.0.0.1']) %}
+{%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
+{%- set backends = salt['pillar.get']('upstream:cachet:nodes', ['127.0.0.1']) -%}
+{%- set backend_port = salt['pillar.get']('upstream:cachet:port', 8000) %}
 
 include:
   - nginx
+
+#
+# This is the PUBLIC virtual host for **stats** subdomain proxying requests
+# to an internal webserver.
+#
+# ===========================================================================
+#
 
 /etc/nginx/sites-available/monitor:
   file.managed:
@@ -12,17 +18,14 @@ include:
     - template: jinja
     - context:
         tld: {{ tld }}
-        level: {{ level }}
-        backend_port: {{ backend_port }}
         backends: {{ backends }}
+        backend_port: {{ backend_port }}
     - require:
       - pkg: nginx
 
 /etc/nginx/sites-enabled/10-monitor:
   file.symlink:
     - target: /etc/nginx/sites-available/monitor
-    - watch_in:
-      - service: nginx
     - require:
       - file: /etc/nginx/sites-available/monitor
 

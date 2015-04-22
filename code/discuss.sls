@@ -2,7 +2,7 @@
 {%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
 {%- set level = salt['grains.get']('level', 'production') -%}
 {%- set smtp = salt['pillar.get']('infra:hosts_entries:mail', 'mail.webplatform.org') -%}
-{%- set backend_port = salt['pillar.get']('infra:backends:port:discuss', 8001) -%}
+{%- set upstream_port = salt['pillar.get']('upstream:discourse:port', 8001) -%}
 {%- set alpha_redis = salt['pillar.get']('infra:alpha_redis') %}
 
 include:
@@ -41,9 +41,9 @@ clone-discuss:
         tld: {{ tld }}
         level: {{ level }}
         dir: {{ dir }}
-        smtp_relay: {{ smtp }}
+        smtp: {{ smtp }}
         alpha_redis: {{ alpha_redis }}
-        backend_port: {{ backend_port }}
+        upstream_port: {{ upstream_port }}
 
 discuss-deps:
   pkg.installed:

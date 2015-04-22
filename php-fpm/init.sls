@@ -17,9 +17,9 @@
  #}
 include:
   - mmonit
+  - nginx.status
   - php.composer
   - users.app-user
-  - php-fpm.nginx
 
 php5-fpm:
   pkg.installed:
@@ -58,7 +58,7 @@ php5-fpm:
         ;catch_workers_output = yes
 
         [www]
-        listen = {{ salt['grains.get']('ipaddr', '127.0.0.1') }}:9000
+        listen = 127.0.0.1:9000
         user = app-user
         group = www-data
         chdir = /
@@ -75,7 +75,6 @@ php5-fpm:
     - watch_in:
       - service: php5-fpm
 
-
 /etc/monit/conf.d/php5-fpm.conf:
   file.managed:
     - source: salt://php-fpm/files/monit.conf.jinja
@@ -88,4 +87,14 @@ php5-fpm:
       - file: /etc/nginx/conf.d/status.conf
     - watch_in:
       - service: monit
+
+/etc/nginx/status.d/fpm.conf:
+  file.managed:
+    - source: salt://php-fpm/files/fpm-status.conf.jinja
+    - template: jinja
+    - require:
+      - pkg: php5-fpm
+      - file: /etc/nginx/status.d
+    - watch_in:
+      - service: nginx
 

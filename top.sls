@@ -95,7 +95,7 @@ base:
     - apache.project
     - apache.status
     - buggenie.mailqueue
-  'roles:piwik':
+  'roles:stats':
     - match: grain
     - users.app-user
     - php-fpm
@@ -113,28 +113,15 @@ base:
   'hhvmbackend*':
     - hhvm
     - nutcracker
-  'roles:nginx':
-    - match: grain
-    - users.app-user
-    - webplatform.nginx
-    - fxa.nginx
-    - hypothesis.nginx
-    - specs.nginx
-    - piwik.nginx
-    - monitor.nginx
-    - discuss.nginx
   'roles:specs':
     - match: grain
-    - specs
+    - specs.local
   'roles:notes':
     - match: grain
-    - hypothesis
     - hypothesis.local
-    - hypothesis.fxa_and_h_ssl_issue
-  'roles:accounts':
+  'roles:auth':
     - match: grain
-    - fxa
-    - fxa.fxa_and_h_ssl_issue
+    - fxa.local
   'roles:builder':
     - match: grain
     - builder
@@ -145,7 +132,6 @@ base:
   'roles:frontend':
     - match: grain
     - users.app-user
-    - webplatform.nginx
     - fxa.nginx
     - hypothesis.nginx
     - specs.nginx

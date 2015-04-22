@@ -1,41 +1,55 @@
 
 #
-# This is the public virtual host for discuss.{{ tld }}
+# This is the PUBLIC virtual host for discuss.{{ tld }}
+#
+# Note that we call another NGINX virtual host, from the internal network,
+# without SSL, and with a different name than the publicly exposed.
+#
+# Intention is that we can have multiple internal upstreams load-balanced
+# by this very virtual host.
 #
 # ===========================================================================
 #
 # Managed by Salt Stack. Do NOT Edit manually!
 # source: {{ source }}
+#
 
-server {
-    listen        80;
-    server_name   discuss.{{ tld }};
-
-    include      common_params;
-
-    return       301 https://discuss.{{ tld }}$request_uri;
+upstream upstream_discourse {
+{%- for b in upstreams %}
+    server    {{ b }}:{{ upstream_port }};
+{%- endfor %}
+    keepalive 16;
 }
 
 server {
-    listen              443 ssl spdy;
+    listen      80;
+    server_name discuss.{{ tld }};
+    include     common_params;
+    return      301 https://discuss.{{ tld }}$request_uri;
+}
+
+server {
+    listen      443 ssl spdy;
+    server_name discuss.{{ tld }};
+
+    root    /var/www/html;
+    include common_params;
+    include ssl_params;
+
     ssl                 on;
     ssl_certificate     /etc/ssl/webplatform/public_wildcard_201407.pem;
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
-    server_name  discuss.{{ tld }};
-
-    include      common_params;
-    include      ssl_params;
-
     # Use internal Docker runner instance exposed port
     location / {
-        proxy_pass       http://{{ discuss_docker_host|default('127.0.0.1') }}:{{ discuss_docker_port|default(8000) }};
-
-        proxy_set_header Host               $http_host;
-        proxy_set_header X-Real-IP          $remote_addr;
-        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
-
+        proxy_pass             http://upstream_discourse;
+        include                proxy_params;
         proxy_intercept_errors on;
+
+        # Backend keepalive
+        # ref: http://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
     }
 }
 

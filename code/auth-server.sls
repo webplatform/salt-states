@@ -1,5 +1,5 @@
 {%- set accounts_pillar = salt['pillar.get']('accounts:auth-server') -%}
-{%- set infra_pillar    = salt['pillar.get']('infra:auth-server') -%}
+{%- set infra_pillar = salt['pillar.get']('infra:auth-server') %}
 
 include:
   - rsync.secret
@@ -29,10 +29,10 @@ sync-fxa-dists:
 
 
 {% set configFiles = [
-        ('fxa-profile-server', 'config/prod.json'),
-        ('fxa-oauth-server', 'config/prod.json'),
-        ('fxa-content-server', 'server/config/production.json'),
-        ('fxa-auth-server', 'config/prod.json') ] %}
+        ('profile', 'config/prod.json'),
+        ('oauth',   'config/prod.json'),
+        ('content', 'server/config/production.json'),
+        ('auth',    'config/prod.json') ] %}
 {% for appName, file in configFiles %}
 /srv/webplatform/auth-server/{{ appName }}:
   file.directory:
@@ -40,7 +40,7 @@ sync-fxa-dists:
 
 /srv/webplatform/auth-server/{{ appName }}/{{ file }}:
   file.managed:
-    - source: salt://code/files/auth-server/{{ appName }}.json.jinja
+    - source: salt://code/files/auth-server/fxa-{{ appName }}-server.json.jinja
     - template: jinja
     - user: app-user
     - group: www-data

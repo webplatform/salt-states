@@ -14,8 +14,6 @@ include:
 /etc/nginx/sites-enabled/10-project:
   file.symlink:
     - target: /etc/nginx/sites-available/project
-    - watch_in:
-      - service: nginx
     - require:
       - file: /etc/nginx/sites-available/project
 

@@ -6,15 +6,18 @@
 #   - http://docs.docker.com/compose/yml/
 #   - https://github.com/cachethq/Cachet/blob/L5/config/cache.php
 #   - https://github.com/cachethq/Cachet/blob/L5/config/session.php
+#
+# see similar state:
+#   - code/files/publican/docker-compose.yml.jinja
 
-status:
+web:
 
   build: .
 
   restart: always
 
   ports:
-    - "8000:{{ backend_port }}"
+    - "{{ upstream_port }}:8000"
 
   environment:
     DB_HOST: {{ masterdb_ip }}
@@ -26,11 +29,11 @@ status:
     MAIL_DRIVER: smtp
     MAIL_HOST: {{ smtp }}
 
-  net: "host"
+# Note the missing "net: host" statement, its deliberate
 
   dns:
     - {{ salt_master_ip }}
-
+    - 8.8.8.8
 
 # vim: et ts=2 sw=2 ft=yaml:
 

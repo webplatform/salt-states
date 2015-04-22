@@ -2,6 +2,7 @@ include:
   - rsync.secret
   - code.prereq
   - users.app-user
+  - groups.w3t
 
 # @salt-master-dest
 rsync-specs-dists:

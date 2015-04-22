@@ -7,7 +7,7 @@ start on (net-device-up
 stop on runlevel [!2345]
 
 script
-   cd /srv/webplatform/auth-server/fxa-auth-server
+   cd /srv/webplatform/auth-server/auth
    export CONFIG_FILES=./config/prod.json
-   exec su -s /bin/bash -c 'scripts/start-local.sh 2>&1 | bunyan -o short' {{ svc_user }} >> /var/log/fxa/fxa-auth-server.log 2>&1
+   exec su -s /bin/bash -c 'scripts/start-local.sh 2>&1 | bunyan -o short' {{ svc_user }} >> /var/log/webplatform/fxa-auth.log 2>&1
 end script

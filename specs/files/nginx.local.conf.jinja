@@ -1,0 +1,27 @@
+
+#
+# This is the INTERNAL network HTTP upstream for specs.{{ tld }}
+#
+# The purpose of this virtual host is to take care of every web application
+# runtime specific proxying, URL rewrites AND static files handling.
+#
+# Intention is that we can have multiple IPs internally to serve this web app.
+#
+# ===========================================================================
+#
+# Managed by Salt Stack. Do NOT Edit manually!
+# source: {{ source }}
+#
+
+server {
+    listen  {{ upstream_port }};
+
+    include common_params;
+
+    index   index.html;
+    root    /srv/webplatform/specs;
+
+    # $uri/ BEFORE $uri was a catch-22 here :/
+    try_files $uri/ $uri =404;
+}
+

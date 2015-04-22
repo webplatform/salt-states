@@ -48,14 +48,6 @@ nginx-ppa:
     - require_in:
       - pkg: nginx
 
-{% for file in ['sites-enabled/00-default',
-                'sites-available/default'] %}
-/etc/nginx/{{ file }}:
-  file.absent:
-    - require:
-      - pkg: nginx
-{% endfor %}
-
 {% for file in ['ssl_params',
                 'common_params',
                 'fastcgi_params'] %}
