@@ -1,9 +1,10 @@
-# In the case of FxA, we’ll reuse the **same** vhosts
-
 include:
   - .
   - nginx.local
-  - .nginx
+  - .frontend
+
+# The ^ .frontend here is a special case, for now we’ll reuse the **same** vhosts
+# other "local" states shouldn’t do this.
 
 extend:
   /etc/nginx/sites-available/accounts:

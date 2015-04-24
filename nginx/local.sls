@@ -1,4 +1,3 @@
 include:
   - nginx
-  - nginx.status
 

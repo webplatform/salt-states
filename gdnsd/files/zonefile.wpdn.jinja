@@ -15,9 +15,6 @@ $TTL 3600
 ;
 ;     salt-call pillar.get infra:hosts_entries
 ;
-; Data we had at last highstate:
-;
-; {{ hosts_entries.items() }}
 ;
 {% for name,ip_addr in hosts_entries.items() %}
 {%- if ip_addr -%}
@@ -27,8 +24,8 @@ $TTL 3600
 
 {% for ip_addr in elasticsearch_nodes %}
 {%- if ip_addr -%}
-elasticsearch	A	{{ ip_addr }}
 es.backend		A	{{ ip_addr }}
+elasticsearch	A	{{ ip_addr }}
 {% endif -%}
 {% endfor %}
 
@@ -37,10 +34,6 @@ es.backend		A	{{ ip_addr }}
 ;  Mine network.ip_addrs:
 ;
 ;      salt-call mine.get \* network.ip_addrs
-;
-;  Data we had at last highstate:
-;
-;  {{ mine_data }}
 ;
 {#
  # Make sure ONLY IP addresses that starts by 10.10 should get here, maybe with grain ip4_interfaces:eth0 #TODO

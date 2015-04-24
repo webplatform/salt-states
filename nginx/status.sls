@@ -1,6 +1,3 @@
-include:
-  - nginx
-
 /etc/nginx/sites-available/default:
   file.managed:
     - source: salt://nginx/files/default.jinja

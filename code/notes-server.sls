@@ -1,4 +1,4 @@
-{%- set smtp = salt['pillar.get']('infra:hosts_entries:mail', 'mail.webplatform.org') -%}
+{%- set level = salt['grains.get']('level', 'production') -%}
 
 include:
   - rsync.secret
@@ -61,7 +61,7 @@ clone-hypothesis:
         auth_server_endpoints: {{ salt['pillar.get']('infra:auth-server:endpoints') }}
         ## Expected keys: auth_client_id, auth_client_secret, secret
         notes_secrets_pillar: {{ salt['pillar.get']('accounts:notes-server') }}
-        smtp: {{ smtp }}
+        smtp: mail.{{ level }}.wpdn
     - require:
       - git: clone-hypothesis
 

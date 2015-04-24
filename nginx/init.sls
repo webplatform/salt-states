@@ -16,7 +16,7 @@
  #}
 include:
   - mmonit
-  - .status
+  - nginx.status
 
 nginx:
   pkg.installed:
