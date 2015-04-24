@@ -12,7 +12,7 @@
 
 ##}
 ##
-## Managed by Salt stack. Do NOT EDIT directly!
+## Managed by Salt Stack. Do NOT edit directly!
 ##
 {##
 
@@ -21,14 +21,11 @@
       hosts_entries = {'salt': '10.10.10.211', 'masterdb': '10.10.10.150'}
 
 ##}
+
 ##
 ## From pillar 'infra:hosts_entries'
 ##
 ##     salt-call pillar.get infra:hosts_entries
-##
-## Data we had at last highstate:
-##
-##     "{{ hosts_entries }}"
 ##
 {% for name,ip_addr in hosts_entries.items() -%}
 {{ ip_addr }}		{{ name }}	{{ name }}.local.wpdn
@@ -50,6 +47,13 @@
 
 ##}
 
+## Hardcoded hosts entries, pillar 'infra:hardcoded_entries' ##
+{% for name,ip_addr in hardcoded_entries.items() -%}
+{{ ip_addr }}		{{ name }}.{{ tld }}
+{% endfor -%}
+## /Hardcoded hosts entries, pillar 'infra:hosts_entries' ##
+
+
 # The following lines are desirable for IPv6 capable hosts
 ::1 ip6-localhost ip6-loopback
 fe00::0 ip6-localnet
@@ -58,4 +62,5 @@ ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 ff02::3 ip6-allhosts
 
+# vim: ai syntax=conf tabstop=4 softtabstop=4 shiftwidth=4
 

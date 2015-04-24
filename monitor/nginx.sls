@@ -1,6 +1,6 @@
 {%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
-{%- set backends = salt['pillar.get']('upstream:cachet:nodes', ['127.0.0.1']) -%}
-{%- set backend_port = salt['pillar.get']('upstream:cachet:port', 8000) %}
+{%- set upstreams = salt['pillar.get']('upstream:cachet:nodes', ['127.0.0.1']) -%}
+{%- set upstream_port = salt['pillar.get']('upstream:cachet:port', 8000) %}
 
 include:
   - nginx
@@ -18,8 +18,8 @@ include:
     - template: jinja
     - context:
         tld: {{ tld }}
-        backends: {{ backends }}
-        backend_port: {{ backend_port }}
+        upstreams: {{ upstreams }}
+        upstream_port: {{ upstream_port }}
     - require:
       - pkg: nginx
 

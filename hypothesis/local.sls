@@ -4,7 +4,6 @@
 
 include:
   - .
-  - .fxa_and_h_ssl_issue
   - nginx.local
 
 #

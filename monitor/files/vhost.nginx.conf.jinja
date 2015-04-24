@@ -5,7 +5,7 @@
 # Note that we call another NGINX virtual host, from the internal network,
 # without SSL, and with a different name than the publicly exposed.
 #
-# Intention is that we can have multiple internal backends load-balanced
+# Intention is that we can have multiple internal upstreams load-balanced
 # by this very virtual host.
 #
 # ===========================================================================
@@ -14,12 +14,12 @@
 # source: {{ source }}
 #
 
-upstream backend_monitor {
+upstream upstream_cachet {
     keepalive 16;
     ip_hash;
 
-{%- for b in backends %}
-    server    {{ b }}:{{ backend_port }};
+{%- for b in upstreams %}
+    server    {{ b }}:{{ upstream_port }};
 {%- endfor %}
 }
 
@@ -43,7 +43,7 @@ server {
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
     location / {
-        proxy_pass             http://backend_monitor;
+        proxy_pass             http://upstream_cached;
         include                proxy_params;
         proxy_intercept_errors on;
 

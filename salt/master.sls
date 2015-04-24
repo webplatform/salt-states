@@ -1,6 +1,7 @@
 {%- set users = salt['pillar.get']('users', {}) -%}
 {%- set level = salt['grains.get']('level', 'production') -%}
 {%- set salt_master_ip = salt['pillar.get']('infra:hosts_entries:salt') -%}
+{%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') %}
 
 include:
   - salt
@@ -94,7 +95,7 @@ setup-fail2ban:
     - template: jinja
     - context:
         level: {{ level }}
-        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
+        tld: {{ tld }}
 
 /etc/salt/master.d/reactor.conf:
   file.managed:

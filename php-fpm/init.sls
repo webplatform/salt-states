@@ -80,11 +80,11 @@ php5-fpm:
     - source: salt://php-fpm/files/monit.conf.jinja
     - template: jinja
     - context:
-        ip4_interface: {{ salt['grains.get']('ipaddr', '127.0.0.1') }}
+        ip4_interface: 127.0.0.1
         fpm_port: 9000
     - require:
       - pkg: php5-fpm
-      - file: /etc/nginx/conf.d/status.conf
+      - file: /etc/nginx/status.d
     - watch_in:
       - service: monit
 

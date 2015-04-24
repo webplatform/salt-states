@@ -35,8 +35,6 @@ clone-hypothesis:
     - user: app-user
     - target: /srv/webplatform/notes-server
     - unless: test -f /srv/webplatform/notes-server/h.ini
-    - context:
-        smtp: {{ smtp }}
     - require:
       - file: /srv/webplatform/notes-server
       - pkg: git
@@ -63,6 +61,7 @@ clone-hypothesis:
         auth_server_endpoints: {{ salt['pillar.get']('infra:auth-server:endpoints') }}
         ## Expected keys: auth_client_id, auth_client_secret, secret
         notes_secrets_pillar: {{ salt['pillar.get']('accounts:notes-server') }}
+        smtp: {{ smtp }}
     - require:
       - git: clone-hypothesis
 

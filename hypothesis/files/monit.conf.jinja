@@ -5,7 +5,7 @@
  #   - elastic_host: '10.10.10.2'
  #   - elastic_port: 9002
  #}
-check process hypothesis
+check process h
   matching "notes-server"
   start program = "/usr/sbin/service h start"
   stop program =  "/usr/sbin/service h stop"
@@ -20,7 +20,7 @@ check host elasticsearch-remote with address "{{ elastic_host }}"
     with timeout 10 seconds
     then alert
 
-check host hypothesis-available with address "{{ hypothesis_host }}"
+check host h-available with address "{{ hypothesis_host }}"
   start program = "/usr/sbin/service h start"
   stop program =  "/usr/sbin/service h stop"
   if failed port {{ hypothesis_port }}

@@ -1,9 +1,9 @@
 include:
   - nginx
 
-/etc/nginx/conf.d/status.conf:
+/etc/nginx/sites-available/default:
   file.managed:
-    - source: salt://nginx/files/status.conf.jinja
+    - source: salt://nginx/files/default.jinja
     - template: jinja
     - require:
       - pkg: nginx
