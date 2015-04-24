@@ -5,7 +5,7 @@ include:
 
 /etc/nginx/sites-available/accounts:
   file.managed:
-    - source: salt://fxa/files/vhost.nginx.conf.jinja
+    - source: salt://fxa/files/nginx.frontend.conf.jinja
     - template: jinja
     - context:
         tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
@@ -21,7 +21,7 @@ include:
 
 /etc/nginx/sites-available/accounts-apis:
   file.managed:
-    - source: salt://fxa/files/vhost-apis.nginx.conf.jinja
+    - source: salt://fxa/files/nginx.frontend-apis.conf.jinja
     - template: jinja
     - context:
         tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}

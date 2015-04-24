@@ -17,7 +17,7 @@ include:
 
 /etc/nginx/sites-available/stats:
   file.managed:
-    - source: salt://piwik/files/vhost.nginx.conf.jinja
+    - source: salt://piwik/files/nginx.frontend.conf.jinja
     - template: jinja
     - context:
         tld: {{ tld }}

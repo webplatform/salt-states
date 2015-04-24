@@ -131,13 +131,12 @@ base:
     - webplatform.docker
   'roles:frontend':
     - match: grain
-    - users.app-user
-    - fxa.nginx
-    - hypothesis.nginx
-    - specs.nginx
-    - piwik.nginx
-    - monitor.nginx
-    - discuss.nginx
+    - fxa.frontend
+    - hypothesis.frontend
+    - specs.frontend
+    - piwik.frontend
+    - monitor.frontend
+    - discuss.frontend
 
 # vim: ai filetype=yaml tabstop=2 softtabstop=2 shiftwidth=2
 

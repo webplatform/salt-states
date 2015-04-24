@@ -43,7 +43,7 @@ server {
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
     location / {
-        proxy_pass             http://upstream_cached;
+        proxy_pass             http://upstream_cachet;
         include                proxy_params;
         proxy_intercept_errors on;
 

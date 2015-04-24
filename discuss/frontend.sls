@@ -7,7 +7,7 @@ include:
 
 /etc/nginx/sites-available/discuss:
   file.managed:
-    - source: salt://discuss/files/vhost.nginx.conf.jinja
+    - source: salt://discuss/files/nginx.frontend.conf.jinja
     - template: jinja
     - context:
         tld: {{ tld }}

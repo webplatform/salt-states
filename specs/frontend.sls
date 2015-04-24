@@ -16,7 +16,7 @@ include:
 
 /etc/nginx/sites-available/specs:
   file.managed:
-    - source: salt://specs/files/vhost.nginx.conf.jinja
+    - source: salt://specs/files/nginx.frontend.conf.jinja
     - template: jinja
     - context:
         tld: {{ tld }}

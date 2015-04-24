@@ -14,7 +14,7 @@ include:
 
 /etc/nginx/sites-available/monitor:
   file.managed:
-    - source: salt://monitor/files/vhost.nginx.conf.jinja
+    - source: salt://monitor/files/nginx.frontend.conf.jinja
     - template: jinja
     - context:
         tld: {{ tld }}

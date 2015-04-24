@@ -14,7 +14,7 @@ include:
 
 /etc/nginx/sites-available/notes:
   file.managed:
-    - source: salt://hypothesis/files/vhost.nginx.conf.jinja
+    - source: salt://hypothesis/files/nginx.frontend.conf.jinja
     - template: jinja
     - context:
         tld: {{ tld }}

@@ -6,7 +6,7 @@ location ~ ^/php-(ping|status) {
     allow          10.10.10.0/24;
     deny           all;
 
-    fastcgi_pass   {{ grains['ipaddr'] }}:9000;
+    fastcgi_pass    127.0.0.1:9000;
 
     fastcgi_param   QUERY_STRING            $query_string;
     fastcgi_param   REQUEST_METHOD          $request_method;
