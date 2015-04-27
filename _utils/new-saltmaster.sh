@@ -272,9 +272,9 @@ repos["pillar"]="git@source.webplatform.org:pillars.git"
 repos["runner"]="git@source.webplatform.org:runners.git"
 repos["opsconfigs"]="git@source.webplatform.org:opsconfigs.git"
 
-options["salt"]="--branch future-master --quiet"
-options["private"]="--branch future-master --quiet"
-options["pillar"]="--branch future-master --quiet"
+options["salt"]="--branch master --quiet"
+options["private"]="--branch master --quiet"
+options["pillar"]="--branch master --quiet"
 options["runner"]="--quiet"
 options["opsconfigs"]="--quiet"
 
