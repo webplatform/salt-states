@@ -260,7 +260,6 @@ _EOF_
 ) > /etc/salt/minion.d/overrides.conf
 
 
-
 cd /srv
 
 declare -A repos
@@ -321,8 +320,13 @@ fileserver_backend:
   - git
 
 gitfs_remotes:
+  - https://github.com/webplatform/redis-formula.git
   - https://github.com/webplatform/saltstack-sysctl-formula.git
   - https://github.com/webplatform/postgres-formula.git
+  - https://github.com/webplatform/logrotate-formula.git
+  - https://github.com/saltstack-formulas/nfs-formula.git
+  - https://github.com/saltstack-formulas/logstash-formula.git
+  - https://github.com/webplatform/docker-formula.git
 
 _EOF_
 ) > /etc/salt/master.d/roots.conf
