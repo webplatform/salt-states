@@ -11,17 +11,25 @@ if [ ! -d "/srv/code/www/repo/.git" ]; then
   exit 1
 fi
 
-cd /srv/code/www/repo
+cd /srv/code/www
 
-if [ ! -d "../archives/" ]; then
-  sudo mkdir ../archives/
-  sudo chmod g+w ../archives/
+if [ ! -d "archives" ]; then
+  sudo mkdir -m 774 archives
+  sudo chown -R nobody:deployment archives
 fi
-sudo chmod +x node_modules/docpad/bin/docpad
-sudo chmod +x node_modules/gulp/bin/gulp.js
 
-sudo chown -R nobody:deployment out/
-sudo chmod g+w out
+if [ ! -d "repo/node_modules" ]; then
+  echo "You didnt run npm install, nor bundle install"
+  exit 1
+fi
+
+sudo chmod +x repo/node_modules/docpad/bin/docpad
+sudo chmod +x repo/node_modules/gulp/bin/gulp.js
+
+sudo mkdir -p -m 774 repo/out
+sudo chown -R nobody:deployment repo/out
+
+cd repo
 
 compass compile -e production --force
 node_modules/docpad/bin/docpad generate --env=production

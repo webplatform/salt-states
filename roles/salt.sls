@@ -84,3 +84,6 @@ libboost-program-options1.46.1:
         ; https://docs.npmjs.com/files/npmrc#per-project-config-file
         cwd = .
         HOME = ../.npmhome
+    - mode: 644
+    - user: nobody
+    - group: deployment
