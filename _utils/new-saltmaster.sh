@@ -342,6 +342,9 @@ echo "Restarting salt (almost there!)"
 /usr/sbin/service salt-minion restart
 /usr/sbin/service salt-master restart
 
+echo "Going to sleep 10 seconds so that salt-master will see its own minion"
+sleep 10
+
 echo "Autoaccepting salt"
 salt-key -a salt
 
