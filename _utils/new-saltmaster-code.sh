@@ -137,9 +137,9 @@ for key in ${!repos[@]}; do
 done
 
 chown -R nobody:deployment /srv/code/
-find /srv/code -type f -exec chmod go+w {} \;
-find /srv/code -type d -exec chmod go+w {} \;
-find /srv/code -type d -exec chmod go+x {} \;
+find /srv/code -type f -exec chmod g+w {} \;
+find /srv/code -type d -exec chmod g+w {} \;
+find /srv/code -type d -exec chmod g+x {} \;
 
 echo ""
 echo "Step 3 of 3 completed!"
