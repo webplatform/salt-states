@@ -346,7 +346,7 @@ echo "Going to sleep 10 seconds so that salt-master will see its own minion"
 sleep 10
 
 echo "Autoaccepting salt"
-salt-key -a salt
+salt-key -y -a salt
 
 echo "Removing temporary SSH key"
 echo -e "\e[31mDID YOU REMOVE the SSH key in Gerrit??\e[0m"
@@ -361,7 +361,7 @@ echo ""
 echo "Next steps, run:"
 echo " salt-key"
 echo " apt-get update && time apt-get -y dist-upgrade"
-echo " salt-call --local state.highstate"
+echo " salt salt state.highstate"
 echo " bash /srv/salt/_utils/new-saltmaster-packages.sh"
 echo ""
 
