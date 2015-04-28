@@ -50,14 +50,14 @@ libboost-program-options1.46.1:
 #    - group: deployment
 #    - mode: 774
 
-/srv/code/www/repo/compile.sh:
+/srv/code/www/compile.sh:
   file.managed:
     - source: salt://code/files/www/compile.sh
     - mode: 775
     - user: nobody
     - group: deployment
 
-#/srv/code/specs/repo/compile.sh:
+#/srv/code/specs/compile.sh:
 #  file.managed:
 #    - source: salt://code/files/specs/compile.sh
 #    - mode: 775
@@ -77,3 +77,10 @@ libboost-program-options1.46.1:
     - context:
         tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
 
+/srv/code/www/repo/.npmrc:
+  file.managed:
+    - contents: |
+        ; Managed by Salt Stack by the salt master. Do NOT edit manually!
+        ; https://docs.npmjs.com/files/npmrc#per-project-config-file
+        cwd = .
+        HOME = ../.npmhome

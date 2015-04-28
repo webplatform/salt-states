@@ -7,19 +7,21 @@
 #
 
 if [ ! -d "/srv/code/www/repo/.git" ]; then
-  echo "This script cannot be run" 
+  echo "This script cannot be run"
   exit 1
 fi
 
 cd /srv/code/www/repo
 
 if [ ! -d "../archives/" ]; then
-  mkdir ../archives/
+  sudo mkdir ../archives/
+  sudo chmod g+w ../archives/
 fi
-chmod +x node_modules/docpad/bin/docpad
-chmod +x node_modules/gulp/bin/gulp.js
+sudo chmod +x node_modules/docpad/bin/docpad
+sudo chmod +x node_modules/gulp/bin/gulp.js
 
-chown -R nobody:deployment out/
+sudo chown -R nobody:deployment out/
+sudo chmod g+w out
 
 compass compile -e production --force
 node_modules/docpad/bin/docpad generate --env=production
