@@ -1,4 +1,6 @@
 # Represents an internal only server
+# Eventually we would refactor roles.app, roles.blog, roles.project to be exposed through
+
 include:
   - rsync.secret
 

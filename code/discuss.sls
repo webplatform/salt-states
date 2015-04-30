@@ -3,6 +3,7 @@
 {%- set level = salt['grains.get']('level', 'production') -%}
 {%- set smtp = salt['pillar.get']('infra:hosts_entries:mail', 'mail.webplatform.org') -%}
 {%- set upstream_port = salt['pillar.get']('upstream:discourse:port', 8001) -%}
+{%- set db = salt['pillar.get']('accounts:discourse:db') -%}
 {%- set alpha_redis = salt['pillar.get']('infra:alpha_redis') %}
 
 include:
@@ -44,6 +45,7 @@ clone-discuss:
         smtp: {{ smtp }}
         alpha_redis: {{ alpha_redis }}
         upstream_port: {{ upstream_port }}
+        db: {{ db }}
 
 discuss-deps:
   pkg.installed:

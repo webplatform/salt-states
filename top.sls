@@ -68,7 +68,9 @@ base:
     - logwatch
     - mysql.server
     - rsync
-  'postgres*':
+  'roles:dbpostgres':
+    - match: grain
+    - webplatform.postgres
     - postgres
     - rsync
   'memcache*':
@@ -128,6 +130,7 @@ base:
     - nodejs
   'roles:docker':
     - match: grain
+    - docker
     - webplatform.docker
   'roles:frontend':
     - match: grain

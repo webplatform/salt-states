@@ -1,3 +1,7 @@
+# Role to expose only one master MySQL server where we send writes.
+# We need exactly one, typically called db1-masterdb
+# In contrast to ElasticSearch, we need to explicitly set one server to be the master. This is why we have this role.
+
 include:
   - backup.db
   - webplatform.swift-dreamobjects

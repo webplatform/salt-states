@@ -21,9 +21,9 @@ params:
   db_default_text_search_config: "pg_catalog.english"
 
 env:
-  #DISCOURSE_DB_USER: discourse
-  #DISCOURSE_DB_PASSWORD: SOME_SECRET
-  #DISCOURSE_DB_HOST: DB_IP_ADDRESS
+  DISCOURSE_DB_USER: {{ db.username }}
+  DISCOURSE_DB_PASSWORD: {{ db.password }}
+  DISCOURSE_DB_HOST: {{ db.hostname }}
   DISCOURSE_REDIS_HOST: {{ alpha_redis[0].split(':')[0] }}
 
   LANG: en_US.UTF-8
