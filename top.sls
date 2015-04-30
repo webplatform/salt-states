@@ -139,7 +139,7 @@ base:
     - specs.frontend
     - piwik.frontend
     - monitor.frontend
-    - discuss.frontend
+    - discourse.frontend
 
 # vim: ai filetype=yaml tabstop=2 softtabstop=2 shiftwidth=2
 

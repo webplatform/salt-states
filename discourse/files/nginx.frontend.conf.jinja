@@ -13,6 +13,9 @@
 # Managed by Salt Stack. Do NOT Edit manually!
 # source: {{ source }}
 #
+# See also
+#   - https://github.com/discourse/discourse/blob/master/config/nginx.sample.conf
+#
 
 upstream upstream_discourse {
 {%- for b in upstreams %}
@@ -21,6 +24,8 @@ upstream upstream_discourse {
     keepalive 16;
 }
 
+# Let’s redirect to SSL, in case somebody tries to access the direct IP with
+# host header.
 server {
     listen      80;
     server_name discuss.{{ tld }};
@@ -29,7 +34,9 @@ server {
 }
 
 server {
-    listen      443 ssl spdy;
+    # Let’s only listen to SSL, Fastly will serve us,
+    # and they dont support SPDY/HTTP2
+    listen      443 ssl;
     server_name discuss.{{ tld }};
 
     root    /var/www/html;
@@ -39,6 +46,20 @@ server {
     ssl                 on;
     ssl_certificate     /etc/ssl/webplatform/public_wildcard_201407.pem;
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
+
+    # without weak etags we get zero benefit from etags on dynamically compressed content
+    # further more etags are based on the file in nginx not sha of data
+    # use dates, it solves the problem fine even cross server
+    etag off;
+
+    ###### Settings that arent part of defaults ######
+    # maximum file upload size (keep up to date when changing the corresponding site setting)
+    client_max_body_size 10m;
+    gzip_vary on;
+    gzip_min_length 1000;
+    gzip_comp_level 5;
+    gzip_types application/json text/css application/x-javascript application/javascript;
+    ###### /Settings that arent part of defaults ######
 
     # Use internal Docker runner instance exposed port
     location / {

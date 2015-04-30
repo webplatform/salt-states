@@ -8,7 +8,6 @@
 ## refer to comments in the samples/ folder
 
 templates:
-  - "templates/postgres.template.yml"
   - "templates/web.template.yml"
   - "templates/sshd.template.yml"
   - "templates/web.ratelimited.template.yml"
@@ -29,7 +28,7 @@ env:
   LANG: en_US.UTF-8
   DISCOURSE_DEVELOPER_EMAILS: 'renoirb@gmail.com,renoir@w3.org'
   DISCOURSE_HOSTNAME: 'discuss.{{ tld }}'
-  DISCOURSE_SMTP_ADDRESS: {{ smtp }}
+  DISCOURSE_SMTP_ADDRESS: localhost
   DISCOURSE_SMTP_OPENSSL_VERIFY_MODE: none
 
 volumes:
