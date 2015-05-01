@@ -64,7 +64,6 @@ server {
     # Use internal Docker runner instance exposed port
     location / {
         proxy_pass             http://upstream_discourse;
-        include                proxy_params;
         proxy_intercept_errors on;
 
         # Backend keepalive

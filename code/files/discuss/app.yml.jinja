@@ -9,12 +9,10 @@
 
 templates:
   - "templates/web.template.yml"
-  - "templates/sshd.template.yml"
   - "templates/web.ratelimited.template.yml"
 
 expose:
   - "{{ upstream_port }}:80"   # fwd host port 8001   to container port 80 (http)
-  - "2222:22" # fwd host port 2222 to container port 22 (ssh)
 
 params:
   db_default_text_search_config: "pg_catalog.english"
@@ -47,9 +45,14 @@ hooks:
           - mkdir -p plugins
           - git clone https://github.com/discourse/docker_manager.git
 
-run:
-  - exec: echo "Beginning of custom commands"
-  - exec: ssh-import-id gh:renoirb
-  - exec: echo "End of custom commands"
-  - exec: awk -F\# '{print $1;}' ~/.ssh/authorized_keys | awk 'BEGIN { print "Authorized SSH keys for this container:"; } NF>=2 {print $NF;}'
+##
+## We don’t rely on allowing ssh to container, if you really need, go to the runner VM and do:
+##
+##     ./launcher enter app
+##
+#run:
+#  - exec: echo "Beginning of custom commands"
+#  - exec: ssh-import-id gh:renoirb
+#  - exec: echo "End of custom commands"
+#  - exec: awk -F\# '{print $1;}' ~/.ssh/authorized_keys | awk 'BEGIN { print "Authorized SSH keys for this container:"; } NF>=2 {print $NF;}'
 
