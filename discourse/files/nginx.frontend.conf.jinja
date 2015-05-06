@@ -28,16 +28,16 @@ upstream upstream_discourse {
 # host header.
 server {
     listen      80;
-    server_name discuss.{{ tld }};
+    server_name discuss.{{ tld }} discusspolling.{{ tld }};
     include     common_params;
-    return      301 https://discuss.{{ tld }}$request_uri;
+    return      301 https://$server_name$request_uri;
 }
 
 server {
     # Let’s only listen to SSL, Fastly will serve us,
     # and they dont support SPDY/HTTP2
     listen      443 ssl;
-    server_name discuss.{{ tld }};
+    server_name discuss.{{ tld }} discusspolling.{{ tld }};
 
     root    /var/www/html;
     include common_params;

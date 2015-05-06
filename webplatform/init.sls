@@ -83,10 +83,23 @@ resolvconf -u:
   cmd.run:
     - unless: grep -q -e 'wpdn' /etc/resolv.conf
 
+
 # ref: http://hardenubuntu.com/initial-setup/system-updates
-/etc/apt/apt.conf.d/20auto-upgrades:
-  file.managed:
-    - source: salt://webplatform/files/20auto-upgrades
+# ref: http://hardenubuntu.com/initial-setup/system-updates
+unattended-upgrades:
+  debconf.set:
+    - data:
+        'unattended-upgrades/enable_auto_updates':
+          type: boolean
+          value: "true"
+  cmd.wait:
+    - name: "dpkg-reconfigure unattended-upgrades"
+    - watch:
+      - debconf: unattended-upgrades
+    - env:
+        DEBIAN_FRONTEND: noninteractive
+        DEBCONF_NONINTERACTIVE_SEEN: "true"
+
 
 /etc/default/irqbalance:
   file.managed:
