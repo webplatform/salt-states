@@ -1,0 +1,20 @@
+## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+## source {{ source }}
+
+# ref:
+#   - http://docs.docker.com/compose/
+#   - http://docs.docker.com/compose/yml/
+
+web:
+  image: webplatform/etherpad
+
+  restart: always
+
+  ports:
+    - "{{ upstream_port }}:9001"
+
+  dns:
+    - 10.10.10.41
+    - 8.8.8.8
+
+# vim: et ts=2 sw=2 ft=yaml:

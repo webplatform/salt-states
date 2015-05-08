@@ -1,6 +1,6 @@
 
 #
-# This is the PUBLIC virtual host for monitor.{{ tld }}
+# This is the PUBLIC virtual host for etherpad.{{ tld }}
 #
 # Note that we call another NGINX virtual host, from the internal network,
 # without SSL, and with a different name than the publicly exposed.
@@ -14,7 +14,7 @@
 # source: {{ source }}
 #
 
-upstream upstream_cachet {
+upstream upstream_etherpad {
     keepalive 16;
     ip_hash;
 
@@ -25,14 +25,14 @@ upstream upstream_cachet {
 
 server {
     listen      80;
-    server_name monitor.{{ tld }};
+    server_name etherpad.{{ tld }};
     include     common_params;
-    return      301 https://monitor.{{ tld }}$request_uri;
+    return      301 https://etherpad.{{ tld }}$request_uri;
 }
 
 server {
     listen      443 ssl spdy;
-    server_name monitor.{{ tld }};
+    server_name etherpad.{{ tld }};
 
     root    /var/www/html;
     include common_params;
@@ -43,7 +43,7 @@ server {
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
     location / {
-        proxy_pass             http://upstream_cachet;
+        proxy_pass             http://upstream_etherpad;
         include                proxy_params;
         proxy_intercept_errors on;
 

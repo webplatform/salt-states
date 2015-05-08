@@ -4,6 +4,9 @@ include:
   - mmonit
   - code.packages
 
+# https://launchpad.net/~twemproxy/+archive/ubuntu/stable
+# add-apt-repository -y ppa:twemproxy/stable
+
 nutcracker:
   pkg.installed:
     - skip_verify: True

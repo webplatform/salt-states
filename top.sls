@@ -65,7 +65,8 @@ base:
   'code*':
     - gerrit
     - rsync
-  'db*':
+  'roles:db':
+    - match: grain
     - logwatch
     - mysql.server
     - rsync
@@ -73,6 +74,7 @@ base:
     - match: grain
     - webplatform.postgres
     - postgres
+    - logwatch
     - rsync
   'memcache*':
     - memcached
@@ -145,6 +147,7 @@ base:
     - piwik.frontend
     - monitor.frontend
     - discourse.frontend
+    - etherpad.frontend
 
 # vim: ai filetype=yaml tabstop=2 softtabstop=2 shiftwidth=2
 
