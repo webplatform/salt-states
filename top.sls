@@ -30,7 +30,7 @@ base:
     - rsync
     - python
     - python.mysqldb
-    - webplatform.swift-dreamobjects
+    - webplatform.dreamobjects
 #    - backup.salt_master
 #    - backup.mediawiki_xml
     - logging.syslog_ng
@@ -53,6 +53,7 @@ base:
     - backup.master
     - backup.nfs
     - backup.elasticsearch
+    - webplatform.dreamobjects
   'blog*':
     - php
     - nutcracker
@@ -132,6 +133,10 @@ base:
     - match: grain
     - docker
     - webplatform.docker
+    - webplatform.dreamobjects
+  'roles:masterdb':
+    - match: grain
+    - webplatform.dreamobjects
   'roles:frontend':
     - match: grain
     - fxa.frontend

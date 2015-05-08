@@ -67,6 +67,10 @@ wpd-html-compact () {
   fi
 }
 
+wpd-serve-http () {
+  python -m SimpleHTTPServer 8080
+}
+
 wpd-convert-yml-json () {
   if [ -f "$1" ]; then
     python -c 'import sys, yaml, json; json.dump(yaml.load(sys.stdin), sys.stdout, indent=2)' < $1 > $1.json

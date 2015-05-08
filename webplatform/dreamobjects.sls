@@ -8,6 +8,11 @@ python-swiftclient-install:
     - require:
       - pkg: python-swiftclient-install
 
+/usr/local/sbin/dreamobjects_uploader.sh:
+  file.managed:
+    - source: salt://webplatform/files/dreamobjects_uploader.sh
+    - mode: 755
+
 /etc/profile.d/swift-dreamobjects.sh:
   file.managed:
     - mode: 755

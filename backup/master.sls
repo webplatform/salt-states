@@ -3,7 +3,6 @@ include:
   - backup
   - rsync.secret
   - cron
-  - webplatform.swift-dreamobjects
 
 backup_location:
   file.directory:
@@ -45,22 +44,6 @@ backup-salt-master:
     - require:
       - file: /etc/backup.secret
       - file: {{ deploymentBackupMountpoint }}
-
-#swift-upload:
-#  file.managed:
-#    - source: salt://backup/swift-upload.sh
-#    - mode: 755
-#    - name: /usr/local/sbin/wpd-swift-upload.sh
-#  cron.present:
-#    - identifier: swift-upload
-#    - user: root
-#    - minute: random
-#    - hour: 4
-#    - name: 'JOBNAME=swift-upload cronhelper.sh /usr/local/sbin/wpd-swift-upload.sh'
-#    - require:
-#      - file: /usr/bin/cronhelper.sh
-#      - file: /etc/profile.d/swift-dreamobjects.sh
-#      - file: /usr/local/sbin/wpd-swift-upload.sh
 
 rsync-masterdb-backup:
   cron.present:

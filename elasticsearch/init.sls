@@ -86,36 +86,13 @@ chown -R dhc-user:dhc-user {{ es_folder }}:
       - pkg: elasticsearch
 {% endfor %}
 
-#  file.managed:
-#    - source: salt://elasticsearch/files/etc/elasticsearch/elasticsearch.yml.jinja
-#    - template: jinja
-#    - user: elasticsearch
-#    - group: elasticsearch
-#    - mode: 664
-#    - required:
-#      - pkg: elasticsearch
-
 /etc/default/elasticsearch:
   file.exists
-#  file.managed:
-#    - source: salt://elasticsearch/files/etc/default/elasticsearch.jinja
-#    - template: jinja
-#    - required:
-#      - pkg: elasticsearch
-#
 
 /etc/elasticsearch/logging.yml:
   file.exists:
     - require:
       - pkg: elasticsearch
-#  file.managed:
-#    - source: salt://etc/elasticsearch/logging.yml.jinja
-#    - template: jinja
-#    - user: elasticsearch
-#    - group: elasticsearch
-#    - mode: 664
-#    - required:
-#      - pkg: elasticsearch
 
 /etc/monit/conf.d/elasticsearch.conf:
   file.managed:

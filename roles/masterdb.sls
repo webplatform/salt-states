@@ -4,7 +4,6 @@
 
 include:
   - backup.db
-  - webplatform.swift-dreamobjects
   - mysql.server
 
 #
