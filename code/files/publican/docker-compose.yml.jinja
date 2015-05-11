@@ -19,8 +19,9 @@ web:
   # Make sure you have a data folder in the same
   # directory as this file. Container expects the following
   # in data/{logs,queue} AND also data/config.json
-  #volumes:
-  #  - data/:/srv/webplatform/specs/data
+  volumes:
+    - data:/srv/webplatform/specs/data
+    - spec-data:/opt/bikeshed/bikeshed/spec-data
 
   restart: always
 

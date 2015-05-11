@@ -19,7 +19,7 @@ python-swiftclient-install:
     - template: jinja
     - source: salt://webplatform/files/swift-dreamobjects.sh.jinja
     - require:
-      - pip: python-swiftclient
+      - pip: python-swiftclient-install
     - context:
         username: {{ salt['pillar.get']('accounts:swift:dreamhost:username') }}
         password: {{ salt['pillar.get']('accounts:swift:dreamhost:password') }}
@@ -31,7 +31,7 @@ python-swiftclient-install:
     - template: jinja
     - source: salt://webplatform/files/swift-dreamobjects.sh.jinja
     - require:
-      - pip: python-swiftclient
+      - pip: python-swiftclient-install
     - context:
         username: {{ salt['pillar.get']('accounts:swift:ci:username') }}
         password: {{ salt['pillar.get']('accounts:swift:ci:password') }}

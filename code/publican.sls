@@ -16,9 +16,12 @@ include:
 {{ dir }}/data:
   file.directory:
     - user: app-user
-    - group: www-data
-    - require:
-      - file: {{ dir }}
+    - group: app-user
+
+{{ dir }}/spec-data:
+  file.directory:
+    - user: app-user
+    - group: app-user
 
 {{ dir }}/docker-compose.yml:
   file.managed:
