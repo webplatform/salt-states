@@ -1,5 +1,6 @@
 base:
   '*':
+    - basesystem
     - salt
     - mmonit
     - logrotate.jobs

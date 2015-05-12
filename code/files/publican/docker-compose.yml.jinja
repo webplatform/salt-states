@@ -9,7 +9,7 @@
 #   - code/files/status/docker-compose.yml.jinja
 
 web:
-  image: webspecs/publican:production
+  image: webspecs/publican:wip
 
   # Default in this container is bash, using command below runs
   # publican server for us while allowing us to enter the original
@@ -18,10 +18,13 @@ web:
 
   # Make sure you have a data folder in the same
   # directory as this file. Container expects the following
-  # in data/{logs,queue} AND also data/config.json
+  # files and folders.
+  #  - data/{queue,gits,logs,temp}
+  #  - data/config.json
+  #  - spec-data/read-only
   volumes:
-    - data:/srv/webplatform/specs/data
-    - spec-data:/opt/bikeshed/bikeshed/spec-data
+    - data/:/srv/webapps/publican/data
+    - spec-data/:/opt/bikeshed/bikeshed/spec-data
 
   restart: always
 
