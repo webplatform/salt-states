@@ -1,0 +1,17 @@
+{
+    "bikeshed":     "/opt/bikeshed/bikeshed.py"
+,   "rsyncPath":    "/srv/webapps/publican/"
+,   "python":       "python2"
+,   "logFile":      "logs/all.log"
+,   "email":        {
+        "to":       "team-webplatform-systems@w3.org"
+    ,   "from":     "publican-noreply@{{ tld }}"
+    ,   "host":     "{{ smtp }}"
+    ,   "ssl":      true
+    ,   "tls":      false
+    ,   "level":    "error"
+    ,   "handleExceptions": true
+    }
+,   "purgeAllURL":  "https://api.fastly.com/service/{{ fastly_service }}/purge_all"
+,   "purgeAllKey":  "{{ fastly_secret }}"
+}
