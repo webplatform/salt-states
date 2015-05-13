@@ -71,7 +71,7 @@ base:
     - logwatch
     - mysql.server
     - rsync
-  'roles:dbpostgres':
+  'roles:postgres':
     - match: grain
     - webplatform.postgres
     - postgres
