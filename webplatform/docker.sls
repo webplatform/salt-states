@@ -20,6 +20,14 @@ include:
       - pkg: lxc-docker
       - pkg: linux-kernel-deps
 
+docker:
+  group.present:
+    - system: True
+    - addusers:
+      - webapps
+    - require:
+      - user: webapps
+
 linux-kernel-deps:
   pkg.installed:
     - pkgs:

@@ -7,6 +7,9 @@ include:
 # Cleanup this one, roles.upstream and roles.www #TODO
 # @salt-master-dest
 Superseed default /var/www/html documents:
+  file.directory:
+    - name: /var/www/html
+    - makedirs: True
   cmd.run:
     - name: "rsync -a --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/www/repo/out/errors/ /var/www/html/"
     - require:

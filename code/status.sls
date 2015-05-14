@@ -1,17 +1,14 @@
-{%- set dir = '/srv/webplatform/status' -%}
+{%- set dir = '/srv/webapps/status' -%}
 {%- set upstream_port = salt['pillar.get']('upstream:cachet:port', 8000) -%}
 {%- set db_creds = salt['pillar.get']('accounts:status:db') -%}
 {%- set smtp = salt['pillar.get']('infra:hosts_entries:mail', 'mail.webplatform.org') -%}
 {%- set salt_master_ip = salt['pillar.get']('infra:hosts_entries:salt') -%}
 {%- set masterdb_ip = salt['pillar.get']('infra:hosts_entries:masterdb') %}
 
-include:
-  - users.app-user
-
 {{ dir }}:
   file.directory:
-    - user: app-user
-    - group: www-data
+    - user: webapps
+    - group: webapps
     - recurse:
       - user
       - group
@@ -20,8 +17,8 @@ include:
   file.managed:
     - source: salt://code/files/status/docker-compose.yml.jinja
     - template: jinja
-    - user: app-user
-    - group: www-data
+    - user: webapps
+    - group: webapps
     - mode: 644
     - context:
         upstream_port: {{ upstream_port }}
@@ -35,8 +32,8 @@ include:
 {{ dir }}/Dockerfile:
   file.managed:
     - source: salt://code/files/status/Dockerfile
-    - user: app-user
-    - group: www-data
+    - user: webapps
+    - group: webapps
     - mode: 644
     - require:
       - file: {{ dir }}

@@ -1,4 +1,4 @@
-{%- set dir = '/srv/webplatform/discuss' -%}
+{%- set dir = '/srv/webapps/discuss' -%}
 {%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
 {%- set level = salt['grains.get']('level', 'production') -%}
 {%- set smtp = salt['pillar.get']('infra:hosts_entries:mail', 'mail.webplatform.org') -%}
@@ -8,7 +8,10 @@
 
 include:
   - code.prereq
-  - users.app-user
+
+{{ dir }}:
+  file.directory:
+    - makedirs: True
 
 # salt notes git.clone /srv/webplatform/notes-server https://github.com/webplatform/annotation-service.git user="renoirb"
 clone-discuss:
@@ -16,7 +19,7 @@ clone-discuss:
     - name: git
   git.latest:
     - name: https://github.com/discourse/discourse_docker.git
-    - user: app-user
+    - user: webapps
     - target: {{ dir }}
     - unless: test -f {{ dir }}/containers/app.yml
     - require:
@@ -26,8 +29,8 @@ clone-discuss:
     - name: {{ dir }}
     - require:
       - file: webplatform-sources
-    - user: app-user
-    - group: www-data
+    - user: webapps
+    - group: webapps
     - recurse:
       - user
       - group
@@ -36,8 +39,8 @@ clone-discuss:
   file.managed:
     - template: jinja
     - source: salt://code/files/discuss/app.yml.jinja
-    - user: app-user
-    - group: www-data
+    - user: webapps
+    - group: webapps
     - context:
         tld: {{ tld }}
         level: {{ level }}

@@ -119,9 +119,18 @@ base:
   'hhvmbackend*':
     - hhvm
     - nutcracker
+  'roles:discuss':
+    - match: grain
+    - docker
+    - webplatform.docker
+    - webplatform.dreamobjects
+    - discourse.local
   'roles:specs':
     - match: grain
     - specs.local
+    - docker
+    - webplatform.docker
+    - webplatform.dreamobjects
   'roles:notes':
     - match: grain
     - hypothesis.local
