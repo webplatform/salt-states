@@ -24,8 +24,8 @@ webapps:
 /srv/webapps/.ssh:
   file.directory:
     - createdirs: True
-    - user: app-user
-    - group: app-user
+    - user: webapps
+    - group: webapps
     - mode: 0700
     - require:
       - file: /srv/webapps
@@ -33,8 +33,8 @@ webapps:
 /srv/webapps/.ssh/id_ed25519:
   file.managed:
     - contents_pillar: sshkeys:wpdci:id_ed25519:private
-    - user: app-user
-    - group: app-user
+    - user: webapps
+    - group: webapps
     - mode: 0600
     - require:
       - file: /srv/webapps/.ssh
@@ -42,8 +42,8 @@ webapps:
 /srv/webapps/.ssh/id_ed25519.pub:
   file.managed:
     - contents_pillar: sshkeys:wpdci:id_ed25519:public
-    - user: app-user
-    - group: app-user
+    - user: webapps
+    - group: webapps
     - mode: 0600
     - require:
       - file: /srv/webapps/.ssh
