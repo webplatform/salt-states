@@ -183,13 +183,12 @@ But sometimes we have to act quickly and update the states later.
 
   * Create a database
 
-        salt -G 'roles:masterdb' mysql.db_create accounts utf8 utf8_general_ci
+        salt -G 'roles:masterdb' mysql.db_create dbname utf8 utf8_general_ci
 
   * Add database user and privileges
 
-        salt -G 'roles:masterdb' mysql.user_create accounts '%' foobarbaz
-        salt -G 'roles:masterdb' mysql.grant_add 'ALL' 'accounts.*' 'accounts' '%'
-        salt -G 'roles:masterdb' mysql.grant_add 'ALL' 'accounts_oauth.*' 'accounts' '%'
+        salt -G 'roles:masterdb' mysql.user_create dbuser '%' somepass
+        salt -G 'roles:masterdb' mysql.grant_add 'ALL' 'dbname.*' 'dbuser' '%'
 
 12. Remove a file from multiple machines
 

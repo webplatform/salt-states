@@ -1,0 +1,15 @@
+{
+  "name"           : "webplatform-etherpad"
+  ,"description"    : "WebPlatform Etherpad distribution extending etherpad-lite"
+  ,"homepage"       : "https://etherpad.webplatform.org"
+  ,"dependencies": {
+    "ep_adminpads":"0.0.9"
+    ,"ep_cursortrace":"2.0.15"
+    ,"ep_headings2":"0.0.9"
+    ,"ep_linkify":"0.1.1"
+    ,"ep_markdown":"0.0.9"
+    ,"ep_markdownify":"0.0.3"
+    ,"ep_offline_edit":"0.0.8"
+    ,"ep_desktop_notifications": "0.0.9"
+ }
+}

@@ -1,0 +1,45 @@
+{
+   "title": "WebPlatform etherpad"
+  ,"favicon": "https://www.webplatform.org/favicon.ico"
+  ,"ip": "0.0.0.0"
+  ,"port" : 9001
+  ,"dbType" : "mysql"
+  ,"dbSettings" : {
+     "host"    : "{{ db_host|default('127.0.0.1') }}"
+    ,"user"    : "{{ db.username|default('root') }}"
+    ,"password": "{{ db.password|default('') }}"
+    ,"database": "{{ db.database|default('') }}"
+  }
+  ,"defaultPadText" : "Welcome to WebPlatform Etherpad!\n\nThis pad text is synchronized as you type, so that everyone viewing this page sees the same text. This allows you to collaborate seamlessly on documents!\n\nGet involved with WebPlatform https://www.webplatform.org/\n"
+  ,"users": {
+    "admin": {
+      "password": "{{ admin_password }}",
+      "is_admin": true
+    }
+  }
+  ,"ep_piwik":{"url":"stats.webplatform.org","site_id":"2","siteId":"2"}
+
+  /* rest is all defaults */
+  ,"requireSession" : false
+  ,"requireAuthentication": false
+  ,"editOnly" : false
+  ,"minify" : true
+  ,"maxAge" : 21600
+  ,"abiword" : null
+  ,"requireAuthorization": false
+  ,"socketTransportProtocols" : ["xhr-polling", "jsonp-polling", "htmlfile"]
+  ,"loglevel": "INFO"
+  ,"logconfig":
+        { "appenders":[
+          {
+             "type": "console"
+          },{
+             "type": "file"
+            ,"filename": "/var/log/etherpad/etherpad.log"
+            ,"maxLogSize": 10240
+            ,"backups": 3
+          }
+        ]
+  }
+}
+

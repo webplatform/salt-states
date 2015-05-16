@@ -89,6 +89,7 @@ base:
   'monitor*':
 #    - monitor.gmetad
 #    - monitor.web
+    - webplatform.docker
     - monitor.logstash_receptacle
     - apache.status
   'monitor':
@@ -113,6 +114,9 @@ base:
   'roles:elastic':
     - match: grain
     - elasticsearch.main_cluster
+  'roles:noc':
+    - match: grain
+    - webplatform.docker
   'roles:jobrunner':
     - match: grain
     - elasticsearch.wiki_cluster
@@ -121,14 +125,12 @@ base:
     - nutcracker
   'roles:discuss':
     - match: grain
-    - docker
     - webplatform.docker
     - webplatform.dreamobjects
     - discourse.local
   'roles:specs':
     - match: grain
     - specs.local
-    - docker
     - webplatform.docker
     - webplatform.dreamobjects
   'roles:notes':
@@ -143,7 +145,6 @@ base:
     - nodejs
   'roles:docker':
     - match: grain
-    - docker
     - webplatform.docker
     - webplatform.dreamobjects
   'roles:masterdb':

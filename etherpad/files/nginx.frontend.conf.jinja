@@ -15,9 +15,6 @@
 #
 
 upstream upstream_etherpad {
-    keepalive 16;
-    ip_hash;
-
 {%- for b in upstreams %}
     server    {{ b }}:{{ upstream_port }};
 {%- endfor %}
@@ -47,10 +44,15 @@ server {
         include                proxy_params;
         proxy_intercept_errors on;
 
-        # Backend keepalive
-        # ref: http://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive
+        tcp_nodelay        on;
+        proxy_send_timeout 300;
+        proxy_buffering    off;
+
+        # WebSocket support plz
         proxy_http_version 1.1;
-        proxy_set_header   Connection "";
+        proxy_set_header   Upgrade    $http_upgrade;
+        proxy_set_header   Connection "upgrade";
+
     }
 }
 

@@ -6,12 +6,20 @@
 #   - http://docs.docker.com/compose/yml/
 
 web:
-  image: webplatform/etherpad
+  #image: webplatform/etherpad
+
+  build: .
 
   restart: always
 
   ports:
     - "{{ upstream_port }}:9001"
+
+  expose:
+    - "9001"
+
+  volumes:
+    - log:/var/log/etherpad
 
   dns:
     - 10.10.10.41
