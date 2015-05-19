@@ -23,6 +23,13 @@ renoirb:
       - group: deployment
       - group: w3t
 
+/home/renoirb/.tmux.conf:
+  file.managed:
+    - user: renoirb
+    - group: renoirb
+    - mode: 640
+    - source: salt://users/files/renoirb/tmux.conf
+
 /home/renoirb/.gitconfig:
   file.managed:
     - user: renoirb
