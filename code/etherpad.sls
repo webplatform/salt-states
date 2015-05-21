@@ -1,7 +1,7 @@
 {%- set dir = '/srv/webapps/etherpad' -%}
 {%- set salt_master_ip = salt['pillar.get']('infra:hosts_entries:salt') -%}
 {%- set upstream_port = salt['pillar.get']('upstream:etherpad:port', 8006) -%}
-{%- set db_host   = salt['pillar.get']('infra:hosts_entries:masterdb', '127.0.0.1') -%}
+{%- set db_host   = salt['pillar.get']('infra:db_servers:mysql:masterdb', '127.0.0.1') -%}
 {%- set etherpad_admin_password = salt['pillar.get']('accounts:etherpad:admin_password') %}
 {%- set db = salt['pillar.get']('accounts:etherpad:db') %}
 

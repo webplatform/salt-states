@@ -29,7 +29,7 @@ rsync-lumberjack-web:
     - template: jinja
     - context:
         db_creds:    {{ salt['pillar.get']('accounts:lumberjack:db') }}
-        masterdb_ip: {{ salt['pillar.get']('infra:hosts_entries:masterdb', 'localhost') }}
+        masterdb_ip: {{ salt['pillar.get']('infra:db_servers:mysql:masterdb', '127.0.0.1') }}
     - user: www-data
     - group: www-data
     - require:

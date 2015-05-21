@@ -3,7 +3,7 @@
 {%- set db_creds = salt['pillar.get']('accounts:status:db') -%}
 {%- set smtp = salt['pillar.get']('infra:hosts_entries:mail', 'mail.webplatform.org') -%}
 {%- set salt_master_ip = salt['pillar.get']('infra:hosts_entries:salt') -%}
-{%- set masterdb_ip = salt['pillar.get']('infra:hosts_entries:masterdb') %}
+{%- set masterdb_ip = salt['pillar.get']('infra:db_servers:mysql:masterdb') %}
 
 {{ dir }}:
   file.directory:

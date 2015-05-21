@@ -1,4 +1,4 @@
-server: {{   masterdb_ip|default('localhost')        }}
+server: {{   masterdb_ip|default('127.0.0.1')        }}
 port: {{     db_creds.port|default('3306')    			 }}
 database: {{ db_creds.database|default('lumberjack') }}
 user: {{     db_creds.username|default('root')       }}

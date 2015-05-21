@@ -48,7 +48,7 @@ sync-fxa-dists:
     - context:
         accounts_pillar: {{ accounts_pillar }}
         infra_pillar: {{ infra_pillar }}
-        masterdb_ip: {{ salt['pillar.get']('infra:hosts_entries:masterdb', '127.0.0.1') }}
+        masterdb_ip: {{ salt['pillar.get']('infra:db_servers:mysql:masterdb', '127.0.0.1') }}
         tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
         oauth_clients: {{ salt['pillar.get']('accounts:auth-server:oauth:clients', []) }}
     - require:
