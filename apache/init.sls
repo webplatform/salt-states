@@ -6,6 +6,7 @@ apache2:
     - pkgs:
       - apache2
       - apache2-mpm-prefork
+      - apache2-utils
   service.running:
     - enable: True
     - reload: true

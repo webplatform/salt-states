@@ -1,0 +1,123 @@
+# Original www.webat25.org ExpressionEngin Apache VirtualHost
+# ref: https://github.com/webplatform/ops/issues/170
+<VirtualHost *:80>
+  ServerName  www.webat25.org
+  ServerAlias webat25.org web25 webat25
+
+  DocumentRoot /srv/webplatform/web25ee/
+
+#  php_flag log_errors on
+#  php_flag display_errors on
+#  php_value error_log "/var/log/apache2/php.webat25.log"
+
+  Header set Cache-Control "max-age=86400, must-revalidate"
+
+  <Directory /srv/webplatform/web25ee/>
+    Options FollowSymLinks
+    AllowOverride All
+    Require all granted
+
+    php_value mbstring.func_overload 6
+
+    <IfModule mod_rewrite.c>
+        RewriteEngine On
+
+        #------------------- remove trailing slash -------------------
+        RewriteCond %{REQUEST_URI} !^/backoffice [NC]
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteRule ^(.+)/$ /$1 [R=301,L,QSA]
+
+        #------------------- index.php -------------------
+        #strip index.php from the URL if that is all that is given
+        RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^/]+/)*index\.php\ HTTP/
+        RewriteRule ^(([^/]+/)*)index\.php$ http://%{HTTP_HOST}/ [R=301,NS,L,QSA]
+        #strip index.php/* from the URL
+        RewriteCond %{THE_REQUEST} ^[^/]*/index\.php/ [NC]
+        RewriteRule ^index\.php/(.+) http://%{HTTP_HOST}/$1 [R=301,L,QSA]
+
+        #------------------- CE Cache Static Driver -------------------
+        RewriteCond %{REQUEST_URI} !^/backoffice [NC]
+        RewriteCond %{QUERY_STRING} !ACT|URL [NC]
+        RewriteCond %{HTTP_COOKIE} !exp_sessionid= [NC]  # Required by CE Cache
+        RewriteCond %{REQUEST_METHOD} !=POST [NC]
+        RewriteCond %{DOCUMENT_ROOT}/static/ce_cache/a5dcb0/static%{REQUEST_URI}/index\.html -f
+        #RewriteRule (.*) /_static_cache_handler.php%{REQUEST_URI}/index\.html [L,QSA]
+        RewriteRule (.*) /_static_cache_handler.php?%{REQUEST_URI}/index\.html [L,QSA]  # Required by CE Cache
+
+        #------------------- EE -------------------
+        #rewrite all non-image/js/css urls back to index.php if they are not files or directories
+        RewriteCond $1 !\.(css|js|gif|jpe?g|png) [NC]
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        #RewriteRule ^(.*)$ /index.php/$1 [L,QSA]
+        RewriteRule ^(.*)$ /index.php?/$1 [L,QSA]  # Required by CE Cache
+    </IfModule>
+  </Directory>
+
+  ErrorLog syslog:local1
+
+  # Possible values include: debug, info, notice, warn, error, crit,
+  # alert, emerg.
+  LogLevel warn
+
+  CustomLog /var/log/apache2/access.log combined
+</VirtualHost>
+
+
+
+
+
+
+
+<VirtualHost *:80>
+  ServerName  ee.webat25.org
+
+  DocumentRoot /srv/webplatform/web25ee/
+
+  RewriteEngine On
+
+  #RewriteLogLevel 9
+  RewriteCond %{REQUEST_URI} !^/backoffice
+  RewriteRule ^/(.*)$ http://www.webat25.org/$1 [R=302,L]
+
+  <Directory /srv/webplatform/web25ee/>
+    Options FollowSymLinks
+    AllowOverride All
+    Require all granted
+
+    php_value mbstring.func_overload 6
+
+    <IfModule mod_rewrite.c>
+        RewriteEngine On
+
+        #------------------- remove trailing slash -------------------
+        RewriteCond %{REQUEST_URI} !^/backoffice [NC]
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteRule ^(.+)/$ /$1 [R=301,L,QSA]
+
+        #------------------- index.php -------------------
+        #strip index.php from the URL if that is all that is given
+        RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^/]+/)*index\.php\ HTTP/
+        RewriteRule ^(([^/]+/)*)index\.php$ http://%{HTTP_HOST}/ [R=301,NS,L,QSA]
+        #strip index.php/* from the URL
+        RewriteCond %{THE_REQUEST} ^[^/]*/index\.php/ [NC]
+        RewriteRule ^index\.php/(.+) http://%{HTTP_HOST}/$1 [R=301,L,QSA]
+
+        #------------------- EE -------------------
+        #rewrite all non-image/js/css urls back to index.php if they are not files or directories
+        RewriteCond $1 !\.(css|js|gif|jpe?g|png) [NC]
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        #RewriteRule ^(.*)$ /index.php/$1 [L,QSA]
+        RewriteRule ^(.*)$ /index.php?/$1 [L,QSA]  # Required by CE Cache
+    </IfModule>
+  </Directory>
+
+  ErrorLog syslog:local1
+
+  # Possible values include: debug, info, notice, warn, error, crit,
+  # alert, emerg.
+  LogLevel error
+
+  CustomLog /var/log/apache2/access.log combined
+</VirtualHost>

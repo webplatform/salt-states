@@ -159,6 +159,10 @@ base:
     - monitor.frontend
     - discourse.frontend
     - etherpad.frontend
+    - webat25.frontend
+  'roles:webat:':
+    - match: grain
+    - webat25.deprecate_me_soon
 
 # vim: ai filetype=yaml tabstop=2 softtabstop=2 shiftwidth=2
 

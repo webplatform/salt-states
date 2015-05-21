@@ -5,6 +5,9 @@
 include:
   - rsync.secret
   - code.certificates
+  # It has been planned to have no static site on frontend, this should move into a -upstream VM.
+  # Maybe we should create a "static" upstream node very soon. We could put the www site on it too #TODO
+  - code.webat25
 
 # Cleanup this one, roles.upstream and roles.www #TODO
 # @salt-master-dest
