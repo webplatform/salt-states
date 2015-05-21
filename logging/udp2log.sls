@@ -1,6 +1,12 @@
 udplog:
   pkg.installed
 
+udplog:
+  pkg.installed:
+    - skip_verify: True
+    - require:
+      - file: /etc/apt/sources.list.d/webplatform.list
+
 /mnt/logs/mw-logs:
   file.directory:
     - user: udp2log
