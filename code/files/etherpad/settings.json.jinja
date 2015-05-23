@@ -5,10 +5,10 @@
   ,"port" : 9001
   ,"dbType" : "mysql"
   ,"dbSettings" : {
-     "host"    : "{{ db_host|default('127.0.0.1') }}"
-    ,"user"    : "{{ db.username|default('root') }}"
-    ,"password": "{{ db.password|default('') }}"
-    ,"database": "{{ db.database|default('') }}"
+     "host"    : "{{ masterdb_ip|default('127.0.0.1') }}"
+    ,"user"    : "{{ db_creds.username|default('root') }}"
+    ,"password": "{{ db_creds.password|default('') }}"
+    ,"database": "{{ db_creds.database|default('') }}"
   }
   ,"defaultPadText" : "Welcome to WebPlatform Etherpad!\n\nThis pad text is synchronized as you type, so that everyone viewing this page sees the same text. This allows you to collaborate seamlessly on documents!\n\nGet involved with WebPlatform https://www.webplatform.org/\n"
   ,"users": {

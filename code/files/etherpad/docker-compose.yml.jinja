@@ -5,7 +5,7 @@
 #   - http://docs.docker.com/compose/
 #   - http://docs.docker.com/compose/yml/
 
-web:
+main:
   #image: webplatform/etherpad
 
   build: .
@@ -17,6 +17,14 @@ web:
 
   expose:
     - "9001"
+
+  # This isn't in use yet.
+  # We'll have to setup etherpad-lite to read environment variables too
+  environment:
+    DB_HOST: {{ masterdb_ip }}
+    DB_DATABASE: {{ db_creds.database|default('etherpad') }}
+    DB_PASSWORD: {{ db_creds.password|default('') }}
+    DB_USERNAME: {{ db_creds.username|default('root') }}
 
   volumes:
     - log:/var/log/etherpad

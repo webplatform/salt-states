@@ -1,9 +1,9 @@
 {%- set dir = '/srv/webapps/status' -%}
 {%- set upstream_port = salt['pillar.get']('upstream:cachet:port', 8000) -%}
-{%- set db_creds = salt['pillar.get']('accounts:status:db') -%}
 {%- set smtp = salt['pillar.get']('infra:hosts_entries:mail', 'mail.webplatform.org') -%}
 {%- set salt_master_ip = salt['pillar.get']('infra:hosts_entries:salt') -%}
 {%- set masterdb_ip = salt['pillar.get']('infra:db_servers:mysql:masterdb') %}
+{%- set db_creds = salt['pillar.get']('accounts:status:db') -%}
 
 {{ dir }}:
   file.directory:
