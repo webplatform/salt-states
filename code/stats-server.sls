@@ -42,6 +42,7 @@ sync-piwik-dists:
     - user: app-user
     - group: www-data
     - mode: 644
+    - makedirs: True
     - require:
       - file: /srv/webplatform/stats-server
 
