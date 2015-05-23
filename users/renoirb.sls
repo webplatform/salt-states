@@ -51,9 +51,10 @@ preferences:
     - names:
       - tig
       - screen
-      - monkeytail
 
 /home/renoirb/.mtailrc:
+  pkg.installed:
+    - name: monkeytail
   file.managed:
     - user: renoirb
     - group: renoirb

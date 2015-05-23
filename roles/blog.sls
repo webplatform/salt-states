@@ -9,4 +9,5 @@
 include:
   - code.blog
   - code.www
+  - code.certificates
 

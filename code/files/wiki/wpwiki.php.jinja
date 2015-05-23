@@ -6,8 +6,7 @@
 {%- set db_creds      = salt['pillar.get']('accounts:wiki:db') -%}
 {%- set db_servers    = salt['pillar.get']('infra:db_servers:mysql:slaves', []) -%}
 {%- set secrets       = salt['pillar.get']('accounts:wiki:secrets') -%}
-{%- set swift_backend = salt['pillar.get']('accounts:swift:dreamhost') %}
-{%- set masterdb_ip   = salt['pillar.get']('infra:db_servers:mysql:masterdb') %}
+{%- set masterdb_ip   = salt['pillar.get']('infra:db_servers:mysql:writes', '127.0.0.1') %}
 
 if ( !defined( 'MEDIAWIKI' ) ) {
         exit;

@@ -1,6 +1,6 @@
 {%- set svc = ['profile', 'content', 'auth', 'oauth'] -%}
-{%- set svc_user = 'app-user' -%}
-{%- set svc_group = 'www-data' -%}
+{%- set svc_user = 'webapps' -%}
+{%- set svc_group = 'webapps' -%}
 
 include:
   - webplatform

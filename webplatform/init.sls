@@ -4,6 +4,7 @@
 
 include:
   - users
+  - basesystem
 
 /var/log/webplatform:
   file.directory:
@@ -18,6 +19,39 @@ include:
     - group: root
     - mode: 755
     - makedirs: True
+
+/etc/apt/sources.list.d/webplatform.list:
+  file.managed:
+    - contents: |
+        deb http://static.webplatform.org/wpd packages/apt/
+
+## Those should superseed what the app-user had
+/srv/webapps/.ssh:
+  file.directory:
+    - createdirs: True
+    - user: webapps
+    - group: webapps
+    - mode: 0700
+    - require:
+      - file: /srv/webapps
+
+/srv/webapps/.ssh/id_ed25519:
+  file.managed:
+    - contents_pillar: sshkeys:wpdci:id_ed25519:private
+    - user: webapps
+    - group: webapps
+    - mode: 0600
+    - require:
+      - file: /srv/webapps/.ssh
+
+/srv/webapps/.ssh/id_ed25519.pub:
+  file.managed:
+    - contents_pillar: sshkeys:wpdci:id_ed25519:public
+    - user: webapps
+    - group: webapps
+    - mode: 0600
+    - require:
+      - file: /srv/webapps/.ssh
 
 {% for username in users %}
 /home/{{ username }}/.screenrc:
@@ -69,12 +103,12 @@ commonly-used-utilities:
       - screen
       - htop
       - monkeytail
-
-vim-pkgs:
-  pkg.installed:
-    - pkgs:
       - vim
       - vim-common
+
+sysdig:
+  pkg.installed:
+    - skip_verify: True
 
 /usr/bin/timeout:
   file.exists
@@ -82,28 +116,6 @@ vim-pkgs:
 resolvconf -u:
   cmd.run:
     - unless: grep -q -e 'wpdn' /etc/resolv.conf
-
-
-# ref: http://hardenubuntu.com/initial-setup/system-updates
-# ref: http://hardenubuntu.com/initial-setup/system-updates
-unattended-upgrades:
-  debconf.set:
-    - data:
-        'unattended-upgrades/enable_auto_updates':
-          type: boolean
-          value: "true"
-  cmd.wait:
-    - name: "dpkg-reconfigure unattended-upgrades"
-    - watch:
-      - debconf: unattended-upgrades
-    - env:
-        DEBIAN_FRONTEND: noninteractive
-        DEBCONF_NONINTERACTIVE_SEEN: "true"
-
-
-/etc/default/irqbalance:
-  file.managed:
-    - source: salt://webplatform/files/irqbalance
 
 /etc/profile.d/wpd_aliases.sh:
   file.managed:

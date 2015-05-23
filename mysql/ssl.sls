@@ -23,120 +23,78 @@ openssl-installed:
   pkg.installed:
     - name: openssl
 
+/etc/mysql/ca-key.pem:
+  file.managed:
+    - user: mysql
+    - group: mysql
+    - mode: 640
+    - contents_pillar: 'mysql:ssl:ca-key.pem'
+
+/etc/mysql/ca-cert.pem:
+  file.managed:
+    - user: mysql
+    - group: mysql
+    - mode: 640
+    - contents_pillar: 'mysql:ssl:ca-cert.pem'
+
 openssl-client-newkey:
   cmd.run:
     - stateful: True
+    - name: /usr/bin/openssl req -newkey rsa:2048 -days 3600 -nodes -keyout client-key.pem -out client-req.pem -subj '/C=US/ST=MA/L=Cambridge/O=W3C/OU=WebPlatform Docs/CN={{ grains["fqdn"] }}/emailAddress=team-webplatform-systems@w3.org'
+    - creates: /etc/mysql/client-req.pem
     - cwd: /etc/mysql
-    - unless: test -s /etc/mysql/client-req.pem
-    - name: /usr/bin/openssl req -newkey rsa:2048 -days 3600 -nodes -keyout client-key.pem -out client-req.pem -subj '/C=US/ST=MA/L=Cambridge/O=W3C/OU=WebPlatform Docs/CN={{ grains['host'] }}/emailAddress=team-webplatform-systems@w3.org'
-    - require:
-      - pkg: openssl-installed
-      - pkg: db-server
-  file.managed:
-    - name: /etc/mysql/client-req.pem
-    - user: mysql
-    - group: ops
     - mode: 640
-    - require:
-      - pkg: db-server
 
 openssl-client-key:
   cmd.run:
     - stateful: True
     - name: '/usr/bin/openssl rsa -in client-key.pem -out client-key.pem'
+    - creates: /etc/mysql/client-key.pem
     - cwd: /etc/mysql
-    - require:
-      - cmd: openssl-client-newkey
-      - pkg: db-server
-  file.managed:
-    - name: /etc/mysql/client-key.pem
-    - user: mysql
-    - group: ops
     - mode: 640
-    - require:
-      - pkg: db-server
 
 openssl-client-cert:
   cmd.run:
     - stateful: True
     - name: '/usr/bin/openssl x509 -req -in client-req.pem -days 3600 -CA ca-cert.pem -CAkey ca-key.pem -set_serial 01 -out client-cert.pem'
+    - creates: /etc/mysql/client-cert.pem
     - cwd: /etc/mysql
-    - unless: test -s /etc/mysql/client-cert.pem
-    - require:
-      - cmd: openssl-client-newkey
-      - file: /etc/mysql/ca-cert.pem
-      - file: /etc/mysql/ca-key.pem
-      - pkg: db-server
-  file.managed:
-    - name: /etc/mysql/client-cert.pem
-    - user: mysql
-    - group: ops
     - mode: 640
     - require:
-      - pkg: db-server
+      - file: /etc/mysql/ca-cert.pem
+      - file: /etc/mysql/ca-key.pem
 
 openssl-newkey:
   cmd.run:
     - stateful: True
+    - name: /usr/bin/openssl req -newkey rsa:2048 -days 3600 -nodes -keyout server-key.pem -out server-req.pem -subj '/C=US/ST=MA/L=Cambridge/O=W3C/OU=WebPlatform Docs/CN={{ grains["fqdn"] }}/emailAddress=team-webplatform-systems@w3.org'
     - cwd: /etc/mysql
-    - unless: test -s /etc/mysql/server-req.pem
-    - name: /usr/bin/openssl req -newkey rsa:2048 -days 3600 -nodes -keyout server-key.pem -out server-req.pem -subj '/C=US/ST=MA/L=Cambridge/O=W3C/OU=WebPlatform Docs/CN={{ grains['host'] }}/emailAddress=team-webplatform-systems@w3.org'
-    - require:
-      - pkg: openssl-installed
-      - pkg: db-server
-  file.managed:
-    - name: /etc/mysql/server-req.pem
-    - user: mysql
-    - group: mysql
+    - creates: /etc/mysql/server-req.pem
     - mode: 640
-    - require:
-      - pkg: db-server
 
 openssl-key:
   cmd.run:
     - stateful: True
     - name: '/usr/bin/openssl rsa -in server-key.pem -out server-key.pem'
+    - creates: /etc/mysql/server-key.pem
     - cwd: /etc/mysql
-    - require:
-      - cmd: openssl-newkey
-      - pkg: db-server
-  file.managed:
-    - name: /etc/mysql/server-key.pem
-    - user: mysql
-    - group: mysql
     - mode: 640
-    - require:
-      - pkg: db-server
 
 openssl-cert:
   cmd.run:
     - stateful: True
     - name: '/usr/bin/openssl x509 -req -in server-req.pem -days 3600 -CA ca-cert.pem -CAkey ca-key.pem -set_serial 01 -out server-cert.pem'
+    - creates: /etc/mysql/server-cert.pem
     - cwd: /etc/mysql
-    - unless: test -s /etc/mysql/server-cert.pem
-    - require:
-      - cmd: openssl-newkey
-      - file: /etc/mysql/ca-cert.pem
-      - file: /etc/mysql/ca-key.pem
-      - pkg: db-server
-  file.managed:
-    - name: /etc/mysql/server-cert.pem
-    - user: mysql
-    - group: mysql
     - mode: 640
     - require:
-      - pkg: db-server
+      - file: /etc/mysql/ca-cert.pem
+      - file: /etc/mysql/ca-key.pem
 
 /etc/mysql/conf.d/ssl.cnf:
   file.managed:
-    - user: root
-    - group: root
     - mode: 644
     - source: salt://mysql/files/ssl.cnf
-    - require:
-      - cmd: openssl-newkey
-      - pkg: db-server
-
 
 
 ##
@@ -146,21 +104,3 @@ openssl-cert:
 ##    salt -G 'roles:masterdb' tls.create_ca mysql CN='salt.production.wpdn' ST='MA' L='Cambridge' O='W3C' OU='WebPlatform Docs' emailAddress='team-webplatform-systems@w3.org’
 ##    salt -G 'roles:masterdb' tls.create_self_signed_cert mysql CN='db1-masterdb.production.wpdn' ST='MA' L='Cambridge' O='W3C' OU='WebPlatform Docs' emailAddress='team-webplatform-systems@w3.org'
 ## ```
-/etc/mysql/ca-key.pem:
-  file.managed:
-    - user: mysql
-    - group: mysql
-    - mode: 640
-    - contents_pillar: 'mysql:ssl:ca-key.pem'
-    - require:
-      - pkg: db-server
-
-/etc/mysql/ca-cert.pem:
-  file.managed:
-    - user: mysql
-    - group: mysql
-    - mode: 640
-    - contents_pillar: 'mysql:ssl:ca-cert.pem'
-    - require:
-      - pkg: db-server
-

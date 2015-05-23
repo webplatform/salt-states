@@ -1,5 +1,5 @@
-udplog:
-  pkg.installed
+include:
+  - webplatform
 
 udplog:
   pkg.installed:

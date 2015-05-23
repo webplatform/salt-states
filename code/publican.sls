@@ -1,6 +1,6 @@
 {%- set dir = '/srv/webapps/publican' -%}
 {%- set salt_master_ip = salt['pillar.get']('infra:hosts_entries:salt') -%}
-{%- set upstream_port = salt['pillar.get']('upstream:publican:port', 8002) %}
+{%- set upstream_port = salt['pillar.get']('upstream:publican:port', 8002) -%}
 {%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
 {%- set smtp = salt['pillar.get']('infra:hosts_entries:mail', 'mail.webplatform.org') -%}
 {%- set fastly = salt['pillar.get']('accounts:fastly:specs') %}

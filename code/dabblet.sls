@@ -1,4 +1,4 @@
-{%- set dabbletConfig = salt['pillar.get']('accounts:github:dabblet', {}) -%}
+{%- set dabbletConfig = salt['pillar.get']('accounts:github:dabblet', {}) %}
 
 include:
   - code.prereq

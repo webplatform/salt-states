@@ -1,14 +1,11 @@
 # WebPlatform server environment configuration
 
+To learn more about the design, refer to [The Salt Master](https://docs.webplatform.org/wiki/WPD:Infrastructure/architecture/The_salt_master) in our docs pages.
+
+
 ## Making a new salt-master
 
-Send a copy of [init.sh](https://raw.githubusercontent.com/webplatform/ops/master/salt-master/init.sh) from [**webplatform/ops** in *salt-master/*](https://github.com/webplatform/ops/) to an empty Ubuntu 14.04 VM and run the script as root.
-
-To deploy web apps, we are currently assuming that the salt master will host all the code repositories
-along with the dependency management tools installed.
-
-In order to allow us to have a VM to prepare each web app, the following has to be run on the salt master.
-We will eventually create a VM specifically for that later in this project.
+Refer to the instructions in [webplatform/ops](https://github.com/webplatform/ops) in folder **salt-master/**.
 
 
 ## Security groups configuration
@@ -118,7 +115,7 @@ But sometimes we have to act quickly and update the states later.
 
 7. New salt minion
 
-    nova boot --image Ubuntu-14.04-Trusty --user-data /srv/opsconfigs/userdata.txt --key_name renoirb-staging --flavor lightspeed --security-groups default,all,frontend app1
+    nova boot --image Ubuntu-14.04-Trusty --user-data /srv/ops/userdata.txt --key_name renoirb-staging --flavor lightspeed --security-groups default,all,frontend app1
     salt-key -y -a app1
     salt app1 test.ping
     salt app1 grains.get level

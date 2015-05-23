@@ -13,7 +13,7 @@
 # Managed by Salt Stack. Do NOT Edit manually!
 # source: {{ source }}
 #
-
+{% if upstreams|count() >= 1 %}
 upstream upstream_hypothesis {
 {%- for b in upstreams %}
     server    {{ b }}:{{ upstream_port }};
@@ -50,4 +50,6 @@ server {
         proxy_set_header   Connection "upgrade";
     }
 }
-
+{% else %}
+# No upstreams found, let's not enable this service
+{% endif %}

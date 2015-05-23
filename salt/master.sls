@@ -9,7 +9,7 @@ include:
   - mmonit
   - webplatform
 
-/srv/opsconfigs/userdata.txt:
+/srv/ops/userdata.txt:
   file.managed:
     - source: salt://salt/files/userdata.txt.jinja
     - template: jinja
@@ -44,14 +44,6 @@ include:
     - require:
       - user: {{ username }}
 {% endfor %}
-
-vim-syntax-pkgs:
-  pkg.installed:
-    - pkgs:
-      - vim-syntax-docker
-      - vim-syntax-go
-    - require:
-      - pkg: vim-pkgs
 
 ## SecurityGroup port: TCP 4505 4506 @salt
 salt-master-deps:
@@ -101,9 +93,11 @@ setup-fail2ban:
   file.managed:
     - source: salt://salt/files/reactor.conf
 
+{% if grains['biosversion'] != 'VirtualBox' %}
 /etc/salt/master.d/roots.conf:
   file.managed:
     - source: salt://salt/files/roots.conf
+{% endif %}
 
 /etc/salt/master.d/runners.conf:
   file.managed:
@@ -116,7 +110,11 @@ setup-fail2ban:
 
 /etc/salt/master.d/gitfs.conf:
   file.managed:
+{% if grains['biosversion'] == 'VirtualBox' %}
+    - contents: "# We are in a Vagrant workbench, we wont use gitfs"
+{% else %}
     - source: salt://salt/files/gitfs.conf
+{% endif %}
 
 /etc/salt/master.d/overrides.conf:
   file.managed:

@@ -13,7 +13,7 @@
 # Managed by Salt Stack. Do NOT edit manually!
 # source: {{ source }}
 #
-
+{% if upstreams|count() >= 1 %}
 upstream upstream_cachet {
     keepalive 16;
     ip_hash;
@@ -53,4 +53,6 @@ server {
         proxy_set_header   Connection "";
     }
 }
-
+{% else %}
+# No upstreams found, let's not enable this service
+{% endif %}

@@ -1,3 +1,6 @@
+{%- set db_creds = salt['pillar.get']('accounts:lumberjack:db') -%}
+{%- set masterdb_ip = salt['pillar.get']('infra:db_servers:mysql:writes', '127.0.0.1') %}
+
 include:
   - code.prereq
   - rsync.secret
@@ -28,8 +31,8 @@ rsync-lumberjack-web:
     - source: salt://code/files/lumberjack/config.php.jinja
     - template: jinja
     - context:
-        db_creds:    {{ salt['pillar.get']('accounts:lumberjack:db') }}
-        masterdb_ip: {{ salt['pillar.get']('infra:db_servers:mysql:masterdb', '127.0.0.1') }}
+        db_creds:    {{ db_creds }}
+        masterdb_ip: {{ masterdb_ip }}
     - user: www-data
     - group: www-data
     - require:

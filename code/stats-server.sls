@@ -1,36 +1,21 @@
+{%- set unpack = salt['pillar.get']('basesystem:stats:unpacker_archives') %}
+
 include:
   - rsync.secret
   - code.prereq
   - code.certificates
   - users.app-user
 
-
-# @salt-master-dest
-sync-piwik-dists:
-  cmd.run:
-    - name: rsync -a --no-perms --delete --password-file=/etc/codesync.secret codesync@salt::code/packages/stats-server/dists/ /srv/webplatform/appshomedir/dists/stats-server/
-    - require:
-      - file: /etc/codesync.secret
-      - file: /srv/webplatform/appshomedir/dists/stats-server
-      - file: webplatform-sources
-  file.directory:
-    - name: /srv/webplatform/appshomedir/dists/stats-server
-    - user: app-user
-    - group: www-data
-    - makedirs: True
-    - require:
-      - file: /srv/webplatform/appshomedir
-      - user: app-user
-    - recurse:
-      - user
-      - group
+{% from "basesystem/macros/unpacker.sls" import unpack_remote_loop %}
+{{ unpack_remote_loop(unpack)}}
 
 /srv/webplatform/stats-server:
   file.directory:
-    - require:
-      - file: webplatform-sources
     - user: app-user
     - group: www-data
+    - require:
+      - file: Packager unpack /srv/webplatform/stats-server
+      - user: app-user
     - recurse:
       - user
       - group
@@ -41,10 +26,9 @@ sync-piwik-dists:
     - template: jinja
     - user: app-user
     - group: www-data
-    - mode: 644
     - makedirs: True
     - require:
-      - file: /srv/webplatform/stats-server
+      - file: Packager unpack /srv/webplatform/stats-server
 
 /srv/webplatform/stats-server/bootstrap.php:
   file.managed:
@@ -52,7 +36,6 @@ sync-piwik-dists:
     - template: jinja
     - user: app-user
     - group: www-data
-    - mode: 644
     - require:
-      - file: /srv/webplatform/stats-server
+      - file: Packager unpack /srv/webplatform/stats-server
 

@@ -1,5 +1,9 @@
 {%- set accounts_pillar = salt['pillar.get']('accounts:auth-server') -%}
-{%- set infra_pillar = salt['pillar.get']('infra:auth-server') %}
+{%- set infra_pillar = salt['pillar.get']('infra:auth-server') -%}
+{%- set masterdb_ip = salt['pillar.get']('infra:db_servers:mysql:writes', '127.0.0.1') -%}
+{%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
+{%- set oauth_clients = salt['pillar.get']('accounts:auth-server:oauth:clients', []) -%}
+{%- set unpack = salt['pillar.get']('basesystem:auth:unpacker_archives') %}
 
 include:
   - rsync.secret
@@ -7,26 +11,8 @@ include:
   - code.certificates
   - users.app-user
 
-# @salt-master-dest
-sync-fxa-dists:
-  cmd.run:
-    - name: rsync -a --no-perms --delete --password-file=/etc/codesync.secret codesync@salt::code/packages/auth-server/dists/ /srv/webplatform/appshomedir/dists/auth-server/
-    - require:
-      - file: /etc/codesync.secret
-      - file: /srv/webplatform/appshomedir/dists/auth-server
-      - file: webplatform-sources
-  file.directory:
-    - name: /srv/webplatform/appshomedir/dists/auth-server
-    - user: app-user
-    - group: www-data
-    - makedirs: True
-    - require:
-      - file: /srv/webplatform/appshomedir
-      - user: app-user
-    - recurse:
-      - user
-      - group
-
+{% from "basesystem/macros/unpacker.sls" import unpack_remote_loop %}
+{{ unpack_remote_loop(unpack)}}
 
 {% set configFiles = [
         ('profile', 'config/prod.json'),
@@ -37,21 +23,28 @@ sync-fxa-dists:
 /srv/webplatform/auth-server/{{ appName }}:
   file.directory:
     - makedirs: True
+    - user: webapps
+    - group: webapps
+    - require:
+      - file: Packager unpack /srv/webplatform/auth-server/{{ appName }}
+    - recurse:
+      - user
+      - group
 
 /srv/webplatform/auth-server/{{ appName }}/{{ file }}:
   file.managed:
     - source: salt://code/files/auth-server/fxa-{{ appName }}-server.json.jinja
     - template: jinja
-    - user: app-user
-    - group: www-data
+    - user: webapps
+    - group: webapps
     - create: False
     - context:
         accounts_pillar: {{ accounts_pillar }}
         infra_pillar: {{ infra_pillar }}
-        masterdb_ip: {{ salt['pillar.get']('infra:db_servers:mysql:masterdb', '127.0.0.1') }}
-        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
-        oauth_clients: {{ salt['pillar.get']('accounts:auth-server:oauth:clients', []) }}
+        masterdb_ip: {{ masterdb_ip }}
+        tld: {{ tld }}
+        oauth_clients: {{ oauth_clients }}
     - require:
-      - file: /srv/webplatform/auth-server/{{ appName }}
+      - file: Packager unpack /srv/webplatform/auth-server/{{ appName }}
 
 {% endfor %}

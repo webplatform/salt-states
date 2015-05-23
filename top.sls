@@ -22,12 +22,18 @@ base:
     - logging
 #    - monitor
     - hosts
+  # OpenStack/DreamCompute only below
+  'salt* and G@virtual:kvm':
+    - match: compound
+    - gdnsd
+  'biosversion:VirtualBox':
+    - match: grain
+    - workbench
   'salt*':
     - salt.master
     - specific.salt
     - mysql
     - php.composer
-    - gdnsd
     - rsync
     - python
     - python.mysqldb

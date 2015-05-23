@@ -6,7 +6,7 @@ $active_group = 'expressionengine';
 $active_record = TRUE;
 
 # @TODO: Use Salt pillars to populate
-$db['expressionengine']['hostname'] = '{{ salt["pillar.get"]("infra:db_servers:mysql:masterdb", "127.0.0.1") }}';
+$db['expressionengine']['hostname'] = '{{ salt["pillar.get"]("infra:db_servers:mysql:writes", "127.0.0.1") }}';
 $db['expressionengine']['username'] = '{{ salt["pillar.get"]("accounts:webat25:db:username", "root") }}';
 $db['expressionengine']['password'] = '{{ salt["pillar.get"]("accounts:webat25:db:password", "") }}';
 $db['expressionengine']['database'] = '{{ salt["pillar.get"]("accounts:webat25:db:database", "web25ee") }}';

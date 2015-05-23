@@ -20,7 +20,7 @@ params:
 env:
   DISCOURSE_DB_USER: {{ db.username }}
   DISCOURSE_DB_PASSWORD: {{ db.password }}
-  DISCOURSE_DB_HOST: {{ db.hostname }}
+  DISCOURSE_DB_HOST: {{ postgres_ip }}
   DISCOURSE_REDIS_HOST: {{ alpha_redis[0].split(':')[0] }}
 
   LANG: en_US.UTF-8

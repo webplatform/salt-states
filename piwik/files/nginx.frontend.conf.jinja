@@ -13,7 +13,7 @@
 # Managed by Salt Stack. Do NOT Edit manually!
 # source: {{ source }}
 #
-
+{% if upstreams|count() >= 1 %}
 upstream upstream_piwik {
     keepalive 16;
 
@@ -62,4 +62,6 @@ server {
         #[GEOIP_ADDR] =>
     }
 }
-
+{% else %}
+# No upstreams found, let's not enable this service
+{% endif %}

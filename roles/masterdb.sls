@@ -27,13 +27,6 @@ include:
     - require:
       - pkg: mysql
 
-#  file.managed:
-#    - modes: 600
-#    - source: salt://mysql/files/debian.cnf.jinja
-#    - template: jinja
-#    - require:
-#      - pkg: mysql
-
 #
 # Only allow Salt commands on the master
 # writes operation on non master is dangerous
@@ -42,6 +35,4 @@ include:
   file.managed:
     - modes: 644
     - source: salt://mysql/minion.mysql.conf
-    - require:
-      - file: /etc/mysql/debian.cnf
 

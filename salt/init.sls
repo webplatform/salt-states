@@ -27,13 +27,13 @@ salt-minion-deps:
 #      - pkg: salt-minion-deps
 
 {% if grains['nodename'] != 'salt' %}
-{% set saltPublishQuery = salt.publish.publish('salt', 'grains.get', 'level') %}
+{% set saltPublishQuery = salt['publish.publish']('salt', 'grains.get', 'level') %}
 /etc/salt/grains:
   file.append:
     - require:
       - pkg: salt-minion
     - text: |
-        level: {{ saltPublishQuery.salt }}
+        level: {{ saltPublishQuery['salt'] }}
 {% endif %}
 
 {% if salt['pillar.get']('infra:salt_testing', false) == True %}

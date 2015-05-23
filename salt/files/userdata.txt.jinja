@@ -35,14 +35,12 @@ package_reboot_if_required: true
 # This is run at EVERY boot, good to ensure things are at the right place
 #
 bootcmd:
-  - sysctl -w net.ipv6.conf.all.disable_ipv6=1
   - grep -q -e 'nameserver' /etc/resolvconf/resolv.conf.d/head || printf "nameserver {{ salt_master_ip }}\n" >> /etc/resolvconf/resolv.conf.d/head
   - grep -q -e 'wpdn' /etc/resolvconf/resolv.conf.d/base || printf "search {{ level }}.wpdn\ndomain {{ level }}.wpdn\nnameserver 8.8.8.8" > /etc/resolvconf/resolv.conf.d/base
   - grep -q -e 'wpdn' /etc/resolv.conf || resolvconf -u
 
 
 runcmd:
-  - sysctl -w net.ipv6.conf.all.disable_ipv6=1
   - sed -i "s/127.0.0.1 localhost/127.0.1.1 $(hostname).{{ level }}.wpdn $(hostname)\n127.0.0.1 localhost/" /etc/hosts
   - add-apt-repository -y ppa:saltstack/salt
   - apt-get update

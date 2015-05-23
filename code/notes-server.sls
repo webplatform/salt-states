@@ -1,59 +1,23 @@
 {%- set level = salt['grains.get']('level', 'production') -%}
+{%- set smtp = salt['pillar.get']('infra:hosts_entries:mail', 'mail.webplatform.org') -%}
+{%- set unpack = salt['pillar.get']('basesystem:notes:unpacker_archives') %}
 
 include:
   - rsync.secret
   - code.prereq
-  - code.certificates
   - users.app-user
 
-# @salt-master-dest
-sync-hypothesis-dists:
-  cmd.run:
-    - name: rsync -a --no-perms --delete --password-file=/etc/codesync.secret codesync@salt::code/packages/notes-server/dists/ /srv/webplatform/appshomedir/dists/notes-server/
-    - require:
-      - file: /etc/codesync.secret
-      - file: /srv/webplatform/appshomedir/dists/notes-server
-      - file: webplatform-sources
-  file.directory:
-    - name: /srv/webplatform/appshomedir/dists/notes-server
-    - user: app-user
-    - group: www-data
-    - makedirs: True
-    - require:
-      - file: /srv/webplatform/appshomedir
-      - user: app-user
-    - recurse:
-      - user
-      - group
-
-# salt notes git.clone /srv/webplatform/notes-server https://github.com/webplatform/annotation-service.git user="renoirb"
-clone-hypothesis:
-  pkg.installed:
-    - name: git
-  git.latest:
-    - name: https://github.com/webplatform/annotation-service.git
-    - user: app-user
-    - target: /srv/webplatform/notes-server
-    - unless: test -f /srv/webplatform/notes-server/h.ini
-    - require:
-      - file: /srv/webplatform/notes-server
-      - pkg: git
-  file.directory:
-    - name: /srv/webplatform/notes-server
-    - require:
-      - file: webplatform-sources
-    - user: app-user
-    - group: www-data
-    - recurse:
-      - user
-      - group
+{% from "basesystem/macros/unpacker.sls" import unpack_remote_loop %}
+{{ unpack_remote_loop(unpack)}}
 
 /srv/webplatform/notes-server/h.ini:
   file.managed:
     - template: jinja
     - source: salt://code/files/notes-server/h.ini.jinja
-    - user: app-user
-    - group: www-data
+    - user: webapps
+    - group: webapps
+    - require:
+      - file: Packager unpack /srv/webplatform/notes-server
     - context:
         ## Expected keys: public_url, port, host, elastic_endpoint, sender_email
         notes_server_pillar: {{ salt['pillar.get']('infra:notes-server') }}
@@ -61,16 +25,13 @@ clone-hypothesis:
         auth_server_endpoints: {{ salt['pillar.get']('infra:auth-server:endpoints') }}
         ## Expected keys: auth_client_id, auth_client_secret, secret
         notes_secrets_pillar: {{ salt['pillar.get']('accounts:notes-server') }}
-        smtp: mail.{{ level }}.wpdn
-    - require:
-      - git: clone-hypothesis
+        smtp: {{ smtp }}
 
 /srv/webplatform/notes-server/service.sh:
   file.managed:
     - source: salt://code/files/notes-server/service.sh
     - mode: 755
-    - user: app-user
-    - group: www-data
+    - user: webapps
+    - group: webapps
     - require:
-      - file: /srv/webplatform/notes-server/h.ini
-
+      - file: Packager unpack /srv/webplatform/notes-server

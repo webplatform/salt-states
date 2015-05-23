@@ -8,10 +8,10 @@
 	streamFileThreshold = 100m
 [database]
 	type = MYSQL
-	hostname = {{ salt['pillar.get']('infra:db_servers:mysql:masterdb', '127.0.0.1') }}
+	hostname = {{ salt['pillar.get']('infra:db_servers:mysql:writes', '127.0.0.1') }}
 	database = {{ pillar['gerrit_dbname'] }}
 	username = {{ pillar['gerrit_dbuser'] }}
-	url = jdbc:mysql://{{ salt['pillar.get']('infra:db_servers:mysql:masterdb', '127.0.0.1') }}/{{ pillar['gerrit_dbname'] }}?characterSetResults=utf8&characterEncoding=utf8&connectionCollation=utf8_unicode_ci
+	url = jdbc:mysql://{{ salt['pillar.get']('infra:db_servers:mysql:writes', '127.0.0.1') }}/{{ pillar['gerrit_dbname'] }}?characterSetResults=utf8&characterEncoding=utf8&connectionCollation=utf8_unicode_ci
 [auth]
 	type = OPENID
 	#cookieSecure = true

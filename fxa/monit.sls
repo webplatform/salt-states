@@ -1,7 +1,7 @@
 {%- set infra_pillar = salt['pillar.get']('infra:auth-server') -%}
 {%- set svc = ['profile', 'content', 'auth', 'oauth'] -%}
-{%- set svc_user = 'app-user' -%}
-{%- set svc_group = 'www-data' -%}
+{%- set svc_user = 'webapps' -%}
+{%- set svc_group = 'webapps' -%}
 
 #
 # Do not include fxa here, we can use monit to check if auth-server is responding

@@ -17,6 +17,7 @@
 #   - https://github.com/discourse/discourse/blob/master/config/nginx.sample.conf
 #
 
+{% if upstreams|count() >= 1 %}
 upstream upstream_discourse {
 {%- for b in upstreams %}
     server    {{ b }}:{{ upstream_port }};
@@ -72,4 +73,6 @@ server {
         proxy_set_header Connection "";
     }
 }
-
+{% else %}
+# No upstreams found, let's not enable this service
+{% endif %}

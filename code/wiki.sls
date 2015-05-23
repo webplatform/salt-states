@@ -2,7 +2,8 @@
 {%- set alpha_memcache = salt['pillar.get']('infra:alpha_memcache') -%}
 {%- set alpha_redis = salt['pillar.get']('infra:alpha_redis') -%}
 {%- set sessions_redis = salt['pillar.get']('infra:sessions_redis') -%}
-# Include the common settings for the docs repo
+{%- set swift_backend = salt['pillar.get']('accounts:wiki:swift') %}
+
 include:
   - code.prereq
   - rsync.secret
@@ -83,6 +84,7 @@ rsync-run-{{ env }}:
     - group: www-data
     - context:
         elastic_nodes_wiki:  {{ elastic_nodes_wiki }}
+        swift_backend: {{ swift_backend }}
     - require:
       - file: /srv/webplatform/wiki/Settings.php
 

@@ -10,4 +10,5 @@
 include:
   - code.buggenie
   - code.www
+  - code.certificates
 
