@@ -2,13 +2,7 @@
 
 ## Making a new salt-master
 
-Send a copy of the `_utils/new-saltmaster.sh` to an empty Ubuntu 14.04 VM and run it as root.
-
-Once you are there, you should be able to finish with the three next steps.
-
-To have a fully functional salt master, run in the following order:
-
-Run `_utils/new-saltmaster.sh` on new VM, and follow directions.
+Send a copy of [init.sh](https://raw.githubusercontent.com/webplatform/ops/master/salt-master/init.sh) from [**webplatform/ops** in *salt-master/*](https://github.com/webplatform/ops/) to an empty Ubuntu 14.04 VM and run the script as root.
 
 To deploy web apps, we are currently assuming that the salt master will host all the code repositories
 along with the dependency management tools installed.
