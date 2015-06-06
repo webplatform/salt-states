@@ -39,6 +39,10 @@ rsync-run-wpwiki:
       - file: /etc/codesync.secret
       - file: webplatform-sources
 
+/srv/webplatform/wiki/wpwiki/sitematrix.json:
+  file.managed:
+    - source: salt://code/files/wiki/sitematrix.json
+
 /srv/webplatform/wiki/Settings.php:
   file.managed:
     - source: salt://code/files/wiki/Settings.php.jinja

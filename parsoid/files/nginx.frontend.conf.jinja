@@ -1,0 +1,33 @@
+
+#
+# This is the PUBLIC virtual host for parsoid.{{ tld }}
+#
+# Testing Parsoid for now.
+#
+# ===========================================================================
+#
+# Managed by Salt Stack. Do NOT Edit manually!
+# source: {{ source }}
+#
+
+{% if upstreams|count() >= 1 %}
+upstream upstream_parsoid {
+{%- for b in upstreams %}
+    server    {{ b }}:{{ upstream_port }};
+{%- endfor %}
+}
+
+server {
+    listen      80;
+    server_name parsoid.{{ tld }};
+    include     common_params;
+
+    location / {
+        proxy_pass             http://upstream_parsoid/_rt/localhost/;
+        include                proxy_params;
+        proxy_intercept_errors on;
+    }
+}
+{% else %}
+# No upstreams found, let's not enable this service
+{% endif %}

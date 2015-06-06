@@ -1,0 +1,13 @@
+# Managed by Salt Stack
+# source: {{ source }}
+
+SHELL := bash
+
+default: deps
+
+deps: Dockerfile
+		docker build --rm=true -t webplatform/parsoid .
+
+# Change MW_URL and add-host #TODO
+run:
+		docker run -d -p {{ upstream_port }}:8000 --add-host docs.{{ tld }}:{{ internal_docs_ip }} -e MW_URL='http://docs.{{ tld }}/w/api.php' webplatform/parsoid:latest

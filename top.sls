@@ -163,6 +163,7 @@ base:
     - webat25.frontend
     - buggenie.frontend
     - wordpress.frontend
+    - parsoid.frontend
   'roles:webat:':
     - match: grain
     - webat25.deprecate_me_soon
