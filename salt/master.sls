@@ -8,6 +8,13 @@ include:
   - users
   - mmonit
   - webplatform
+  - salt._formulas
+
+{% set base64_yaml_level_line = {
+   'production': 'bGV2ZWw6IHByb2R1Y3Rpb24='
+  ,'staging': 'bGV2ZWw6IHN0YWdpbmc='
+  ,'workbench': 'bGV2ZWw6IHdvcmtiZW5jaA=='
+}.get(level) %}
 
 /srv/ops/userdata.txt:
   file.managed:
@@ -15,11 +22,7 @@ include:
     - template: jinja
     - context:
         level: {{ level }}
-{% if level == 'production' %}
-        base64_yaml_level_line: bGV2ZWw6IHByb2R1Y3Rpb24=
-{% else %}
-        base64_yaml_level_line: bGV2ZWw6IHN0YWdpbmc=
-{% endif %}
+        base64_yaml_level_line: {{ base64_yaml_level_line }}
         salt_master_ip: {{ salt_master_ip }}
         # CANNOT set salt_master_ip to create new salt master
         # Looking if it works well to specify future salt master IP, before creation #TODO
@@ -93,12 +96,6 @@ setup-fail2ban:
   file.managed:
     - source: salt://salt/files/reactor.conf
 
-{% if grains['biosversion'] != 'VirtualBox' %}
-/etc/salt/master.d/roots.conf:
-  file.managed:
-    - source: salt://salt/files/roots.conf
-{% endif %}
-
 /etc/salt/master.d/runners.conf:
   file.managed:
     - source: salt://salt/files/runners.conf
@@ -107,14 +104,6 @@ setup-fail2ban:
   file.managed:
     - source: salt://salt/files/peers.conf.jinja
     - template: jinja
-
-/etc/salt/master.d/gitfs.conf:
-  file.managed:
-{% if grains['biosversion'] == 'VirtualBox' %}
-    - contents: "# We are in a Vagrant workbench, we wont use gitfs"
-{% else %}
-    - source: salt://salt/files/gitfs.conf
-{% endif %}
 
 /etc/salt/master.d/overrides.conf:
   file.managed:
@@ -125,3 +114,4 @@ setup-fail2ban:
     - source: salt://salt/files/monit.conf
     - watch_in:
       - service: monit
+

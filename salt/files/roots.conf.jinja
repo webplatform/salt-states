@@ -1,14 +1,10 @@
 # Managed by Salt stack, do NOT EDIT manually!
 
-gitfs_provider: dulwich
+pillar_roots:
+  base:
+    - /srv/pillar
+    - /srv/private/pillar
 
-fileserver_backend:
-  - roots
-  - git
-
-#
-# We are in a place where we want to use GitFS to pull
-# formulas.
 #
 # We should get the same formulas as we would get in vagrant-workbench
 # reading the 'basesystem:salt:formulas_repos' pillar
@@ -19,4 +15,13 @@ fileserver_backend:
 # either using gitfs_remotes (production) or file_roots
 # from a vagrant workbench
 #
-gitfs_remotes:
+{% if grains['biosversion'] == 'VirtualBox' %}
+file_roots:
+  base:
+    - /srv/salt
+    - /srv/local/states
+{% else %}
+file_roots:
+  base:
+    - /srv/salt
+{% endif %}

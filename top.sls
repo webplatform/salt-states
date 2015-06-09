@@ -22,13 +22,22 @@ base:
     - logging
 #    - monitor
     - hosts
-  # OpenStack/DreamCompute only below
+
+  # OpenStack/DreamCompute AND salt only
   'salt* and G@virtual:kvm':
     - match: compound
     - gdnsd
+
+  # salt AND Vagrant only
+  'salt* and G@biosversion:VirtualBox':
+    - match: compound
+    - workbench.salt
+
+  # Vagrant only
   'biosversion:VirtualBox':
     - match: grain
     - workbench
+
   'salt*':
     - salt.master
     - specific.salt
