@@ -365,9 +365,9 @@ $wgGroupPermissions['sysop']['abusefilter-revert'] = true;
 
 require_once("$IP/extensions/WebPlatformMediaWikiExtensionBundle/main.php");
 
-#if( isset( $wgWebPlatformAuth['client']) && !empty($wgWebPlatformAuth['client']['id']) ) {
-#  require_once( "$IP/extensions/AccountRelier/WebPlatformAuth.php" );
-#}
+if( isset( $wgWebPlatformAuth['client']) && !empty($wgWebPlatformAuth['client']['id']) ) {
+  require_once( "$IP/extensions/AccountRelier/WebPlatformAuth.php" );
+}
 
 # vim: set ft=php expandtab:
 

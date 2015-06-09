@@ -115,5 +115,15 @@ $wgLocalFileRepo['zones']['thumb']  = array('url'=> '//static.'.$GLOBALS['siteTo
 $wgLocalFileRepo['zones']['temp']   = array('url'=> '//static.'.$GLOBALS['siteTopLevelDomain'].'/w/temp');
 {%- endif %}
 
+{% if fxa_sso %}
+## In Settings.php we’ll load mediawiki-fxa-sso if those are available
+$wgWebPlatformAuth['client']['id']             = '{{ fxa_sso.id }}';
+$wgWebPlatformAuth['client']['secret']         = '{{ fxa_sso.secret }}';
+$wgWebPlatformAuth['endpoints']['fxa_oauth']   = 'https://oauth.accounts.'.$GLOBALS['siteTopLevelDomain'].'/v1/';
+$wgWebPlatformAuth['endpoints']['fxa_profile'] = 'https://profile.accounts.'.$GLOBALS['siteTopLevelDomain'].'/v1/';
+$wgWebPlatformAuth['methods']['authorize']     = 'authorization';
+$wgWebPlatformAuth['methods']['token']         = 'token';
+{% endif %}
+
 # vim: set ft=php expandtab:
 

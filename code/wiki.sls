@@ -5,6 +5,7 @@
 {%- set alpha_memcache = salt['pillar.get']('infra:alpha_memcache') -%}
 {%- set alpha_redis = salt['pillar.get']('infra:alpha_redis') -%}
 {%- set sessions_redis = salt['pillar.get']('infra:sessions_redis') -%}
+{%- set fxa_sso = salt['pillar.get']('accounts:wiki:fxa_sso') -%}
 {%- set swift_backend = salt['pillar.get']('accounts:wiki:swift') %}
 {%- set swift_creds = salt['pillar.get']('accounts:swift:dreamhost') %}
 {%- set db_creds = salt['pillar.get']('accounts:wiki:db') -%}
@@ -87,6 +88,8 @@ rsync-run-wpwiki:
     - user: www-data
     - group: www-data
     - context:
+        fxa_sso: {{ fxa_sso }}
+        elastic_nodes_wiki:  {{ elastic_nodes_wiki }}
         swift_backend: {{ swift_backend }}
         db_servers: {{ db_servers }}
         db_creds: {{ db_creds }}
