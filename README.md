@@ -90,36 +90,36 @@ But sometimes we have to act quickly and update the states later.
 
 1. Rewrite a setting in one config file
 
-    salt app\* file.replace /etc/php5/apache2/php.ini pattern='expose_php = On' repl='expose_php = Off'
+        salt app\* file.replace /etc/php5/apache2/php.ini pattern='expose_php = On' repl='expose_php = Off'
 
 2. Get to know what are the grants for one user
 
-    salt db\* mysql.user_grants accounts '%'
+        salt db\* mysql.user_grants accounts '%'
 
 3. Reload apache2 config (or any service)
 
-    salt app\* service.reload apache2
+        salt app\* service.reload apache2
 
 4. Can we write to the filesystem?
 
-    salt bots cmd.run "touch /root/TestIfWeCabWrite && echo 'OK' || echo 'Writing to filesystem failed'"
-    salt bots cmd.run "rm /root/TestIfWeCabWrite && echo 'OK' || echo 'Writing to filesystem failed'"
+        salt bots cmd.run "touch /root/TestIfWeCabWrite && echo 'OK' || echo 'Writing to filesystem failed'"
+        salt bots cmd.run "rm /root/TestIfWeCabWrite && echo 'OK' || echo 'Writing to filesystem failed'"
 
 5. Upgrade Operating System packages (If it has a service, it’ll also handle its restart)
 
-    salt app\* pkg.upgrade
+        salt app\* pkg.upgrade
 
 6. Delete a user
 
-    salt \* user.delete foobar remove=True force=True
+        salt \* user.delete foobar remove=True force=True
 
 7. New salt minion
 
-    nova boot --image Ubuntu-14.04-Trusty --user-data /srv/ops/userdata.txt --key_name renoirb-staging --flavor lightspeed --security-groups default,all,frontend app1
-    salt-key -y -a app1
-    salt app1 test.ping
-    salt app1 grains.get level
-    salt app1 state.highstate
+        nova boot --image Ubuntu-14.04-Trusty --user-data /srv/ops/userdata.txt --key_name renoirb-staging --flavor lightspeed --security-groups default,all,frontend app1
+        salt-key -y -a app1
+        salt app1 test.ping
+        salt app1 grains.get level
+        salt app1 state.highstate
 
 8. Assing a floating IP
 
@@ -127,61 +127,61 @@ But sometimes we have to act quickly and update the states later.
 
   * We need the floating IP id identifier (e.g. foo) in the 4 you’ll get. Technically the second value should be empty, that’s where we should see our VM private IP once its done. Identifier will be a UUID string
 
-        neutron floatingip-list | grep 173.236.254.223
-        | foo |      |  173.236.254.223  |    |
+            neutron floatingip-list | grep 173.236.254.223
+            | foo |      |  173.236.254.223  |    |
 
   * We need to know which ethernet adapter to bind the floating IP to. We need the first value.
 
-        neutron port-list | grep 10.10.10.170
-        | bar |      | fa:16:3e:c1:6c:a0 | {"subnet_id": "...", "ip_address": "10.10.10.170"}
+            neutron port-list | grep 10.10.10.170
+            | bar |      | fa:16:3e:c1:6c:a0 | {"subnet_id": "...", "ip_address": "10.10.10.170"}
 
   * We do have what we need to assign, enter them in this order:
 
-        neutron floatingip-associate --fixed-ip-address 10.10.10.170 foo bar
+            neutron floatingip-associate --fixed-ip-address 10.10.10.170 foo bar
 
 9. Before updating salt states, ensure you have all IP addresses
 
   * Get on any VM, locally (notice `salt-call`) what are the IP addresses it has from its neighboors
 
-        salt-call mine.get \* network.ip_addrs
+            salt-call mine.get \* network.ip_addrs
 
   * Ask every VMs what they have (basically it asks every node to ask themselves to their neighboors what they have)
 
-        salt \* mine.get \* network.ip_addrs
+            salt \* mine.get \* network.ip_addrs
 
   * Force an update of the mine
 
-        salt \* mine.flush
-        salt \* mine.update
+            salt \* mine.flush
+            salt \* mine.update
 
   * If the previous flush didn’t work, in that case lets restart all salt-minions so it’ll listen to what we mean
 
-        salt \* service.restart salt-minion
-        salt \* saltutil.sync_all
-        salt \* mine.update
+            salt \* service.restart salt-minion
+            salt \* saltutil.sync_all
+            salt \* mine.update
 
 10. Get the IP addresses of a VM
 
   * All adapters
 
-        salt \* grains.get ip4_interfaces
+            salt \* grains.get ip4_interfaces
 
   * Only the eth0 adapter
 
-        salt \* grains.get ip4_interfaces:eth0
+            salt \* grains.get ip4_interfaces:eth0
 
 11. Create a database and privileges on masterdb. If there is replication, the secondary MySQL servers with replication will get the changes by themselves
 
   * Create a database
 
-        salt -G 'roles:masterdb' mysql.db_create dbname utf8 utf8_general_ci
+            salt -G 'roles:masterdb' mysql.db_create dbname utf8 utf8_general_ci
 
   * Add database user and privileges
 
-        salt -G 'roles:masterdb' mysql.user_create dbuser '%' somepass
-        salt -G 'roles:masterdb' mysql.grant_add 'ALL' 'dbname.*' 'dbuser' '%'
+            salt -G 'roles:masterdb' mysql.user_create dbuser '%' somepass
+            salt -G 'roles:masterdb' mysql.grant_add 'ALL' 'dbname.*' 'dbuser' '%'
 
 12. Remove a file from multiple machines
 
-    salt \* file.remove /etc/monit/conf.d/exim4.conf
+        salt \* file.remove /etc/monit/conf.d/exim4.conf
 
