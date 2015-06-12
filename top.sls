@@ -40,7 +40,6 @@ base:
 
   'salt*':
     - salt.master
-    - specific.salt
     - mysql
     - php.composer
     - rsync
@@ -105,7 +104,6 @@ base:
 #    - monitor.gmetad
 #    - monitor.web
     - webplatform.docker
-    - monitor.logstash_receptacle
     - apache.status
   'monitor':
     - specific.monitor
@@ -129,15 +127,9 @@ base:
   'roles:elastic':
     - match: grain
     - elasticsearch.main_cluster
-  'roles:noc':
-    - match: grain
-    - webplatform.docker
   'roles:jobrunner':
     - match: grain
     - elasticsearch.wiki_cluster
-  'hhvmbackend*':
-    - hhvm
-    - nutcracker
   'roles:discuss':
     - match: grain
     - webplatform.docker
@@ -154,10 +146,6 @@ base:
   'roles:auth':
     - match: grain
     - fxa.local
-  'roles:builder':
-    - match: grain
-    - builder
-    - nodejs
   'roles:docker':
     - match: grain
     - webplatform.docker

@@ -7,13 +7,6 @@ include:
   - .{{ username }}
 {% endfor %}
 
-# Unsure:
-#  - users.jkomoros
-#  - users.julee
-#  - users.frozenice
-#  - users.garbee
-#  - users.pdsouza
-#
 # User ids:
 # - 1005, shepazu
 # - 1006, tguild
@@ -26,9 +19,4 @@ include:
 # - 1150, estheban
 # - 1151, laner
 # - 1152, justinlund
-# - 1153
-# - 1154
-# - 1155
-# - 1156
-# - 1157
-# - 1158
+

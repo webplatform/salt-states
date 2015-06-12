@@ -1,25 +1,17 @@
 {%- set srv_code_repos = salt['pillar.get']('basesystem:salt:srv_code_repos') -%}
 
-{% from "basesystem/macros/git.sls" import git_clone %}
+{% from "basesystem/macros/git.sls" import git_clone_loop %}
 
 include:
   - code.packages
 
-{% set auth_inject = {
-    'user': grains['initial_user'],
-    'auth_key': "/home/" ~ grains['initial_user'] ~ "/.ssh/id_rsa"
+{% set inject = {
+    'user': 'webapps',
+    'auth_key': '/srv/webapps/.ssh/id_ed25519'
   }
 %}
 
-{#
- # Re-implementing git_clone_loop, but allow to add values
- #}
-{% if srv_code_repos.items()|count >= 1 %}
-{% for dir,obj in srv_code_repos.items() %}
-{% do obj.update(auth_inject) %}
-{{ git_clone(dir, obj.origin, obj) }}
-{% endfor %}
-{% endif %}
+{{ git_clone_loop(srv_code_repos, inject)}}
 
 libboost-program-options1.46.1:
   pkg.installed:

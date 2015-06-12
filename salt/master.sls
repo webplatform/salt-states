@@ -39,7 +39,7 @@ include:
 {% for username in users %}
 /home/{{ username }}/.my.cnf:
   file.managed:
-    - source: salt://environment/files/my.cnf.jinja
+    - source: salt://salt/files/my.cnf.jinja
     - user: {{ username }}
     - group: {{ username }}
     - mode: 640
@@ -115,3 +115,24 @@ setup-fail2ban:
     - watch_in:
       - service: monit
 
+/root/.my.cnf:
+  file.managed:
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 640
+    - source: salt://salt/files/my.cnf.jinja
+
+build-deps:
+  pkg.installed:
+    - pkgs:
+      - build-essential
+      - libterm-readkey-perl
+      - percona-toolkit
+      - nodejs
+      - nodejs-legacy
+      - npm
+      - bundler
+      - php5-curl
+      - dpkg-dev
+      - php5-dev

@@ -3,9 +3,6 @@
 include:
   - mmonit
 
-# https://launchpad.net/~twemproxy/+archive/ubuntu/stable
-# add-apt-repository -y ppa:twemproxy/stable
-
 /etc/nutcracker/conf:
   file.directory:
     - makedirs: true
@@ -26,6 +23,8 @@ include:
     - contents: |
         DAEMON_ARGS="-v 6 -c /etc/nutcracker/conf/nutcracker.yml"
 
+# Relies on https://static.webplatform.org/wpd/packages/apt/twemproxy_0.4.0-2~ubuntu14.04.1_amd64.deb
+# look at /etc/apt/sources.list.d/webplatform.list
 twemproxy:
   pkg.installed:
     - skip_verify: True

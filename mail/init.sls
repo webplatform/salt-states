@@ -13,6 +13,9 @@ include:
 /etc/mailname:
   file.managed:
     - source: salt://mail/mailname
+    - template: jinja
+    - context:
+        tld: {{ tld }}
     - user: root
     - group: root
     - mode: 644

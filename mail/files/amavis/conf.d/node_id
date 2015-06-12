@@ -2,5 +2,5 @@ use strict;
 #
 # Managed by Salt Stack
 #
-$myhostname = "mail.webplatform.org";
+$myhostname = "mail.{{ tld }}";
 1;

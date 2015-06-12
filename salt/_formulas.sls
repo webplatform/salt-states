@@ -21,7 +21,7 @@
     - template: jinja
 
 
-{% if grains['biosversion'] == 'VirtualBox' -%}
+{% if grains['biosversion'] == 'VirtualBox' %}
 
 {%- from "basesystem/macros/git.sls" import git_clone_loop -%}
 
@@ -42,7 +42,7 @@
         # basesystem:salt:formulas_repos pillar
 
 {% for creates,args in formulas_repos.items() %}
-{%- set slug = creates.split("/")|last() -%}
+{% set slug = creates.split("/")|last() %}
 Add {{ creates }} into Workbench /etc/salt/master.d/roots.conf:
   cmd.run:
     - name: echo "    - {{ creates }}" >> /etc/salt/master.d/roots.conf
@@ -60,8 +60,8 @@ Add {{ creates }} into Workbench /etc/salt/master.d/roots.conf:
 {% set slug = creates.split("/")|last() %}
 Add {{ creates }} into /etc/salt/master.d/gitfs.conf:
   cmd.run:
-    - name: echo "    - {{ creates }}" >> /etc/salt/master.d/gitfs.conf
-    - unless: grep -q -e "formulas\/{{ slug }}" /etc/salt/master.d/gitfs.conf
+    - name: echo "  - {{ args.origin }}" >> /etc/salt/master.d/gitfs.conf
+    - unless: grep -q -e "{{ args.origin }}" /etc/salt/master.d/gitfs.conf
 {% endfor %}
 
 {% endif %}

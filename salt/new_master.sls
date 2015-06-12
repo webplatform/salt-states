@@ -1,6 +1,6 @@
 {%- set srv_repos = salt['pillar.get']('basesystem:salt:srv_repos') -%}
 
-{% from "basesystem/macros/git.sls" import git_clone %}
+{% from "basesystem/macros/git.sls" import git_clone_loop %}
 
 {% set auth_inject = {
     'user': grains['initial_user'],
@@ -8,15 +8,7 @@
   }
 %}
 
-{#
- # Re-implementing git_clone_loop, but allow to add values
- #}
-{% if srv_repos.items()|count >= 1 %}
-{% for dir,obj in srv_repos.items() %}
-{% do obj.update(auth_inject) %}
-{{ git_clone(dir, obj.origin, obj) }}
-{% endfor %}
-{% endif %}
+{{ git_clone_loop(srv_repos, auth_inject)}}
 
 # Leave at the end as a Jinja include so we
 # get W3C GitLab password prompt earlier

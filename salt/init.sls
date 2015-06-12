@@ -21,11 +21,6 @@ salt-minion-deps:
     - require:
       - pkg: salt-minion
 
-#python-etcd:
-#  pip.installed:
-#    - require:
-#      - pkg: salt-minion-deps
-
 {% if grains['nodename'] != 'salt' %}
 {% set saltPublishQuery = salt['publish.publish']('salt', 'grains.get', 'level') %}
 /etc/salt/grains:

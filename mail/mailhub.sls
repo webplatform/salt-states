@@ -1,3 +1,4 @@
+{%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
 {#
  # WebPlatform SMTP relay
  #
@@ -156,6 +157,9 @@ postfix-access-opendkim:
 /etc/amavis/conf.d/05-node_id:
   file.managed:
     - source: salt://mail/files/amavis/conf.d/node_id
+    - template: jinja
+    - context:
+        tld: {{ tld }}
     - require:
       - pkg: mailhub-required-pkgs
 
