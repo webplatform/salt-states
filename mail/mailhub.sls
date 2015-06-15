@@ -24,11 +24,13 @@ purge-exim:
       - exim4-config
       - exim4-daemon-light
 
+#spamassassin:
+#  pkg.installed
+
 mailhub-required-pkgs:
   pkg.installed:
     - pkgs:
       - amavisd-new
-      - spamassassin
       - clamav-daemon
       - libnet-dns-perl
       - pyzor
