@@ -5,8 +5,8 @@
 include:
   - code.packages
 
+# Gotta make distinction between auth user and owner.
 {% set inject = {
-    'user': 'webapps',
     'auth_key': '/srv/webapps/.ssh/id_ed25519'
   }
 %}

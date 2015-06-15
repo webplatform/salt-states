@@ -18,7 +18,6 @@ base:
     - lvm
     - xfs
     - sysctl
-#    - dhcp
     - logging
 #    - monitor
     - hosts
@@ -87,23 +86,23 @@ base:
     - rsync
   'roles:postgres':
     - match: grain
-    - webplatform.postgres
+    - webplatform.formulas.postgres
     - postgres
     - logwatch
     - rsync
   'memcache*':
     - memcached
   'redis*':
+    - webplatform.formulas.redis
     - redis.server
-    - formula.redis
   'session*':
-    - memcached
+    - webplatform.formulas.redis
     - redis.server
-    - formula.redis
+    - memcached
   'monitor*':
 #    - monitor.gmetad
 #    - monitor.web
-    - webplatform.docker
+    - webplatform.formulas.docker
     - apache.status
   'monitor':
     - specific.monitor
@@ -132,13 +131,13 @@ base:
     - elasticsearch.wiki_cluster
   'roles:discuss':
     - match: grain
-    - webplatform.docker
+    - webplatform.formulas.docker
     - webplatform.dreamobjects
     - discourse.local
   'roles:specs':
     - match: grain
     - specs.local
-    - webplatform.docker
+    - webplatform.formulas.docker
     - webplatform.dreamobjects
   'roles:notes':
     - match: grain
@@ -148,7 +147,7 @@ base:
     - fxa.local
   'roles:docker':
     - match: grain
-    - webplatform.docker
+    - webplatform.formulas.docker
     - webplatform.dreamobjects
   'roles:masterdb':
     - match: grain
