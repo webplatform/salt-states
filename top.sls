@@ -76,9 +76,6 @@ base:
     - apache.status
   'bots*':
     - bots
-  'code*':
-    - gerrit
-    - rsync
   'roles:db':
     - match: grain
     - logwatch
