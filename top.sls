@@ -19,7 +19,7 @@ base:
     - xfs
     - sysctl
     - logging
-#    - monitor
+    - monitor.ganglia
     - hosts
 
   # OpenStack/DreamCompute AND salt only
@@ -97,12 +97,9 @@ base:
     - redis.server
     - memcached
   'monitor*':
-#    - monitor.gmetad
-#    - monitor.web
+    - monitor.ganglia-webfrontend
     - webplatform.formulas.docker
     - apache.status
-  'monitor':
-    - specific.monitor
   'project*':
     - php
     - php.apache

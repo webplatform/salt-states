@@ -1,0 +1,13 @@
+# Managed by Salt Stack, do NOT edit directly!
+#
+# This file must be a valid script. Its called by /etc/init/gmetad.conf
+
+case_sensitive_hostnames 1
+
+gridname "webplatform"
+
+authority "https://monitor.{{ tld }}/ganglia/"
+
+{% for cluster,port in clusters.items() %}
+data_source "{{ cluster }}" localhost:{{ port }}
+{% endfor %}
