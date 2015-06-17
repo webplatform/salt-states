@@ -1,5 +1,0 @@
-[mysqld]
-# ref: http://hardenubuntu.com/hardening/mysql/disable-local-infile
-# CAUTION, If you want to upgrade Piwik, this has to be commented!!
-local-infile=0
-

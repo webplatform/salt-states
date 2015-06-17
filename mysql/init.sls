@@ -11,10 +11,28 @@ mysql:
     - name: mariadb-client-10.1
     - require:
       - pkgrepo: mariadb-apt-repo
+  file.managed:
+    - name: /etc/mysql/conf.d/unicode-client.cnf
+    - source: salt://mysql/files/unicode-client.cnf
+    - mode: 644
 
 /etc/apt/preferences.d/00-mariadb.pref:
   file.managed:
     - source: salt://mysql/files/mariadb.apt.pref
     - require:
       - pkgrepo: mariadb-apt-repo
+
+/etc/mysql/ca-key.pem:
+  file.managed:
+    - user: mysql
+    - group: mysql
+    - mode: 640
+    - contents_pillar: 'mysql:ssl:ca-key.pem'
+
+/etc/mysql/ca-cert.pem:
+  file.managed:
+    - user: mysql
+    - group: mysql
+    - mode: 640
+    - contents_pillar: 'mysql:ssl:ca-cert.pem'
 

@@ -148,6 +148,9 @@ base:
     - webplatform.dreamobjects
   'roles:masterdb':
     - match: grain
+    - logwatch
+    - mysql.server
+    - rsync
     - webplatform.dreamobjects
   'roles:frontend':
     - match: grain

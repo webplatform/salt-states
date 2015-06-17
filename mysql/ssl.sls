@@ -1,5 +1,5 @@
 include:
-  - mysql.server
+  - .
 
 ##
 ## Sync SSL certificates across VMs
@@ -22,20 +22,6 @@ include:
 openssl-installed:
   pkg.installed:
     - name: openssl
-
-/etc/mysql/ca-key.pem:
-  file.managed:
-    - user: mysql
-    - group: mysql
-    - mode: 640
-    - contents_pillar: 'mysql:ssl:ca-key.pem'
-
-/etc/mysql/ca-cert.pem:
-  file.managed:
-    - user: mysql
-    - group: mysql
-    - mode: 640
-    - contents_pillar: 'mysql:ssl:ca-cert.pem'
 
 openssl-client-newkey:
   cmd.run:

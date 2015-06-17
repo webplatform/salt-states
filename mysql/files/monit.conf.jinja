@@ -3,14 +3,16 @@
 # Run:
 #
 #       /usr/sbin/mysqld --print-defaults
-#
-#check process mysql
-#  matching "mysql"
-#  group database
-#  start = "/usr/sbin/service mysql start"
-#  stop  = "/usr/sbin/service mysql stop"
-#  if failed host {{ ip4_interfaces[0]|default('127.0.0.1') }} port 3306
-#    protocol MYSQL then restart
-#  if not exist for 3 cycles then restart
-#  if 5 restarts within 5 cycles then timeout
-
+{#
+ # NOT READY TO USE, GOTTA SET IN PLACE USER FOR CHECKS #TODO
+ #
+check process mysql
+  matching "mysql"
+  group database
+  start = "/usr/sbin/service mysql start"
+  stop  = "/usr/sbin/service mysql stop"
+  if failed host 127.0.0.1 port 3306
+    protocol MYSQL then restart
+  if not exist for 3 cycles then restart
+  if 5 restarts within 5 cycles then timeout
+#}
