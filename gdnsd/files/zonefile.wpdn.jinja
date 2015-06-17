@@ -29,6 +29,7 @@ elasticsearch	A	{{ ip_addr }}
 {% endif -%}
 {% endfor %}
 
+{% if salt['grains.get']('level') != 'workbench' %}
 {% set mine_data = salt['mine.get']('*', 'network.ip_addrs').items()|sort(attribute=0) -%}
 ;
 ;  Mine network.ip_addrs:
@@ -51,4 +52,5 @@ elasticsearch	A	{{ ip_addr }}
 {{ minion }}	A	{% for i in addrs %}{% if i|truncate(5, True, '') == '10.10' %}{{ i }}{% endif %}{% endfor %}
 {%- endfor %}
 {%- endif %}
+{% endif %}
 

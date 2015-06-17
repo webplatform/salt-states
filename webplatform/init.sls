@@ -123,14 +123,6 @@ resolvconf -u:
     - group: deployment
     - mode: 750
 
-/etc/apt/sources.list.d/wikimedia.list:
-  file.managed:
-    - contents: |
-        # Managed by Salt Stack at salt/webplatform/init.sls
-        deb http://ubuntu.wikimedia.org/ubuntu trusty main
-        deb http://ubuntu.wikimedia.org/ubuntu trusty-updates main
-        deb http://ubuntu.wikimedia.org/ubuntu trusty-security main
-
 /usr/local/bin/wpd-autoupdate.sh:
   file.managed:
     - source: salt://webplatform/files/wpd-autoupdate.sh

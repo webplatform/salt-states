@@ -38,6 +38,7 @@ base:
     - workbench
 
   'salt*':
+    - gdnsd
     - salt.master
     - mysql
     - php.composer
