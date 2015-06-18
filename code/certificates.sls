@@ -4,6 +4,12 @@ include:
   - code.prereq
   - rsync.secret
 
+/etc/ssl/webplatform:
+  file.directory:
+    - makedirs: True
+    - user: www-data
+    - group: www-data
+
 # @salt-master-dest
 certificates-rsync:
   cmd.run:
@@ -21,10 +27,3 @@ certificates-rsync:
       - group
       - mode
 
-/etc/ssl/webplatform:
-  file.directory:
-    - makedirs: True
-    - user: www-data
-    - group: www-data
-    - require:
-      - cmd: certificates-rsync
