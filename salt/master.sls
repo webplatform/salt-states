@@ -8,7 +8,6 @@ include:
   - users
   - mmonit
   - webplatform
-  - salt._formulas
 
 {% set base64_yaml_level_line = {
    'production': 'bGV2ZWw6IHByb2R1Y3Rpb24='

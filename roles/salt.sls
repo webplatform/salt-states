@@ -4,6 +4,7 @@
 
 include:
   - code.packages
+  - salt._formulas
 
 # Gotta make distinction between auth user and owner.
 {% set inject = {
