@@ -25,7 +25,7 @@ base:
   # OpenStack/DreamCompute AND salt only
   'salt* and G@virtual:kvm':
     - match: compound
-    - gdnsd
+    - salt.dreamcompute
 
   # salt AND Vagrant only
   'salt* and G@biosversion:VirtualBox':
