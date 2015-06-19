@@ -37,12 +37,16 @@ collector:
     - require:
       - group: ops
 
+amavis-packages:
+  pkg.installed:
+    - pkgs:
+      - amavisd-new
+      - spamassassin
 
 mailhub-required-pkgs:
   pkg.installed:
     - pkgs:
       - mutt
-      - amavisd-new
       - clamav-daemon
       - libnet-dns-perl
       - pyzor
@@ -102,6 +106,7 @@ mailgraph-viewer:
     - template: jinja
     - watch_in:
       - service: mailgraph-viewer
+
 
 opendkim:
   pkg.installed:
