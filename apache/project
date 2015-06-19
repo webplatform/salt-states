@@ -1,6 +1,6 @@
 Listen 8007
 <VirtualHost *:8007>
-  ServerAdmin		hostmaster@webplatform.org
+  ServerAdmin		team-webplatform-systems@w3.org
 
   DocumentRoot	/srv/webplatform/buggenie/thebuggenie
 

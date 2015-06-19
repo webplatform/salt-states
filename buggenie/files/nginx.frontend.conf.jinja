@@ -1,6 +1,6 @@
 
 #
-# This is the PUBLIC virtual host for monitor.{{ tld }}
+# This is the PUBLIC virtual host for project.{{ tld }}
 #
 # Note that we call another NGINX virtual host, from the internal network,
 # without SSL, and with a different name than the publicly exposed.
@@ -14,7 +14,7 @@
 # source: {{ source }}
 #
 {% if upstreams|count() >= 1 %}
-upstream upstream_cachet {
+upstream upstream_buggenie {
     keepalive 16;
     ip_hash;
 
@@ -23,24 +23,16 @@ upstream upstream_cachet {
 {%- endfor %}
 }
 
-upstream upstream_mail {
-  server {{ mail_ip }}:80;
-}
-
-upstream upstream_monitor {
-  server {{ monitor_ip }}:80;
-}
-
 server {
     listen      80;
-    server_name monitor.{{ tld }};
+    server_name project.{{ tld }};
     include     common_params;
-    return      301 https://monitor.{{ tld }}$request_uri;
+    return      301 https://project.{{ tld }}$request_uri;
 }
 
 server {
     listen      443 ssl spdy;
-    server_name monitor.{{ tld }};
+    server_name project.{{ tld }};
 
     root    /var/www/html;
     include common_params;
@@ -50,33 +42,8 @@ server {
     ssl_certificate     /etc/ssl/webplatform/public_wildcard_201407.pem;
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
-    location ^~ /ganglia/ {
-        expires                1m;
-        proxy_pass             http://upstream_monitor/ganglia/;
-        include                proxy_params;
-        proxy_intercept_errors on;
-    }
-
-    location ^~ /cgi-bin/mailgraph.cgi {
-        expires                1m;
-        auth_basic             "Email stats";
-        auth_basic_user_file   htpasswd;
-        proxy_pass             http://upstream_mail/cgi-bin/mailgraph.cgi;
-        include                proxy_params;
-        proxy_intercept_errors on;
-    }
-
-    location ^~ /lurker {
-        expires                1m;
-        auth_basic             "Email viewer";
-        auth_basic_user_file   htpasswd;
-        proxy_pass             http://upstream_mail/lurker;
-        include                proxy_params;
-        proxy_intercept_errors on;
-    }
-
     location / {
-        proxy_pass             http://upstream_cachet;
+        proxy_pass             http://upstream_buggenie;
         include                proxy_params;
         proxy_intercept_errors on;
 

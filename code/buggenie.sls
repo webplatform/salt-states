@@ -1,3 +1,12 @@
+{%- set db_creds      = salt['pillar.get']('accounts:buggenie:db') %}
+{%- set masterdb_ip   = salt['pillar.get']('infra:db_servers:mysql:writes', '127.0.0.1') %}
+{%- set tld           = salt['pillar.get']('infra:current:tld', 'webplatform.org') %}
+
+{%- set mysql_user = salt['pillar.get']( 'mysql:user:%s' % db_creds.username ) -%}
+{%- if mysql_user.password -%}
+{%- do db_creds.update(mysql_user) -%}
+{%- endif %}
+
 include:
   - rsync.secret
   - code.prereq
@@ -30,24 +39,22 @@ buggenie-codesync:
 /srv/webplatform/buggenie/core/cache:
   file.directory:
     - makedirs: True
-    - require:
-      - cmd: buggenie-codesync
 
 /srv/webplatform/buggenie/core:
   file.directory:
     - user: www-data
     - group: www-data
 
-buggenie-dbconfig:
+/srv/webplatform/buggenie/core/b2db_bootstrap.inc.php:
   file.managed:
-    - name: /srv/webplatform/buggenie/core/b2db_bootstrap.inc.php
     - source: salt://code/files/buggenie/b2db_bootstrap.inc.php.jinja
     - template: jinja
     - user: nobody
     - group: www-data
-    - require:
-      - file: /srv/webplatform/buggenie/core
-      - cmd: buggenie-codesync
+    - context:
+        db_creds: {{ db_creds }}
+        masterdb_ip: {{ masterdb_ip }}
+        tld: {{ tld }}
 
 /var/www/robots.txt:
   file.managed:
