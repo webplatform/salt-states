@@ -42,3 +42,7 @@ comment-mycnf-network-listener:
     - template: jinja
     - watch_in:
       - service: monit
+
+/root/.my.cnf:
+  file.symlink:
+    - target: /etc/mysql/debian.cnf
