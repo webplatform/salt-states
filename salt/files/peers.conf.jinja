@@ -4,3 +4,6 @@ peer:
     - grains.*
     - network.*
     - test.*
+    # Allows us to load role only if state file exists from a minion
+    - file.file_exists
+
