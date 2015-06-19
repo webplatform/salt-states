@@ -13,10 +13,10 @@ log_writers[] = file
 log_level = DEBUG
 
 [database]
-host          = {{ salt['pillar.get']('infra:db_servers:mysql:writes', '127.0.0.1') }}
-username      = {{ salt['pillar.get']('accounts:piwik:db:username', 'root') }}
-password      = {{ salt['pillar.get']('accounts:piwik:db:password', '') }}
-dbname        = {{ salt['pillar.get']('accounts:piwik:db:database', 'wpstats') }}
+host          = {{ masterdb_ip }}
+username      = {{ db_creds.username|default('root') }}
+password      = {{ db_creds.password|default('') }}
+dbname        = {{ db_creds.database|default('wpstats') }}
 tables_prefix = piwik_
 
 [General]

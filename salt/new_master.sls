@@ -8,7 +8,7 @@
   }
 %}
 
-{{ git_clone_loop(srv_repos, auth_inject)}}
+{{ git_clone_loop(srv_repos, auth_inject) }}
 
 # Leave at the end as a Jinja include so we
 # get W3C GitLab password prompt earlier

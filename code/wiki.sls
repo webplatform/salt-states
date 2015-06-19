@@ -12,6 +12,11 @@
 {%- set db_servers    = salt['pillar.get']('infra:db_servers:mysql:slaves', []) -%}
 {%- set masterdb_ip   = salt['pillar.get']('infra:db_servers:mysql:writes', '127.0.0.1') %}
 
+{%- set mysql_user = salt['pillar.get']( 'mysql:user:%s' % db_creds.username ) -%}
+{%- if mysql_user.password -%}
+{%- do db_creds.update(mysql_user) -%}
+{%- endif %}
+
 include:
   - code.prereq
 

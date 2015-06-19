@@ -5,6 +5,11 @@
 {%- set masterdb_ip = salt['pillar.get']('infra:db_servers:mysql:writes', '127.0.0.1') -%}
 {%- set db_creds = salt['pillar.get']('accounts:status:db') %}
 
+{%- set mysql_user = salt['pillar.get']( 'mysql:user:%s' % db_creds.username ) -%}
+{%- if mysql_user.password -%}
+{%- do db_creds.update(mysql_user) -%}
+{%- endif %}
+
 {{ dir }}:
   file.directory:
     - user: webapps
@@ -26,8 +31,6 @@
         salt_master_ip: {{ salt_master_ip }}
         masterdb_ip: {{ masterdb_ip }}
         smtp: {{ smtp }}
-    - require:
-      - file: {{ dir }}
 
 {{ dir }}/Dockerfile:
   file.managed:
@@ -35,6 +38,3 @@
     - user: webapps
     - group: webapps
     - mode: 644
-    - require:
-      - file: {{ dir }}
-

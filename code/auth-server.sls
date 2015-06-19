@@ -2,7 +2,8 @@
 {%- set infra_pillar = salt['pillar.get']('infra:auth-server') -%}
 {%- set masterdb_ip = salt['pillar.get']('infra:db_servers:mysql:writes', '127.0.0.1') -%}
 {%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
-{%- set oauth_clients = salt['pillar.get']('accounts:auth-server:oauth:clients', []) %}
+{%- set oauth_clients = salt['pillar.get']('accounts:auth-server:oauth:clients', []) -%}
+{%- set mysql_user = salt['pillar.get']( 'mysql:user:accounts' ) %}
 
 include:
   - code.prereq
@@ -39,6 +40,7 @@ include:
     - create: False
     - context:
         accounts_pillar: {{ accounts_pillar }}
+        mysql_user: {{ mysql_user }}
         infra_pillar: {{ infra_pillar }}
         masterdb_ip: {{ masterdb_ip }}
         tld: {{ tld }}

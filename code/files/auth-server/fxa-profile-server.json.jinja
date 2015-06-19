@@ -10,7 +10,7 @@
   },
   "mysql": {
     "user": "{{ accounts_pillar['profile']['db']['username'] }}",
-    "password": "{{ accounts_pillar['profile']['db']['password'] }}",
+    "password": "{{ mysql_user.get('password','') }}",
     "database": "{{ accounts_pillar['profile']['db']['database'] }}",
     "host": "{{ masterdb_ip }}"
   },

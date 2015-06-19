@@ -23,13 +23,13 @@
   "mysql": {
     "master": {
       "user": "{{ accounts_pillar['auth']['db']['username'] }}",
-      "password": "{{ accounts_pillar['auth']['db']['password'] }}",
+      "password": "{{ mysql_user.get('password','') }}",
       "database": "{{ accounts_pillar['auth']['db']['database'] }}",
       "host": "{{ masterdb_ip }}"
     },
     "slave": {
       "user": "{{ accounts_pillar['auth']['db']['username'] }}",
-      "password": "{{ accounts_pillar['auth']['db']['password'] }}",
+      "password": "{{ mysql_user.get('password','') }}",
       "database": "{{ accounts_pillar['auth']['db']['database'] }}",
       "host": "{{ masterdb_ip }}"
     }
