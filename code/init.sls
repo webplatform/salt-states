@@ -7,8 +7,13 @@
 include:
   - code.packages
 {%- if rolesDict|length() >= 1 %}
-{% for roleName in rolesDict %}
+{%- for root in opts['file_roots']['base'] %}
+{%- for roleName in rolesDict %}
+{%- set role_sls = 'roles/{0}.sls'.format(root, roleName) -%}
+{%- if salt['file.file_exists'](role_sls) %}
   - roles.{{ roleName }}
-{% endfor %}
-{% endif %}
+{%- endif %}
+{%- endfor %}
+{%- endfor %}
+{%- endif %}
 
