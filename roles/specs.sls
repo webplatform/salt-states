@@ -2,6 +2,5 @@
 # We need at least one, typically called 'upstream-piwik'
 
 include:
-  - code.specs
   - code.publican
 

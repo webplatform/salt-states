@@ -44,3 +44,4 @@ gmetad:
 /etc/apache2/conf-enabled/ganglia-webfrontend.conf:
   file.symlink:
     - target: /etc/ganglia-webfrontend/apache.conf
+

@@ -6,22 +6,20 @@
 
 include:
   - code.prereq
-  - rsync.secret
-  - users.app-user
 
-{%- set envNames = ['wpwiki','wptestwiki'] -%}
+{% set unpack = salt['pillar.get']('basesystem:app:unpacker_archives') %}
+{% from "basesystem/macros/unpacker.sls" import unpack_remote_loop %}
+{{ unpack_remote_loop(unpack)}}
 
-{% for env in envNames %}
-
-/srv/webplatform/wiki/{{ env }}:
-  file.directory:
-    - makedirs: True
-
-/srv/webplatform/wiki/{{ env }}/mediawiki/mirror.php:
+/srv/webplatform/wiki/Settings.php:
   file.managed:
-    - source: salt://code/files/wiki/mirror.php
-    - require:
-      - cmd: rsync-run-{{ env }}
+    - source: salt://code/files/wiki/Settings.php.jinja
+    - template: jinja
+    - user: www-data
+    - group: www-data
+
+{% set envNames = ['wpwiki','wptestwiki'] %}
+{% for env in envNames %}
 
 /srv/webplatform/wiki/{{ env }}/mediawiki/LocalSettings.php:
   file.managed:
@@ -39,8 +37,6 @@ include:
     - makedirs: True
     - user: www-data
     - group: www-data
-    - require:
-      - file: /srv/webplatform/wiki/{{ env }}
     - recurse:
       - user
       - group
@@ -51,33 +47,12 @@ include:
     - makedirs: True
     - user: www-data
     - group: www-data
-    - require:
-      - file: /srv/webplatform/wiki/{{ env }}
     - recurse:
       - user
       - group
 
-/srv/webplatform/wiki/{{ env }}/local.d:
-  file.recurse:
-    - source: salt://code/files/wiki/{{ env }}
-    - require:
-      - file: /srv/webplatform/wiki/{{ env }}
-
-# @salt-master-dest
-rsync-run-{{ env }}:
-  cmd.run:
-    - name: "rsync -a --exclude '.git' --exclude '.svn' --exclude 'LocalSettings.php' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/wiki/repo/ /srv/webplatform/wiki/{{ env }}/"
-    - user: root
-    - group: root
-    - require_in:
-      - file: /srv/webplatform/wiki/{{ env }}/cache
-      - file: /srv/webplatform/wiki/{{ env }}/mediawiki/LocalSettings.php
-    - require:
-      - file: /etc/codesync.secret
-      - file: webplatform-sources
-      - file: /srv/webplatform/wiki/{{ env }}
+/srv/webplatform/wiki/{{ env }}/LocalSettings.php:
   file.managed:
-    - name: /srv/webplatform/wiki/{{ env }}/LocalSettings.php
     - source: salt://code/files/wiki/{{ env }}.php.jinja
     - template: jinja
     - user: www-data
@@ -85,14 +60,5 @@ rsync-run-{{ env }}:
     - context:
         elastic_nodes_wiki:  {{ elastic_nodes_wiki }}
         swift_backend: {{ swift_backend }}
-    - require:
-      - file: /srv/webplatform/wiki/Settings.php
 
 {% endfor %}
-
-/srv/webplatform/wiki/Settings.php:
-  file.managed:
-    - source: salt://code/files/wiki/Settings.php.jinja
-    - template: jinja
-    - user: www-data
-    - group: www-data

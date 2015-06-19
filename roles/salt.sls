@@ -1,18 +1,18 @@
 {%- set srv_code_repos = salt['pillar.get']('basesystem:salt:srv_code_repos') -%}
 
-{% from "basesystem/macros/git.sls" import git_clone_loop %}
+{%- from "basesystem/macros/git.sls" import git_clone_loop %}
 
 include:
   - code.packages
   - salt._formulas
 
-# Gotta make distinction between auth user and owner.
+# Gotta make distinction between auth user and owner #TODO
 {% set inject = {
     'auth_key': '/srv/webapps/.ssh/id_ed25519'
   }
 %}
 
-{{ git_clone_loop(srv_code_repos, inject)}}
+{{ git_clone_loop(srv_code_repos, inject) }}
 
 libboost-program-options1.46.1:
   pkg.installed:
@@ -46,23 +46,9 @@ libboost-program-options1.46.1:
 #    - group: deployment
 #    - mode: 774
 
-#/srv/code/webspecs_bikeshed/setup.sh:
-#  file.managed:
-#    - source: salt://code/files/webspecs_bikeshed/setup.sh
-#    - user: nobody
-#    - group: deployment
-#    - mode: 774
-
 #/srv/code/www/compile.sh:
 #  file.managed:
 #    - source: salt://code/files/www/compile.sh
-#    - mode: 775
-#    - user: nobody
-#    - group: deployment
-
-#/srv/code/specs/compile.sh:
-#  file.managed:
-#    - source: salt://code/files/specs/compile.sh
 #    - mode: 775
 #    - user: nobody
 #    - group: deployment
@@ -79,12 +65,3 @@ libboost-program-options1.46.1:
     - source: salt://code/files/www/docpad.js.jinja
     - context:
         tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
-
-/srv/code/www/repo/.npmrc:
-  file.managed:
-    - contents: |
-        ; Managed by Salt Stack by the salt master. Do NOT edit manually!
-        ; https://docs.npmjs.com/files/npmrc#per-project-config-file
-        cwd = .
-        HOME = ../.npmhome
-

@@ -5,6 +5,10 @@
 {%- set smtp = salt['pillar.get']('infra:hosts_entries:mail', 'mail.webplatform.org') -%}
 {%- set fastly = salt['pillar.get']('accounts:fastly:specs') %}
 
+{% set unpack = salt['pillar.get']('basesystem:specs:unpacker_archives') %}
+{% from "basesystem/macros/unpacker.sls" import unpack_remote_loop %}
+{{ unpack_remote_loop(unpack)}}
+
 {{ dir }}:
   file.directory:
     - user: webapps
@@ -47,23 +51,3 @@
         fastly_secret: {{ fastly.secret|default('pillar_accounts_fastly_specs_secret_absent') }}
         fastly_service: {{ fastly.service|default('pillar_accounts_fastly_specs_service_absent') }}
         smtp: {{ smtp }}
-
-# @salt-master-dest
-rsync-bikeshed-dists:
-  cmd.run:
-    - name: rsync -a --no-perms --delete --password-file=/etc/codesync.secret codesync@salt::code/packages/bikeshed/dists/ /srv/webplatform/appshomedir/dists/bikeshed/
-    - require:
-      - file: /etc/codesync.secret
-      - file: /srv/webplatform/appshomedir/dists/bikeshed
-      - file: webplatform-sources
-  file.directory:
-    - name: /srv/webplatform/appshomedir/dists/bikeshed
-    - user: app-user
-    - group: w3t
-    - makedirs: True
-    - require:
-      - file: /srv/webplatform/appshomedir
-      - user: app-user
-    - recurse:
-      - user
-      - group
