@@ -42,9 +42,19 @@ server {
     ssl_certificate     /etc/ssl/webplatform/public_wildcard_201407.pem;
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
-    location /ganglia/ {
+    location ^~ /ganglia/ {
       expires    1m;
       proxy_pass http://monitor/ganglia/;
+    }
+
+    location ^~ /cgi-bin/mailgraph.cgi {
+      expires    1m;
+      proxy_pass http://mail/cgi-bin/mailgraph.cgi;
+    }
+
+    location ^~ /lurker {
+      expires    1m;
+      proxy_pass http://mail/lurker;
     }
 
     location / {
