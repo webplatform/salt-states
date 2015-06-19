@@ -20,6 +20,7 @@ include:
     - source: salt://salt/files/userdata.txt.jinja
     - template: jinja
     - context:
+        opts_salt_ip: {{ opts['master_ip'] }}
         level: {{ level }}
         base64_yaml_level_line: {{ base64_yaml_level_line }}
         salt_master_ip: {{ salt_master_ip }}
