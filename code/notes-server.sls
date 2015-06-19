@@ -1,12 +1,10 @@
 {%- set level = salt['grains.get']('level', 'production') -%}
-{%- set smtp = salt['pillar.get']('infra:hosts_entries:mail', 'mail.webplatform.org') -%}
-{%- set unpack = salt['pillar.get']('basesystem:notes:unpacker_archives') %}
+{%- set smtp = salt['pillar.get']('infra:hosts_entries:mail', 'mail.webplatform.org') %}
 
 include:
-  - rsync.secret
   - code.prereq
-  - users.app-user
 
+{% set unpack = salt['pillar.get']('basesystem:notes:unpacker_archives') %}
 {% from "basesystem/macros/unpacker.sls" import unpack_remote_loop %}
 {{ unpack_remote_loop(unpack)}}
 

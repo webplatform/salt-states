@@ -12,8 +12,7 @@
   mysql_user.present:
     - name: {{ name }}
   {%- if user['host'] is defined %}
-    - host: |
-        '{{ user['host'] }}'
+    - host: '{{ user['host'] }}'
   {%- endif %}
   {%- if user['password_hash'] is defined %}
     - password_hash: '{{ user['password_hash'] }}'
@@ -31,8 +30,7 @@
     - grant_option: {{ db['grant_option'] | default(False) }}
     - user: {{ name }}
   {%- if user['host'] is defined %}
-    - host: |
-        '{{ user['host'] }}'
+    - host: '{{ user['host'] }}'
   {%- endif %}
   {%- if user['ssl'] is defined %}
     - SSL: True

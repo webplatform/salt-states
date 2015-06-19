@@ -1,11 +1,9 @@
-{%- set unpack = salt['pillar.get']('basesystem:stats:unpacker_archives') %}
-
 include:
-  - rsync.secret
   - code.prereq
-  - code.certificates
+{# We should make everything use webapps instead of app-user #TODO #}
   - users.app-user
 
+{% set unpack = salt['pillar.get']('basesystem:stats:unpacker_archives') %}
 {% from "basesystem/macros/unpacker.sls" import unpack_remote_loop %}
 {{ unpack_remote_loop(unpack)}}
 
@@ -38,4 +36,3 @@ include:
     - group: www-data
     - require:
       - file: Packager unpack /srv/webplatform/stats-server
-

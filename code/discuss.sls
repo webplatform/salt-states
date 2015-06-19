@@ -1,5 +1,4 @@
 {%- set dir = '/srv/webapps/discuss' -%}
-{%- set unpack = salt['pillar.get']('basesystem:docker:discuss:git_clone') %}
 {%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
 {%- set level = salt['grains.get']('level', 'production') -%}
 {%- set smtp = salt['pillar.get']('infra:hosts_entries:mail', 'mail.webplatform.org') -%}
@@ -15,6 +14,7 @@ include:
   file.directory:
     - makedirs: True
 
+{% set unpack = salt['pillar.get']('basesystem:docker:discuss:git_clone') %}
 {% from "basesystem/macros/git.sls" import git_clone_loop %}
 {{ git_clone_loop(unpack)}}
 
@@ -40,4 +40,3 @@ discuss-deps:
   pkg.installed:
     - pkgs:
       - libpam-cracklib
-

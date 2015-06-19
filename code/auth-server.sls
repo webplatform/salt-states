@@ -2,15 +2,14 @@
 {%- set infra_pillar = salt['pillar.get']('infra:auth-server') -%}
 {%- set masterdb_ip = salt['pillar.get']('infra:db_servers:mysql:writes', '127.0.0.1') -%}
 {%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
-{%- set oauth_clients = salt['pillar.get']('accounts:auth-server:oauth:clients', []) -%}
-{%- set unpack = salt['pillar.get']('basesystem:auth:unpacker_archives') %}
+{%- set oauth_clients = salt['pillar.get']('accounts:auth-server:oauth:clients', []) %}
 
 include:
-  - rsync.secret
   - code.prereq
+{# We need code.certificates them because we will override hostnames within network #}
   - code.certificates
-  - users.app-user
 
+{% set unpack = salt['pillar.get']('basesystem:auth:unpacker_archives') %}
 {% from "basesystem/macros/unpacker.sls" import unpack_remote_loop %}
 {{ unpack_remote_loop(unpack)}}
 
