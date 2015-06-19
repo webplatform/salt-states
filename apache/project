@@ -1,56 +1,6 @@
-<VirtualHost *:80>
+Listen 8007
+<VirtualHost *:8007>
   ServerAdmin		hostmaster@webplatform.org
-  ServerName		project.webplatform.org
-  ServerAlias		project.webplatformstaging.org
-
-  DocumentRoot	/srv/webplatform/buggenie/thebuggenie
-
-  <Directory /srv/webplatform/buggenie/thebuggenie>
-    Options FollowSymLinks
-    AllowOverride All
-    Require all granted
-
-    <IfModule mod_rewrite.c>
-      RewriteEngine On
-      RewriteBase /
-      RewriteCond %{REQUEST_URI} \..+$
-      RewriteCond %{REQUEST_URI} !\.(html|wsdl|json|xml)$
-      RewriteRule .* - [L]
-      RewriteRule ^(.*)$ index.php?url=$1 [NC,QSA,L]
-    </IfModule>
-  </Directory>
-
-  <Directorymatch "^/.*/\.git/">
-    Order deny,allow
-    deny from all
-  </Directorymatch>
-
-  ErrorLog 	syslog:local1
-
-  # Possible values include: debug, info, notice, warn, error, crit,
-  # alert, emerg.
-  LogLevel	warn
-
-  CustomLog	/var/log/apache2/project_access.log combined
-
-  Alias 		/favicon.ico	/var/www/favicon.ico
-  Alias 		/robots.txt		/var/www/robots.txt
-  Alias 		/wpdlogo.png	/var/www/wpdlogo.png
-
-  ErrorDocument 404 /var/www/errors/404.html
-  ErrorDocument 403 /var/www/errors/403.html
-  ErrorDocument 500 /var/www/errors/500.html
-  ErrorDocument 503 /var/www/errors/503.html
-</VirtualHost>
-
-<VirtualHost *:443>
-  SSLEngine on
-  SSLCertificateFile      /etc/ssl/webplatform/public_wildcard_201407.pem
-  SSLCertificateKeyFile   /etc/ssl/webplatform/201407.key
-
-  ServerAdmin		hostmaster@webplatform.org
-  ServerName		project.webplatform.org
-  ServerAlias		project.webplatformstaging.org
 
   DocumentRoot	/srv/webplatform/buggenie/thebuggenie
 
