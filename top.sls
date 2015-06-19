@@ -53,7 +53,6 @@ base:
     - logging.remote-logs
   'app*':
     - php
-    - nutcracker
     - apache.webplatform_ssl
     - apache.webplatform_com
     - apache.webplatform

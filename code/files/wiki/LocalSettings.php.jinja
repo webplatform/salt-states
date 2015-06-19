@@ -15,14 +15,14 @@
 $wpdConfig['alpha_memcache'] = {{ alpha_memcache|json }};
 $wpdConfig['alpha_redis']    = {{ alpha_redis|json }};
 $wpdConfig['sessions_redis'] = {{ sessions_redis|json }};
-{%- if level == 'production' -%}
+{%- if level == 'production' %}
 $wgSquidServersNoPurge = {{ fastly_cidrs|json }};
-{%- elif level == 'staging' -%}
+{%- elif level == 'staging' %}
 $wgSquidServersNoPurge = {{ fastly_cidrs|json }};
 {%- endif %}
-$wgSquidServersNoPurge = {{ fastly_cidrs|json }};
 
 ## To use Nutcracker?
+## ... make sure you have top.sls at 'app*' to also have nutcracker state
 #$wpdConfig['alpha_memcache'] = array( '127.0.0.1:11255' );
 #$wpdConfig['alpha_redis']    = array( '127.0.0.1:6355'  );
 #$wpdConfig['sessions_redis'] = array( '127.0.0.1:6379'  );

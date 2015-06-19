@@ -19,22 +19,17 @@
 
 include:
   - code.prereq
-
-{% set unpack = salt['pillar.get']('basesystem:app:unpacker_archives') %}
-{% from "basesystem/macros/unpacker.sls" import unpack_remote_loop %}
-{{ unpack_remote_loop(unpack)}}
+  - rsync.secret
 
 /srv/webplatform/wiki/Settings.php:
   file.managed:
     - source: salt://code/files/wiki/Settings.php.jinja
     - template: jinja
+    - createdirs: True
     - user: www-data
     - group: www-data
 
-{% set envNames = ['wpwiki','wptestwiki'] %}
-{% for env in envNames %}
-
-/srv/webplatform/wiki/{{ env }}/mediawiki/LocalSettings.php:
+/srv/webplatform/wiki/wpwiki/mediawiki/LocalSettings.php:
   file.managed:
     - source: salt://code/files/wiki/LocalSettings.php.jinja
     - template: jinja
@@ -47,7 +42,7 @@ include:
         tld: {{ tld }}
         level: {{ level }}
 
-/srv/webplatform/wiki/{{ env }}/cache:
+/srv/webplatform/wiki/wpwiki/cache:
   file.directory:
     - mode: 755
     - makedirs: True
@@ -57,7 +52,7 @@ include:
       - user
       - group
 
-/srv/webplatform/wiki/{{ env }}/logs:
+/srv/webplatform/wiki/wpwiki/logs:
   file.directory:
     - mode: 755
     - makedirs: True
@@ -67,9 +62,15 @@ include:
       - user
       - group
 
-/srv/webplatform/wiki/{{ env }}/LocalSettings.php:
+# @salt-master-dest
+rsync-run-wpwiki:
+  cmd.run:
+    - name: "rsync -a --exclude '.git' --exclude '.svn' --exclude 'LocalSettings.php' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/wiki/repo/ /srv/webplatform/wiki/wpwiki/"
+    - stateful: True
+
+/srv/webplatform/wiki/wpwiki/LocalSettings.php:
   file.managed:
-    - source: salt://code/files/wiki/{{ env }}.php.jinja
+    - source: salt://code/files/wiki/wpwiki.php.jinja
     - template: jinja
     - user: www-data
     - group: www-data
@@ -80,5 +81,3 @@ include:
         secrets: {{ secrets }}
         swift_creds: {{ swift_creds }}
         masterdb_ip: {{ masterdb_ip }}
-
-{% endfor %}
