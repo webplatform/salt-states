@@ -3,33 +3,11 @@
 ## Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
 ## source {{ source }}
 
-{%- set db_creds      = salt['pillar.get']('accounts:wiki:db') -%}
-{%- set db_servers    = salt['pillar.get']('infra:db_servers:mysql:slaves', []) -%}
-{%- set secrets       = salt['pillar.get']('accounts:wiki:secrets') -%}
-{%- set swift_backend = salt['pillar.get']('accounts:swift:dreamhost') %}
-{%- set masterdb_ip   = salt['pillar.get']('infra:db_servers:mysql:writes', '127.0.0.1') %}
-
 if ( !defined( 'MEDIAWIKI' ) ) {
         exit;
 }
 
 $wgDefaultRobotPolicy = 'noindex,nofollow';
-
-{% if salt['grains.get']('level') == 'production' -%}
-## DO NOT USE YET on main wiki!
-##  - we need a separate elasticsearch cluster due to requirement on ES scripting, something we dont want by default!! :(
-##  - and/or enable Dynamic scripting http://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting.html#_enabling_dynamic_scripting
-## Update index?
-## - set wgDisableSearchUpdate to false
-## - refer to extensions/CirrusSearch/README
-if(is_array($wpdConfig['elastic_nodes_wiki']) && count($wpdConfig['elastic_nodes_wiki']) >= 1) {
-  require_once( "$IP/extensions/Elastica/Elastica.php" );
-  require_once( "$IP/extensions/CirrusSearch/CirrusSearch.php" );
-  $wgSearchType = 'CirrusSearch';
-  $wgCirrusSearchServers = (array) $wpdConfig['elastic_nodes_wiki'];
-  #$wgDisableSearchUpdate = true;
-}
-{%- endif %}
 
 ##
 ## Pillar db_servervs

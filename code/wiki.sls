@@ -1,8 +1,16 @@
+{%- set fastly_cidrs = salt['pillar.get']('fastly:cidrs', []) -%}
+{%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
+{%- set level = salt['grains.get']('level', 'production') -%}
 {%- set elastic_nodes_wiki = salt['pillar.get']('infra:elasticsearch:nodes-wiki') -%}
 {%- set alpha_memcache = salt['pillar.get']('infra:alpha_memcache') -%}
 {%- set alpha_redis = salt['pillar.get']('infra:alpha_redis') -%}
 {%- set sessions_redis = salt['pillar.get']('infra:sessions_redis') -%}
 {%- set swift_backend = salt['pillar.get']('accounts:wiki:swift') %}
+{%- set swift_creds = salt['pillar.get']('accounts:swift:dreamhost') %}
+{%- set db_creds = salt['pillar.get']('accounts:wiki:db') -%}
+{%- set secrets = salt['pillar.get']('accounts:wiki:secrets') -%}
+{%- set db_servers    = salt['pillar.get']('infra:db_servers:mysql:slaves', []) -%}
+{%- set masterdb_ip   = salt['pillar.get']('infra:db_servers:mysql:writes', '127.0.0.1') %}
 
 include:
   - code.prereq
@@ -30,6 +38,9 @@ include:
         alpha_memcache: {{ alpha_memcache }}
         alpha_redis:    {{ alpha_redis }}
         sessions_redis: {{ sessions_redis }}
+        fastly_cidrs: {{ fastly_cidrs }}
+        tld: {{ tld }}
+        level: {{ level }}
 
 /srv/webplatform/wiki/{{ env }}/cache:
   file.directory:
@@ -58,7 +69,11 @@ include:
     - user: www-data
     - group: www-data
     - context:
-        elastic_nodes_wiki:  {{ elastic_nodes_wiki }}
         swift_backend: {{ swift_backend }}
+        db_servers: {{ db_servers }}
+        db_creds: {{ db_creds }}
+        secrets: {{ secrets }}
+        swift_creds: {{ swift_creds }}
+        masterdb_ip: {{ masterdb_ip }}
 
 {% endfor %}

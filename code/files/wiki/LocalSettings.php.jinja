@@ -12,10 +12,15 @@
 ## Or use pillars data. Might be useful if local node Nutcracker is problematic
 ## Note that we are using PHP 5.4+ array notation [],
 ## as much as what gets here is a list, it’ll be OK
-$wpdConfig['elastic_nodes_wiki'] =  {{ elastic_nodes_wiki|json }};
 $wpdConfig['alpha_memcache'] = {{ alpha_memcache|json }};
 $wpdConfig['alpha_redis']    = {{ alpha_redis|json }};
 $wpdConfig['sessions_redis'] = {{ sessions_redis|json }};
+{%- if level == 'production' -%}
+$wgSquidServersNoPurge = {{ fastly_cidrs|json }};
+{%- elif level == 'staging' -%}
+$wgSquidServersNoPurge = {{ fastly_cidrs|json }};
+{%- endif %}
+$wgSquidServersNoPurge = {{ fastly_cidrs|json }};
 
 ## To use Nutcracker?
 #$wpdConfig['alpha_memcache'] = array( '127.0.0.1:11255' );
@@ -52,13 +57,12 @@ $wgDebugLogFile = "{$mwLogDir}/debug.log";
 #$wgShowSQLErrors = true;
 
 ## Deployment specific details
-{% if salt['grains.get']('level') == 'staging' -%}
-$siteTopLevelDomain = 'webplatformstaging.org';
+$siteTopLevelDomain = '{{ tld }}';
+{% if level != 'production' -%}
 $wgPiwikIDSite = 0;
-$wgSitename = "WebPlatform Docs [STAGING]";
+$wgSitename = "WebPlatform Docs [{{ level }}]";
 $wgDefaultRobotPolicy = 'noindex,nofollow';
 {% else -%}
-$siteTopLevelDomain = 'webplatform.org';
 $wgSitename = "WebPlatform Docs";
 $wgDefaultRobotPolicy = 'index,follow';
 {% endif %}
