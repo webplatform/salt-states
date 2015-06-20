@@ -14,7 +14,7 @@ include:
   file.directory:
     - makedirs: True
 
-{% set unpack = salt['pillar.get']('basesystem:docker:discuss:git_clone') %}
+{% set unpack = salt['pillar.get']('basesystem:docker:git_clone') %}
 {% from "basesystem/macros/git.sls" import git_clone_loop %}
 {{ git_clone_loop(unpack)}}
 
