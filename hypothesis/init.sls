@@ -1,5 +1,5 @@
-{%- set svc_user = 'app-user' -%}
-{%- set svc_group = 'www-data' -%}
+{%- set svc_user = 'webapps' -%}
+{%- set svc_group = 'webapps' -%}
 {#
  # Nice to have?:
  #  - http://circus.readthedocs.org/en/latest/usecases/
@@ -13,7 +13,6 @@ include:
   - nodejs
   - git
   - mmonit
-  - users.app-user
 
 # https://notes.webplatformstaging.org/ruok
 # http://localhost:8000/ruok
@@ -72,8 +71,8 @@ hypothesis-compass-dep:
 /srv/webplatform/notes-server:
   file.directory:
     - makedirs: True
-    - user: app-user
-    - group: www-data
+    - user: {{ svc_user }}
+    - group: {{ svc_group }}
     - recurse:
       - user
       - group
@@ -99,3 +98,4 @@ npm-packages:
       - coffee-script
     - require:
       - pkg: npm
+

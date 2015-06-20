@@ -30,7 +30,7 @@ main:
     - log:/var/log/etherpad
 
   dns:
-    - 10.10.10.41
+    - {{ salt_master_ip }}
     - 8.8.8.8
 
 # vim: et ts=2 sw=2 ft=yaml:

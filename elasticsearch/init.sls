@@ -58,25 +58,23 @@ elasticsearch:
 python-elasticsearch:
   pkg.installed:
     - name: python-pip
-    - require:
-      - pkg: elasticsearch
   pip.installed:
     - name: elasticsearch
 
 #ES_HEAP_SIZE=64m #TODO, in /etc/default/elasticsearch?
 /etc/elasticsearch/elasticsearch.yml:
-  file.exists:
-    - require:
-      - pkg: elasticsearch
+  file.exists
 
-Override default ElasticSearch user:
+/etc/default/elasticsearch:
   file.append:
     - name: /etc/default/elasticsearch
     - text: |
         ES_USER=dhc-user
         ES_GROUP=dhc-user
-    - require:
-      - pkg: elasticsearch
+
+/var/run/elasticsearch:
+  file.directory:
+    - createdirs: True
 
 {% for es_folder in elasticsearch_folders %}
 chown -R dhc-user:dhc-user {{ es_folder }}:
@@ -86,13 +84,8 @@ chown -R dhc-user:dhc-user {{ es_folder }}:
       - pkg: elasticsearch
 {% endfor %}
 
-/etc/default/elasticsearch:
-  file.exists
-
 /etc/elasticsearch/logging.yml:
-  file.exists:
-    - require:
-      - pkg: elasticsearch
+  file.exists
 
 /etc/monit/conf.d/elasticsearch.conf:
   file.managed:
