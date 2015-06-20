@@ -22,9 +22,9 @@ $TTL 3600
 {% endif -%}
 {% endfor %}
 
+; Make sure pillar nfs:server:exports matches with this here
 {% for ip_addr in elasticsearch_nodes %}
 {%- if ip_addr -%}
-es.backend		A	{{ ip_addr }}
 elasticsearch	A	{{ ip_addr }}
 {% endif -%}
 {% endfor %}

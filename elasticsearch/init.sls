@@ -42,10 +42,10 @@ openjdk-7-jre-headless:
 
 elasticsearch:
   pkgrepo.managed:
-    - name: deb http://packages.elasticsearch.org/elasticsearch/1.4/debian stable main
+    - name: deb http://packages.elasticsearch.org/elasticsearch/1.6/debian stable main
     - key_url: https://packages.elasticsearch.org/GPG-KEY-elasticsearch
   pkg.installed:
-    - version: 1.4.4
+    - version: 1.6.0
   service.running:
     - running: True
     - enable: True
