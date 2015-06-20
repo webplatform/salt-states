@@ -21,6 +21,24 @@ include:
   - code.prereq
   - rsync.secret
 
+/srv/webplatform/wiki/wpwiki:
+  file.directory:
+    - makedirs: True
+
+# @salt-master-dest
+rsync-run-wpwiki:
+  cmd.run:
+    - name: "rsync -a --exclude '.git' --exclude '.svn' --exclude 'LocalSettings.php' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/wiki/repo/ /srv/webplatform/wiki/wpwiki/"
+    - stateful: True
+    - user: root
+    - group: root
+    - require_in:
+      - file: /srv/webplatform/wiki/wpwiki/cache
+      - file: /srv/webplatform/wiki/wpwiki/mediawiki/LocalSettings.php
+    - require:
+      - file: /etc/codesync.secret
+      - file: webplatform-sources
+
 /srv/webplatform/wiki/Settings.php:
   file.managed:
     - source: salt://code/files/wiki/Settings.php.jinja
@@ -62,12 +80,6 @@ include:
       - user
       - group
 
-# @salt-master-dest
-rsync-run-wpwiki:
-  cmd.run:
-    - name: "rsync -a --exclude '.git' --exclude '.svn' --exclude 'LocalSettings.php' --delete --no-perms --password-file=/etc/codesync.secret codesync@salt::code/wiki/repo/ /srv/webplatform/wiki/wpwiki/"
-    - stateful: True
-
 /srv/webplatform/wiki/wpwiki/LocalSettings.php:
   file.managed:
     - source: salt://code/files/wiki/wpwiki.php.jinja
@@ -81,3 +93,4 @@ rsync-run-wpwiki:
         secrets: {{ secrets }}
         swift_creds: {{ swift_creds }}
         masterdb_ip: {{ masterdb_ip }}
+
