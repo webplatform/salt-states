@@ -1,3 +1,12 @@
+{%- set masterdb_ip = salt['pillar.get']('infra:db_servers:mysql:writes', '127.0.0.1') -%}
+{%- set db_creds = salt['pillar.get']('accounts:blog:db') %}
+{%- set alpha_memcache = salt['pillar.get']('infra:alpha_memcache') -%}
+
+{%- set mysql_user = salt['pillar.get']( 'mysql:user:%s' % db_creds.username ) -%}
+{%- if mysql_user.password -%}
+{%- do db_creds.update(mysql_user) -%}
+{%- endif %}
+
 include:
   - rsync.secret
   - code.prereq
@@ -42,8 +51,6 @@ wp-content-uploads:
     - require:
       - file: /etc/codesync.secret
       - file: webplatform-sources
-    - require_in:
-      - cmd: rsync-blog
 
 /srv/webplatform/blog/local.php:
   file.managed:
@@ -51,14 +58,13 @@ wp-content-uploads:
     - template: jinja
     - user: www-data
     - group: www-data
-    - require:
-      - cmd: rsync-blog
+    - context:
+        db_creds: {{ db_creds }}
+        masterdb_ip: {{ masterdb_ip }}
+        alpha_memcache: {{ alpha_memcache }}
 
 /srv/webplatform/blog/wp-content/cache:
   file.directory:
     - makedirs: True
     - user: www-data
     - group: www-data
-    - require:
-      - cmd: rsync-blog
-

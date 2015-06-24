@@ -29,16 +29,23 @@ gmetad:
         tld: {{ tld }}
 
 {% for cluster,port in clusters.items() %}
-/etc/ganglia/conf.d/gmond-{{ cluster }}.conf:
+/etc/ganglia/gmond-{{ cluster }}.conf:
   file.managed:
     - source: salt://monitor/files/ganglia/gmond-recv.conf.jinja
     - template: jinja
     - mode: 644
-    - watch_in:
-      - service: ganglia-monitor
     - context:
         cluster: {{ cluster }}
         port: {{ port }}
+
+/etc/init/gmond-{{ cluster }}.conf:
+  file.managed:
+    - source: salt://monitor/files/ganglia/gmond.init.jinja
+    - template: jinja
+    - mode: 644
+    - context:
+        cluster: {{ cluster }}
+
 {% endfor %}
 
 /etc/apache2/conf-enabled/ganglia-webfrontend.conf:

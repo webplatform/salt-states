@@ -1,6 +1,6 @@
 
 #
-# This is the PUBLIC virtual host for project.{{ tld }}
+# This is the PUBLIC virtual host for blog.{{ tld }}
 #
 # Note that we call another NGINX virtual host, from the internal network,
 # without SSL, and with a different name than the publicly exposed.
@@ -14,7 +14,7 @@
 # source: {{ source }}
 #
 {% if upstreams|count() >= 1 %}
-upstream upstream_buggenie {
+upstream upstream_wordpress {
     keepalive 16;
     ip_hash;
 
@@ -25,27 +25,37 @@ upstream upstream_buggenie {
 
 server {
     listen      80;
-    server_name project.{{ tld }};
+    server_name blog.{{ tld }};
     include     common_params;
-    return      301 https://project.{{ tld }}$request_uri;
+    root        /var/www/html;
+
+    location / {
+        proxy_pass             http://upstream_wordpress;
+        include                proxy_params;
+        proxy_intercept_errors on;
+
+        # Backend keepalive
+        # ref: http://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive
+        proxy_http_version 1.1;
+        proxy_set_header   Connection "";
+    }
 }
 
 server {
     # Let’s only listen to SSL, Fastly will serve us,
     # and they dont support SPDY/HTTP2
     listen      443 ssl;
-    server_name project.{{ tld }};
+    server_name blog.{{ tld }};
+    include     common_params;
+    root        /var/www/html;
 
-    root    /var/www/html;
-    include common_params;
-    include ssl_params;
-
+    include     ssl_params;
     ssl                 on;
     ssl_certificate     /etc/ssl/webplatform/public_wildcard_201407.pem;
     ssl_certificate_key /etc/ssl/webplatform/201407.key;
 
     location / {
-        proxy_pass             http://upstream_buggenie;
+        proxy_pass             http://upstream_wordpress;
         include                proxy_params;
         proxy_intercept_errors on;
 

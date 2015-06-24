@@ -1,11 +1,11 @@
-Listen 8007
-<VirtualHost *:8007>
-  ServerAdmin		team-webplatform-systems@w3.org
+Listen {{ upstream_port }}
+<VirtualHost *:{{ upstream_port }}>
+  ServerAdmin  team-webplatform-systems@w3.org
 
-  DocumentRoot	/srv/webplatform/buggenie/thebuggenie
+  DocumentRoot /srv/webplatform/buggenie/thebuggenie
 
   <Directory /srv/webplatform/buggenie/thebuggenie>
-    Options FollowSymLinks
+    Options       FollowSymLinks
     AllowOverride All
     Require all granted
 

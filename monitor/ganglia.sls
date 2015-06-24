@@ -20,5 +20,4 @@ ganglia-monitor:
     - context:
         port: {{ port }}
         level: {{ level }}
-    - watch_in:
-      - service: ganglia-monitor
+

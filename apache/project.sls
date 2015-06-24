@@ -1,3 +1,5 @@
+{%- set upstream_port = salt['pillar.get']('upstream:buggenie:port', 8006) %}
+
 include:
   - apache
   - php
@@ -30,9 +32,12 @@ buggenie-requirements:
 /etc/apache2/sites-available/project.conf:
   file.managed:
     - source: salt://apache/project
+    - template: jinja
     - user: root
     - group: root
     - mode: 444
+    - context:
+        upstream_port: {{ upstream_port }}
     - require:
       - pkg: apache2
     - watch_in:
