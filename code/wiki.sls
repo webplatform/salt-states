@@ -35,7 +35,10 @@ rsync-run-wpwiki:
 
 /srv/webplatform/wiki/wpwiki/mediawiki/sitematrix.json:
   file.managed:
-    - source: salt://code/files/wiki/sitematrix.json
+    - source: salt://code/files/wiki/sitematrix.json.jinja
+    - template: jinja
+    - context:
+        tld: {{ tld }}
 
 /srv/webplatform/wiki/Settings.php:
   file.managed:

@@ -7,3 +7,8 @@ include:
 
 {% from "nginx/macros.sls" import frontend_vhost %}
 {{ frontend_vhost('parsoid', upstream_port, upstreams, tld) }}
+
+/etc/nginx/docs.map:
+  file.managed:
+    - source: salt://parsoid/files/nginx_redirects.map
+

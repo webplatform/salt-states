@@ -23,7 +23,7 @@ server {
     include     common_params;
 
     location / {
-        proxy_pass             http://upstream_parsoid/_rt/localhost/;
+        proxy_pass             http://upstream_parsoid/;
         include                proxy_params;
         proxy_intercept_errors on;
     }
