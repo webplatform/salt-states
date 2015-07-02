@@ -32,14 +32,8 @@ rsync-run-wpwiki:
     - stateful: True
     - user: root
     - group: root
-    - require_in:
-      - file: /srv/webplatform/wiki/wpwiki/cache
-      - file: /srv/webplatform/wiki/wpwiki/mediawiki/LocalSettings.php
-    - require:
-      - file: /etc/codesync.secret
-      - file: webplatform-sources
 
-/srv/webplatform/wiki/wpwiki/sitematrix.json:
+/srv/webplatform/wiki/wpwiki/mediawiki/sitematrix.json:
   file.managed:
     - source: salt://code/files/wiki/sitematrix.json
 
