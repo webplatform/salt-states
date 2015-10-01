@@ -6,7 +6,7 @@
 include:
   - docker
   - docker.compose
-  - users.app-user
+
 
 /etc/default/docker:
   file.managed:
