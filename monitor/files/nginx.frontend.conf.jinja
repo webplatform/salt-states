@@ -47,8 +47,8 @@ server {
     include ssl_params;
 
     ssl                 on;
-    ssl_certificate     /etc/ssl/webplatform/public_wildcard_201407.pem;
-    ssl_certificate_key /etc/ssl/webplatform/201407.key;
+    ssl_certificate     /etc/ssl/webplatform/public_wildcard_201509.pem;
+    ssl_certificate_key /etc/ssl/webplatform/201509-fastly.key;
 
     location ^~ /ganglia/ {
         expires                1m;

@@ -103,8 +103,8 @@
   ErrorDocument 503 /errors/503.html
 
   SSLEngine on
-  SSLCertificateFile      /etc/ssl/webplatform/public_default_201407.pem
-  SSLCertificateKeyFile   /etc/ssl/webplatform/201407.key
+  SSLCertificateFile      /etc/ssl/webplatform/public_wildcard_201509.pem
+  SSLCertificateKeyFile   /etc/ssl/webplatform/201509-fastly.key
 </VirtualHost>
 
 # vim: et ai ts=2 sw=2 st=apache ft=apache

@@ -89,8 +89,8 @@
     #ErrorDocument 403 /errors/403.html
 
     SSLEngine on
-    SSLCertificateFile      /etc/ssl/webplatform/public_default_201407.pem
-    SSLCertificateKeyFile   /etc/ssl/webplatform/201407.key
+    SSLCertificateFile      /etc/ssl/webplatform/public_wildcard_201509.pem
+    SSLCertificateKeyFile   /etc/ssl/webplatform/201509-fastly.key
   </VirtualHost>
 
 
@@ -150,8 +150,8 @@
     ErrorDocument 403 /errors/index.php?s=403
 
     SSLEngine on
-    SSLCertificateFile      /etc/ssl/webplatform/public_default_201407.pem
-    SSLCertificateKeyFile   /etc/ssl/webplatform/201407.key
+    SSLCertificateFile      /etc/ssl/webplatform/public_wildcard_201509.pem
+    SSLCertificateKeyFile   /etc/ssl/webplatform/201509-fastly.key
   </VirtualHost>
 </IfModule>
 
