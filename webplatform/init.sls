@@ -23,7 +23,7 @@ include:
 /etc/apt/sources.list.d/webplatform.list:
   file.managed:
     - contents: |
-        deb http://static.webplatform.org/wpd packages/apt/
+        deb http://wpd.objects.dreamhost.com/packages/ apt/
 
 ## Those should superseed what the app-user had
 /srv/webapps/.ssh:
