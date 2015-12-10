@@ -1,13 +1,11 @@
 {%- set users = salt['pillar.get']('users', {}) -%}
 {%- set level = salt['grains.get']('level', 'production') -%}
 {%- set salt_master_ip = salt['pillar.get']('infra:hosts_entries:salt') -%}
-{%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') %}
+{%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
+{%- set github_secret = salt['pillar.get']('accounts:github:secret', '') %}
 
 include:
   - salt
-  - users
-  - mmonit
-  - webplatform
 
 {% set base64_yaml_level_line = {
    'production': 'bGV2ZWw6IHByb2R1Y3Rpb24='
@@ -36,18 +34,6 @@ include:
     - template: jinja
     - source: salt://webplatform/files/profile-nova.sh.jinja
 
-{% for username in users %}
-/home/{{ username }}/.my.cnf:
-  file.managed:
-    - source: salt://salt/files/my.cnf.jinja
-    - user: {{ username }}
-    - group: {{ username }}
-    - mode: 640
-    - template: jinja
-    - require:
-      - user: {{ username }}
-{% endfor %}
-
 ## SecurityGroup port: TCP 4505 4506 @salt
 salt-master-deps:
   pkg.installed:
@@ -72,14 +58,6 @@ setup-fail2ban:
     - source: salt://salt/files/fail2ban.conf
     - name: /etc/fail2ban/jail.local
 
-
-#/usr/local/bin/wpd-deploy:
-#  file.managed:
-#    - user: root
-#    - group: root
-#    - source: salt://salt/files/wpd-deploy
-#    - mode: 755
-
 /etc/ssh/sshd_config:
   file.append:
     - text: Banner /etc/issue.net
@@ -92,14 +70,6 @@ setup-fail2ban:
         level: {{ level }}
         tld: {{ tld }}
 
-/etc/salt/master.d/reactor.conf:
-  file.managed:
-    - source: salt://salt/files/reactor.conf
-
-/etc/salt/master.d/runners.conf:
-  file.managed:
-    - source: salt://salt/files/runners.conf
-
 /etc/salt/master.d/peers.conf:
   file.managed:
     - source: salt://salt/files/peers.conf.jinja
@@ -108,20 +78,6 @@ setup-fail2ban:
 /etc/salt/master.d/overrides.conf:
   file.managed:
     - source: salt://salt/files/master-overrides.conf
-
-/etc/monit/conf.d/salt-master.conf:
-  file.managed:
-    - source: salt://salt/files/monit.conf
-    - watch_in:
-      - service: monit
-
-/root/.my.cnf:
-  file.managed:
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 640
-    - source: salt://salt/files/my.cnf.jinja
 
 build-deps:
   pkg.installed:
@@ -136,3 +92,28 @@ build-deps:
       - php5-curl
       - dpkg-dev
       - php5-dev
+
+
+/etc/salt/master.d/reactor.conf:
+  file.managed:
+    - source: salt://salt/files/reactor.conf
+
+/srv/reactor:
+  file.directory:
+    - user: root
+    - group: deployment
+    - makedirs: True
+
+{% for reactor_name in [
+                         'hook_github'
+                        ,'minion_start'
+                        ,'new_minion'] %}
+/srv/reactor/{{ reactor_name }}.sls:
+  file.managed:
+    - source: salt://salt/files/reactor/{{ reactor_name }}.sls.jinja
+    - template: jinja
+    - user: root
+    - group: deployment
+    - context:
+        github_secret: {{ github_secret }}
+{% endfor %}

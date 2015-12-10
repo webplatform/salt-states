@@ -1,0 +1,69 @@
+{#
+ # THIS FILE IS A TEMPLATE THAT GETS WRITTEN TO /srv/reactor
+ #
+ # What's between `raw` and `endraw` must be written as they are
+ #
+ #}#!py
+
+#
+# Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+# source {{ source }}
+#
+
+{% raw %}
+import hashlib
+import hmac
+import logging
+import json
+
+__virtualname__ = 'hook_github'
+logger = logging.getLogger(__virtualname__)
+
+#
+# Thanks to Tobias Macey for this awesome GitHub Hook Salt-Api validator!
+#
+# http://blog.renaissancedev.com/from-heroku-to-aws-with-saltstack-part-1.html
+#
+# Related ref:
+#  - https://docs.saltstack.com/en/latest/ref/renderers/all/salt.renderers.py.html
+#  - https://docs.saltstack.com/en/latest/topics/reactor/index.html
+#  - https://docs.saltstack.com/en/latest/topics/tutorials/states_pt5.html
+#
+def run():
+    '''
+    Verify the signature for a Github webhook and
+    deploy the appropriate code
+    '''
+    _, signature = data['headers'].get('X-Hub-Signature').split('=')
+    event_name = data['headers'].get('X-Github-Event')
+    body = data['body']
+    obj = json.loads(body)
+    repository_name = obj.get('repository', {}).get('name', None)
+    # tag == name of the reactor event available here
+    target = tag.split('/')[-1]
+{% endraw %}
+
+    # This key is managed by Salt Stack pillar,
+    # read from accounts:github:secret private pillar
+    key = '{{ github_secret }}'
+
+{% raw %}
+    computed_signature = hmac.new(key, body, hashlib.sha1).hexdigest()
+
+    if event_name != 'push':
+        logger.info('Got GitHub {0} hook call for {1}, not a push, doing nothing.'.format(event_name, repository_name))
+        return {}
+
+    if computed_signature == signature:
+        logger.info('Got GitHub {0} hook call for {1}, that has valid signature, firing event for {2}'.format(event_name, repository_name, target))
+        return {
+            'github_webhook': {
+                'local.state.sls': [
+                    {'tgt': 'salt'},
+                    {'arg': ['code']}
+            }
+        }
+    else:
+        logger.info('Got GitHub {0} hook call for {1}, signature mismatch, doing nothing!'.format(event_name, repository_name))
+        return {}
+{% endraw %}

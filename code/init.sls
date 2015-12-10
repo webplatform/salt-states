@@ -7,14 +7,11 @@
  #}
 
 include:
-  - code.packages
-{%- if rolesDict|length() >= 1 %}
-{%- for roleName in rolesDict %}
-{%- set role_sls = '/srv/salt/roles/' ~ roleName ~ '.sls' -%}
+{% if rolesDict|length() >= 1 %}
+{% for roleName in rolesDict %}
 {# The following line requires salt-master to have a peer: line to allow 'file.file_exists' #}
-{%- if salt['publish.publish']('salt', 'file.file_exists', role_sls) %}
+{% if salt['publish.publish']('salt', 'file.file_exists', '/srv/salt/roles/' ~ roleName ~ '.sls') %}
   - roles.{{ roleName }}
-{%- endif %}
-{%- endfor %}
-{%- endif %}
-
+{% endif %}
+{% endfor %}
+{% endif %}

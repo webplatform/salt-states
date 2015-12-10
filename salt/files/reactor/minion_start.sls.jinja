@@ -1,0 +1,20 @@
+{#
+ # THIS FILE IS A TEMPLATE THAT GETS WRITTEN TO /srv/reactor
+ #
+ # What's between `raw` and `endraw` must be written as they are
+ #
+ #}#
+# Managed by Salt Stack, please DO NOT TOUCH, or ALL CHANGES WILL be LOST!
+# source {{ source }}
+#{% raw %}
+# Sync grains, modules and al.
+#
+# This is a salt reactor, make sure this file is called
+# from /etc/master.d/reactor.conf
+#
+
+sync_all:
+  local.saltutil.sync_all:
+    - tgt: {{ data.get('id') }}
+    - ret: syslog
+{% endraw %}
