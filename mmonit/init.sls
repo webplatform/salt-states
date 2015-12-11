@@ -4,6 +4,11 @@
 # Ref:
 #   - https://mmonit.com/monit/documentation/monit.html
 #
+{%- set level = salt['grains.get']('level', 'production') %}
+{%- set tld = salt['pillar.get']('infra:current:tld', 'webplatform.org') -%}
+{%- set monit_pw = salt['pillar.get']('accounts:monit:admin_password', 'somethingrandom') -%}
+{%- set salt_master_ip = salt['pillar.get']('infra:hosts_entries:salt', '127.0.0.1') %}
+
 monit:
   pkg:
     - installed
@@ -23,11 +28,12 @@ monit:
     - watch_in:
       - service: monit
     - context:
-        tld: {{ salt['pillar.get']('infra:current:tld', 'webplatform.org') }}
+        level: {{ level }}
+        tld: {{ tld }}
         fqdn: {{ grains['fqdn'] }}
-        monit_pw: {{ salt['pillar.get']('accounts:monit:admin_password', 'somethingrandom') }}
+        monit_pw: {{ monit_pw }}
         monit_port: 2812
-        salt_master_ip: {{ salt['pillar.get']('infra:hosts_entries:salt', '127.0.0.1') }}
+        salt_master_ip: {{ salt_master_ip }}
   cmd.run:
     - name: /usr/bin/monit -t
     - watch_in:
@@ -35,7 +41,7 @@ monit:
 
 /etc/monit/conf.d:
   file.directory:
-    - file_mode: 700
+    - file_mode: 600
     - recurse:
       - mode
     - require:

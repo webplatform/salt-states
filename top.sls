@@ -2,6 +2,7 @@ base:
   '*':
     - basesystem
     - salt
+    - mmonit
     - logrotate.jobs
     - users
     - groups

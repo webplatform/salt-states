@@ -15,18 +15,28 @@
  #   - http://thruflo.com/post/23226473852/websockets-varnish-nginx
  #}
 include:
-  - mmonit
   - nginx.status
 
 nginx:
   pkg.installed:
     - pkgs:
-      - nginx-extras
+      - nginx-configs
+      - nginx-core
+    - skip_verify: True
   service.running:
     - enable: True
     - reload: True
     - require:
       - pkg: nginx-superseeds-apache
+
+{% for link in [
+                 'sites-enabled'
+                ] %}
+Symlink /etc/nginx/{{ link }} to /opt/nginx/{{ link }}:
+  file.symlink:
+    - name: /etc/nginx/{{ link }}
+    - target: /opt/nginx/{{ link }}
+{% endfor %}
 
 nginx-superseeds-apache:
   pkg.purged:
@@ -43,16 +53,10 @@ nginx-superseeds-apache:
     - require:
       - pkg: nginx
 
-nginx-ppa:
-  pkgrepo.managed:
-    - ppa: nginx/stable
-    - require_in:
-      - pkg: nginx
-
 {% for file in ['ssl_params',
                 'common_params',
                 'fastcgi_params'] %}
-/etc/nginx/{{ file }}:
+/opt/nginx/{{ file }}:
   file.managed:
     - source: salt://nginx/files/{{ file }}.jinja
     - template: jinja
@@ -72,4 +76,3 @@ nginx-ppa:
       - service: nginx
     - watch_in:
       - service: monit
-

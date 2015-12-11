@@ -7,13 +7,3 @@ check process nginx
   if failed host {{ private_ip|default('127.0.0.1') }} port 80
     protocol HTTP then restart
   if 5 restarts with 5 cycles then timeout
-  depend nginx_bin
-  depend nginx_rc
-
-check file nginx_bin with path /usr/sbin/nginx
-  group nginx
-  include /etc/monit/templates/rootbin
-
-check file nginx_rc with path /etc/init.d/nginx
-  group nginx
-  include /etc/monit/templates/rootbin

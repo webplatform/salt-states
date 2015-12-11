@@ -1,16 +1,20 @@
-/etc/nginx/sites-available/default:
-  file.managed:
-    - source: salt://nginx/files/default.jinja
-    - template: jinja
-    - require:
-      - pkg: nginx
-      - file: /etc/nginx/status.d
-    - watch_in:
-      - service: monit
-
-/etc/nginx/status.d:
+/opt/nginx/sites-available:
   file.directory:
     - user: www-data
     - group: www-data
     - makedirs: True
+    - require:
+      - pkg: nginx
 
+/opt/nginx/sites-available/default:
+  file.managed:
+    - source: salt://nginx/files/default.jinja
+    - template: jinja
+    - user: www-data
+    - group: www-data
+
+/opt/nginx/status.d:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - makedirs: True
