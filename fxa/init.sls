@@ -5,7 +5,6 @@
 include:
   - webplatform
   - nodejs
-  - users.app-user
   - .monit
 
 fxa-dependencies:
@@ -14,10 +13,6 @@ fxa-dependencies:
       - libgmp-dev
       - git
       - make
-      - build-essential
-      - nodejs
-      - nodejs-legacy
-      - npm
 
 fxa-nodejs-deps:
   npm.installed:

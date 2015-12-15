@@ -91,14 +91,10 @@ build-deps:
       - build-essential
       - libterm-readkey-perl
       - percona-toolkit
-      - nodejs
-      - nodejs-legacy
-      - npm
       - bundler
       - php5-curl
       - dpkg-dev
       - php5-dev
-
 
 /etc/salt/master.d/reactor.conf:
   file.managed:

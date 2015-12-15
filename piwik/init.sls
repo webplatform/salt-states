@@ -4,7 +4,6 @@ include:
   - mysql
   - piwik.php-fpm
   - nodejs
-  - users.app-user
 
 
 exclude:
@@ -47,7 +46,7 @@ piwik-archive-requirements:
 /usr/bin/piwik-archive.sh:
   file.managed:
     - mode: 755
-    - user: app-user
+    - user: webapps
     - group: www-data
     - source: salt://piwik/files/piwik-archive.sh.jinja
     - template: jinja
@@ -57,7 +56,7 @@ piwik-archive-requirements:
       - pkg: php-basic-deps
   cron.present:
     - identifier: piwik-archive
-    - user: app-user
+    - user: webapps
     - minute: 5
     - require:
       - file: /usr/bin/piwik-archive.sh
@@ -65,7 +64,7 @@ piwik-archive-requirements:
 
 /srv/webplatform/stats-server/tmp:
   file.directory:
-    - user: app-user
+    - user: webapps
     - group: www-data
     - mode: 775
     - makedirs: True

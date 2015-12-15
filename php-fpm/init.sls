@@ -19,7 +19,6 @@ include:
   - mmonit
   - nginx.status
   - php.composer
-  - users.app-user
 
 php5-fpm:
   pkg.installed:
@@ -59,7 +58,7 @@ php5-fpm:
 
         [www]
         listen = 127.0.0.1:9000
-        user = app-user
+        user = webapps
         group = www-data
         chdir = /
         pm = dynamic
@@ -71,7 +70,7 @@ php5-fpm:
         pm.status_path = /php-status
         ping.path = /php-ping
     - require:
-      - user: app-user
+      - user: webapps
     - watch_in:
       - service: php5-fpm
 

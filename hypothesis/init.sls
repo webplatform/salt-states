@@ -48,10 +48,6 @@ hypothesis-dependencies:
       - libpq-dev
       - make
       - ruby1.9.1-full
-      - build-essential
-      - nodejs
-      - nodejs-legacy
-      - npm
       - python-mysqldb
       - rubygems-integration
   gem.installed:

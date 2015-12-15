@@ -29,6 +29,7 @@ base:
   'salt*':
     - salt.master
     - php.composer
+    - nodejs
 
   'roles:frontend':
     - match: grain
