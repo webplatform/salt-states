@@ -24,13 +24,10 @@ include:
     - contents: |
         deb http://objects.dreamhost.com/wpd-packages/ apt/
 
-## Those should superseed what the app-user had
-/srv/webapps/.ssh:
-  file.directory:
-    - createdirs: True
-    - user: webapps
-    - group: webapps
-    - mode: 0700
+sysdig:
+  pkg.installed:
+    - skip_verify: True
+    - refresh: True
 
 /srv/webapps/.ssh/id_ed25519:
   file.managed:
@@ -38,6 +35,8 @@ include:
     - user: webapps
     - group: webapps
     - mode: 0600
+    - require:
+      - file: /srv/webapps/.ssh
 
 /srv/webapps/.ssh/id_ed25519.pub:
   file.managed:
@@ -45,6 +44,8 @@ include:
     - user: webapps
     - group: webapps
     - mode: 0600
+    - require:
+      - file: /srv/webapps/.ssh
 
 {% for username in users %}
 /home/{{ username }}/.screenrc:
@@ -94,9 +95,15 @@ non-needed-softwares:
       - avahi-daemon
       - avahi-utils
 
-sysdig:
+Commonly used utilities:
   pkg.installed:
-    - skip_verify: True
+    - pkgs:
+      - screen
+      - tmux
+      - htop
+      - monkeytail
+      - vim
+      - vim-common
 
 /usr/bin/timeout:
   file.exists
@@ -104,8 +111,8 @@ sysdig:
 /etc/profile.d/wpd_aliases.sh:
   file.managed:
     - source: salt://webplatform/files/wpd_aliases.sh
-    - group: deployment
-    - mode: 750
+    - mode: 755
+    - group: users
 
 /usr/local/bin/wpd-autoupdate.sh:
   file.managed:

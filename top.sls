@@ -6,15 +6,17 @@ base:
     - logrotate.jobs
     - users
     - groups
-    - sysctl
-    - logging
+    - sudo
     - webplatform
     - webplatform.dreamobjects
+    - sysctl
+    - logging
 
   # OpenStack/DreamCompute AND salt only
   'salt* and G@virtual:kvm':
     - match: compound
     - salt.dreamcompute
+    - nodejs.dreamcompute
 
   # salt AND Vagrant only
   'salt* and G@biosversion:VirtualBox':
@@ -28,7 +30,6 @@ base:
 
   'salt*':
     - salt.master
-    - php.composer
     - nodejs
 
   'roles:frontend':
