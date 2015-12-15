@@ -29,6 +29,7 @@ base:
     - workbench
 
   'salt*':
+    - webplatform.formulas.docker
     - salt.master
     - nodejs
 

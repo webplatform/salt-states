@@ -1,10 +1,10 @@
-    # Docker Upstart and SysVinit configuration file
-    #
-    # Managed by Salt Stack. Do NOT edit manually!!
-    # source: {{ source }}
+# Docker Upstart and SysVinit configuration file
+#
+# Managed by Salt Stack. Do NOT edit manually!!
+# source: {{ source }}
 
-    # Docker dependencies: Refer to the script at https://get.docker.com/
-    # Available cli options: http://docs.docker.com/reference/commandline/cli/
-    {% if cli_opts is defined -%}
-    DOCKER_OPTS="{{ cli_opts }}"
-    {%- endif %}
+# Docker dependencies: Refer to the script at https://get.docker.com/
+# Available cli options: http://docs.docker.com/reference/commandline/cli/
+{% if cli_opts is defined -%}
+DOCKER_OPTS="{{ cli_opts }}"
+{%- endif %}
